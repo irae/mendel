@@ -1,0 +1,32 @@
+# Package catalog
+
+-   `mendel-config`: shared config parsing and normalization.
+-   `mendel-core`: core API over config and resolution.
+-   `mendel-deps`: dependency graph helpers for resolver.
+-   `mendel-development`: dev-time filesystem and middleware helpers.
+-   `mendel-development-middleware`: dev server middleware and build wiring.
+-   `mendel-exec`: resolver-backed execution helpers.
+-   `mendel-generator-extract`: tree extraction generator.
+-   `mendel-generator-node-modules`: node_modules tree generator.
+-   `mendel-generator-prune`: tree pruning generator.
+-   `mendel-loader`: browserify loader glue.
+-   `mendel-manifest-extract-bundles`: manifest bundle extraction.
+-   `mendel-manifest-uglify`: manifest minification/uglification.
+-   `mendel-middleware`: request middleware on top of core/loader.
+-   `mendel-mocha-runner`: test runner integration.
+-   `mendel-outlet-browser-pack`: browser-pack outlet.
+-   `mendel-outlet-css`: CSS outlet.
+-   `mendel-outlet-manifest`: manifest outlet over uglify.
+-   `mendel-outlet-server-side-render`: SSR outlet.
+-   `mendel-parser-json`: JSON parser plugin.
+-   `mendel-pipeline`: build pipeline coordinator.
+-   `mendel-requirify`: browserify require replacement.
+-   `mendel-resolver`: variation-aware module resolution.
+-   `mendel-transform-babel`: Babel transform.
+-   `mendel-transform-buble`: Bublé transform.
+-   `mendel-transform-inline-env`: env inlining transform.
+-   `mendel-transform-istanbul`: coverage transform.
+-   `mendel-transform-less`: LESS transform.
+-   `mendel-transform-uglify`: Uglify transform.
+-   `mendel-treenherit`: tree inheritance helper.
+-   `karma-mendel`: Karma integration over config, dev, and pipeline.
