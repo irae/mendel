@@ -74,7 +74,21 @@ The `base` variation is always the final entry in any variation's resolution cha
 
 It is not stated anywhere in the configuration documentation. A developer who wants to understand why a file is being pulled from the base directory when they did not declare it in the variation's folder list will not find an explanation until they read through Design.md carefully.
 
-## 12. The Design.md has self-marked stale sections
+## 12. The base variation is implicitly appended to all inheritance chains
+
+The `base` variation is always the final entry in any variation's resolution chain. This is not configurable; it is hardcoded. The only place this is stated is in a comment inside a YAML code block in Design.md:
+
+```yaml
+# base is assumed as last item in all variations
+```
+
+It is not stated in the configuration documentation. A developer who sees a file being pulled from the base directory when they did not declare it in the variation's folder list will not find an explanation unless they read Design.md closely. This rule also means you cannot override or exclude the base from any variation's chain.
+
+## 13. The lerna linking step may need to be run multiple times
+
+`DEVELOPMENT.md` explicitly notes that `pnpm lerna exec "pnpm link --global"` "might need to be run multiple times" because lerna resolves packages by dependency depth and may not complete all links in one pass. No automated workaround is documented. A contributor who runs it once and encounters broken package resolution must read DEVELOPMENT.md carefully to discover this.
+
+## 14. The Design.md has self-marked stale sections
 
 Two sections in `docs/Design.md` are explicitly marked as outdated or for historical purposes by the document itself:
 

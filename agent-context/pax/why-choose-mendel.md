@@ -43,12 +43,24 @@ Without layers, all experiments must share 100% of users, and teams must negotia
 
 ## Security by default
 
-A/B testing systems that embed experiment names in URLs or compiled source let determined users infer what business hypotheses you are testing, download multiple bundles to compare them, or use browser tools to see conditional logic. Mendel's hashed bundle URLs reveal nothing. The compiled bundle for a variation contains no string references to the variation's name. In development mode, source maps expose mnemonic folder names for developer convenience; in production, that information is absent.
+A/B testing systems that embed experiment names in URLs or compiled source let determined users infer business hypotheses you are testing, download multiple bundles to compare them, or read conditional logic with browser tools. Mendel eliminates all three vectors:
+
+-   **Hashed bundle URLs** contain no experiment names, no user identifiers, no cookies.
+-   **Compiled bundles** contain no string references to the variation's name — not even as an inert constant.
+-   **Source maps in development** expose mnemonic folder names for developer convenience. In production that information is absent.
+
+The hash encodes variation indices and a SHA1 of all file contents — opaque to inspection, unambiguous to the CDN.
 
 ## Fast development cycles as a first-class concern
 
-The design document commits to a specific target: file save to visible change in under 300 milliseconds, including server-side rendering. The daemon architecture supports this by holding transformed file caches. When a file changes, only that file's transforms re-run; the rest of the cache is valid. Development mode also supports variation override via query string or cookie without requiring any external configuration system, so a developer can see their new variation in the browser without a deployment.
+The design document commits to a specific target: file save to visible change in under 300 milliseconds, including server-side rendering. The daemon architecture supports this by holding transformed file caches. When a file changes, only that file's transforms re-run; the rest of the cache stays valid.
+
+Development mode supports variation override via query string, cookie, or developer box configuration without requiring any external configuration system. A developer can switch to any variation in the browser without a deployment or a change to assignment logic.
 
 ## Proven at scale
 
-Mendel's approach to variation management was in production use at Yahoo before Mendel itself was written. The framework codifies what worked across large teams and multi-year product lifespans. The filesystem folder model specifically addresses the failure modes that other approaches — git branches per experiment, code conditionals, runtime feature flags — exhibited at scale.
+Mendel's approach to variation management was in production use at Yahoo before Mendel itself was written. The framework codifies what worked across large teams and multi-year product lifespans. The filesystem folder model specifically addresses the failure modes other approaches exhibited at scale:
+
+-   **Git branches per experiment**: diverges quickly, conflicts constantly, cannot compose across simultaneous experiments.
+-   **Code conditionals**: accumulates dead code, is difficult to clean up, and obscures which code path is actually running for any given user.
+-   **Runtime feature flags**: adds request-time overhead, requires flag infrastructure, and still ships all variation code to the client.

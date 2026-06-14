@@ -46,19 +46,27 @@ The pipeline steps in order:
 FileReader → IST → GST → Generator → Outlet
 ```
 
+**Types** map file extensions to transform pipelines. **Generators** perform graph-level operations like extracting node_modules into a separate vendor bundle or splitting bundles for lazy loading. **Outlets** define output format: browser-pack JavaScript, CSS, server-side render artifacts, or the production manifest.
+
+The pipeline steps in order:
+
+```
+FileReader → IST → GST → Generator → Outlet
+```
+
 **Types** map file extensions to transform pipelines. **Generators** perform graph-level operations like extracting node_modules into a separate vendor bundle or splitting bundles for lazy loading. **Outlets** define output format: browser-pack JavaScript, CSS, server-side render artifacts, or the production manifest format.
 
 ## Production runtime
 
 At build time, Mendel writes manifest files: JSON documents that contain the pre-transformed source for every variation of every file, indexed by a normalized module ID.
 
-At runtime, `mendel-core` loads these manifests into memory once. For each HTTP request, it receives an array of active variation names, walks the manifest to assemble the correct file set, and generates a deterministic hash. That hash becomes the bundle URL. `mendel-middleware` provides an Express-compatible interface over this.
+At runtime, `mendel-core` loads these manifests into memory once. For each HTTP request, it receives an array of active variation names, walks the manifest to assemble the correct file set, and generates a deterministic hash. That hash becomes the bundle URL. `mendel-middleware` is the Express-compatible wrapper that most production applications use over `mendel-core`.
 
 The hash is opaque: it contains no experiment names. It encodes variation indices and a SHA1 of all file contents, which allows CDN caching without cookies and without `Vary` headers. If only one file changes in one variation between deploys, only the bundles that include that file get new hashes. All other cached URLs remain valid.
 
 ## Configuration
 
-Configuration lives in `.mendelrc` (YAML), the `mendel` key of `package.json`, or a programmatic options object. The three are equivalent and merge in that precedence order. `MENDEL_ENV` (falling back to `NODE_ENV`) selects environment-specific overrides declared inline in the same file.
+Configuration lives in `.mendelrc` (YAML), the `mendel` key of `package.json`, or a programmatic options object. They merge in that precedence order: `.mendelrc` wins over `package.json`, which wins over the programmatic default. `MENDEL_ENV` selects environment-specific overrides; it falls back to `NODE_ENV` when unset.
 
 The key sections of `.mendelrc`:
 

@@ -51,6 +51,10 @@ The two-process development requirement (daemon + application server) is visible
 
 Design.md states that variations can be overridden via query string, developer box configuration, and cookies. None of these mechanisms are documented anywhere in the user-facing docs. The full example's server code presumably implements this, but there is no reference to how `mendel-middleware` exposes it.
 
+### Testing variations (not documented for users)
+
+The full example has test scripts that use `mendel-mocha` and `karma-mendel`, but no document explains how to write tests that run against specific variations. The design document mentions testing variations as a maintainability benefit, but does not explain how to achieve it. `mendel-mocha-runner` has no README at all.
+
 ### mendel-middleware API (not documented)
 
 `mendel-core/README.md` provides a clear API reference with working code examples. `mendel-middleware` is the production-ready wrapper that most applications will use, but its README does not exist as a standalone document. Its API — how to mount it in Express, what routes it creates, what options it accepts — must be inferred from the source code.
@@ -82,9 +86,9 @@ Several packages that users interact with directly have unusable documentation:
 | `mendel-outlet-server-side-render` | No README exists          | SSR setup, `requireTransform`, `includeNodeModules` options |
 | `mendel-mocha-runner`              | No README exists          | How to use `mendel-mocha` CLI                               |
 
-### ManifestValidation SHA error has no forward link from the error message
+### ManifestValidation SHA error is not discoverable
 
-`docs/ManifestValidation.md` is a well-written troubleshooting document for the SHA mismatch error. However, it is not linked from the main README, Configuration.md, or any package README. A developer who searches the repository for the error message text will find the source code that emits it, not the documentation that explains it. The document needs to be linked from the main README's troubleshooting section (which does not yet exist).
+`docs/ManifestValidation.md` is a well-written troubleshooting document for the SHA mismatch error. It is not linked from the main README, `Configuration.md`, or any package README. A developer searching the repository for the error message text finds the source code that emits it, not the documentation explaining it. The document needs a link from the main README's troubleshooting section — which does not yet exist. Finding this document currently requires knowing it exists.
 
 ### `normalizedId` conflicts have no user-facing documentation
 

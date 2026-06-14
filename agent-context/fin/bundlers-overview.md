@@ -31,18 +31,21 @@ Research date: June 2026. Tools ordered from oldest/most established to newest.
 **Strengths:**
 
 -   Enormous plugin and loader ecosystem (decades of community investment)
--   Module Federation (v5): the most mature mechanism for runtime code sharing across independently-deployed builds
+-   Module Federation (v5): the most mature mechanism for runtime code sharing across independently-deployed builds; Module Federation 2.0 reached stable in April 2026 and works across Rspack and Vite
 -   Code splitting, lazy loading, persistent caching
 -   Handles any asset type via loaders
--   Stable, battle-tested at massive scale
+-   Stable, battle-tested at massive scale (Meta, Airbnb, many others)
+-   Best debugging tooling and error messages of any bundler
+-   Supports IE11 and legacy environments via mature Babel pipeline
 
 **Shortcomings:**
 
--   Slow. Cold build 7–20+ seconds on large apps; HMR 1–2 seconds
+-   Slow. Cold build 30–60 seconds on large projects, even with caching; 7–20+ seconds on medium apps; HMR 1–2 seconds
 -   Configuration is notoriously complex (State of JS 2025: 37% disliked, 14% liked)
 -   Tree shaking less reliable than Rollup for complex module graphs
--   Written in JavaScript — throughput ceiling is the V8 JIT
+-   Written in JavaScript — throughput ceiling is the V8 JIT; memory-heavy
 -   Single-threaded by default (requires workers explicitly)
+-   No built-in A/B testing or variant-aware bundling
 
 ---
 
@@ -116,6 +119,7 @@ Research date: June 2026. Tools ordered from oldest/most established to newest.
 
 -   Instant dev server start (no upfront bundling)
 -   Fast HMR via native ESM — only changed modules are re-evaluated
+-   Vite 8 (March 2026): Rolldown as unified bundler eliminates the dev/prod split, 3x faster dev startup, 40x fewer network requests in dev, 10x faster production builds
 -   Minimal config to start
 -   Rollup-compatible plugin system
 -   First-class TypeScript, JSX, CSS support
@@ -123,10 +127,12 @@ Research date: June 2026. Tools ordered from oldest/most established to newest.
 
 **Shortcomings:**
 
--   Dev/prod parity gap: dev uses unbundled ESM, prod uses Rollup (or Rolldown in Vite 8) — subtle behavior differences possible
+-   Dev/prod parity gap: dev uses unbundled ESM, prod uses Rollup (or Rolldown in Vite 8) — subtle behavior differences possible; being fixed in Vite 8/9
 -   No TypeScript type checking during build (by design)
 -   Teams sometimes neglect production build configuration until late, resulting in suboptimal chunking
 -   Not designed for non-browser outputs (Node.js apps, libraries with complex formats)
+-   No built-in monorepo support
+-   No variant-aware bundling; A/B testing requires external feature flag tools with payload overhead
 
 ---
 
@@ -173,21 +179,22 @@ Research date: June 2026. Tools ordered from oldest/most established to newest.
 
 ## Turbopack
 
-**What it is:** Rust-based bundler by Vercel, built for Next.js. Default bundler in Next.js 16 (October 2025). Designed from scratch rather than as a port of any existing tool.
+**What it is:** Rust-based bundler by Vercel, built for Next.js. Default bundler in Next.js 16 (January 2026). Designed from scratch rather than as a port of any existing tool.
 
 **Strengths:**
 
--   10x faster HMR, 2–5x faster production builds vs. webpack in Next.js
+-   9.5x faster incremental builds than webpack; 10x faster HMR within Next.js
 -   Performance scales with CPU core count (83% faster with 30 cores vs. 28% with 4)
--   Zero-config if you're in Next.js
+-   Zero-config if you're in Next.js; production-stable in Next.js 16.1+
 -   Incremental computation architecture (Turbo Engine) — fine-grained cache invalidation
+-   Native TypeScript and JSX support
 
 **Shortcomings:**
 
--   Tightly coupled to Next.js; framework-agnostic standalone support still not production-ready as of mid-2026
+-   Tightly coupled to Next.js; no standalone CLI in 2026; framework-agnostic support not production-ready
 -   Bundle size regressions reported (+72% First-load JS in some migrations)
--   Plugin ecosystem does not exist outside the Next.js framework
--   Not useful outside the Vercel/Next.js stack
+-   Plugin ecosystem does not exist outside the Next.js framework; custom webpack plugins and loaders may not work
+-   Not useful outside the Vercel/Next.js stack; not adapting for Remix, SvelteKit, Nuxt, or vanilla projects
 
 ---
 
@@ -321,6 +328,38 @@ Research date: June 2026. Tools ordered from oldest/most established to newest.
 -   Minimal public documentation and community outside Ant Group
 -   Ecosystem essentially nonexistent for external users
 -   Config system not designed for non-Ant-Group use cases
+
+---
+
+## Rush (Microsoft)
+
+**What it is:** Enterprise monorepo manager from Microsoft, part of the Rush Stack.
+
+**Strengths:**
+
+-   Enterprise-scale governance, deterministic installs, strict publishing workflow
+-   Designed for large organizations with multiple teams publishing packages
+
+**Shortcomings:**
+
+-   Heavy setup; primarily for large organizations
+-   Smaller community than Nx or Turborepo
+
+---
+
+## Moon
+
+**What it is:** Rust-based task runner and monorepo tool. Balances simplicity and power.
+
+**Strengths:**
+
+-   Rust-based task runner — faster than JS-based orchestrators
+-   Built-in toolchain management (Node.js version pinning, etc.)
+-   Local and remote caching
+
+**Shortcomings:**
+
+-   Newer and smaller community; less battle-tested than Nx or Turborepo
 
 ---
 

@@ -193,6 +193,8 @@ CacheClient receives 'removeEntry' message
   └─ registry.removeEntry(id) + client emits 'unsync'
 ```
 
+No back-pressure exists on the client side: messages from the daemon arrive as fast as the socket can deliver them and are added to the registry immediately. If outlet writes or downstream processing is slow, entries accumulate in-process with no throttle signal sent back to the daemon.
+
 ---
 
 ### Phase 8: Generator Execution
@@ -274,6 +276,17 @@ req.mendel.resolver(['main-bundle'], variations)
             └─ patches Module._resolveFilename to intercept require() calls
                  redirecting them to variation-specific files in build/ssr/ dir
 ```
+
+---
+
+## Live vs. Post-Build Code Splitting
+
+Two packages implement code splitting at different stages of the lifecycle:
+
+-   `mendel-generator-extract`: operates on the live `MendelOutletRegistry` during the generator phase (Phase 8). Splits entries between bundles before any outlet writes.
+-   `mendel-manifest-extract-bundles`: operates on already-written manifest JSON files. Reads multiple manifests, identifies shared deps, and restructures the files so a parent bundle exposes common deps and child bundles reference them externally.
+
+These are parallel capabilities, not alternatives. A project using `mendel-generator-extract` during build may still use `mendel-manifest-extract-bundles` as a post-process step for more complex splitting scenarios.
 
 ---
 

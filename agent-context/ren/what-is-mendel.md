@@ -38,9 +38,24 @@ Mendel generates bundles for every declared variation. In production, all variat
 3. The hash becomes the bundle URL — no experiment names, no cookies required on the asset request.
 4. The CDN caches the URL safely for all users sharing the same combination.
 
+### Build pipeline
+
+The Mendel v2+ pipeline runs in two tiers:
+
+-   **Daemon**: long-running process that watches source files and runs Independent Source Transforms (IST: Babel, Bublé, UglifyJS, LESS). Holds a per-environment file cache.
+-   **Clients**: short-lived processes that consume the daemon's cache to run Graph Source Transforms (GST), then invoke Generators and Outlets to write final artifacts.
+
+Pipeline order:
+
+```
+FileReader → IST → GST → Generator → Outlet
+```
+
+**Types** map file extensions to transform chains. **Generators** perform graph-level operations (extract node_modules into a vendor bundle, split for lazy loading). **Outlets** define output format: browser-pack JavaScript, CSS, SSR artifacts, or the production manifest.
+
 ### Development mode
 
-A daemon process (`mendel --watch`) watches the source tree and runs transforms. A separate dev-middleware serves bundles on demand. First load compiles; subsequent saves propagate changes within milliseconds.
+A daemon process (`mendel --watch`) watches the source tree and runs IST transforms. A separate dev-middleware serves bundles on demand. First load compiles; subsequent saves propagate changes within milliseconds. The design document targets file-save to visible change in under 300 ms, including server-side rendering.
 
 ## Key capabilities
 
@@ -55,8 +70,7 @@ A daemon process (`mendel --watch`) watches the source tree and runs transforms.
 
 ## What Mendel does not do
 
--   **Experiment assignment**: Mendel does not randomly assign users to buckets. That responsibility belongs to tools like PlanOut or your own session layer.
--   **Analytics/measurement**: Mendel does not track which variation performed better. Use Open Web Analytics, Piwik, or equivalent.
+Mendel does not assign users to experiments. It does not measure outcomes. Those responsibilities belong to external tools (PlanOut, Optimizely, or any analytics stack). Mendel's scope is: given a set of active variation names for a user, produce the correct code bundle for that user, correctly and fast.
 
 ## Version landscape
 

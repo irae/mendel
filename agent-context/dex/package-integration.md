@@ -301,3 +301,13 @@ An entry starts as a bare path string and gains properties as it moves through t
 -   **Outlets** receive `mendelConfig` (full) plus `outletOptions` (per-outlet); they produce the artifacts
 -   **VariationConfig.allDirs** drives FsWatcher subscription — all variation dirs are watched
 -   **cacheConnection** (`type: unix`, `path: .mendelipc`) is shared between daemon and all clients; changing it requires updating both sides simultaneously
+
+Note: `mendel-config` is re-parsed independently by each process (daemon, client, runtime server). There is no shared schema file between build and runtime; any config structure change must be manually coordinated across all consumers.
+
+## The Manifest as the Build-to-Runtime Contract
+
+The manifest JSON (written by `mendel-outlet-manifest`, read by `mendel-core/trees.js`) is the only artifact that crosses the build-to-runtime boundary. It must be backward-compatible because the build process and serving process may upgrade independently, and manifests are often committed or deployed as build artifacts. No explicit versioning field exists in the manifest format.
+
+## The Variation Chain as the Runtime's Central Primitive
+
+`MendelTrees.variationsAndChains()` constructs the lookup chain once per request from the variation IDs declared by the application. This chain `[['test_A', 'base'], ['test_B', 'base']]` encodes resolution priority and is threaded through every walker call. It is never cached server-side; it is reconstructed per request. `MendelVariationWalker` uses it to detect multivariate conflicts via a `conflicts` counter when two active variations both provide a different version of the same module.

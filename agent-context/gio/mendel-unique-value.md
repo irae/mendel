@@ -125,6 +125,20 @@ A 2026 survey of the bundler ecosystem confirms: no tool except Mendel integrate
 
 Mendel is the only open-source build tool that treats experiments as a first-class build artifact, enforces zero payload overhead structurally, and handles SSR variant consistency automatically.
 
+The combination of all five properties simultaneously — zero overhead, trivial disposal, secure URLs, synchronous SSR resolution, and declarative inheritance — does not exist in any other tool. Individual properties appear elsewhere (dynamic imports reduce payload; feature flags are easy to toggle; git branches diff cleanly) but none of the alternatives achieve all five in a unified system.
+
+| Approach                       | Payload Overhead          | Disposability               | Security                        | SSR Support  | Inheritance            |
+| ------------------------------ | ------------------------- | --------------------------- | ------------------------------- | ------------ | ---------------------- |
+| Runtime conditionals           | High                      | Poor (grep + delete)        | Poor (names in code)            | Complex      | None                   |
+| Dynamic imports / lazy loading | Medium (manifest visible) | Medium                      | Medium                          | Very complex | None                   |
+| Module Federation              | Low-Medium                | Medium                      | Medium                          | Very complex | None                   |
+| Feature flag SDKs              | SDK overhead always       | Good (flag toggle)          | Medium (flag names in requests) | Complex      | None                   |
+| **Mendel**                     | **Zero**                  | **Trivial (delete folder)** | **High (opaque hashes)**        | **Native**   | **Declarative chains** |
+
+No bundler created since Mendel has adopted its core model. Vite, Rolldown, Rspack, Turbopack, esbuild, Parcel — all optimize for building one version of an application. The ecosystem consensus is that A/B testing is an application-layer concern handled by runtime SDKs or feature flag services.
+
+Mendel represents a different philosophy: experimentation is a build-time concern, and a build system designed around it can guarantee properties that runtime approaches cannot. That philosophy has no successor in the current ecosystem.
+
 ---
 
 ## Where Mendel Has Gaps vs. the Current Ecosystem

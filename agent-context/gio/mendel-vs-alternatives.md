@@ -134,14 +134,16 @@ The correct comparison is not "Mendel vs. Vite" but "how would you achieve Mende
 
 **Where Rspack wins:**
 
--   Fastest cold builds among Rust bundlers (1.4s)
--   Drop-in webpack replacement: existing plugins work
+-   5–23x faster than webpack 5; 1.4s cold builds in benchmarks
+-   Drop-in webpack replacement: ~85% of top 50 plugins work without changes
 -   Module Federation 2.0
+-   Production-proven at ByteDance/TikTok/Lark scale
 
 **Where Mendel wins:**
 
 -   All A/B testing concerns
 -   No payload overhead
+-   Rspack's Module Federation still uses runtime decisions — the federation shell and all potential remotes are discoverable by the client. Mendel's opaque hash gives no information about which experiments exist or which the user is assigned to
 
 ---
 
@@ -212,3 +214,9 @@ These are not bundlers. They orchestrate tasks across packages, including callin
 **Server-side feature flag evaluation (LaunchDarkly, etc.):** Flag is resolved server-side; the client never sees inactive variants. Still requires: (a) flag SDK in server code, (b) manual coordination between server render and client hydration, (c) no filesystem-based inheritance model, (d) no content-addressed bundle hashing per variant.
 
 None of these replicate Mendel's filesystem folder model, declarative inheritance chains, or manifest-based runtime serving of arbitrary variant permutations with zero overhead.
+
+---
+
+## What a Modern Mendel Would Look Like
+
+Mendel's design philosophy has no competitor, but its Browserify implementation is a decade behind the bundler ecosystem. A modern rebuild — using Rolldown or Rspack as the bundling engine, Vite's dev server for HMR, and the same filesystem-folder variation model with manifest-based runtime serving — would be a uniquely valuable tool with no direct competitor. The design is proven. The implementation needs a modern runtime.

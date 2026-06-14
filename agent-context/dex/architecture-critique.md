@@ -34,6 +34,10 @@ The `Waiter` step holds every entry until all IST work finishes before allowing 
 
 `gstDone` considers GST finished when `this._processed.size >= this._cache.size()`. This works only if the cache does not change during GST. A file change mid-GST resets `_canceled = true`, but there is no mechanism to wait for in-flight GST promises to settle before restarting. This can cause race conditions during watch mode file changes.
 
+### GST Uses Only `main` Runtime for Graph Traversal
+
+`gst/index.js` carries the comment `// FIXME GST can be difference for main and browser.` The graph traversal uses `main` runtime dependency edges only. Any module with divergent browser-field dependencies gets a graph that misrepresents the browser bundle's actual module topology. This is not a theoretical edge case: any module that uses `package.json` `browser` field remapping hits this path.
+
 ### `MendelCache` and `MendelOutletRegistry` are Parallel but Inconsistent Implementations
 
 The daemon side uses `MendelCache` (with an `Entry` class), and the client side uses `MendelOutletRegistry`. Both store entries keyed by `id` with a secondary map by `normalizedId`. However, they evolve independently, have different method names (`doneEntry` vs. `addEntry`), and handle dep normalization differently. A shared data layer abstraction would reduce drift.
@@ -73,6 +77,14 @@ The daemon's `watchNextEnv()` explicitly checks `if (nextEnv === 'production') r
 ### Unix Socket Only
 
 `network.js` validates that only `type: unix` is supported, though the config defaults include `host` and `port` fields. If users need to run the daemon and client on separate machines (e.g., Docker environments where file system sharing is unavailable), they cannot. The architecture anticipates TCP (field names suggest it) but never implemented it.
+
+### Unix Socket Has No Message Framing
+
+The daemon-client protocol uses `JSON.stringify`/`JSON.parse` over a Unix socket with no length-prefixed framing. It relies on the OS delivering each `client.send()` payload atomically. This holds for small messages on Linux domain sockets but is unspecified behavior for large payloads (e.g., source files with many deps). There are no tests for fragmented socket reads.
+
+### IPC Protocol Has No Versioning
+
+`serializeEntry` in `cache/server.js` defines the wire format. If the daemon upgrades its serialization (adding or removing fields), any connected client on a different version silently receives malformed entries. The `bootstrap` handshake carries no version field.
 
 ### Variation Permutation Exploration is Brute Force
 

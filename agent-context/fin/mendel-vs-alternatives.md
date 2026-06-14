@@ -10,21 +10,21 @@ Every comparison below must be read with this distinction: Mendel is not competi
 
 ## Comparison Table
 
-| Tool       | General Bundling           | A/B / Variant Serving           | SSR Variant Support | Zero Payload Overhead       | Variation Inheritance | Secure URLs          | Dev Workflow                 |
-| ---------- | -------------------------- | ------------------------------- | ------------------- | --------------------------- | --------------------- | -------------------- | ---------------------------- |
-| **Mendel** | Limited (Browserify-based) | Native, first-class             | Yes                 | Yes                         | Yes (folder chains)   | Yes (hash, no names) | Fast HMR target <300ms       |
-| webpack    | Excellent                  | Via Module Federation (runtime) | Via SSR frameworks  | No (conditionals ship code) | No native model       | No                   | Slow (7–20s cold start)      |
-| Rollup     | Library focus              | None native                     | No                  | N/A                         | No                    | N/A                  | No HMR                       |
-| Vite       | Excellent                  | None native                     | Via frameworks      | No (conditionals)           | No                    | No                   | Excellent (native ESM)       |
-| Rolldown   | Excellent (Vite 8)         | None native                     | Via frameworks      | No                          | No                    | No                   | Excellent                    |
-| Rspack     | Excellent                  | Via Module Federation           | Via SSR frameworks  | No                          | No                    | No                   | Good (~webpack speed × 5–10) |
-| Turbopack  | Next.js only               | None native                     | Next.js RSC only    | No                          | No                    | No                   | Excellent (Next.js only)     |
-| Parcel     | Good                       | None                            | No                  | No                          | No                    | No                   | Good                         |
-| esbuild    | Limited (tooling use)      | None                            | No                  | No                          | No                    | No                   | N/A                          |
-| Bun        | Good                       | None                            | Limited             | No                          | No                    | No                   | Good                         |
-| Metro      | React Native only          | None                            | Via React Native    | No                          | No                    | No                   | Good (RN only)               |
-| Nx         | Orchestrator only          | None                            | N/A                 | No                          | No                    | No                   | Orchestration layer          |
-| Bazel      | Polyglot, complex          | None                            | No                  | No                          | No                    | No                   | High overhead                |
+| Tool       | General Bundling           | A/B / Variant Serving           | SSR Variant Support | Zero Payload Overhead       | Variation Inheritance | Secure URLs (no variant names) | Content-Addressed CDN | Immediately Disposable | Dev Workflow                 |
+| ---------- | -------------------------- | ------------------------------- | ------------------- | --------------------------- | --------------------- | ------------------------------ | --------------------- | ---------------------- | ---------------------------- |
+| **Mendel** | Limited (Browserify-based) | Native, first-class             | Yes                 | Yes                         | Yes (folder chains)   | Yes (hash, no names)           | Yes (hash-based)      | Yes (delete folder)    | Fast HMR target <300ms       |
+| webpack    | Excellent                  | Via Module Federation (runtime) | Via SSR frameworks  | No (conditionals ship code) | No native model       | No (chunk names visible)       | No                    | No                     | Slow (7–20s cold start)      |
+| Rollup     | Library focus              | None native                     | No                  | N/A                         | No                    | N/A                            | No                    | No                     | No HMR                       |
+| Vite       | Excellent                  | None native                     | Via frameworks      | No (conditionals)           | No                    | No                             | No                    | No                     | Excellent (native ESM)       |
+| Rolldown   | Excellent (Vite 8)         | None native                     | Via frameworks      | No                          | No                    | No                             | No                    | No                     | Excellent                    |
+| Rspack     | Excellent                  | Via Module Federation           | Via SSR frameworks  | No                          | No                    | No                             | No                    | No                     | Good (~webpack speed × 5–10) |
+| Turbopack  | Next.js only               | None native                     | Next.js RSC only    | No                          | No                    | No                             | No                    | No                     | Excellent (Next.js only)     |
+| Parcel     | Good                       | None                            | No                  | No                          | No                    | No                             | No                    | No                     | Good                         |
+| esbuild    | Limited (tooling use)      | None                            | No                  | No                          | No                    | No                             | No                    | No                     | N/A                          |
+| Bun        | Good                       | None                            | Limited             | No                          | No                    | No                             | No                    | No                     | Good                         |
+| Metro      | React Native only          | None                            | Via React Native    | No                          | No                    | No                             | No                    | No                     | Good (RN only)               |
+| Nx         | Orchestrator only          | None                            | N/A                 | No                          | No                    | No                             | No                    | No                     | Orchestration layer          |
+| Bazel      | Polyglot, complex          | None                            | No                  | No                          | No                    | No                             | No                    | No                     | High overhead                |
 
 ---
 
@@ -170,6 +170,18 @@ These are build orchestrators, not bundlers with variant models. Neither Nx nor 
 
 ---
 
+## The Closest Approximations to Mendel's Model (and why they fall short)
+
+**webpack Module Federation:** Loads remote modules from separate deployments at runtime. Could theoretically deliver different code to different users by serving different remote URLs. But: (a) adds a runtime container protocol overhead, (b) requires conditionals in host code to choose which remote to load, (c) exposes remote URLs which can be guessed, (d) no variation inheritance model, (e) no manifest-driven SSR coordination.
+
+**Dynamic `import()` with feature flags:** A Vite or webpack app can lazy-load variant code behind a flag. But: (a) the flag logic itself adds payload, (b) the user's browser still downloads the flag evaluation code for all users, (c) no variation inheritance, (d) SSR must be manually coordinated, (e) experiment names appear in code and network traffic.
+
+**Server-side feature flag evaluation (LaunchDarkly, etc.):** Flag is resolved server-side; the client never sees inactive variants. Still requires: (a) flag SDK in server code, (b) manual coordination between server render and client hydration, (c) no filesystem-based inheritance model, (d) no content-addressed bundle hashing per variant.
+
+None of these replicate Mendel's filesystem folder model, declarative inheritance chains, or manifest-based runtime serving of arbitrary variant permutations with zero overhead.
+
+---
+
 ## Where Mendel Loses Across the Board
 
 **Build speed:** Mendel's Browserify foundation is slow by 2026 standards. A project with 20 experiments could require 20 full bundle compilations. Modern Rust-based tools would complete the same work in a fraction of the time.
@@ -180,6 +192,6 @@ These are build orchestrators, not bundlers with variant models. Neither Nx nor 
 
 **Single-framework origin:** Mendel was built at Yahoo in a specific architectural context (Ember, then React with server rendering). Its assumptions don't always map cleanly to other setups.
 
-**Community and maintenance:** Mendel is not actively maintained by a large team or backed by significant commercial interest. Vite, Rspack, and Rolldown are.
+**Community and maintenance:** Mendel is not actively maintained by a large team or backed by significant commercial interest. The YahooArchive GitHub organization signals reduced active maintenance. Vite, Rspack, and Rolldown are all backed by well-funded teams.
 
 **Developer experience:** Vite's native ESM dev server is a fundamentally better developer experience than Mendel's Browserify-based watch mode.

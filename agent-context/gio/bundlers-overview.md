@@ -21,8 +21,8 @@ The dominant bundler from ~2015 through ~2022. Still widely used in 2026 but los
 
 **Shortcomings:**
 
--   Slow: large projects take 30-60 seconds for cold builds, even with caching
--   Configuration is verbose and punishing for new users
+-   Slow: cold builds run 7–20+ seconds on large apps; HMR 1–2 seconds per change
+-   Configuration is verbose and punishing for new users (State of JS 2025: 37% of respondents disliked it, only 14% liked it)
 -   Memory-heavy: JavaScript-based architecture consumes more than Rust alternatives
 -   Hot module replacement is functional but not instant
 -   No built-in A/B testing or variant-aware bundling
@@ -135,19 +135,21 @@ The dominant developer experience (DX) tool for frontend apps in 2026. Uses ESBu
 
 ### Turbopack
 
-Rust-based bundler by Vercel. Ships as Next.js's default bundler since Next.js 16 (January 2026).
+Rust-based bundler by Vercel. Ships as Next.js's default bundler since Next.js 16 (October 2025).
 
 **Strengths:**
 
 -   Incremental bundling: only rebundles what changed (not the whole graph)
--   9.5x faster incremental builds than Webpack
+-   10x faster HMR, 2–5x faster production builds vs. webpack in Next.js
+-   Performance scales with CPU core count: 83% faster with 30 cores vs. 28% with 4
 -   Production-stable in Next.js 16.1+
 -   Native TypeScript and JSX support
 
 **Shortcomings:**
 
--   Tightly coupled to Next.js; no standalone CLI in 2026
+-   Tightly coupled to Next.js; no standalone CLI in mid-2026
 -   No adapters for Remix, SvelteKit, Nuxt, or vanilla projects
+-   Bundle size regressions reported (+72% First-load JS in some migrations)
 -   Custom webpack plugins and loaders may not work
 -   Not framework-agnostic; Vercel controls the roadmap
 
@@ -155,32 +157,36 @@ Rust-based bundler by Vercel. Ships as Next.js's default bundler since Next.js 1
 
 ### Rspack
 
-Rust port of Webpack's architecture. Drop-in replacement for Webpack with near-full plugin compatibility.
+Rust port of Webpack's architecture. Drop-in replacement for Webpack with near-full plugin compatibility. Built and maintained by ByteDance.
 
 **Strengths:**
 
--   Webpack-compatible plugin API — most webpack plugins work without changes
--   Fastest cold start among the Rust bundlers tested: 1.4s cold builds
+-   Webpack-compatible plugin API — ~85% of top 50 webpack plugins work without changes
+-   5–23x faster than webpack 5 in benchmarks; 1.4s cold builds in tests
 -   Module Federation 2.0 support
 -   Ideal migration path for existing webpack projects
+-   Production-proven at ByteDance/TikTok/Lark scale
 
 **Shortcomings:**
 
 -   Inherits webpack's mental model; doesn't rethink the DX
 -   No fresh-start features like native ESM dev serving
--   Plugin compatibility is near-full but not 100%
+-   ~15% plugin compatibility gap — some plugins require adjustments
+-   ByteDance origin raises supply chain trust questions for some organizations
 
 ---
 
 ### Rolldown
 
-Rust rewrite of Rollup by VoidZero. Powers Vite 8+ production builds. Reached 1.0 stable in 2026.
+Rust rewrite of Rollup by VoidZero. Powers Vite 8+ production builds. Reached 1.0 stable January 2026.
 
 **Strengths:**
 
 -   Rollup-compatible plugin API — existing plugins mostly work
--   Single-pass Rust bundling: much faster than Rollup's JS-based tree-shaking
+-   10–30x faster than Rollup; 3–16x faster production build times vs. Vite's prior Rollup-based pipeline
+-   Memory usage during builds cut up to 100x on large projects
 -   Used inside Vite 8, so benefits the entire Vite ecosystem automatically
+-   Closes the dev/prod parity gap that plagued Vite (same engine for both modes)
 -   OXC parser (Rust) for ultra-fast JS/TS parsing
 
 **Shortcomings:**
@@ -233,19 +239,44 @@ Production-grade Rust bundler by Ant Group. Used internally across hundreds of p
 
 ### Bun's Bundler
 
-JavaScript runtime + bundler combined. Fast for simple projects.
+JavaScript runtime + bundler + package manager + test runner combined. Bun 1.3 (October 2025) added a zero-config frontend dev server with hot reloading.
 
 **Strengths:**
 
--   Extremely fast for small and medium projects
+-   Single binary replaces Node, npm, webpack, and Jest for many projects
+-   50–70% faster build times vs. Node.js + webpack architectures
 -   All-in-one: runtime, package manager, test runner, and bundler
 -   TypeScript and JSX built in
+-   Built-in Postgres, Redis, and S3 clients in Bun 1.2–1.3 — compelling for small full-stack teams
 
 **Shortcomings:**
 
+-   Bundler feature set lags behind Vite/Rolldown; bundler is not the primary differentiator
+-   Large organizations resist monolith toolchains; prefer modular, separable tools
+-   Talent pool smaller than Node.js ecosystem — organizational risk
 -   Less mature than Vite or Rspack for complex production apps
--   Smaller plugin ecosystem
--   Bundler is not the primary focus of the Bun project
+
+---
+
+## Library Bundlers
+
+### tsup
+
+Zero-config TypeScript library bundler built on esbuild. The most popular choice for bundling npm packages written in TypeScript.
+
+**Strengths:**
+
+-   Zero config for the common case: TypeScript library → ESM + CJS output
+-   esbuild under the hood: fast builds
+-   Handles multiple entry points, declaration files, and source maps
+-   Widely adopted for open-source library authors
+
+**Shortcomings:**
+
+-   Builds take ~4 seconds for larger libraries; newer tools achieve sub-100ms
+-   No type checking (inherits from esbuild's deliberate omission)
+-   Limited to library output — not suitable for application bundling
+-   Tree shaking less thorough than Rollup for complex dependency graphs
 
 ---
 
@@ -272,18 +303,21 @@ Rust-based JS/TS compiler. Not a bundler — a transformer. Powers Next.js compi
 
 ### Metro
 
-React Native's dedicated bundler. Optimized for mobile app development.
+React Native's dedicated bundler. The only real option for React Native production apps. Also used by Expo.
 
 **Strengths:**
 
--   Sub-second reload cycles designed for native mobile development
--   Deep integration with React Native's module system (Hermes, native modules)
--   Handles platform-specific files (`.ios.js`, `.android.js`)
+-   Optimized specifically for React Native's Hermes JS engine
+-   Incremental bundling — reprocesses only changed files, rest from cache
+-   Fast Refresh via WebSocket streaming
+-   Battle-tested at Meta scale: 400k+ source files across all Meta apps
+-   Near-universal adoption in React Native ecosystem
 
 **Shortcomings:**
 
 -   Designed exclusively for React Native; not applicable to web app bundling
--   Much slower than modern web bundlers on equivalent tasks
+-   Less extensible than webpack — trades configurability for performance
+-   Algorithms differ from web bundlers, causing resolution errors when switching
 -   Not suitable for monorepos without additional setup
 
 ---
@@ -296,7 +330,7 @@ Pioneered native ESM dev serving before Vite. Project ended; team moved to Astro
 
 ### WMR
 
-Preact-specific bundler from the Preact team. Not maintained. Preact users now use Vite.
+Preact-specific bundler from the Preact team. Not maintained. Preact users now use Vite. Historically notable for its tiny ~2MB install vs. webpack's ~200MB — the contrast highlighted how bloated the mainstream toolchain had become.
 
 ### Brunch, Packem, pkg
 

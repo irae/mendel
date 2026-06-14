@@ -126,6 +126,12 @@ In production, the server loads pre-built manifests via `mendel-core`. When a re
 
 In development, there are no manifests on disk. The middleware connects to the running daemon's `CacheClient`, receives live entries, and executes SSR via `mendel-exec` (Node.js `vm` module with variational `require`). Bundle JS is assembled on demand from registry state.
 
+The development URL scheme differs from production: `/mendel/:variations/:bundle` encodes variation names directly, while production uses content hashes. This means development URLs are not cacheable but are human-readable during debugging.
+
+### 10. `CacheManager.sync()`: Cross-Environment Cache Seeding
+
+When the daemon starts a new environment pipeline, `CacheManager.sync()` copies already-processed entries from any existing environment cache into the new one. This avoids re-processing files that share transforms across environments. A TODO in the source acknowledges the seeding is imperfect: if browser-field deps diverge between environments, entries seeded from a different environment may carry wrong dependency data.
+
 ---
 
 ## Lifecycle Summary
@@ -152,3 +158,7 @@ At request time (development):
 ```
 HTTP request → mendel-development-middleware → CacheClient registry (live) → mendel-exec (vm) or bundle stream → response
 ```
+
+### Binary Serialization in `mendel-core`
+
+`MendelTrees` uses `tree-serialiser.js` and `tree-deserialiser.js` (backed by `concentrate` + `dissolve`) to store resolved variation trees in compact binary form for hash lookup. This is how `findTreeForHash` reconstructs a variation tree without re-walking the manifest on every request.

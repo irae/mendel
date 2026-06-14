@@ -124,6 +124,14 @@ Several packages that users interact with directly have near-empty documentation
 
 The transform and middleware packages are part of a new user's first setup. Finding that their documentation is empty forces the user to read the example `.mendelrc` or source code to understand configuration options.
 
-## 11. MENDEL_ENV vs NODE_ENV interaction is undocumented
+## 11. The base variation is implicitly appended to all inheritance chains
+
+The `base` variation is always the final entry in any variation's resolution chain. This is hardcoded, not configurable. `docs/Design.md` mentions it as a comment in a YAML block: `# base is assumed as last item in all variations`. It appears nowhere in the configuration documentation. A developer who sees a file being pulled from base without having declared it in the variation's folder list has no user-facing document to consult.
+
+## 12. The lerna linking step may need to be run multiple times
+
+`DEVELOPMENT.md` notes that `pnpm lerna exec "pnpm link --global"` "might need to be run multiple times" because lerna resolves packages by dependency depth and may not complete all links in one pass. No automated workaround is documented.
+
+## 13. MENDEL_ENV vs NODE_ENV interaction is undocumented
 
 `mendel-config/README.md` mentions that `process.env.MENDEL_ENV` or `process.env.NODE_ENV` triggers environment-specific config. The `full-example` test scripts use `MENDEL_IPC=.mendelipc-test MENDEL_ENV=test`. No document explains what happens when both are set, which takes precedence, or what the recommended practice is for CI environments.

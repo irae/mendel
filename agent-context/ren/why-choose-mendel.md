@@ -50,7 +50,11 @@ Bundle URLs use a content-addressed hash (the Mendel hash) instead of experiment
 
 CSS, JSON, images, LESS — any file can differ between variations using the same folder structure. There is no special syntax or conditional wrapping needed. A variation can ship a different `theme.json`, a different `logo.png`, or a different `styles.css` just by placing those files in the variation folder.
 
-## 9. Developer tools surface experiment code transparently
+## 9. Security by default
+
+A/B testing systems that embed experiment names in URLs or compiled source let determined users infer what business hypotheses you are testing, download multiple bundles to compare them, or use browser tools to see conditional logic. Mendel's hashed bundle URLs reveal nothing. The compiled bundle for a variation contains no string references to the variation name. In development mode, source maps expose mnemonic folder names for developer convenience; in production, that information is absent.
+
+## 10. Developer tools surface experiment code transparently
 
 Because variation files live under mnemonic folder names (`new_ad_format`, `partner_C`), browser DevTools source maps show which file comes from which variation. A developer can:
 
@@ -58,11 +62,11 @@ Because variation files live under mnemonic folder names (`new_ad_format`, `part
 -   Run `diff src/isomorphic/base/views/ads.js src/isomorphic/variations/bucket_A/views/ads.js` directly.
 -   `grep` the base source tree to understand the non-experiment code path without seeing any experiment noise.
 
-## 10. Battle-tested at scale
+## 11. Battle-tested at scale
 
 Mendel's core design ran inside Yahoo on teams of 3–30+ developers contributing daily to large production applications starting around 2014. The file-system variation strategy has been stable across that entire period. Mendel as a package is the formalization of that strategy, not a greenfield experiment.
 
-## When NOT to choose Mendel
+## 12. When NOT to choose Mendel
 
 -   Your application has fewer than 2–3 simultaneous experiments and a small team. A simpler feature flag tool will have lower setup cost.
 -   You need Webpack-specific features (module federation, HMR with Webpack's ecosystem). Mendel v2 targets Browserify and its transform ecosystem.

@@ -95,6 +95,19 @@ The `full-example` does not demonstrate multilayer.
 
 The v2 configuration introduces `types:` as a way to assign transforms to file extensions. The v1 config used Browserify transforms directly. No document explains the conceptual shift or why types exist instead of per-bundle transforms. The `DEVELOPMENT-README.md` explains it internally but is not linked from user docs.
 
+## Secondary: Missing package READMEs for packages with no documentation at all
+
+These packages are referenced in examples and used in standard setups but have no README:
+
+| Package                            | Current state                               | What is needed                                              |
+| ---------------------------------- | ------------------------------------------- | ----------------------------------------------------------- |
+| `mendel-outlet-server-side-render` | No README exists                            | SSR setup, `requireTransform`, `includeNodeModules` options |
+| `mendel-mocha-runner`              | No README exists                            | How to use `mendel-mocha` CLI                               |
+| `mendel-transform-babel`           | "API: WIP"                                  | Options mapping, how to pass Babel config                   |
+| `mendel-transform-buble`           | Two sentences                               | Options, deprecation status vs babel                        |
+| `karma-mendel`                     | "Fork of karma-commonjs with modifications" | What the modifications are, how to configure                |
+| `mendel-development-middleware`    | One sentence                                | Mount point, options, relationship to daemon                |
+
 ## Summary table
 
 | Gap                                        | Severity | User blocked?                              |
@@ -106,6 +119,7 @@ The v2 configuration introduces `types:` as a way to assign transforms to file e
 | Stale Design.md sections                   | High     | Misleads on current architecture           |
 | No troubleshooting guide                   | High     | Yes when hitting errors                    |
 | Outlet/generator options undocumented      | High     | Partial — examples cover common cases      |
+| Missing package READMEs (SSR, mocha, etc.) | High     | Blocks users of those packages entirely    |
 | No glossary in user docs                   | Medium   | Slows comprehension                        |
 | `mendel-middleware` production API missing | Medium   | Partial — `mendel-core` manual setup shown |
 | Test docs stale                            | Medium   | Blocks contributors                        |

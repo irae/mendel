@@ -91,6 +91,14 @@ Runtime manifest reader for production bundle serving. Reads pre-built JSON mani
 
 The manifest format (`indexes` + `bundles` array) is the v1 format written by `mendel-outlet-manifest`.
 
+Sub-modules:
+
+-   `tree-walker.js`: base depth-first module graph walker
+-   `tree-variation-walker.js`: resolves each module to its best variation match, tracks conflicts via a `conflicts` counter
+-   `tree-variation-walker-server.js`: server-side variant that returns a file path map
+-   `tree-hash-walker.js`: reconstructs a tree from a content hash
+-   `tree-serialiser.js` / `tree-deserialiser.js`: binary serialization using `concentrate` + `dissolve` for compact hash-keyed tree storage
+
 ---
 
 ## Middleware and Runtime
@@ -138,8 +146,11 @@ JavaScript executor using Node.js `vm.runInContext`. Used by development middlew
 
 -   CommonJS module wrapping (`module.exports`, `require`, `__filename`, `__dirname`)
 -   Cycle detection via require cache
--   Source map error remapping
+-   Source map error remapping via `source-mapper.js`
 -   Built-in module pass-through
+-   Browser global injection via `global-props.js`
+
+The `vm` execution context creates an `instanceof` boundary: objects created in `vm` context fail `instanceof` checks against constructors from the host context. This is a known pain point for isomorphic code that checks types across the require boundary.
 
 ---
 

@@ -22,6 +22,14 @@ Separating per-file transforms (IST) from graph-aware transforms (GST) is archit
 
 The cache tracks per-runtime dependency paths (`main`, `browser`, `module`) for every require literal, handles package.json browser-field aliasing, intra-module remapping, and the `false`-valued exclusion pattern. This is more complete than most bundlers handle for the browser-field spec, and it's all in one place.
 
+### File Priority Queue at Startup
+
+Sorting initial files by size (largest first) and processing `package.json` files before their referencing modules is a meaningful heuristic. Package dependency maps must be available before the files they describe, or the cache mis-classifies module runtimes. Large files starting early means slower transforms don't become a tail-end bottleneck.
+
+### DepsManager Worker Count Is Intentionally Low
+
+`DepsManager` caps at 2 worker processes while `TransformManager` forks up to the CPU count. The difference is deliberate: module resolution for `node_modules` packages recurs constantly across different files, and each worker maintains an in-process resolution cache. Fewer workers means higher cache hit rate per worker. Two workers balances parallelism against cache reuse.
+
 ---
 
 ## Where the Architecture Has Problems
@@ -91,3 +99,23 @@ The daemon creates pipelines per environment and has a `watchNextEnv` strategy f
 ### The Unix Socket IPC Has No Framing or Versioning
 
 The cache server/client communicate by `JSON.stringify`/`JSON.parse` over a Unix socket. There is no message framing protocol — it relies on the OS delivering messages atomically, which is only true for small payloads. Large source files with many modules could theoretically fragment across socket reads, though in practice Unix domain sockets with small writes tend to be atomic on Linux. But this is unspecified and untested for large payloads.
+
+### CacheClient Has No Back-Pressure
+
+`CacheClient` receives JSON messages from the daemon and adds them to the registry as fast as they arrive. If the daemon is fast and the client is slow (e.g., during outlet writes that trigger further processing), messages queue in the socket's receive buffer with no throttling. For small projects this is fine, but under load the client can receive thousands of entries before it acknowledges `sync` state.
+
+### Generator Execution Is Sequential
+
+`MendelOutlets.perform()` calls `Promise.all()` across outlets, which is correct. But `MendelGenerators.performAll()` runs generators in declaration order with no parallelism. For projects with many independent bundles, generators run serially even though most bundles have no dependencies on each other.
+
+### Variation Permutation Exploration Is Brute Force
+
+`GST.explorePermutation()` iterates all entries in the dependency graph for every variation in the config. For projects with many files and many variations, this is O(files × variations). Subgraphs that have not changed between variations are reprocessed on every permutation. Memoizing completed subgraphs per variation would reduce redundant work.
+
+### Registry `walk()` Relies on Caller Side-Effects
+
+`MendelOutletRegistry.walk()` passes a visitor function that callers use to mutate `entry.expose` in place. `mendel-generator-extract` sets `entry.expose = entry.normalizedId` during the walk, then later clears it. This couples generators to the registry's internal entry objects rather than working on copies, and makes the walk's behavior dependent on mutation order.
+
+### TCP Is Anticipated but Never Implemented
+
+`network.js` validates that only `type: unix` is supported, yet the config defaults include `host` and `port` fields. If a deployment needs the daemon and client on separate machines (e.g., Docker environments where filesystem sharing is unavailable), there is no path. The architecture anticipated TCP but never built it.

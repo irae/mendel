@@ -31,6 +31,15 @@ This model gives:
 
 **Works with any file type.** Conditionals are JavaScript-only. Mendel's folder model works identically for JS, CSS, Less, JSON configuration, images — any file the bundler can process.
 
+**Standard tools just work.** Because experiments are folders, the entire Unix and git toolchain applies without modification:
+
+-   `git diff experiments/new_ad_format src/` shows exactly what changed between the experiment and base
+-   `grep -r "CartWidget" experiments/` finds every experiment that touches a component
+-   `ls experiments/new_ad_format/ | wc -l` shows experiment complexity at a glance
+-   Source maps in browser DevTools show files under mnemonic experiment folder names
+
+None of this requires Mendel-specific tooling. It falls out of the filesystem model for free.
+
 ---
 
 ## 2. Variation Inheritance with Explicit Composition

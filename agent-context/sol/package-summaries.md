@@ -83,7 +83,7 @@ Used by the deps worker pool to resolve discovered require literals into actual 
 
 **Dependency detection (require/import parsing).**
 
-A small package that parses JavaScript source to extract `require()` and `import` literals without executing the code. Used by the IST step's worker pool to discover module dependencies after transformation. Exposes `isSupported(ext)` to skip binary or non-JS files.
+Parses source files to extract `require()` and `import` literals without executing the code. Supports JavaScript/JSX/TypeScript via `@babel/parser` + `@babel/traverse`, and CSS `@import` statements via the `css` package. Returns `{ imports: string[], exports: [] }`. Does not resolve paths — path resolution is delegated to `mendel-resolver` by the caller. Exposes `isSupported(ext)` so the pipeline can skip binary or non-parseable files.
 
 ---
 
@@ -276,9 +276,9 @@ Writes individual processed dep files from the Mendel browserify pipeline to dis
 
 ### mendel-parser-json
 
-**IST transform: JSON file parser.**
+**IST transform: JSON module wrapper.**
 
-Wraps JSON files in a `module.exports = ...` wrapper so they can be bundled like regular JS modules. Marked `mode: "ist"`.
+Wraps JSON files in a CommonJS module wrapper (`module.exports = {...}`) so they can be `require()`d through the Mendel pipeline without special handling at the bundler level. Marked `mode: "ist"` — processes each file independently.
 
 ### mendel-treenherit
 
