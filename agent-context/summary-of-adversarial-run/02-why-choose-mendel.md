@@ -70,9 +70,16 @@ A new engineer needs to learn nothing Mendel-specific to read, diff, or audit ex
 
 Yahoo ran this pattern in production starting around 2014 across teams of three to thirty contributors on large applications. The filesystem variation strategy proved stable across that period. Mendel as an open-source package codifies what worked.
 
+## 12. Fast Cold Start and Fast Refresh
+
+Mendel beats webpack and most comparable builders on cold start. The daemon/client split keeps the transformation pipeline warm across CI builds, dev servers, and test runners. A second client connects to an already-populated cache instead of restarting the world. `BaseMasterProcess` forks up to CPU-count IST workers (`packages/mendel-pipeline/src/multi-process/base-master.js`), so file transforms run in parallel from the first second of build.
+
+Refresh stays fast because the cache keys each entry by id and tracks `done` state per entry (`packages/mendel-pipeline/src/cache/index.js`, `cache/entry.js`). `FsWatcher` reacts to a file change by removing and re-adding only the touched entries (`packages/mendel-pipeline/src/fs-watcher/index.js`); every other entry stays processed in the cache. The pipeline reprocesses what changed, not the project.
+
+This pattern has powered Yahoo properties in production and development for years. Cold start and incremental refresh are strengths of the architecture, not gaps.
+
 ## When Not to Choose Mendel
 
 -   Fewer than two or three simultaneous experiments and a small team. A flag SaaS has lower setup cost.
--   A hard requirement for webpack-specific features (Module Federation, webpack HMR). Mendel's foundation is Browserify.
+-   A hard requirement for webpack-specific features (Module Federation, webpack HMR). Mendel's foundation is Browserify, and hot-reload is a missing feature rather than a shipped one. The cache architecture supports it; the integration has not landed.
 -   A need for experiment assignment and analytics bundled into one tool. Mendel handles only the build-and-serve side.
--   A greenfield project where dev-server speed matters more than experiment hygiene. Vite's HMR is faster than what Mendel currently delivers.

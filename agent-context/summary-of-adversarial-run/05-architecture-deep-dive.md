@@ -40,7 +40,7 @@ Initialize → FileReader → IST → Waiter → GST → End
 3. Sends the transformed source to `DepsManager`, which uses `mendel-deps` (AST walk via `@babel/parser` + `@babel/traverse`) to find `require`/`import` literals. Each literal goes through `mendel-resolver` to produce per-runtime paths (`main`, `browser`, `module`).
 4. Calls `registry.addTransformedSource()` with the source and dependency map. Each newly discovered dependency triggers `cache._requestEntry()`, feeding new files back into the pipeline. This is how the dependency graph self-assembles.
 
-**Waiter** (`step/waiter.js`) is a barrier. It collects entries until `cache.size() === waited.size`, then releases all of them to GST simultaneously. GST cannot start until every entry has finished IST, because GST operates on the full dependency graph.
+**Waiter** (`step/waiter.js`) coordinates the IST-to-GST phase transition. It collects entries until `cache.size() === waited.size`, then releases them to GST. GST needs the full dependency graph to walk variation permutations, so the Waiter holds the first wave until that graph exists. On file changes the cache emits `entryRemoved`, the Waiter drops only the changed ids from its `waited` set (`cache.on('entryRemoved', id => this.waited.delete(id))`), and unchanged entries stay completed in `MendelCache._store`. The coordination is a phase boundary, not a re-build trigger.
 
 **GST** (`step/gst/index.js`, Graph Source Transform) runs each GST plugin once per entry per variation:
 
@@ -157,7 +157,8 @@ Written by `mendel-outlet-manifest` in `{indexes, bundles}` form. Each entry car
 -   **Filesystem variation model.** The overlay-tree-as-experiment is the strongest design decision in Mendel. It produces fully disposable variations with no AST manipulation, no scattered conditionals, and uniform handling for all file types.
 -   **Daemon/client split.** One long-running daemon serves multiple short-lived clients (CI, dev server, tests). Source re-processing happens once. `CacheManager.sync()` seeds new environment pipelines from existing caches.
 -   **Content-addressable URLs.** SHA-of-resolved-content as the bundle URL, served with permanent cache headers, with no experiment names in the path. The CDN never knows the experiment system exists.
--   **IST/GST distinction.** Most bundlers blur the line between per-file and graph-aware transforms and get subtle ordering bugs. Mendel's explicit Waiter barrier is the correct synchronization choice.
+-   **IST/GST distinction.** Most bundlers blur the line between per-file and graph-aware transforms and get subtle ordering bugs. The Waiter step makes the synchronization explicit.
+-   **Per-entry content cache drives incrementalism.** `MendelCache` keys each entry by id and tracks a `done` flag (`cache/index.js`, `cache/entry.js`). `FsWatcher` on change calls `removeEntry` then `addEntry` for the touched paths only (`fs-watcher/index.js`). Every other entry skips re-read, re-transform, and re-resolve. Cold start runs IST across CPU-count workers (`multi-process/base-master.js`), and the daemon stays warm so the second client sees a populated cache.
 -   **Multi-runtime dependency model.** `MendelCache` tracks per-runtime paths and handles browser-field remapping, intra-module aliasing, and `false`-valued exclusions in one place. More complete than most bundlers' browser-field handling.
 -   **Two-worker `DepsManager` cap.** A deliberate cache-hit-rate optimization, not an oversight.
 
@@ -165,9 +166,9 @@ Written by `mendel-outlet-manifest` in `{indexes, bundles}` form. Each entry car
 
 Listed with enough detail to act on. Each one has a TODO or FIXME in the source.
 
-### The Waiter barrier kills incremental builds
+### Hot module replacement is unshipped, not blocked
 
-The Waiter holds every entry until the entire cache is IST-complete before any can advance to GST. In watch mode, any file change clears GST state and re-runs the barrier. GST cannot start until the last slow file (e.g., a heavy Babel transform) finishes. The source comment explicitly acknowledges this: `TODO: ... it will be safe to add optimization here`. Per-subgraph GST readiness — tracking when a connected component of the dependency graph is fully IST-complete — would unblock partial GST while the rest of the cache finishes.
+Mendel has no HMR client. The architecture allows it: `MendelCache` already keys entries by id with a per-entry `done` flag, `FsWatcher` already drops only changed entries on disk events, and `CacheServer` already streams `addEntry` and `removeEntry` deltas to connected clients (`cache/server.js`). A browser-side runtime that consumed those deltas and swapped modules in place would close the gap. The work has not been prioritized because variation builds at Yahoo did not require it. A related optimization (`TODO: ... it will be safe to add optimization here` in `step/waiter.js`) would let entries bypass GST when no GST plugin applies, prioritizing hot initialization of the base variation or the most-requested bundle. Both are missing features, not architectural ceilings.
 
 ### GST uses only `main` runtime for graph traversal
 
@@ -177,9 +178,9 @@ The Waiter holds every entry until the entire cache is IST-complete before any c
 
 When a new environment pipeline starts, `CacheManager.sync()` copies already-processed entries from existing environment caches. If browser-field deps diverge between environments, the seeded entries carry wrong dependency data. This is the root cause of the `watchNextEnv` production skip: `if (nextEnv === 'production') return` with the comment `TODO: Figure out production problems, likely related to deps being different and cache not creating a perfect sandbox`. The optimization to pre-warm production while developing is gated behind `MENDEL_BETA` and never reaches the environment that matters most.
 
-### GST permutation exploration is brute-force
+### GST permutation exploration could memoize per variation
 
-`GST.explorePermutation()` iterates all entries in the dependency graph for every variation in the config — O(files × variations). A project with 200 files and 50 active experiments triggers 10,000 graph walks on every file change in watch mode (because any change resets `_canceled` and replays the entire GST). Memoizing completed subgraphs per variation would make watch-mode GST cost proportional to what actually changed.
+`GST.explorePermutation()` iterates all entries in the dependency graph for every variation in the config — O(files × variations). IST results stay cached across file changes, so the source transform cost stays incremental, but `clear()` on `entryRemoved` resets `_processed` and replays GST permutations. Memoizing completed subgraphs per variation would shrink that GST replay to the touched subgraph. The IST cache already makes refresh fast in practice; this would tighten the GST half of the same property.
 
 ### Three parallel entry stores
 

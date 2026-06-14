@@ -70,4 +70,4 @@ These weaknesses are visible in the source code as TODOs or FIXMEs. They affect 
 
 ## Maintenance Status
 
-The repository lives under the YahooArchive GitHub organization, which signals reduced active maintenance. Modern bundler projects (Vite, Rolldown, Rspack, Turbopack) have well-funded teams driving weekly releases. Mendel's release cadence does not match. The architecture is sound; the implementation is on the slower trajectory of a project preserved more than developed.
+The repository lives under the YahooArchive GitHub organization, which signals reduced active maintenance. Modern bundler projects (Vite, Rolldown, Rspack, Turbopack) ship weekly releases backed by full-time teams. Mendel's release cadence does not match. The architecture is sound and the runtime stays fast in production; the open-source project receives fewer commits than its newer peers.
