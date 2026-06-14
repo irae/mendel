@@ -12,6 +12,7 @@
 
 -   The docs switch between `variation`, `experiment`, `bucket`, and `folder`.
 -   The docs switch between `multivariate` and `multilayer` and sometimes treat them as neighbors, sometimes as separate needs.
+-   Pipeline and core docs use `normalizedId` for matching files and detecting conflicts, but the root user path does not define it.
 -   `README.md` leads with A/B testing. `Mendel.md` broadens the story to white-labeling, themes, settings, and build performance.
 
 ## Likely confusion for a new user
@@ -24,6 +25,10 @@
 ## Questions for a later writer
 
 -   Which package is the primary adoption surface now: CLI, middleware, pipeline, or a package mix?
+-   Which configuration fields does a minimal project require?
+-   How should a team connect its assignment service and analytics system?
+-   Which file layout supports nested inheritance and layered experiments?
+-   How should a team retire production variation assets and cached bundles?
 -   Is SSR a core Mendel story or an advanced mode that many users can skip?
 -   Should current docs treat Browserify-first language as the main product story or as historical architecture?
 -   Should white-labeling and environment-specific variants sit beside experimentation in the lead narrative, or under a secondary use-cases section?

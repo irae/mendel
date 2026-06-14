@@ -8,6 +8,13 @@
 -   `Mendel.md`: the repo also pitches Mendel as a way to manage white-labeling, theme support, environment or settings based features, bundle splitting, and environment-specific builds.
 -   `docs/Design.md`: the product goals center on zero payload overhead for inactive variations, fast synchronous runtime resolution, disposable variation code, and hiding variation names from URLs and shipped code.
 -   `packages/mendel-core/README.md`: production use includes resolving a variation list to a deterministic hash and using that hash to recover the same dependency tree later.
+-   `README.md` and `docs/Design.md`: developers replace experiment conditionals with file overrides. Mendel sends each user the active code path and resolves production assets without file-system or network access after startup.
+
+## User-supplied pieces
+
+-   A base application and variation folders that mirror the base files they override.
+-   Mendel configuration in `.mendelrc`, `package.json`, or programmatic options.
+-   An external assignment system and an external measurement system.
 
 ## Cautious inference
 

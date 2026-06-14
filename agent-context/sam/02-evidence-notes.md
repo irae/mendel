@@ -2,34 +2,42 @@
 
 ## Supported claims
 
--   Mendel builds and serves client-side JavaScript bundles for experiments. `README.md`
--   Mendel does not do random assignment or experiment measurement. `README.md`
--   Mendel supports SSR and multilayer experiments. `README.md`, `docs/Design.md`
--   Mendel uses folder overlays for variation resolution. `README.md`, `docs/Design.md`, `packages/mendel-core/README.md`
--   `mendel-development-middleware` serves development bundles and lets SSR continue when the request is not a bundle route. `packages/mendel-development-middleware/index.js`
--   Configuration can come from `.mendelrc`, `package.json`, or options. `docs/Configuration.md`, `packages/mendel-config/index.js`
--   Production bundle URLs use hashes. `packages/mendel-core/README.md`
--   `mendel-core` resolves a variation set to a tree, then can recover the same tree from a hash. `packages/mendel-core/README.md`
+-   Teams use Mendel to build and serve client-side variation bundles. `README.md`
+-   Mendel leaves assignment and measurement to other systems. `README.md`, `examples/planout-example/README.md`
+-   Mendel supports SSR, variation inheritance, and multilayer combinations. `README.md`, `docs/Design.md`
+-   The broader product story includes white-labeling, themes, settings, and environment variants. `Mendel.md`
+-   Variation folders mirror changed files from the base tree. `README.md`, `docs/Design.md`, `packages/mendel-treenherit/README.md`
+-   Overrides must preserve the base path and extension when they replace an existing resolution. `docs/ManifestValidation.md`
+-   Nondeterministic transforms can make manifest validation fail. `docs/ManifestValidation.md`
+-   Development mode compiles on demand; production mode requires rebuild and restart after source changes. `examples/README.md`
+-   Production resolution maps a variation list to a hash and recovers the same dependencies from that hash. `packages/mendel-core/README.md`
+-   A hash-based asset request needs no cookies or `Vary` header. `packages/mendel-core/README.md`
 
 ## Inference
 
--   The clean user path is idea -> variation folders -> config -> development server -> bundle build -> hashed production serving -> remove variation files and config later. This sequence is stitched together from separate docs and comments.
--   Rollout still needs an external assignment system because Mendel does not provide one.
--   Cleanup is a manual file-and-config delete flow because no explicit deprecation workflow appears in the docs.
+-   Mendel fits teams that run front-end experiments in SSR or isomorphic applications and want to remove experiment conditionals from product files.
+-   User guidance should separate the developer loop from the production request loop.
+-   Cleanup requires removing variation inputs, rebuilding, and redeploying. Winning code may need promotion into base.
 
-## Documentation traps
+## Documentation risks
 
--   The docs mix `variation`, `bucket`, `experiment`, and `layer`. Users need to learn that these terms overlap but are not always identical.
--   `normalizedId` is central but underexplained outside `mendel-pipeline` and `mendel-core`.
--   The root README points new users at the examples, which is correct, but the examples split across Mendel 1.x and 2.x paths.
--   Some docs say the result tree is not written to disk, while later pipeline docs describe a daemon/client build system. The user-facing meaning is the same, but the wording changes across generations.
--   The configuration docs are a stub in places. `docs/Configuration.md` still has empty section headings.
+-   The repository mixes Mendel 1.x, a planned Mendel 2.0, v2 pipeline language, and `4.0.0-alpha.4` changelogs dated April 30, 2024. A writer cannot infer the current supported path from version numbers alone.
+-   `docs/Design.md` marks part of its client-side design as outdated.
+-   `docs/Configuration.md` contains empty sections. `packages/mendel-config/README.md` supplies a large example without a minimal adoption task.
+-   Example READMEs give different commands for 1.x and 2.x. The PlanOut example contains a TODO.
+-   A new reader cannot identify one primary entry point among CLI, middleware, core, pipeline, and package-level APIs.
+-   Browserify-era package docs can look current beside newer daemon and pipeline docs.
+-   Repository prose mixes `variation`, `experiment`, and `bucket`. It gives no stable relationship among `layer`, inheritance chain, and multivariate combination.
+-   Readers meet experiments first in the root README. `Mendel.md` adds white-labeling and environment variants. A writer should label those as supported adjacent uses without making them the lead promise.
+-   `normalizedId` matters for conflict diagnosis but adds noise to a first-use guide.
 
-## User questions left open
+## Questions for a documentation writer
 
--   How does a team wire Mendel into its own assignment service?
--   How does a team wire Mendel into analytics or outcome tracking?
--   Which config fields are required for a minimal real project?
--   Which features belong to Mendel 1.x only, and which belong to the newer pipeline?
--   What exact file layout does the user need for nested variations and layered experiments?
--   What is the supported cleanup story for production bundles and caches?
+-   Which package or command should a new project install first?
+-   Which version and example represent the supported product today?
+-   Which configuration fields form the smallest working setup?
+-   How should an application pass assignment results into Mendel in development and production?
+-   Which SSR steps can client-only applications skip?
+-   How should teams model variation inheritance versus independent layers?
+-   How should teams promote a winning variation into base and retire old hashed bundles?
+-   Which Browserify references describe supported behavior, and which record history?
