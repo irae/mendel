@@ -1,6 +1,6 @@
 {
   "name": "mendel-outlet-browser-pack",
-  "version": "4.0.0",
+  "version": "4.1.1",
   "description": "Mendel outlet for JavaScript bundles using browser-pack.",
   "main": "src/index.js",
   "author": "Stephan Lee <stephanwlee@gmail.com>",

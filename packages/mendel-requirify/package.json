@@ -1,6 +1,6 @@
 {
   "name": "mendel-requirify",
-  "version": "4.0.0",
+  "version": "4.1.1",
   "description": "Write individual mendel-requirified dep files from the mendel browserify pipeline.",
   "main": "index.js",
   "keywords": [
@@ -17,7 +17,7 @@
   "dependencies": {
     "debug": "^4.4.0",
     "fs-extra": "~0.26.5",
-    "mendel-development": "^4.0.0",
+    "mendel-development": "^4.1.1",
     "through2": "^2.0.1"
   },
   "devDependencies": {

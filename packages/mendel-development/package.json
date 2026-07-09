@@ -1,6 +1,6 @@
 {
   "name": "mendel-development",
-  "version": "4.0.0",
+  "version": "4.1.1",
   "description": "Mendel shared dependencies for build and development",
   "scripts": {
     "test": "tap test/*.js --coverage-map=../../.tap.coverage.map.js --no-check-coverage"

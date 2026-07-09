@@ -1,7 +1,7 @@
 {
   "name": "mendel-full-example",
   "private": true,
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Example of app using mendel, es6, jsx, react, server-side-rendering, multivariant and multilayer support.",
   "main": "src/server/index.js",
   "scripts": {

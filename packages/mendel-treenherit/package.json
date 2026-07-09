@@ -1,6 +1,6 @@
 {
   "name": "mendel-treenherit",
-  "version": "4.0.0",
+  "version": "4.1.1",
   "description": "Browserify require transform for folder-based merge. Created for mendel.",
   "main": "index.js",
   "keywords": [

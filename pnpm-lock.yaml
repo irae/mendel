@@ -257,13 +257,13 @@ importers:
         specifier: ^6.4.2
         version: 6.4.2(debug@4.4.0)
       mendel-config:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-config
       mendel-development:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-development
       mendel-pipeline:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-pipeline
       source-map:
         specifier: ^0.7.4
@@ -310,7 +310,7 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
       mendel-config:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-config
       stream-browserify:
         specifier: ^2.0.1
@@ -348,7 +348,7 @@ importers:
         specifier: ^10.3.3
         version: 10.3.12
       mendel-resolver:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-resolver
       tap:
         specifier: ^16.3.8
@@ -391,16 +391,16 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       mendel-config:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-config
       mendel-development:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-development
       mendel-exec:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-exec
       mendel-pipeline:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-pipeline
       path-to-regexp:
         specifier: ^2.1.0
@@ -419,7 +419,7 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       mendel-resolver:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-resolver
       source-map:
         specifier: ^0.5.7
@@ -475,7 +475,7 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       mendel-development:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-development
     devDependencies:
       tap:
@@ -510,10 +510,10 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       mendel-core:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-core
       mendel-loader:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-loader
       path-to-regexp:
         specifier: ^1.2.1
@@ -535,10 +535,10 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       mendel-exec:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-exec
       mendel-pipeline:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-pipeline
       mocha:
         specifier: ^10.2.0
@@ -595,7 +595,7 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       mendel-manifest-uglify:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-manifest-uglify
       shasum:
         specifier: ^1.0.2
@@ -614,10 +614,10 @@ importers:
         specifier: ^2.1.0
         version: 2.2.5
       mendel-development:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-development
       mendel-outlet-manifest:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-outlet-manifest
       mkdirp:
         specifier: ^0.5.1
@@ -658,16 +658,16 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       mendel-config:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-config
       mendel-deps:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-deps
       mendel-development:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-development
       mendel-resolver:
-        specifier: ^4.1.0
+        specifier: ^4.1.1
         version: link:../mendel-resolver
       minimatch:
         specifier: ^3.1.2
@@ -707,7 +707,7 @@ importers:
         specifier: ~0.26.5
         version: 0.26.7
       mendel-development:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-development
       through2:
         specifier: ^2.0.1
@@ -723,7 +723,7 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       mendel-development:
-        specifier: ^4.0.0
+        specifier: ^4.1.1
         version: link:../mendel-development
     devDependencies:
       tap:
