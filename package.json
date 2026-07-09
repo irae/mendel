@@ -43,6 +43,8 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "postinstall": "bash scripts/link-example-bins.sh --warn",
+    "link:example-bins": "bash scripts/link-example-bins.sh --warn",
     "commitlint": "commitlint --edit",
     "prettier": "prettier --write --list-different .",
     "eslint": "eslint --fix --ext js,mjs,ts,jsx,tsx .",
