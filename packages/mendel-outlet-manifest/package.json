@@ -10,9 +10,9 @@
     "url": "git+https://github.com/irae/mendel.git"
   },
   "dependencies": {
-    "@babel/core": "^7.22.9",
-    "babel-plugin-transform-inline-environment-variables": "0.4.4",
-    "debug": "^4.3.4",
+    "@babel/core": "^7.29.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.4",
+    "debug": "^4.4.0",
     "mendel-manifest-uglify": "^4.0.0",
     "shasum": "^1.0.2"
   },

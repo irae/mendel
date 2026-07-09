@@ -30,7 +30,7 @@
     "production": "NODE_ENV=production node src/server/index.js"
   },
   "dependencies": {
-    "debug": "^4.3.4",
+    "debug": "^4.4.0",
     "express": "^4.18.2",
     "mendel-middleware": "../../packages/mendel-middleware",
     "morgan": "^1.10.0",
@@ -39,15 +39,15 @@
     "react-use-measure": "2.1.7"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.22.10",
-    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-env": "^7.29.0",
+    "@babel/preset-react": "^7.29.0",
     "@testing-library/react": "^14.0.0",
-    "autoprefixer": "^10.4.14",
-    "babel-plugin-istanbul": "^6.1.1",
+    "autoprefixer": "^10.5.0",
+    "babel-plugin-istanbul": "^8.0.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
     "chai": "^4.3.7",
-    "core-js": "^3.32.0",
+    "core-js": "^3.49.0",
     "foreman": "^3.0.1",
     "jasmine-core": "^5.1.0",
     "jsdom": "^22.1.0",
@@ -74,7 +74,7 @@
     "mendel-transform-uglify": "../../packages/mendel-transform-uglify",
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",
-    "rtlcss": "^4.1.0"
+    "rtlcss": "^4.3.0"
   },
   "contributors": [
     {

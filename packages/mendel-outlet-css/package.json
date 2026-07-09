@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "concat-with-sourcemaps": "^1.1.0",
-    "debug": "^4.3.4",
-    "postcss": "^8.4.27"
+    "debug": "^4.4.0",
+    "postcss": "^8.5.0"
   },
   "devDependencies": {
     "tap": "^16.3.8"

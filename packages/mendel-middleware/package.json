@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "browser-pack": "^6.0.1",
-    "debug": "^4.3.4",
+    "debug": "^4.4.0",
     "mendel-core": "^4.0.0",
     "mendel-loader": "^4.0.0",
     "path-to-regexp": "^1.2.1"

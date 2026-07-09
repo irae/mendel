@@ -39,7 +39,7 @@
     "url": "git+https://github.com/irae/mendel.git"
   },
   "dependencies": {
-    "debug": "^4.3.4",
+    "debug": "^4.4.0",
     "karma": "^6.4.2",
     "mendel-config": "^4.0.0",
     "mendel-development": "^4.0.0",

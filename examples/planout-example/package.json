@@ -20,8 +20,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.22.9",
-    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-env": "^7.29.0",
+    "@babel/preset-react": "^7.29.0",
     "babelify": "^10.0.0",
     "mendel-development-middleware": "../../packages/mendel-development-middleware",
     "mendel-pipeline": "../../packages/mendel-pipeline",

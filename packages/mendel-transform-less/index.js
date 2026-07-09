@@ -1,17 +1,25 @@
-const postcss = require('postcss');
-const less = require('postcss-less-engine');
+const less = require('less');
 
-function LessTransformer({ source, filename, map }) {
-    return postcss([less({})])
-        .process(source, {
-            parser: less.parser,
-            from: filename,
-            map: {
-                inline: false,
-                prev: map || '',
+function LessTransformer({ source, filename }) {
+    return less
+        .render(source, {
+            filename,
+            sourceMap: {
+                outputSourceFiles: true,
+                sourceMapFileInline: false,
             },
         })
-        .then(({ css, map }) => ({ source: css, map: map }));
+        .then(({ css, map }) => {
+            // less may append a sourceMappingURL comment; mendel stores maps separately
+            const cleaned = css.replace(
+                /\n?\/\*# sourceMappingURL=[\s\S]*?\*\/\s*$/,
+                ''
+            );
+            return {
+                source: cleaned,
+                map: map || null,
+            };
+        });
 }
 
 LessTransformer.parser = true;

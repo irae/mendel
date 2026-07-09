@@ -18,7 +18,7 @@
     "url": "git+https://github.com/irae/mendel.git"
   },
   "dependencies": {
-    "debug": "^4.3.4",
+    "debug": "^4.4.0",
     "mendel-development": "^4.0.0"
   },
   "devDependencies": {

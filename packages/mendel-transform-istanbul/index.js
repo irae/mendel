@@ -9,7 +9,8 @@ module.exports = function ({ source, filename, map: inputSourceMap }) {
         babelrc: false, // babelrc is ignored and needs to be configured only with the option
         sourceMaps: true, // We don't need inline as we store them separately
         ast: false,
-        inputSourceMap, // sourcemap from previous transforms
+        // babel rejects null; pipeline may pass map: null for first transform
+        inputSourceMap: inputSourceMap || undefined,
         filename,
         sourceFileName: filename, // sourcemap contains filename this way
         plugins: [istanbul],

@@ -13,10 +13,10 @@
     "url": "git+https://github.com/irae/mendel.git"
   },
   "dependencies": {
-    "@babel/parser": "^7.24.4",
-    "@babel/traverse": "^7.24.1",
+    "@babel/parser": "^7.29.0",
+    "@babel/traverse": "^7.29.0",
     "css": "^3.0.0",
-    "debug": "^4.3.4"
+    "debug": "^4.4.0"
   },
   "devDependencies": {
     "glob": "^10.3.3",

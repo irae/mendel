@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "concentrate": "^0.2.3",
-    "debug": "^4.3.4",
+    "debug": "^4.4.0",
     "dissolve": "^0.2.1",
     "mendel-config": "^4.0.0",
     "stream-browserify": "^2.0.1",
