@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/irae/mendel/compare/v4.0.0...v4.1.0) (2026-07-09)
+
+### Bug Fixes
+
+-   **full-example:** reliable start under pnpm hoisting and foreman ([ce74e22](https://github.com/irae/mendel/commit/ce74e22afbd8d6b66c66b0748ccea698e0ebd4f1))
+-   support dual-package CommonJS .cjs (and .mjs) modules ([6623f23](https://github.com/irae/mendel/commit/6623f23581a851ddf75564a7cc6996e068609756))
+
+### Features
+
+-   **full-example:** exercise react-use-measure dual package ([aeed980](https://github.com/irae/mendel/commit/aeed980c5d5660b0c5a4a0866576cf90ba6f8617))
+
 # [4.0.0-alpha.4](https://github.com/irae/mendel/compare/v4.0.0-alpha.3...v4.0.0-alpha.4) (2024-04-30)
 
 ### Bug Fixes

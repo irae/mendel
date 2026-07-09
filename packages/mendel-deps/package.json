@@ -1,6 +1,6 @@
 {
   "name": "mendel-deps",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Depedency detector based on AST. Supports custom cache and custom resolver.",
   "main": "src/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "glob": "^10.3.3",
-    "mendel-resolver": "^4.0.0",
+    "mendel-resolver": "^4.1.0",
     "tap": "^16.3.8"
   },
   "files": [

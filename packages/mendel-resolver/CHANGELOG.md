@@ -8,9 +8,3 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 -   support dual-package CommonJS .cjs (and .mjs) modules ([6623f23](https://github.com/irae/mendel/commit/6623f23581a851ddf75564a7cc6996e068609756))
-
-# [4.0.0-alpha.4](https://github.com/irae/mendel/compare/v4.0.0-alpha.3...v4.0.0-alpha.4) (2024-04-30)
-
-### Bug Fixes
-
--   mendel-deps update parser ([5374b87](https://github.com/irae/mendel/commit/5374b87917156ae86ef539d5cb7449fc4bf9f315))

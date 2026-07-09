@@ -263,7 +263,7 @@ importers:
         specifier: ^4.0.0
         version: link:../mendel-development
       mendel-pipeline:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-pipeline
       source-map:
         specifier: ^0.7.4
@@ -348,7 +348,7 @@ importers:
         specifier: ^10.3.3
         version: 10.3.12
       mendel-resolver:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-resolver
       tap:
         specifier: ^16.3.8
@@ -397,10 +397,10 @@ importers:
         specifier: ^4.0.0
         version: link:../mendel-development
       mendel-exec:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-exec
       mendel-pipeline:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-pipeline
       path-to-regexp:
         specifier: ^2.1.0
@@ -419,7 +419,7 @@ importers:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@8.1.1)
       mendel-resolver:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-resolver
       source-map:
         specifier: ^0.5.7
@@ -535,10 +535,10 @@ importers:
         specifier: ^4.3.4
         version: 4.3.4(supports-color@8.1.1)
       mendel-exec:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-exec
       mendel-pipeline:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-pipeline
       mocha:
         specifier: ^10.2.0
@@ -661,13 +661,13 @@ importers:
         specifier: ^4.0.0
         version: link:../mendel-config
       mendel-deps:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-deps
       mendel-development:
         specifier: ^4.0.0
         version: link:../mendel-development
       mendel-resolver:
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: link:../mendel-resolver
       minimatch:
         specifier: ^3.1.2

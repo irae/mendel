@@ -1,6 +1,6 @@
 {
   "name": "mendel-development-middleware",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Mendel middleware that executes and builds based on a Mendel client appropriate for during development.",
   "main": "index.js",
   "author": "Stephan Lee <stephanwlee@gmail.com>",
@@ -13,8 +13,8 @@
     "debug": "^4.3.4",
     "mendel-config": "^4.0.0",
     "mendel-development": "^4.0.0",
-    "mendel-exec": "^4.0.0",
-    "mendel-pipeline": "^4.0.0",
+    "mendel-exec": "^4.1.0",
+    "mendel-pipeline": "^4.1.0",
     "path-to-regexp": "^2.1.0"
   },
   "devDependencies": {
