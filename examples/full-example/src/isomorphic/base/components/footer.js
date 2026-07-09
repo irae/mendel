@@ -4,6 +4,7 @@
 
 import React from 'react';
 import _debug from 'debug';
+import MeasuredBox from './measured_box';
 const debugKey = 'mendel:full-example';
 const debug = _debug(debugKey);
 
@@ -24,8 +25,10 @@ class Footer extends React.Component {
     render() {
         return (
             <footer>
-                <div>--- footer stuff ---</div>
-                <div>{'Current NODE_ENV is ' + foo()}</div>
+                <MeasuredBox>
+                    <div>--- footer stuff ---</div>
+                    <div>{'Current NODE_ENV is ' + foo()}</div>
+                </MeasuredBox>
             </footer>
         );
     }

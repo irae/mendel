@@ -24,7 +24,8 @@
     "mendel-middleware": "../../packages/mendel-middleware",
     "morgan": "^1.10.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-use-measure": "2.1.7"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.10",
