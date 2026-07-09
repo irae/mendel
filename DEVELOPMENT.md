@@ -131,8 +131,52 @@ pnpm lerna version --conventional-commits
 
 ## Publishing
 
+### 1. Dry-run the tarball (do this first — easy to forget)
+
+Packing is per package. Always inspect what will ship before `lerna publish`:
+
+```bash
+# Worst historical offenders; run any package you changed
+cd packages/mendel-pipeline && npm pack --dry-run
+cd ../mendel-resolver && npm pack --dry-run
+cd ../mendel-deps && npm pack --dry-run
+```
+
+Or from the monorepo root:
+
+```bash
+npm pack --dry-run -w mendel-pipeline
+npm pack --dry-run -w mendel-resolver
+```
+
+In the notice list, confirm:
+
+-   **no** `test/`, `tests/`, or fixture trees
+-   **no** `.nyc_output/`, `coverage/`
+-   **yes** `docs/` when the package has docs (agents read these from
+    `node_modules` offline)
+-   **yes** runtime sources (`src/`, `*.js`, `lib/`, …)
+
+### 2. Publish
+
 ```bash
 pnpm lerna publish from-package --otp 123456
 ```
 
 Replace `123456` with your 2FA code.
+
+### What gets packed (`files` whitelist)
+
+Every `packages/*` package declares a `"files"` array in `package.json`. That
+whitelist is the source of truth for the npm tarball: documentation is included;
+tests and coverage are not. Prefer extending `"files"` over adding a package-local
+`.npmignore`.
+
+Why not rely on root `.gitignore` alone:
+
+-   npm pack for a workspace package does **not** use the monorepo root
+    `.gitignore` unless the package has no `"files"` and no `.npmignore` of its
+    own — and even then only ignore files inside that package directory apply.
+-   If a package has a **`.npmignore`**, npm **ignores `.gitignore` entirely** for
+    that package. A tiny `.npmignore` (e.g. only `test`) will happily ship
+    `.nyc_output/`. Do not add per-package `.npmignore` unless it is complete.

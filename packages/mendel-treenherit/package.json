@@ -26,5 +26,16 @@
   "homepage": "https://github.com/irae/mendel#readme",
   "bugs": {
     "url": "https://github.com/irae/mendel/issues"
-  }
+  },
+  "files": [
+    "*.js",
+    "src",
+    "lib",
+    "client",
+    "docs",
+    "legacy",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ]
 }
