@@ -1,0 +1,5 @@
+{
+  "main": "./node_modules/fake-dual/dist/index.cjs",
+  "module": "./node_modules/fake-dual/dist/index.js",
+  "browser": "./node_modules/fake-dual/dist/index.cjs"
+}

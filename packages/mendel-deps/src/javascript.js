@@ -119,4 +119,6 @@ module.exports = function jsDependency(source, filePath) {
     return _depFinder(ast, filePath);
 };
 
-module.exports.supports = new Set(['.js', '.jsx', '.esnext']);
+// .cjs: CommonJS dual-package entry (package.json "type":"module" + "main":"*.cjs")
+// .mjs: explicit ESM files
+module.exports.supports = new Set(['.js', '.jsx', '.esnext', '.cjs', '.mjs']);

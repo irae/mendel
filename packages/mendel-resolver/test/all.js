@@ -41,6 +41,27 @@ test('resolve node-modules', function (t) {
     });
 });
 
+test('resolve dual-package main=.cjs module=.js', function (t) {
+    const dir = 'dual-cjs';
+    const dirPath = path.resolve(basePath, dir);
+
+    process.chdir(dirPath);
+    const config = parseConfig();
+    config.runtimes = ['main', 'browser', 'module'];
+
+    return new Resolver(config).resolve('fake-dual').then((resolved) => {
+        const expected = JSON.parse(
+            fs.readFileSync(path.resolve(dirPath, 'expect.json'))
+        );
+        t.same(
+            resolved,
+            expected,
+            'browser/main use CJS .cjs; module runtime keeps ESM .js'
+        );
+        t.end();
+    });
+});
+
 ['easy-variational', 'hard-variational'].forEach((dir) => {
     test('variational ' + dir, function (t) {
         const dirPath = path.resolve(basePath, dir);

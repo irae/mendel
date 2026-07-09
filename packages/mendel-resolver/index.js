@@ -17,7 +17,7 @@ class ModuleResolver {
     constructor({
         cwd = process.cwd(),
         basedir = process.cwd(),
-        extensions = ['.js'],
+        extensions = ['.js', '.cjs', '.mjs'],
         runtimes = ['main', 'module', 'browser'],
         recordPackageJson = false,
     } = {}) {

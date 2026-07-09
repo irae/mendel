@@ -1,0 +1,4 @@
+base-config:
+  id: base
+  dir: .
+  outdir: ./build

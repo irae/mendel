@@ -27,7 +27,7 @@ module.exports = function (done) {
                 resolver = new VariationalResolver({
                     cache: resolveCache,
                     runtimes: RUNTIME,
-                    extensions: ['.js', '.jsx', '.json'],
+                    extensions: ['.js', '.jsx', '.cjs', '.mjs', '.json'],
                     // entry related
                     basedir: path.resolve(projectRoot, path.dirname(filePath)),
                     // config params
