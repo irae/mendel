@@ -13,8 +13,8 @@ For the moment, Mendel relies on some private repositories for integration tests
 
 #### Running tests.
 
-If you have not already, please link all your local npm packages
-npm run linkall
+If you develop against a consumer app, link packages with the pnpm flow in
+[DEVELOPMENT.md](../DEVELOPMENT.md) (`pnpm run link:global` in this repo).
 
 To run tests quickly, please use:
 

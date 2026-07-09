@@ -1,58 +1,138 @@
 # Mendel Development
 
-Mendel uses `pnpm` instead of `npm` for it's excelent workspace support and its speed.
-Mendel also uses `lerna` to help manage/publish all packages.
-Lastly, mendel uses `husky` with `commitlint` to achieve semver versioning.
+Mendel uses `pnpm` for workspaces and speed, `lerna` for multi-package
+version/publish, and `husky` + `commitlint` for conventional commits.
 
-## dependencies
-
-`pnpm install` should install all dependencies in all modules.
-use `pnpm lerna clean` to reset all node_modules if needed.
-
-## Linking
-
-To use your local mendel repo in your project, you can do it in two steps:
-
-1. Link all modules to global `pnpm`: `pnpm lerna exec "pnpm link --global"`
-2. Use a loop to link all packages you use in your repo.
-
-Caveat: Lerna should follow package topology (dependencies before dependents). For whatever reason, at time of writing you might need to run step 1 multiple times, as it works first on packages without dependencies, then it works on packages with one dep, and so on.
-
-Here is a one liner (for step 2) that links mendel packages to globally linked modules from step 1
+## Dependencies
 
 ```bash
-cd ../project-that-uses-mendel/
-for mendelmod in `find node_modules -d 1 | grep mendel | grep -v ignored | sed -e s/node_modules\\\///`; pnpm link --global $mendelmod
+pnpm install
 ```
 
-If you want to do it manually, you can:
+Reset package `node_modules` if the workspace graph looks wrong:
 
 ```bash
-pnpm link --global mendel-resolver
-pnpm link --global mendel-development
-#... etc
+pnpm lerna clean
+pnpm install
+```
+
+Use the same Node major as your consumer app when linking (this monorepo
+targets Node ≥ 20; `v22.13.1` via nvm is fine).
+
+## Linking a consumer project
+
+Goal: an application that depends on Mendel runs this checkout instead of
+the published `4.x` tarballs, without publishing.
+
+**Preferred path (pnpm 9/10): link package directories directly.** Do not use
+`pnpm link --global <name>` into the consumer — pnpm 10 often fails with
+`Symlink path is the same as the target path (.../pnpm/global/.../pkg)` once
+any Mendel package is already partially linked.
+
+Both sides should use **pnpm** and the **same Node**.
+
+### One step (consumer)
+
+App already has Mendel installed (`pnpm install` once):
+
+```bash
+cd /path/to/your-app
+bash /path/to/mendel/scripts/link-into-project.sh
+```
+
+The script lives in this monorepo; it finds every `mendel-*` / `karma-mendel`
+under the app’s `node_modules` and runs:
+
+```bash
+pnpm link /path/to/mendel/packages/<name>
+```
+
+Optional monorepo override:
+
+```bash
+bash /path/to/mendel/scripts/link-into-project.sh /other/path/to/mendel
+# or
+MENDEL_ROOT=/other/path/to/mendel bash /path/to/mendel/scripts/link-into-project.sh
+```
+
+Manual single package:
+
+```bash
+cd /path/to/your-app
+pnpm link /path/to/mendel/packages/mendel-deps
+pnpm link /path/to/mendel/packages/mendel-resolver
+pnpm link /path/to/mendel/packages/mendel-pipeline
+```
+
+Internal monorepo deps are workspace symlinks
+(`mendel-pipeline/node_modules/mendel-deps` → `../../mendel-deps`). Linking
+the packages your app lists is enough for local `mendel-deps` / resolver
+(including the dual-package `.cjs` fix) to load.
+
+### Optional: register global links (Mendel side only)
+
+Only needed if you still want packages in the global pnpm store for other
+tools. Not required for the consumer flow above.
+
+```bash
+cd /path/to/mendel
+pnpm run link:global
+```
+
+### Verify
+
+In the consumer:
+
+```bash
+ls -la node_modules/mendel-deps
+ls -la node_modules/mendel-pipeline
+# expect: …/mendel/packages/mendel-deps (not only a store hash)
+pnpm why mendel-deps
+```
+
+For the dual-package / `react-use-measure` work, these should resolve into
+this clone:
+
+-   `mendel-deps` (parses `.cjs`)
+-   `mendel-resolver` (probes `.cjs` / `.mjs`)
+-   `mendel-pipeline` (deps worker extensions)
+
+### Unlink (go back to registry versions)
+
+```bash
+cd /path/to/your-app
+pnpm install   # reinstalls from lockfile; drops local links
+```
+
+### If a previous global link left things half-broken
+
+```bash
+cd /path/to/your-app
+pnpm install
+bash /path/to/mendel/scripts/link-into-project.sh
 ```
 
 ## Versioning
 
 https://github.com/lerna/lerna/tree/main/libs/commands/version
 
-Use lerna for prerelease/beta:
+Prerelease / beta:
 
-`pnpm lerna version prerelease`
+```bash
+pnpm lerna version prerelease
+```
 
-For real releases we indend to use `--conventional-commits`, which will semver correctly:
+Real releases (conventional commits):
 
-Without pushing:
-`pnpm lerna version --conventional-commits --no-push`
-
-Final:
-`pnpm lerna version --conventional-commits`
+```bash
+pnpm lerna version --conventional-commits --no-push   # review first
+pnpm lerna version --conventional-commits
+```
 
 ## Publishing
 
-Lerna can publish only changed packages by using:
+```bash
+pnpm lerna publish from-package --otp 123456
+```
 
-`pnpm lerna publish from-package --otp 123456`
-
-You will need your 2FA code replaced above.
+Replace `123456` with your 2FA code.
