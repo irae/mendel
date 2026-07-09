@@ -56,7 +56,9 @@
     "unit-legacy": "tap ./test/*.js --no-check-coverage",
     "coverage": "tap ./packages/*/test/*.js --coverage --nyc-arg=--all",
     "coverage-html": "tap ./packages/*/test/*.js --coverage --nyc-arg=--all --coverage-report=lcov",
-    "coverage-all-individualy": "for test in $(find packages test -depth 3 -regex '.*test/[^/]*\\.js'); do tap $test --coverage --coverage-map=.tap.coverage.map.js --no-check-coverage ; done"
+    "coverage-all-individualy": "for test in $(find packages test -depth 3 -regex '.*test/[^/]*\\.js'); do tap $test --coverage --coverage-map=.tap.coverage.map.js --no-check-coverage ; done",
+    "link:global": "bash scripts/link-global.sh",
+    "link:global:once": "bash scripts/link-global.sh 1"
   },
   "nyc": {
     "exclude": [
