@@ -2,8 +2,8 @@
    Copyrights licensed under the MIT License.
    See the accompanying LICENSE file for terms. */
 
-import React from 'react'; // eslint-disable-line no-unused-vars
-import { findDOMNode } from 'react-dom'; // eslint-disable-line no-unused-vars
+import React from 'react';
+import { findDOMNode } from 'react-dom';
 import { screen, render } from '@testing-library/react';
 import Toolbar from '../toolbar';
 import { expect } from 'chai';

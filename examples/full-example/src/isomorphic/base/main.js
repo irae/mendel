@@ -2,7 +2,7 @@
    Copyrights licensed under the MIT License.
    See the accompanying LICENSE file for terms. */
 import App from './components/app';
-import React from 'react'; // eslint-disable-line
+import React from 'react';
 import './config.json';
 
 if (typeof document !== 'undefined') {

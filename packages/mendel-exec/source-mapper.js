@@ -49,7 +49,7 @@ module.exports = function stackTraceMapper(stackTrace, registry) {
             // Output stacktrace in v8 style
             return `    at ${
                 name || stackLine.description
-            } (${source}:${line}:${column})`; // eslint-disable-line max-len
+            } (${source}:${line}:${column})`;
         })
         .join('\n');
 };

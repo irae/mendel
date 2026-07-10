@@ -14,7 +14,6 @@ function keyValueCoercer(value, defaultValue, delimiter = ',') {
     return res;
 }
 
-/* eslint-disable max-len */
 program
     .version(
         JSON.parse(
@@ -52,6 +51,5 @@ program
     )
     .option('--delay', 'wait for async suite definition');
 
-/* eslint-enable max-len */
 program.parse(process.argv);
 runner(program.args, program);

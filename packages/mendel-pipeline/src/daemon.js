@@ -210,7 +210,7 @@ module.exports = class MendelPipelineDaemon extends EventEmitter {
             if (!envConf) {
                 throw new Error(
                     `[Mendel] Client is expecting an environemnt "${environment}" but it is missing from the configuration.`
-                ); // eslint-disable-line max-len
+                );
             }
             const cache = new MendelCache(envConf);
 

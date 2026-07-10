@@ -3,7 +3,7 @@
    Contributed by Shalom Volchok <shalom@digitaloptgroup.com>
    See the accompanying LICENSE file for terms. */
 
-import React from 'react'; // eslint-disable-line
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './components/app';
 

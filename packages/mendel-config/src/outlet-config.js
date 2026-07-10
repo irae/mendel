@@ -10,13 +10,13 @@ function OutletConfig({ id, plugin, options = {} }, { projectRoot }) {
 
     if (this.options.plugin) {
         if (!Array.isArray(this.options.plugin)) {
-            throw new Error(`Expect 'options.plugin' to be an Array.`); // eslint-disable-line
+            throw new Error(`Expect 'options.plugin' to be an Array.`);
         }
         this.options.plugin = this.options.plugin.map((plugin, index) => {
             if (typeof plugin !== 'string' && !Array.isArray(plugin)) {
                 throw new Error(
                     `Expect 'options.plugin[${index}]' to be a String or an Array.`
-                ); // eslint-disable-line
+                );
             }
 
             if (typeof plugin === 'string')

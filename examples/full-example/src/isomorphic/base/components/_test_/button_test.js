@@ -2,7 +2,7 @@
    Copyrights licensed under the MIT License.
    See the accompanying LICENSE file for terms. */
 
-import React from 'react'; // eslint-disable-line no-unused-vars
+import React from 'react';
 import { findDOMNode } from 'react-dom'; // eslint-disable-line no-unused-vars
 import Button from '../button';
 import { expect } from 'chai';

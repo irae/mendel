@@ -63,7 +63,7 @@ function MendelMiddleware(opts) {
             } else {
                 console.error(
                     'You cannot set variation more than once per request'
-                ); //eslint-disable-line max-len
+                );
             }
             return req.mendel.variations;
         };
@@ -143,7 +143,7 @@ function MendelMiddleware(opts) {
                 res.status(500)
                     .send(
                         'console.error("Error compiling client bundle. Please check Mendel output")'
-                    ) // eslint-disable-line max-len
+                    )
                     .end();
             })
             .catch((e) => {
@@ -153,7 +153,7 @@ function MendelMiddleware(opts) {
                         'console.error("Error compiling client bundle",' +
                             JSON.stringify({ stack: e.stack }, null, 2) +
                             ')'
-                    ) // eslint-disable-line max-len
+                    )
                     .end();
             });
     };

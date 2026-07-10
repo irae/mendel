@@ -82,7 +82,7 @@ function bundle(req, bundle) {
                 bundleCache[key] =
                     '<link rel="stylesheet" type="text/css" href="' +
                     req.mendel.getURL(bundle) +
-                    '">'; // eslint-disable-line max-len
+                    '">';
             }
         } else {
             bundleCache[key] =
