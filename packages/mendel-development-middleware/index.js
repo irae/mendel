@@ -1,4 +1,4 @@
-const pathToRegExp = require('path-to-regexp');
+const { pathToRegexp, compile } = require('path-to-regexp');
 const parseConfig = require('mendel-config');
 const resolveVariations = require('mendel-development/resolve-variations');
 const MendelClient = require('mendel-pipeline/client');
@@ -14,11 +14,11 @@ function MendelMiddleware(opts) {
     const config = parseConfig(opts);
     const { variations: varsConfig } = config.variationConfig;
     const route = config.routeConfig.variation || '/mendel/:variations/:bundle';
-    const getPath = pathToRegExp.compile(route);
+    const getPath = compile(route);
     const keys = [];
     // Populates the key with name of the path variables
     // i.e., "variations", "bundle"
-    const bundleRoute = pathToRegExp(route, keys);
+    const bundleRoute = pathToRegexp(route, keys);
     const bundles = new Set();
     config.bundles.forEach((bundle) => bundles.add(bundle.id));
 

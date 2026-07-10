@@ -36,7 +36,7 @@ function findConfig(where) {
 }
 
 function loadFromYaml(path) {
-    return yaml.safeLoad(fs.readFileSync(path, 'utf8'));
+    return yaml.load(fs.readFileSync(path, 'utf8'));
 }
 
 module.exports = function (config) {

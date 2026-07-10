@@ -1,4 +1,4 @@
-const { SourceMapConsumer } = require('source-map');
+const { TraceMap, originalPositionFor } = require('@jridgewell/trace-mapping');
 const regex = /(at \S* |\S*@)[(]{0,1}(\S+):(\d+):(\d+)[)]{0,1}$/;
 
 function parseStackTrace(rawStackTrace) {
@@ -25,9 +25,8 @@ function parseStackTrace(rawStackTrace) {
 }
 
 function mapper(rawSourceMap, line, column) {
-    // From https://github.com/mozilla/source-map/
-    const smc = new SourceMapConsumer(rawSourceMap);
-    return smc.originalPositionFor({
+    const tracer = new TraceMap(rawSourceMap);
+    return originalPositionFor(tracer, {
         line,
         column,
     });

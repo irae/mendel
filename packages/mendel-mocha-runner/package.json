@@ -21,7 +21,7 @@
     "mendel-mocha": "cli.js"
   },
   "devDependencies": {
-    "glob": "^10.3.4",
+    "glob": "^13.0.6",
     "tap": "^16.3.8"
   },
   "homepage": "https://github.com/irae/mendel#readme",

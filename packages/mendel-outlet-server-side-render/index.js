@@ -82,14 +82,14 @@ module.exports = class ServerSideRenderOutlet extends ManifestOutlet {
     }
 
     saveFileToDisk(dest, source) {
-        return new Promise((resolve, reject) => {
-            mkdirp(path.dirname(dest), (err) => {
-                if (err) return reject(err);
-                fs.writeFile(dest, source, 'utf-8', (err) => {
-                    if (err) return reject(err);
-                    resolve();
-                });
-            });
-        });
+        return mkdirp(path.dirname(dest)).then(
+            () =>
+                new Promise((resolve, reject) => {
+                    fs.writeFile(dest, source, 'utf-8', (err) => {
+                        if (err) return reject(err);
+                        resolve();
+                    });
+                })
+        );
     }
 };

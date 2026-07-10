@@ -2,7 +2,7 @@
    Copyrights licensed under the MIT License.
    See the accompanying LICENSE file for terms. */
 
-var pathToRegexp = require('path-to-regexp');
+var { pathToRegexp, compile } = require('path-to-regexp');
 var bpack = require('browser-pack');
 var MendelTrees = require('mendel-core');
 var MendelLoader = require('mendel-loader');
@@ -13,7 +13,7 @@ module.exports = MendelMiddleware;
 function MendelMiddleware(opts) {
     var trees = MendelTrees(opts);
     var route = trees.config.routeConfig.hash || '/mendel/:hash/:bundle.js';
-    var getPath = pathToRegexp.compile(route);
+    var getPath = compile(route);
     var keys = [];
     var bundleRoute = pathToRegexp(route, keys);
     var bundles = trees.config.bundles.reduce(function (acc, bundle) {

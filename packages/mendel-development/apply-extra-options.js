@@ -3,27 +3,33 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var glob = require('glob');
+var { glob } = require('glob');
 
 module.exports = applyExtraOptions;
 
+// Browserify's bundle() waits on `_ready` while `_pending` async work finishes.
+// Honor that handshake for ignore/exclude/external globs so multi-bundle and
+// extract-style pipelines do not race past unfinished path resolution.
 function applyExtraOptions(b, options) {
     []
         .concat(options.ignore)
         .filter(Boolean)
         .forEach(function (i) {
             b._pending++;
-            glob(i, function (err, files) {
-                if (err) return b.emit('error', err);
-                if (files.length === 0) {
-                    b.ignore(i);
-                } else {
-                    files.forEach(function (file) {
-                        b.ignore(file);
-                    });
-                }
-                if (--b._pending === 0) b.emit('_ready');
-            });
+            glob(i)
+                .then(function (files) {
+                    if (files.length === 0) {
+                        b.ignore(i);
+                    } else {
+                        files.forEach(function (file) {
+                            b.ignore(file);
+                        });
+                    }
+                    if (--b._pending === 0) b.emit('_ready');
+                })
+                .catch(function (err) {
+                    b.emit('error', err);
+                });
         });
 
     []
@@ -33,13 +39,16 @@ function applyExtraOptions(b, options) {
             b.exclude(u);
 
             b._pending++;
-            glob(u, function (err, files) {
-                if (err) return b.emit('error', err);
-                files.forEach(function (file) {
-                    b.exclude(file);
+            glob(u)
+                .then(function (files) {
+                    files.forEach(function (file) {
+                        b.exclude(file);
+                    });
+                    if (--b._pending === 0) b.emit('_ready');
+                })
+                .catch(function (err) {
+                    b.emit('error', err);
                 });
-                if (--b._pending === 0) b.emit('_ready');
-            });
         });
 
     []
@@ -52,12 +61,16 @@ function applyExtraOptions(b, options) {
             } else if (/\*/.test(x)) {
                 b.external(x);
                 b._pending++;
-                glob(x, function (err, files) {
-                    files.forEach(function (file) {
-                        add(file, {});
+                glob(x)
+                    .then(function (files) {
+                        files.forEach(function (file) {
+                            add(file, {});
+                        });
+                        if (--b._pending === 0) b.emit('_ready');
+                    })
+                    .catch(function (err) {
+                        b.emit('error', err);
                     });
-                    if (--b._pending === 0) b.emit('_ready');
-                });
             } else add(x, {});
 
             function add(x, opts) {
