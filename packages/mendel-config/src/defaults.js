@@ -53,8 +53,8 @@ module.exports = function () {
             // This would override "defaultShim" below.
         },
         defaultShim: {
-            // For Mendelv2, the default set of shim is listed in
-            // https://github.com/webpack/node-libs-browser.
+            // webpack-4-style Node core polyfills; pipeline fills this from
+            // node-stdlib-browser (maintained successor to node-libs-browser).
         },
         ignores: [],
         // This controls whether outlet outputs to a file or a stream

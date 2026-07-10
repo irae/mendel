@@ -10,7 +10,7 @@ const DepResolver = require('./deps');
 
 const MendelPipeline = require('./pipeline');
 const CacheServer = require('./cache/server');
-const DefaultShims = require('node-libs-browser');
+const DefaultShims = require('./default-shims/node-stdlib-browser');
 
 process.title = 'Mendel Daemon';
 

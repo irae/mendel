@@ -4,7 +4,7 @@ const CacheClient = require('../cache/client');
 const MendelGenerators = require('./generators');
 const MendelClientRegistry = require('../registry/client');
 const Outlets = require('./outlets');
-const DefaultShims = require('node-libs-browser');
+const DefaultShims = require('../default-shims/node-stdlib-browser');
 
 class BaseMendelClient extends EventEmitter {
     constructor(options = {}) {
