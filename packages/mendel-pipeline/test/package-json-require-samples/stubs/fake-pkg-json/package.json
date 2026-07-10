@@ -1,0 +1,5 @@
+{
+  "name": "fake-pkg-json",
+  "version": "9.9.9",
+  "main": "lib/index.js"
+}

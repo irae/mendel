@@ -1,0 +1,7 @@
+{
+  "name": "package-json-require-sample",
+  "private": true,
+  "dependencies": {
+    "fake-pkg-json": "file:./stubs/fake-pkg-json"
+  }
+}

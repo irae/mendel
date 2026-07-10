@@ -158,9 +158,11 @@ class MendelOutletRegistry {
             .filter((entry) => {
                 if (entry.normalizedId === '_noop') return true;
                 if (types.indexOf(entry.type) < 0) return false;
+                // "package" = package.json required as data (e.g. elliptic version).
                 return (
                     entry.runtime === 'isomorphic' ||
                     entry.runtime === 'node_modules' ||
+                    entry.runtime === 'package' ||
                     entry.runtime === runtime
                 );
             })

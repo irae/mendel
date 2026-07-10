@@ -1,0 +1,6 @@
+# Written by package-json-require.js with absolute plugin paths for this machine.
+.pkgjson.mendelrc
+.mendelipc*
+build/
+# Materialized from stubs/ at test runtime for node resolution.
+node_modules/
