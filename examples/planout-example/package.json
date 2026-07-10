@@ -12,7 +12,7 @@
   "dependencies": {
     "cookie-parser": "^1.4.6",
     "express": "^4.13.4",
-    "mendel-middleware": "../../packages/mendel-middleware",
+    "mendel-middleware": "workspace:^",
     "morgan": "^1.7.0",
     "uuid": "^11.1.0",
     "planout": "^5.3.0",
@@ -23,8 +23,8 @@
     "@babel/preset-env": "^7.29.0",
     "@babel/preset-react": "^7.29.0",
     "babelify": "^10.0.0",
-    "mendel-development-middleware": "../../packages/mendel-development-middleware",
-    "mendel-pipeline": "../../packages/mendel-pipeline",
+    "mendel-development-middleware": "workspace:^",
+    "mendel-pipeline": "workspace:^",
     "nodemon": "^3.0.1",
     "watchify": "^4.0.0"
   },

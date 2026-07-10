@@ -41,9 +41,9 @@
   "dependencies": {
     "debug": "^4.4.0",
     "karma": "^6.4.2",
-    "mendel-config": "^4.1.1",
-    "mendel-development": "^4.1.1",
-    "mendel-pipeline": "^4.1.1",
+    "mendel-config": "workspace:^",
+    "mendel-development": "workspace:^",
+    "mendel-pipeline": "workspace:^",
     "source-map": "^0.7.4"
   },
   "devDependencies": {
@@ -63,5 +63,8 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
-  ]
+  ],
+  "scripts": {
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+  }
 }

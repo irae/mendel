@@ -33,5 +33,8 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
-  ]
+  ],
+  "scripts": {
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+  }
 }

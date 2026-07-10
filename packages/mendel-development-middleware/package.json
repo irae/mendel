@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "debug": "^4.4.0",
-    "mendel-config": "^4.1.1",
-    "mendel-development": "^4.1.1",
-    "mendel-exec": "^4.1.1",
-    "mendel-pipeline": "^4.1.1",
+    "mendel-config": "workspace:^",
+    "mendel-development": "workspace:^",
+    "mendel-exec": "workspace:^",
+    "mendel-pipeline": "workspace:^",
     "path-to-regexp": "^6.3.0"
   },
   "devDependencies": {
@@ -35,5 +35,8 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
-  ]
+  ],
+  "scripts": {
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+  }
 }

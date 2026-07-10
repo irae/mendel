@@ -1,5 +1,23 @@
 packages:
   - packages/*
   - examples/*
-onlyBuiltDependencies:
-  - nx
+
+# Mendel is a build tool; prefer fresh leaf versions over long quarantine.
+# Consumers pin carefully; we float and fix from reports.
+minimumReleaseAge: 0
+
+# Classic flat node_modules so Mendel/Karma can resolve transitive requires
+# (chai → deep-eql, react-dom → scheduler, etc.).
+nodeLinker: hoisted
+shamefullyHoist: true
+publicHoistPattern:
+  - '*'
+linkWorkspacePackages: true
+
+# pnpm 11: allow postinstall scripts for tooling native builds.
+allowBuilds:
+  nx: true
+  core-js: true
+
+# Avoid hanging pnpm install under non-TTY test runs.
+verifyDepsBeforeRun: false

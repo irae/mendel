@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
   },
   "author": "Stephan Lee <stephanwlee@gmail.com>",
   "license": "MIT",
@@ -23,10 +24,10 @@
     "commander": "^2.9.0",
     "debug": "^4.4.0",
     "figures": "^2.0.0",
-    "mendel-config": "^4.1.1",
-    "mendel-deps": "^4.1.1",
-    "mendel-development": "^4.1.1",
-    "mendel-resolver": "^4.1.1",
+    "mendel-config": "workspace:^",
+    "mendel-deps": "workspace:^",
+    "mendel-development": "workspace:^",
+    "mendel-resolver": "workspace:^",
     "minimatch": "^10.0.0",
     "mkdirp": "^3.0.1",
     "mocha": "10.2.0",

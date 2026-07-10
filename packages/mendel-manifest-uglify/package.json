@@ -11,7 +11,8 @@
     "build"
   ],
   "scripts": {
-    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage"
+    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage",
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
   },
   "author": "Irae Carvalho <irae@irae.pro.br>",
   "license": "MIT",

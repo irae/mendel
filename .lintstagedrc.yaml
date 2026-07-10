@@ -1,4 +1,3 @@
-concurrent:
 '*(*.md|*.yaml|*.yml|*.json|*.css|*.html|*.less)':
     - prettier --write
 '*(*.js|*.mjs|*.ts|*.jsx|*.tsx)':

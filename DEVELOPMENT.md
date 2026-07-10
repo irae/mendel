@@ -129,27 +129,35 @@ pnpm lerna version --conventional-commits --no-push   # review first
 pnpm lerna version --conventional-commits
 ```
 
+## Workspace dependencies (`workspace:^`)
+
+Internal packages and examples use:
+
+```json
+"mendel-config": "workspace:^"
+```
+
+pnpm links the monorepo copy at install, and rewrites to `^x.y.z` on pack/publish.
+
+**Do not pack or publish with `npm`.** npm leaves `workspace:^` in the tarball;
+the registry often accepts it, but consumers cannot install. Every public package
+has a one-line `prepack` that throws unless the tool is pnpm.
+
 ## Publishing
 
-### 1. Dry-run the tarball (do this first — easy to forget)
+Use **pnpm only** (`lerna.json` already has `"npmClient": "pnpm"`).
 
-Packing is per package. Always inspect what will ship before `lerna publish`:
-
-```bash
-# Worst historical offenders; run any package you changed
-cd packages/mendel-pipeline && npm pack --dry-run
-cd ../mendel-resolver && npm pack --dry-run
-cd ../mendel-deps && npm pack --dry-run
-```
-
-Or from the monorepo root:
+### 1. Dry-run the tarball
 
 ```bash
-npm pack --dry-run -w mendel-pipeline
-npm pack --dry-run -w mendel-resolver
+cd packages/mendel-pipeline
+pnpm pack
+tar -xOf mendel-pipeline-*.tgz package/package.json | grep mendel-
+# expect: "mendel-config": "^4.1.1"  — never workspace:
+rm mendel-pipeline-*.tgz
 ```
 
-In the notice list, confirm:
+In the file list, confirm:
 
 - **no** `test/`, `tests/`, or fixture trees
 - **no** `.nyc_output/`, `coverage/`

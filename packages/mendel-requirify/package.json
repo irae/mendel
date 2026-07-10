@@ -17,7 +17,7 @@
   "dependencies": {
     "debug": "^4.4.0",
     "fs-extra": "~0.26.5",
-    "mendel-development": "^4.1.1",
+    "mendel-development": "workspace:^",
     "through2": "^2.0.1"
   },
   "devDependencies": {
@@ -37,5 +37,8 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
-  ]
+  ],
+  "scripts": {
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+  }
 }

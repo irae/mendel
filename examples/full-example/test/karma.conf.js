@@ -96,9 +96,16 @@ module.exports = function (config) {
         // how many browser should be started simultaneous
         concurrency: 1,
 
-        // In most cases ommiting 'plugins' defautls to ['karma-*'] and works.
-        // mendel-monorepo uses `require` to help karma with npm/pnpm workspaces
-        plugins: [require('karma-mendel'), 'karma-*'],
+        // Explicit requires: pnpm does not always expose karma-* via karma's
+        // default plugin glob when packages live under the example workspace.
+        plugins: [
+            require('karma-mendel'),
+            require('karma-jasmine'),
+            require('karma-chrome-launcher'),
+            require('karma-spec-reporter'),
+            require('karma-coverage-istanbul-reporter'),
+            require('karma-jasmine-diff-reporter'),
+        ],
     });
 };
 

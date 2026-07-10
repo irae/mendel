@@ -13,7 +13,7 @@
     "@babel/core": "^7.29.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "debug": "^4.4.0",
-    "mendel-manifest-uglify": "^4.1.1",
+    "mendel-manifest-uglify": "workspace:^",
     "shasum": "^1.0.2"
   },
   "devDependencies": {
@@ -33,5 +33,8 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
-  ]
+  ],
+  "scripts": {
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+  }
 }

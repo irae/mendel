@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "debug": "^4.4.0",
-    "mendel-resolver": "^4.1.1",
+    "mendel-resolver": "workspace:^",
     "@jridgewell/trace-mapping": "^0.3.25"
   },
   "devDependencies": {
@@ -31,5 +31,8 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
-  ]
+  ],
+  "scripts": {
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+  }
 }
