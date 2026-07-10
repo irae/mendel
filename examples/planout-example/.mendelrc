@@ -1,4 +1,3 @@
-
 outdir: ./build
 bundlesoutdir: client
 serveroutdir: server

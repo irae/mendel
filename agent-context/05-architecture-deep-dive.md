@@ -55,8 +55,8 @@ Initialize → FileReader → IST → Waiter → GST → End
 
 `BaseMasterProcess` forks child workers and dispatches jobs via IPC.
 
--   **TransformManager**: up to CPU count workers. File transforms are CPU-bound and embarrassingly parallel.
--   **DepsManager**: 2 workers — intentionally capped. `mendel-resolver` keeps an in-process resolution cache. Two workers maximize cache hit rate on repeated `node_modules` lookups while preserving some parallelism. More workers would shred cache locality.
+- **TransformManager**: up to CPU count workers. File transforms are CPU-bound and embarrassingly parallel.
+- **DepsManager**: 2 workers — intentionally capped. `mendel-resolver` keeps an in-process resolution cache. Two workers maximize cache hit rate on repeated `node_modules` lookups while preserving some parallelism. More workers would shred cache locality.
 
 ## File Discovery Priority
 
@@ -85,10 +85,10 @@ The file path stripped of variation prefix and extension. `./experiments/cart_si
 
 ### `MendelCache` indices
 
--   `_normalizedIdToEntryIds`: groups all variation files of one logical module
--   `_packageMap`: `package.json` browser-field aliasing for runtime-specific entry points
--   `_moduleAliasMap`: intra-module aliasing (e.g., superagent's internal browser remap)
--   `_depIgnoreMap`: `false`-valued browser-field mappings (modules excluded from browser bundles)
+- `_normalizedIdToEntryIds`: groups all variation files of one logical module
+- `_packageMap`: `package.json` browser-field aliasing for runtime-specific entry points
+- `_moduleAliasMap`: intra-module aliasing (e.g., superagent's internal browser remap)
+- `_depIgnoreMap`: `false`-valued browser-field mappings (modules excluded from browser bundles)
 
 ### The Manifest
 
@@ -154,13 +154,13 @@ Written by `mendel-outlet-manifest` in `{indexes, bundles}` form. Each entry car
 
 ## Architectural Strengths Worth Preserving
 
--   **Filesystem variation model.** The overlay-tree-as-experiment is the strongest design decision in Mendel. It produces fully disposable variations with no AST manipulation, no scattered conditionals, and uniform handling for all file types.
--   **Daemon/client split.** One long-running daemon serves multiple short-lived clients (CI, dev server, tests). Source re-processing happens once. `CacheManager.sync()` seeds new environment pipelines from existing caches.
--   **Content-addressable URLs.** SHA-of-resolved-content as the bundle URL, served with permanent cache headers, with no experiment names in the path. The CDN never knows the experiment system exists.
--   **IST/GST distinction.** Most bundlers blur the line between per-file and graph-aware transforms and get subtle ordering bugs. The Waiter step makes the synchronization explicit.
--   **Per-entry content cache drives incrementalism.** `MendelCache` keys each entry by id and tracks a `done` flag (`cache/index.js`, `cache/entry.js`). `FsWatcher` on change calls `removeEntry` then `addEntry` for the touched paths only (`fs-watcher/index.js`). Every other entry skips re-read, re-transform, and re-resolve. Cold start runs IST across CPU-count workers (`multi-process/base-master.js`), and the daemon stays warm so the second client sees a populated cache.
--   **Multi-runtime dependency model.** `MendelCache` tracks per-runtime paths and handles browser-field remapping, intra-module aliasing, and `false`-valued exclusions in one place. More complete than most bundlers' browser-field handling.
--   **Two-worker `DepsManager` cap.** A deliberate cache-hit-rate optimization, not an oversight.
+- **Filesystem variation model.** The overlay-tree-as-experiment is the strongest design decision in Mendel. It produces fully disposable variations with no AST manipulation, no scattered conditionals, and uniform handling for all file types.
+- **Daemon/client split.** One long-running daemon serves multiple short-lived clients (CI, dev server, tests). Source re-processing happens once. `CacheManager.sync()` seeds new environment pipelines from existing caches.
+- **Content-addressable URLs.** SHA-of-resolved-content as the bundle URL, served with permanent cache headers, with no experiment names in the path. The CDN never knows the experiment system exists.
+- **IST/GST distinction.** Most bundlers blur the line between per-file and graph-aware transforms and get subtle ordering bugs. The Waiter step makes the synchronization explicit.
+- **Per-entry content cache drives incrementalism.** `MendelCache` keys each entry by id and tracks a `done` flag (`cache/index.js`, `cache/entry.js`). `FsWatcher` on change calls `removeEntry` then `addEntry` for the touched paths only (`fs-watcher/index.js`). Every other entry skips re-read, re-transform, and re-resolve. Cold start runs IST across CPU-count workers (`multi-process/base-master.js`), and the daemon stays warm so the second client sees a populated cache.
+- **Multi-runtime dependency model.** `MendelCache` tracks per-runtime paths and handles browser-field remapping, intra-module aliasing, and `false`-valued exclusions in one place. More complete than most bundlers' browser-field handling.
+- **Two-worker `DepsManager` cap.** A deliberate cache-hit-rate optimization, not an oversight.
 
 ## Specific Weaknesses
 

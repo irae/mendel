@@ -2,9 +2,9 @@
 
 In this version, Mendel became a build system instead of being a plugin to a bundler that happened to build. The highlights are:
 
--   Variation or A/B testing is a first class citizen
--   Utilize multiple cores for speed
--   Pluggable: transformer, dependency graph mutator (generator), and build output
+- Variation or A/B testing is a first class citizen
+- Utilize multiple cores for speed
+- Pluggable: transformer, dependency graph mutator (generator), and build output
 
 ## Introduction
 
@@ -34,9 +34,9 @@ Environment, or more specifically `MENDEL_ENV`, is the most important environmen
 
 Using environment, you can change:
 
--   transform configuration
--   outlet configuration
--   TODO; there are others.
+- transform configuration
+- outlet configuration
+- TODO; there are others.
 
 ### Pipeline
 
@@ -160,13 +160,13 @@ src
 
 In single variational case, above is easy. Dependency resolving as follows:
 
--   base: src/baseVarDir/index.js → src/baseVarDir/dep.js
--   var1: src/varDirs/var1/index.js → src/varDirs/var1/dep.js
--   var2: src/baseVarDir/index.js → src/varDirs/var2/dep/moreDir/.../whatever.js
+- base: src/baseVarDir/index.js → src/baseVarDir/dep.js
+- var1: src/varDirs/var1/index.js → src/varDirs/var1/dep.js
+- var2: src/baseVarDir/index.js → src/varDirs/var2/dep/moreDir/.../whatever.js
 
 However, if you imagine multivariate variation, it becomes:
 
--   var2,var1: <font color=red>conflict</font> src/varDirs/var1/index.js → src/varDirs/var2/dep/moreDir/.../whatever.js
+- var2,var1: <font color=red>conflict</font> src/varDirs/var1/index.js → src/varDirs/var2/dep/moreDir/.../whatever.js
 
 Above ambiguity is called a "conflict" as it is virtually impossible for variation developer to conceive or account for all combinations to be correct and safe.
 
@@ -202,26 +202,26 @@ TBD
 
 ## Core packages
 
--   **mendel-resolver**: Although default resolve is wonderful, it lacks for two features -- it lacks “browser” property support which is covered by another package but also misses variational support. In variational world, how modules get resolved needs to look into variational directory
--   **mendel-deps**: AST parse a source to detect ES6 import and CommonJS require and do variational resolve their path.
+- **mendel-resolver**: Although default resolve is wonderful, it lacks for two features -- it lacks “browser” property support which is covered by another package but also misses variational support. In variational world, how modules get resolved needs to look into variational directory
+- **mendel-deps**: AST parse a source to detect ES6 import and CommonJS require and do variational resolve their path.
 
 ## Others
 
--   **mendel-transform-babel**: IST for babel
--   **mendel-transform-less**: IST for LESS
--   **mendel-generator-node-modules**: Extracts node_modules from bundles and create separate node_modules bundle.
--   **mendel-generator-extract**: Allows you to code split by declaring which paths need to be bundled separately away from designated bundle. The technique is widely known as code-splitting.
--   **mendel-outlet-css**: Outputs CSS based on glob of entry ids defined in configuration
+- **mendel-transform-babel**: IST for babel
+- **mendel-transform-less**: IST for LESS
+- **mendel-generator-node-modules**: Extracts node_modules from bundles and create separate node_modules bundle.
+- **mendel-generator-extract**: Allows you to code split by declaring which paths need to be bundled separately away from designated bundle. The technique is widely known as code-splitting.
+- **mendel-outlet-css**: Outputs CSS based on glob of entry ids defined in configuration
 
 # Appendix
 
 ## Glossary
 
--   Source: Any form of source including JS, CSS, binary file, images, and etc…
--   Daemon: Long-running process that watches file-system and do computation intensive transformations
--   Clients: Often, short lived process that consumes transformed entries to do something useful with them
--   Independent Source Transform (IST): transforms that can be done without considering any other source
--   Graph Source Transform (GST): transforms that must be done with other entries
--   Generator: Bundle collection step. Grabs entries into a “basket”
--   Outlet: Outputs a bundle created by a generator. I.e., mendel-outlet-browser-pack
--   Runtime: Place where code will execute. Currently, node or browser. This concept is used in modules where, in package.json, one declares “main” and “browser” property.
+- Source: Any form of source including JS, CSS, binary file, images, and etc…
+- Daemon: Long-running process that watches file-system and do computation intensive transformations
+- Clients: Often, short lived process that consumes transformed entries to do something useful with them
+- Independent Source Transform (IST): transforms that can be done without considering any other source
+- Graph Source Transform (GST): transforms that must be done with other entries
+- Generator: Bundle collection step. Grabs entries into a “basket”
+- Outlet: Outputs a bundle created by a generator. I.e., mendel-outlet-browser-pack
+- Runtime: Place where code will execute. Currently, node or browser. This concept is used in modules where, in package.json, one declares “main” and “browser” property.

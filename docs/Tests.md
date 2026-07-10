@@ -6,10 +6,10 @@ For the moment, Mendel relies on some private repositories for integration tests
 
 **File organization:**
 
--   All tests are in the test/ directory
--   Each test files corresponds to exactly one source file
--   Only stubs and fixtures use subdirectories
--   All build/ directories are ignored via the .gitignore to prevent generated output from being committed
+- All tests are in the test/ directory
+- Each test files corresponds to exactly one source file
+- Only stubs and fixtures use subdirectories
+- All build/ directories are ignored via the .gitignore to prevent generated output from being committed
 
 #### Running tests.
 

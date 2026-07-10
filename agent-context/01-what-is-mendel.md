@@ -6,9 +6,9 @@ Mendel is a JavaScript build tool and runtime framework that serves experiment-s
 
 A/B testing in web applications typically lands in one of three bad places:
 
--   **Code conditionals** (`if (experiment_A) { ... }`) accumulate as technical debt, ship dead code to every user, and resist cleanup at scale.
--   **Git branches per experiment** diverge fast, conflict constantly, and cannot compose when multiple experiments run together.
--   **Runtime feature flag SDKs** ship the flag library and every variant's code, then pick at request time. Users still download code they never execute.
+- **Code conditionals** (`if (experiment_A) { ... }`) accumulate as technical debt, ship dead code to every user, and resist cleanup at scale.
+- **Git branches per experiment** diverge fast, conflict constantly, and cannot compose when multiple experiments run together.
+- **Runtime feature flag SDKs** ship the flag library and every variant's code, then pick at request time. Users still download code they never execute.
 
 Mendel takes a fourth path: filesystem-folder variation resolution. Each variation is a folder that mirrors the source tree, containing only the files that differ. The build merges trees virtually; nothing is written to a merged directory.
 
@@ -49,12 +49,12 @@ Inside the daemon, each environment runs its own pipeline:
 Initialize → FileReader → IST → Waiter → GST → End
 ```
 
--   **Initialize** bridges `MendelCache.entryAdded` events into the chain.
--   **FileReader** reads source bytes from disk.
--   **IST** (Independent Source Transform) applies per-file transforms — Babel, Bublé, UglifyJS, LESS — in a worker pool, then runs `mendel-deps` to detect `require`/`import` literals and `mendel-resolver` to resolve them. Discovered dependencies feed back into the pipeline as new entries.
--   **Waiter** holds every entry until all known entries finish IST. GST cannot start until the whole graph is known.
--   **GST** (Graph Source Transform) runs transforms that need the full dependency graph: code-splitting, tree-aware operations. It walks the graph once per variation via `explorePermutation`.
--   **End** marks the entry done. The `CacheServer` broadcasts completed entries to connected clients.
+- **Initialize** bridges `MendelCache.entryAdded` events into the chain.
+- **FileReader** reads source bytes from disk.
+- **IST** (Independent Source Transform) applies per-file transforms — Babel, Bublé, UglifyJS, LESS — in a worker pool, then runs `mendel-deps` to detect `require`/`import` literals and `mendel-resolver` to resolve them. Discovered dependencies feed back into the pipeline as new entries.
+- **Waiter** holds every entry until all known entries finish IST. GST cannot start until the whole graph is known.
+- **GST** (Graph Source Transform) runs transforms that need the full dependency graph: code-splitting, tree-aware operations. It walks the graph once per variation via `explorePermutation`.
+- **End** marks the entry done. The `CacheServer` broadcasts completed entries to connected clients.
 
 **Generators** then walk the client-side registry to collect entries per bundle (default entry-glob walk, `mendel-generator-extract` for code splitting, `mendel-generator-node-modules` for vendor splits, `mendel-generator-prune` for cleanup).
 

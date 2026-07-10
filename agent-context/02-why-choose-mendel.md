@@ -60,9 +60,9 @@ CSS, LESS, JSON, images — any file the bundler can process follows the same fo
 
 The filesystem model means the entire Unix and git toolchain applies without modification:
 
--   `git diff experiments/new_ad_format src/` shows exactly what the experiment changed
--   `grep -r "CartWidget" experiments/` finds every experiment touching a component
--   Browser DevTools source maps show files under mnemonic experiment folder names
+- `git diff experiments/new_ad_format src/` shows exactly what the experiment changed
+- `grep -r "CartWidget" experiments/` finds every experiment touching a component
+- Browser DevTools source maps show files under mnemonic experiment folder names
 
 A new engineer needs to learn nothing Mendel-specific to read, diff, or audit experiment code. That lowers the onboarding cost of every team adopting it.
 
@@ -80,6 +80,6 @@ This pattern has powered Yahoo properties in production and development for year
 
 ## When Not to Choose Mendel
 
--   Fewer than two or three simultaneous experiments and a small team. A flag SaaS has lower setup cost.
--   A hard requirement for webpack-specific features (Module Federation, webpack HMR). Mendel's foundation is Browserify, and hot-reload is a missing feature rather than a shipped one. The cache architecture supports it; the integration has not landed.
--   A need for experiment assignment and analytics bundled into one tool. Mendel handles only the build-and-serve side.
+- Fewer than two or three simultaneous experiments and a small team. A flag SaaS has lower setup cost.
+- A hard requirement for webpack-specific features (Module Federation, webpack HMR). Mendel's foundation is Browserify, and hot-reload is a missing feature rather than a shipped one. The cache architecture supports it; the integration has not landed.
+- A need for experiment assignment and analytics bundled into one tool. Mendel handles only the build-and-serve side.

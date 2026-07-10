@@ -1,6 +1,3 @@
-
-
-
 basetree: src/base
 variationsdir: src/variations
 variations:
@@ -21,4 +18,3 @@ bundles:
       - ./src/base/late.js
     external:
       - ./src/base/complicator.js
-

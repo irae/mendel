@@ -93,9 +93,9 @@ pnpm why mendel-deps
 For the dual-package / `react-use-measure` work, these should resolve into
 this clone:
 
--   `mendel-deps` (parses `.cjs`)
--   `mendel-resolver` (probes `.cjs` / `.mjs`)
--   `mendel-pipeline` (deps worker extensions)
+- `mendel-deps` (parses `.cjs`)
+- `mendel-resolver` (probes `.cjs` / `.mjs`)
+- `mendel-pipeline` (deps worker extensions)
 
 ### Unlink (go back to registry versions)
 
@@ -151,11 +151,11 @@ npm pack --dry-run -w mendel-resolver
 
 In the notice list, confirm:
 
--   **no** `test/`, `tests/`, or fixture trees
--   **no** `.nyc_output/`, `coverage/`
--   **yes** `docs/` when the package has docs (agents read these from
-    `node_modules` offline)
--   **yes** runtime sources (`src/`, `*.js`, `lib/`, …)
+- **no** `test/`, `tests/`, or fixture trees
+- **no** `.nyc_output/`, `coverage/`
+- **yes** `docs/` when the package has docs (agents read these from
+  `node_modules` offline)
+- **yes** runtime sources (`src/`, `*.js`, `lib/`, …)
 
 ### 2. Publish
 
@@ -174,9 +174,9 @@ tests and coverage are not. Prefer extending `"files"` over adding a package-loc
 
 Why not rely on root `.gitignore` alone:
 
--   npm pack for a workspace package does **not** use the monorepo root
-    `.gitignore` unless the package has no `"files"` and no `.npmignore` of its
-    own — and even then only ignore files inside that package directory apply.
--   If a package has a **`.npmignore`**, npm **ignores `.gitignore` entirely** for
-    that package. A tiny `.npmignore` (e.g. only `test`) will happily ship
-    `.nyc_output/`. Do not add per-package `.npmignore` unless it is complete.
+- npm pack for a workspace package does **not** use the monorepo root
+  `.gitignore` unless the package has no `"files"` and no `.npmignore` of its
+  own — and even then only ignore files inside that package directory apply.
+- If a package has a **`.npmignore`**, npm **ignores `.gitignore` entirely** for
+  that package. A tiny `.npmignore` (e.g. only `test`) will happily ship
+  `.nyc_output/`. Do not add per-package `.npmignore` unless it is complete.

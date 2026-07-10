@@ -1,4 +1,3 @@
-
 # if basedir is not present, .mendelrc directory will be used
 basedir: src_root
 

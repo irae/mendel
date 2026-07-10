@@ -61,18 +61,18 @@ You may also append query parameters to request specific combinations directly f
 
 The following is a complete list of all 12 valid permutations that can result from the two layers implemented in this example.
 
--   all from base
--   layer_1_bucket_A
--   layer_1_bucket_B
--   layer_2_bucket_A
--   layer_2_bucket_B
--   layer_2_bucket_C
--   layer_1_bucket_A, layer_2_bucket_A
--   layer_1_bucket_A, layer_2_bucket_B
--   layer_1_bucket_A, layer_2_bucket_C
--   layer_1_bucket_B, layer_2_bucket_A
--   layer_1_bucket_B, layer_2_bucket_B
--   layer_1_bucket_B, layer_2_bucket_C
+- all from base
+- layer_1_bucket_A
+- layer_1_bucket_B
+- layer_2_bucket_A
+- layer_2_bucket_B
+- layer_2_bucket_C
+- layer_1_bucket_A, layer_2_bucket_A
+- layer_1_bucket_A, layer_2_bucket_B
+- layer_1_bucket_A, layer_2_bucket_C
+- layer_1_bucket_B, layer_2_bucket_A
+- layer_1_bucket_B, layer_2_bucket_B
+- layer_1_bucket_B, layer_2_bucket_C
 
 To run this example go to it's root directory and run `npm install`.
 

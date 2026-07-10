@@ -69,10 +69,8 @@ outlets:
     plugin: mendel-outlet-css
     options:
       plugin:
-        -
-          - autoprefixer
-          -
-            browsers: "last 2 versions"
+        - - autoprefixer
+          - browsers: 'last 2 versions'
 
 # "outfile" is optional and only needed for single layer generation
 bundles:

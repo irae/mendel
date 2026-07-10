@@ -50,6 +50,6 @@ bundles:
     outlet: css
     outfile: main.css
     entries:
-      - "**/*.css"
-      - "**/*.less"
-      - "!exclude.css"
+      - '**/*.css'
+      - '**/*.less'
+      - '!exclude.css'

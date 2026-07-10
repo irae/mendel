@@ -23,15 +23,15 @@ It is meant to be simple and easy to use on a daily basis. It works very well fo
 
 Mendel supports:
 
--   JavaScript bundle generation (similar to Webpack/Browserify) for each variation/experiment/bucket
--   Isomorphic applications (a.k.a. server side rendering, such as ReactDOMServer or Ember Fastboot)
--   Multivariate testing and/or Multilayer experimentation
--   Variation/experiment/bucket inheritance that enables code-reuse across different experiments.
+- JavaScript bundle generation (similar to Webpack/Browserify) for each variation/experiment/bucket
+- Isomorphic applications (a.k.a. server side rendering, such as ReactDOMServer or Ember Fastboot)
+- Multivariate testing and/or Multilayer experimentation
+- Variation/experiment/bucket inheritance that enables code-reuse across different experiments.
 
 Mendel does not support:
 
--   Experiment resolution: Mendel does not provide [random assignment](https://en.wikipedia.org/wiki/Random_assignment) of users into experiments
--   Experiments measurement: Mendel does not provide a way to track performance of experiments based on user actions
+- Experiment resolution: Mendel does not provide [random assignment](https://en.wikipedia.org/wiki/Random_assignment) of users into experiments
+- Experiments measurement: Mendel does not provide a way to track performance of experiments based on user actions
 
 Both of the above are covered by existing open source tools, such as [PlanOut](http://facebook.github.io/planout/), [Open Web Analytics](http://www.openwebanalytics.com), [Piwik](https://piwik.org) and [many others](https://www.google.com/#q=open+source+web+analytics).
 
@@ -39,9 +39,9 @@ Both of the above are covered by existing open source tools, such as [PlanOut](h
 
 Mendel is built on top of solid [design principles](docs/Design.md) and is hardened by years of using the same strategy inside Yahoo, from teams ranging from 3 to 30+ developers contributing daily to large applications. Here are a few of the advantages of using Mendel:
 
--   **Maintainability**: All variation/experimentation code is organized and compiled in a way to be immediately disposable, impose no maintenance overhead, and be very easy to debug and analyze.
--   **Performance**: Server side resolution is synchronous and fast, and client side code will have no payload overhead.
--   **Security**: Bundle URL and client-side compiled code does not contain variation/experiment information. Only the packages that are absolutely needed are included in the bundle.
+- **Maintainability**: All variation/experimentation code is organized and compiled in a way to be immediately disposable, impose no maintenance overhead, and be very easy to debug and analyze.
+- **Performance**: Server side resolution is synchronous and fast, and client side code will have no payload overhead.
+- **Security**: Bundle URL and client-side compiled code does not contain variation/experiment information. Only the packages that are absolutely needed are included in the bundle.
 
 Mendel also has a clear development flow. All other experimentation we could find lacked built in support for a smooth development workflow. In Mendel, fast development cycles are a first-class citizen.
 

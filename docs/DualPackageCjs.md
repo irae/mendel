@@ -16,7 +16,7 @@ Mendel resolves browser/main to the `.cjs` file (browser-pack expects CommonJS).
 
 Regression coverage:
 
--   `packages/mendel-deps/test/cjs-support.js`
--   `packages/mendel-resolver/test/fixtures/dual-cjs/`
--   `packages/mendel-pipeline/test/dual-package-cjs.js`
--   `examples/full-example` (`react-use-measure` via `MeasuredBox`)
+- `packages/mendel-deps/test/cjs-support.js`
+- `packages/mendel-resolver/test/fixtures/dual-cjs/`
+- `packages/mendel-pipeline/test/dual-package-cjs.js`
+- `examples/full-example` (`react-use-measure` via `MeasuredBox`)
