@@ -10,3 +10,4 @@ build-requirify/
 *.log
 jsdom.js
 debug.sh
+.tap/

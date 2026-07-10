@@ -17,7 +17,7 @@
     "node": ">=22.0.0"
   },
   "devDependencies": {
-    "tap": "^16.3.8"
+    "tap": "^21.0.0"
   },
   "homepage": "https://github.com/irae/mendel#readme",
   "bugs": {

@@ -7,7 +7,7 @@
   "author": "Stephan Lee <stephanwlee@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "tap test/*.js --coverage-map=../../.tap.coverage.map.js --no-check-coverage"
+    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage --allow-empty-coverage"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "rimraf": "^5.0.1",
-    "tap": "^16.3.8"
+    "tap": "^21.0.0"
   },
   "homepage": "https://github.com/irae/mendel#readme",
   "bugs": {

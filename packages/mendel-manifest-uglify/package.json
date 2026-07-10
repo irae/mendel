@@ -11,7 +11,7 @@
     "build"
   ],
   "scripts": {
-    "test": "tap test/*.js --coverage-map=../../.tap.coverage.map.js --no-check-coverage"
+    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage"
   },
   "author": "Irae Carvalho <irae@irae.pro.br>",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "uglify-js": "^3.19.0"
   },
   "devDependencies": {
-    "tap": "^16.3.8",
+    "tap": "^21.0.0",
     "tmp": "^0.2.1"
   },
   "homepage": "https://github.com/irae/mendel#readme",

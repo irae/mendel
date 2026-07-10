@@ -3,7 +3,7 @@
   "version": "4.1.1",
   "description": "Mendel shared dependencies for build and development",
   "scripts": {
-    "test": "tap test/*.js --coverage-map=../../.tap.coverage.map.js --no-check-coverage"
+    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage"
   },
   "keywords": [
     "mendel"
@@ -25,7 +25,7 @@
     "tmp": "0.0.28"
   },
   "devDependencies": {
-    "tap": "^16.3.8"
+    "tap": "^21.0.0"
   },
   "homepage": "https://github.com/irae/mendel#readme",
   "bugs": {
