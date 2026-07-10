@@ -1,21 +1,53 @@
-# Agent Context
+# AGENTS.md
 
-The `agent-context/` directory contains research about this codebase produced by an adversarial multi-agent run: six independent agents (paired, competing) researched Mendel from three angles, cross-reviewed each other's findings, and an Opus agent synthesized the results. Read these files before working on Mendel to orient yourself quickly.
+Write pragmatic code. Prefer small, boring changes that match existing style. Ship fixes that matter; skip gold-plating and speculative refactors.
 
-## Files
+## What Mendel is (one screen)
 
-- **`01-what-is-mendel.md`** — What Mendel is and how it works: the filesystem-folder variation model, the IST/GST/Generator/Outlet pipeline, the daemon/client architecture, production manifest serving, and SSR support.
+Mendel builds **filesystem-folder asset bundles with variations**: base tree + sparse experiment/feature/white-label folders. The same logical module shares a **`normalizedId`** (path without variation prefix/extension). No runtime flag payload for which experiment won.
 
-- **`02-why-choose-mendel.md`** — The technical case for Mendel: zero payload overhead by construction, CDN caching without `Vary` headers, `rm -rf` experiment disposal, variation inheritance, multilayer experimentation, opaque content-addressed URLs, automatic SSR/client consistency, and build speed.
+Two processes during development:
 
-- **`03-current-state.md`** — Honest assessment of Mendel today: onboarding friction, documentation gaps (empty `docs/Configuration.md`, no getting-started guide, no CLI reference), configuration gotchas, known architectural weaknesses with specific file references, and maintenance status.
+1. **Daemon** (`mendel-pipeline`) — watch, transform (IST → Waiter → GST), cache per env, Unix socket.
+2. **Client** — generators + outlets → bundles / production **manifest**.
 
-- **`04-mendel-vs-ecosystem.md`** — How Mendel compares to 20+ JS build tools: the ecosystem's consensus approach to A/B testing (runtime SDKs, payload overhead), where Mendel wins and loses, the closest approximations (Module Federation, dynamic imports + flags), and why no modern bundler has adopted Mendel's model.
+Runtime: **`mendel-middleware`** + **`mendel-core`** (manifest trees). Dev: **`mendel-development-middleware`** + live client.
 
-- **`05-architecture-deep-dive.md`** — Technical internals: pipeline phases with file references, multi-process worker design, key data structures (Entry lifecycle, normalizedId, MendelCache, manifest, variation chain), full package map for all 28 packages, architectural strengths, and specific weaknesses with TODO/FIXME locations.
+Production builds resolve through a manifest and deterministic hashes, so secret experiments never leak to unintended audiences.
 
-Only read the files relevant to your current task. Do not load all five files by default.
+## Tooling (current)
 
-## Source
+Assume the developer left the repo in working condition. Escalate or offer to help the user follow [DEVELOPMENT.md](DEVELOPMENT.md).
 
-Full research (individual agent folders, cross-review notes) lives on the `mendel-context-experiment` branch.
+### Tests
+
+Prefer the narrowest run that covers the change during development.
+Run Prettier and ESLint on files before every commit. Run the full test suite before finishing a feature.
+Regressions your session introduced are amended directly into their commit; bug fixes for other sessions are committed as one commit per bug fix, not bundled into feature commits.
+
+| Scope             | Command                                                                                           |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
+| One package       | `pnpm --filter <package> test`                                                                    |
+| One file          | `cd packages/<package> && ../../node_modules/.bin/tap test/<file>.js --allow-incomplete-coverage` |
+| All package tests | `pnpm run unit`                                                                                   |
+| Lint + unit       | `pnpm test`                                                                                       |
+| Root legacy only  | `pnpm run unit-legacy` if you touched root `test/*.js`                                            |
+
+Functional tests should drive real Mendel (config on disk → real build artifacts) and assert those outputs, not mock the pipeline. Browser/example suites need a matching daemon IPC socket if they use karma-mendel.
+
+## Code conventions
+
+- **Minimize comments.** Prefer clear names. Comment only non-obvious constraints (IPC, dual-runtime deps, intentional process.exit, etc.).
+- **Match neighbors.** Same patterns as the package you touch; no drive-by style rewrites.
+- **Scope tight.** One concern per change. Do not “clean up” unrelated packages while fixing a bug.
+- **Monorepo graph.** Changes often span `mendel-deps` → `mendel-resolver` → `mendel-pipeline` → outlets/karma. Grep the package name before assuming a single-file fix.
+- **Tests.** Prefer functional builds (real config → real bundles/manifests) over heavy mocks.
+- **Shims.** Browser Node cores come from **`node-stdlib-browser`** (via pipeline default shims), not `node-libs-browser`. Override per project in config when needed.
+- **Runtimes.** Entries carry `runtime` (`browser` / `main` / `isomorphic` / `package` / …). Client graph walk must keep modules consumers `require()` (e.g. `package.json` dual-deps use `runtime: 'package'`).
+
+## Known footguns (do not rediscover blindly)
+
+- Daemon + app (or karma) both need the same **`MENDEL_IPC`** socket; start the builder first.
+- Production outlets usually switch to **manifest** per bundle env; missing one leaves a bundle in the wrong mode.
+- GST has a long-standing **main vs browser** graph FIXME; do not “fix” browser field behavior without reading `gst/index.js` and cache dep serialization.
+- Some source **TODO/FIXME** and `docs/Design.md` outdated banners are still open; check code before trusting comments.
