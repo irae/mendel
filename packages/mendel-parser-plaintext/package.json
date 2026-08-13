@@ -1,0 +1,41 @@
+{
+  "name": "mendel-parser-plaintext",
+  "version": "4.1.1",
+  "description": "Wraps a plaintext file (markdown, templates, CSV, GraphQL, ...) in a JavaScript module for bundling with assets in Mendel",
+  "main": "index.js",
+  "mode": "ist",
+  "author": "Stephan Lee <stephanwlee@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irae/mendel.git"
+  },
+  "dependencies": {
+    "debug": "^4.4.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "devDependencies": {
+    "tap": "^21.0.0"
+  },
+  "homepage": "https://github.com/irae/mendel#readme",
+  "bugs": {
+    "url": "https://github.com/irae/mendel/issues"
+  },
+  "files": [
+    "*.js",
+    "src",
+    "lib",
+    "client",
+    "docs",
+    "legacy",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage",
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+  }
+}
