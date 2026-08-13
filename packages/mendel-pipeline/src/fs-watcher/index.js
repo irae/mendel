@@ -6,7 +6,9 @@ class FsWatcher {
     constructor({ projectRoot, ignore }, cacheManager) {
         this.cacheManager = cacheManager;
         // Default ignore .dot files.
-        this.ignored = (ignore || []).concat([/[/\\]\./]);
+        this.ignored = (ignore || []).concat([
+            dotSegmentInsideProject(projectRoot),
+        ]);
 
         // file size priority
         this.isInitialized = false;
@@ -89,6 +91,24 @@ class FsWatcher {
     unwatchAll() {
         this.watcher.close();
     }
+}
+
+// chokidar tests `ignored` against absolute paths, so a bare /[/\\]\./ also
+// matches dot directories in the project's ancestors (e.g. a checkout under
+// ~/.anything) and silently ignores every file. Only dot segments inside the
+// project should be ignored.
+function dotSegmentInsideProject(projectRoot) {
+    const DOT_SEGMENT = /(^|[/\\])\./;
+    return function (testPath) {
+        const absolute = path.isAbsolute(testPath)
+            ? testPath
+            : path.resolve(projectRoot, testPath);
+        const relative = path.relative(projectRoot, absolute);
+        if (relative.startsWith('..') || path.isAbsolute(relative)) {
+            return DOT_SEGMENT.test(testPath);
+        }
+        return DOT_SEGMENT.test(relative);
+    };
 }
 
 function withPrefix(path) {
