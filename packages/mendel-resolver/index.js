@@ -184,40 +184,30 @@ class ModuleResolver {
             promise
                 // Post process
                 .then((deps) => {
-                    // Make the path relative to the `basedir`.
+                    // Make the path relative to the `basedir`. Nested
+                    // resolve() calls already produced cwd-relative paths;
+                    // bare module names (like "path") have no real path.
+                    // Only absolute paths still need relativizing, and
+                    // re-processing the others would resolve them against
+                    // process.cwd() and corrupt the output.
+                    const relativize = (value) =>
+                        path.isAbsolute(value)
+                            ? withPrefix(path.relative(this.cwd, value))
+                            : value;
                     Object.keys(deps)
                         .filter((rt) => deps[rt])
                         .forEach((rt) => {
                             if (typeof deps[rt] === 'string') {
-                                // It can be module name without real path for default
-                                // node modules (like "path")
-                                if (deps[rt].indexOf('/') < 0) return;
-                                deps[rt] = withPrefix(
-                                    path.relative(this.cwd, deps[rt])
-                                );
+                                deps[rt] = relativize(deps[rt]);
                             } else if (typeof deps[rt] === 'object') {
                                 const rtDep = deps[rt];
                                 Object.keys(rtDep)
                                     .filter((key) => rtDep[key])
                                     .forEach((depKey) => {
-                                        const newKey =
-                                            depKey.indexOf('/') < 0
-                                                ? depKey
-                                                : withPrefix(
-                                                      path.relative(
-                                                          this.cwd,
-                                                          depKey
-                                                      )
-                                                  );
-                                        const newValue =
-                                            rtDep[depKey].indexOf('/') < 0
-                                                ? rtDep[depKey]
-                                                : withPrefix(
-                                                      path.relative(
-                                                          this.cwd,
-                                                          rtDep[depKey]
-                                                      )
-                                                  );
+                                        const newKey = relativize(depKey);
+                                        const newValue = relativize(
+                                            rtDep[depKey]
+                                        );
                                         delete rtDep[depKey];
                                         rtDep[newKey] = newValue;
                                     });
