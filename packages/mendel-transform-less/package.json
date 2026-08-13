@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "debug": "^4.4.0",
-    "less": "^4.6.0"
+    "less": "^4.8.0"
   },
   "devDependencies": {
     "rimraf": "^5.0.1",
