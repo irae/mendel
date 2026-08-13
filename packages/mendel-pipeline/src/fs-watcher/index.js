@@ -1,14 +1,21 @@
 const path = require('path');
 const chokidar = require('chokidar');
+const { Minimatch } = require('minimatch');
 const FS_CHANGE_DELAY = process.env.MENDEL_FS_CHANGE_DELAY || 100;
 
 class FsWatcher {
-    constructor({ projectRoot, ignore }, cacheManager) {
+    constructor({ projectRoot, ignores }, cacheManager) {
         this.cacheManager = cacheManager;
+        const ignoresArray = Array.isArray(ignores)
+            ? ignores
+            : ignores
+              ? [ignores]
+              : [];
         // Default ignore .dot files.
-        this.ignored = (ignore || []).concat([
+        this.ignored = [
+            buildIgnoreMatcher(ignoresArray),
             dotSegmentInsideProject(projectRoot),
-        ]);
+        ];
 
         // file size priority
         this.isInitialized = false;
@@ -120,6 +127,32 @@ function withPrefix(path) {
 
 function packageJsonSort(entry) {
     return path.basename(entry.path) === 'package.json' ? 1 : 0;
+}
+
+function buildIgnoreMatcher(ignores) {
+    if (!ignores || ignores.length === 0) {
+        return () => false;
+    }
+
+    const matchers = ignores.map((ignore) => {
+        const negate = ignore[0] === '!';
+        const glob = negate ? ignore.slice(1) : ignore;
+        let pattern = negate ? '!' : '';
+        if (!glob.startsWith('**/')) pattern += '**/';
+        pattern += glob;
+        return new Minimatch(pattern);
+    });
+
+    const positives = matchers.filter((m) => !m.negate);
+    const negatives = matchers.filter((m) => m.negate);
+
+    return function (testPath) {
+        if (positives.length === 0) return false;
+        return (
+            positives.some((g) => g.match(testPath)) &&
+            negatives.every((g) => g.match(testPath))
+        );
+    };
 }
 
 module.exports = FsWatcher;
