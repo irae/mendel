@@ -1,0 +1,1 @@
+raw resource data, handled outside mendel's parser system

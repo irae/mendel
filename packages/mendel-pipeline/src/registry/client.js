@@ -2,6 +2,7 @@ const path = require('path');
 const verbose = require('debug')('verbose:mendel:net:client:registry');
 const Minimatch = require('minimatch').Minimatch;
 const debugFilter = require('mendel-development/debug-filter');
+const knownParsers = require('./known-parsers');
 const redacted = '--redacted';
 const redact = { source: redacted, rawSource: redacted, map: redacted };
 
@@ -134,6 +135,29 @@ class MendelOutletRegistry {
             .map((id) => this.getEntry(id));
     }
 
+    // Only browser bundling actually stitches an entry's raw source into a
+    // JS module body, so that is the only runtime where an unconfigured
+    // extension produces broken output; leave SSR/main-runtime walks alone.
+    assertParserCoverage(entry, runtime) {
+        if (this._options.environment === 'production') return;
+        if (runtime !== 'browser') return;
+        if (entry.normalizedId === '_noop') return;
+        if (this._options.types.get(entry.type)) return;
+
+        const ext = path.extname(entry.id);
+        const suggestedPackage = knownParsers[ext];
+        if (!suggestedPackage) return;
+
+        throw new Error(
+            [
+                `[Mendel] Cannot require "${entry.id}":`,
+                `no parser is configured for the "${ext}" extension.`,
+                `Install and configure ${suggestedPackage} to handle it`,
+                '(add it to your mendel config under "transforms"/"types").',
+            ].join(' ')
+        );
+    }
+
     /**
      * Walks dependency graph of a specific type
      */
@@ -167,6 +191,8 @@ class MendelOutletRegistry {
                 );
             })
             .some((entry) => {
+                this.assertParserCoverage(entry, runtime);
+
                 const isContinue = visitorFunction(entry);
 
                 // If visitor function returns false, stop walking
