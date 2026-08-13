@@ -6,7 +6,6 @@ var tap = require('tap');
 var sut = require('../packages/mendel-development-middleware');
 
 var express = require('express');
-var request = require('request');
 var path = require('path');
 var async = require('async');
 
@@ -24,14 +23,20 @@ tap.teardown(function () {
     server.close(process.exit);
 });
 
-tap.test('mendel-development-middleware serves a bundle', function (t) {
+tap.test('mendel-development-middleware serves a bundle', async function (t) {
     t.plan(2);
 
-    request(appBundle, function (error, response, body) {
-        if (error) t.bailout(error);
+    try {
+        const response = await fetch(appBundle);
+        const body = await response.text();
 
         t.match(
-            response,
+            {
+                statusCode: response.status,
+                headers: {
+                    'content-type': response.headers.get('content-type'),
+                },
+            },
             {
                 statusCode: 200,
                 headers: { 'content-type': 'application/javascript' },
@@ -43,16 +48,19 @@ tap.test('mendel-development-middleware serves a bundle', function (t) {
             'sourceMappingURL=data:application/json;',
             'has source maps'
         );
-    });
+    } catch (error) {
+        t.bailout(error);
+    }
 });
 
-tap.test('serves cached bundles', function (t) {
+tap.test('serves cached bundles', async function (t) {
     t.plan(1);
 
-    function getVendor(done) {
-        request(appBundle, function (error) {
-            done(error);
-        });
+    async function getVendor() {
+        const response = await fetch(appBundle);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
     }
 
     // this would cause test to timeout if cache is disabled
@@ -60,9 +68,16 @@ tap.test('serves cached bundles', function (t) {
     for (var i = 0; i < 1000; i++) {
         requests.push(getVendor);
     }
-    async.series(requests, function (error) {
-        if (error) t.bailout(error);
 
+    try {
+        await new Promise((resolve, reject) => {
+            async.series(requests, function (error) {
+                if (error) reject(error);
+                else resolve();
+            });
+        });
         t.pass('got 1000 of the same bundle');
-    });
+    } catch (error) {
+        t.bailout(error);
+    }
 });

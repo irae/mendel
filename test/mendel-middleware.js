@@ -4,7 +4,6 @@
 
 var tap = require('tap');
 var express = require('express');
-var request = require('request');
 var path = require('path');
 var async = require('async');
 // Without sync, rest of the test that relies on built app
@@ -59,33 +58,30 @@ app.get('/getURL_testA', function (req, res) {
     });
 });
 
-tap.skip('getURL returns correct hash', function (t) {
+tap.skip('getURL returns correct hash', async function (t) {
     t.plan(2);
 
-    request(
-        {
-            url: host + '/getURL_testA',
-            json: true,
-        },
-        function (error, response, json) {
-            if (error) t.bailout(error);
+    try {
+        const response = await fetch(host + '/getURL_testA');
+        const json = await response.json();
 
-            t.match(
-                response,
-                {
-                    statusCode: 200,
-                },
-                'getURL without errors'
-            );
-            t.match(
-                json,
-                {
-                    appBundle: appBundle,
-                },
-                'getURL correct hash'
-            );
-        }
-    );
+        t.match(
+            { statusCode: response.status },
+            {
+                statusCode: 200,
+            },
+            'getURL without errors'
+        );
+        t.match(
+            json,
+            {
+                appBundle: appBundle,
+            },
+            'getURL correct hash'
+        );
+    } catch (error) {
+        t.bailout(error);
+    }
 });
 
 app.get('/getURLDeprecated', function (req, res) {
@@ -94,7 +90,7 @@ app.get('/getURLDeprecated', function (req, res) {
     });
 });
 
-tap.skip('getURL still works with variations', function (t) {
+tap.skip('getURL still works with variations', async function (t) {
     t.plan(3);
 
     var old = console.warn;
@@ -103,28 +99,26 @@ tap.skip('getURL still works with variations', function (t) {
         msg = a;
     };
 
-    request(
-        {
-            url: host + '/getURLDeprecated',
-            json: true,
-        },
-        function (error, response, json) {
-            console.warn = old;
-            if (error) t.bailout(error);
+    try {
+        const response = await fetch(host + '/getURLDeprecated');
+        const json = await response.json();
+        console.warn = old;
 
-            t.match(
-                response,
-                {
-                    statusCode: 200,
-                },
-                'serves javascript'
-            );
-            t.match(json, {
-                appBundle: appBundle,
-            });
-            t.contains(msg, '[DEPRECATED]', 'getURL show deprecated msg');
-        }
-    );
+        t.match(
+            { statusCode: response.status },
+            {
+                statusCode: 200,
+            },
+            'serves javascript'
+        );
+        t.match(json, {
+            appBundle: appBundle,
+        });
+        t.contains(msg, '[DEPRECATED]', 'getURL show deprecated msg');
+    } catch (error) {
+        console.warn = old;
+        t.bailout(error);
+    }
 });
 
 app.get('/resolver_testA', function (req, res) {
@@ -134,21 +128,22 @@ app.get('/resolver_testA', function (req, res) {
     });
 });
 
-tap.skip('resolver require gets correct code', function (t) {
+tap.skip('resolver require gets correct code', async function (t) {
     t.plan(2);
 
-    request(
-        {
-            url: host + '/resolver_testA',
-            json: true,
-        },
-        function (error, response, json) {
-            if (error) t.bailout(error);
+    try {
+        const response = await fetch(host + '/resolver_testA');
+        const json = await response.json();
 
-            t.match(response, { statusCode: 200 }, 'resolver without errors');
-            t.match(json.result, -2, 'resolver with correct content');
-        }
-    );
+        t.match(
+            { statusCode: response.status },
+            { statusCode: 200 },
+            'resolver without errors'
+        );
+        t.match(json.result, -2, 'resolver with correct content');
+    } catch (error) {
+        t.bailout(error);
+    }
 });
 
 app.get('/resolverDeprecated', function (req, res) {
@@ -157,7 +152,7 @@ app.get('/resolverDeprecated', function (req, res) {
     });
 });
 
-tap.skip('resolver still works with variations', function (t) {
+tap.skip('resolver still works with variations', async function (t) {
     t.plan(3);
 
     var old = console.warn;
@@ -166,20 +161,22 @@ tap.skip('resolver still works with variations', function (t) {
         msg = a;
     };
 
-    request(
-        {
-            url: host + '/resolverDeprecated',
-            json: true,
-        },
-        function (error, response, json) {
-            console.warn = old;
-            if (error) t.bailout(error);
+    try {
+        const response = await fetch(host + '/resolverDeprecated');
+        const json = await response.json();
+        console.warn = old;
 
-            t.match(response, { statusCode: 200 }, 'serves javascript');
-            t.match(json.result, -2, 'resolver with correct content');
-            t.contains(msg, '[DEPRECATED]', 'resolver show deprecated message');
-        }
-    );
+        t.match(
+            { statusCode: response.status },
+            { statusCode: 200 },
+            'serves javascript'
+        );
+        t.match(json.result, -2, 'resolver with correct content');
+        t.contains(msg, '[DEPRECATED]', 'resolver show deprecated message');
+    } catch (error) {
+        console.warn = old;
+        t.bailout(error);
+    }
 });
 
 app.get('/getBundleIncorrect', function (req, res) {
@@ -194,33 +191,30 @@ app.get('/getBundleIncorrect', function (req, res) {
     res.json({ unreachable: 'prop' });
 });
 
-tap.skip('throws on incorrect use', function (t) {
+tap.skip('throws on incorrect use', async function (t) {
     t.plan(2);
 
-    request(
-        {
-            url: host + '/getBundleIncorrect',
-            json: true,
-        },
-        function (error, response, json) {
-            if (error) t.bailout(error);
+    try {
+        const response = await fetch(host + '/getBundleIncorrect');
+        const json = await response.json();
 
-            t.match(
-                response,
-                {
-                    statusCode: 500,
-                },
-                'serves javascript'
-            );
-            t.match(
-                json,
-                {
-                    error: 'Please call req.mendel.setVariations first',
-                },
-                'throws error when called in wrong order'
-            );
-        }
-    );
+        t.match(
+            { statusCode: response.status },
+            {
+                statusCode: 500,
+            },
+            'serves javascript'
+        );
+        t.match(
+            json,
+            {
+                error: 'Please call req.mendel.setVariations first',
+            },
+            'throws error when called in wrong order'
+        );
+    } catch (error) {
+        t.bailout(error);
+    }
 });
 
 app.get('/getBundleCacheLoop', function (req, res) {
@@ -249,18 +243,14 @@ app.get('/getBundleCacheLoop', function (req, res) {
     });
 });
 
-tap.skip('getBundle cached per request', function (t) {
+tap.skip('getBundle cached per request', async function (t) {
     t.plan(1);
 
-    request(
-        {
-            url: host + '/getBundleCacheLoop',
-            json: true,
-        },
-        function (error, response) {
-            if (error) t.bailout(error);
+    try {
+        const response = await fetch(host + '/getBundleCacheLoop');
 
-            t.equal(response.statusCode, 200, 'looks cached based on timer');
-        }
-    );
+        t.equal(response.status, 200, 'looks cached based on timer');
+    } catch (error) {
+        t.bailout(error);
+    }
 });
