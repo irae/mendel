@@ -19,6 +19,14 @@ Production builds resolve through a manifest and deterministic hashes, so secret
 
 Assume the developer left the repo in working condition. Escalate or offer to help the user follow [DEVELOPMENT.md](DEVELOPMENT.md).
 
+### Worktrees
+
+Worktrees are **temporary**. Treat them as scratch space that always gets torn down.
+
+1. A worktree **must** be a sibling directory of the repo (`../mendel-<name>`). Never nested inside it.
+2. Before deleting, salvage from the worktree's gitignored `docs/superpowers/`: copy files back to the main worktree **only when no file of that name already exists there** — never overwrite. From `agent-communications/`, copy back only files that still carry open items; records of finished work stay behind.
+3. Once the work is merged into the main worktree, **delete the worktree and its branch**. Do not keep one around for reuse.
+
 ### Tests
 
 Prefer the narrowest run that covers the change during development.
@@ -44,6 +52,13 @@ Functional tests should drive real Mendel (config on disk → real build artifac
 - **Tests.** Prefer functional builds (real config → real bundles/manifests) over heavy mocks.
 - **Shims.** Browser Node cores come from **`node-stdlib-browser`** (via pipeline default shims), not `node-libs-browser`. Override per project in config when needed.
 - **Runtimes.** Entries carry `runtime` (`browser` / `main` / `isomorphic` / `package` / …). Client graph walk must keep modules consumers `require()` (e.g. `package.json` dual-deps use `runtime: 'package'`).
+
+## Surfacing incidental bugs
+
+If a real bug turns up while working on something unrelated — wrong types passed across a function call, a hard-to-diagnose async/timing condition, or similar — always surface it rather than letting it go unnoticed. Don't fix it inline unless asked; scope stays tight per above.
+
+- Interactive session: tell the user directly, with the evidence that led you there.
+- Unattended/autonomous session: file a GitHub issue with all supporting evidence attached (repro steps, logs, code pointers), and remind the user of it at the end of the session.
 
 ## Known footguns (do not rediscover blindly)
 
