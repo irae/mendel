@@ -16,11 +16,13 @@
   },
   "dependencies": {
     "debug": "^4.4.0",
-    "fs-extra": "~0.26.5",
+    "fs-extra": "^11.3.6",
     "mendel-development": "workspace:^",
     "through2": "^2.0.1"
   },
   "devDependencies": {
+    "browserify": "^17.0.1",
+    "rimraf": "^6.1.3",
     "tap": "^21.0.0"
   },
   "homepage": "https://github.com/irae/mendel#readme",
@@ -39,6 +41,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\"",
+    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage"
   }
 }
