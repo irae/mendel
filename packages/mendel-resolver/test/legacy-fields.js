@@ -62,6 +62,34 @@ test('unpkg is ignored; browser falls back to main', (t) => {
         });
 });
 
+// One declared path is stale while others resolve; the stale path must
+// cost only its own runtime, and never leave phantom undefined-valued
+// keys behind (deps.get() returns false for it, and false[name] is
+// undefined, not an error).
+test('stale main still resolves the other declared runtimes', (t) => {
+    return createResolver()
+        .resolve('stale-main-partial')
+        .then((resolved) => {
+            t.same(resolved, {
+                module: pkgPath('stale-main-partial/lib/real.js'),
+            });
+            t.same(Object.keys(resolved), ['module']);
+        });
+});
+
+test('browser mapping to a missing file is dropped, not fatal', (t) => {
+    return createResolver()
+        .resolve('broken-browser-map')
+        .then((resolved) => {
+            t.same(resolved, {
+                main: pkgPath('broken-browser-map/lib/real.js'),
+                module: pkgPath('broken-browser-map/lib/real.js'),
+                browser: {},
+            });
+            t.same(Object.keys(resolved.browser), []);
+        });
+});
+
 test('browser object maps files, renames modules, and stubs false', (t) => {
     return createResolver()
         .resolve('browser-object')

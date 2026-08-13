@@ -410,6 +410,7 @@ class ModuleResolver {
                                 return (obj[key] = deps.get(val)[name]);
                             if (deps.get(key) && typeof val !== 'string')
                                 return (obj[deps.get(key)[name]] = false);
+                            if (!deps.get(val)) return;
                             obj[deps.get(key)[name]] = deps.get(val)[name];
                         });
                     }
