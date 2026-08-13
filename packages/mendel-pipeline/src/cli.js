@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /* eslint max-len: "off" */
-const program = require('commander');
+const { Command } = require('commander');
 const chalk = require('chalk');
+
+const program = new Command();
 
 function stringCollection(val = '', collection) {
     return collection.concat(
@@ -14,7 +16,7 @@ function stringCollection(val = '', collection) {
 
 program
     .version('0.1.0')
-    .usage('[options] <dir path>')
+    .usage('[options]')
     .option(
         '-i, --ignore <patterns>',
         'Comma separated ignore glob patterns',
@@ -32,15 +34,16 @@ program
     .option('-o, --outlet', 'Write a mendel v1 compatible manifest', false)
     .parse(process.argv);
 
-program.ignores = program.ignore;
+const opts = program.opts();
+opts.ignores = opts.ignore;
 
-if (program.watch) {
+if (opts.watch) {
     const MendelPipelineDaemon = require('./daemon');
-    const daemon = new MendelPipelineDaemon(program);
+    const daemon = new MendelPipelineDaemon(opts);
     daemon.watch();
 } else {
     const Mendel = require('./main');
-    const daemon = new Mendel(program);
+    const daemon = new Mendel(opts);
     daemon.run((error) => {
         if (error) process.exit(1);
         setImmediate(() => process.exit(0));

@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 const runner = require('./');
-const program = require('commander');
+const { Command } = require('commander');
 const fs = require('fs');
 const path = require('path');
+
+const program = new Command();
 
 function keyValueCoercer(value, defaultValue, delimiter = ',') {
     const res = defaultValue || {};
@@ -49,7 +51,8 @@ program
         '--retries <times>',
         'set numbers of time to retry a failed test case'
     )
-    .option('--delay', 'wait for async suite definition');
+    .option('--delay', 'wait for async suite definition')
+    .argument('[files...]', 'test files');
 
 program.parse(process.argv);
-runner(program.args, program);
+runner(program.args, program.opts());
