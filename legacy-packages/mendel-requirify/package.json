@@ -1,6 +1,7 @@
 {
   "name": "mendel-requirify",
   "version": "4.1.1",
+  "private": true,
   "description": "Write individual mendel-requirified dep files from the mendel browserify pipeline.",
   "main": "index.js",
   "keywords": [

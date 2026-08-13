@@ -705,31 +705,6 @@ importers:
         specifier: ^21.0.0
         version: 21.7.4(@types/node@26.1.1)(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
 
-  packages/mendel-requirify:
-    dependencies:
-      debug:
-        specifier: ^4.4.0
-        version: 4.4.3(supports-color@5.5.0)
-      fs-extra:
-        specifier: ^11.3.6
-        version: 11.3.6
-      mendel-development:
-        specifier: workspace:^
-        version: link:../mendel-development
-      through2:
-        specifier: ^2.0.1
-        version: 2.0.5
-    devDependencies:
-      browserify:
-        specifier: ^17.0.1
-        version: 17.0.1
-      rimraf:
-        specifier: ^6.1.3
-        version: 6.1.3
-      tap:
-        specifier: ^21.0.0
-        version: 21.7.4(@types/node@26.1.1)(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
-
   packages/mendel-resolver:
     dependencies:
       debug:

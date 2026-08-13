@@ -8,7 +8,7 @@ var temp = require('temp');
 var test = require('tap').test;
 var rimraf = require('rimraf');
 var browserify = require('browserify');
-var requirify = require('../packages/mendel-requirify');
+var requirify = require('../legacy-packages/mendel-requirify');
 var treenherit = require('../packages/mendel-treenherit');
 var requireTransform = require('../packages/mendel-development/require-transform');
 

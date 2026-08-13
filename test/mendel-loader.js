@@ -8,7 +8,7 @@ var test = require('tap').test;
 var Module = require('module');
 var browserify = require('browserify');
 var mendelify = require('../packages/mendel-browserify');
-var requirify = require('../packages/mendel-requirify');
+var requirify = require('../legacy-packages/mendel-requirify');
 var Tree = require('../packages/mendel-core/trees.js');
 var Loader = require('../packages/mendel-loader');
 
