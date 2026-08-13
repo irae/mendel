@@ -823,8 +823,8 @@ importers:
         specifier: ^3.2.6
         version: 3.2.6
       browser-resolve:
-        specifier: ^1.11.1
-        version: 1.11.3
+        specifier: ^2.0.0
+        version: 2.0.0
       browserify-transform-tools:
         specifier: ^1.5.3
         version: 1.7.0
@@ -2657,9 +2657,6 @@ packages:
   browser-pack@6.1.0:
     resolution: {integrity: sha512-erYug8XoqzU3IfcU8fUgyHqyOXqIE4tUTTQ+7mqUjQlvnXkOO6OlT9c/ZoJVHYoAaqGxr09CN53G7XIsO4KtWA==}
     hasBin: true
-
-  browser-resolve@1.11.3:
-    resolution: {integrity: sha512-exDi1BYWB/6raKHmDTCicQfTkqwN5fioMFV4j8BsfMU4R2DK/QfZfK7kOVkmWCNANf0snkBzqGqAJBao9gZMdQ==}
 
   browser-resolve@2.0.0:
     resolution: {integrity: sha512-7sWsQlYL2rGLy2IWm8WL8DCTJvYLc/qlOnsakDac87SOoCd16WLsaAMdCiAqsTNHIe+SXfaqyxyo6THoWqs8WQ==}
@@ -5769,9 +5766,6 @@ packages:
   resolve.exports@2.0.3:
     resolution: {integrity: sha512-OcXjMsGdhL4XnbShKpAcSqPMzQoYkYyhbEaeSko47MjRP9NfEQMhZkXL1DoFlt9LWQn4YttrdnV6X2OiyzBi+A==}
     engines: {node: '>=10'}
-
-  resolve@1.1.7:
-    resolution: {integrity: sha512-9znBF0vBcaSN3W2j7wKvdERPwqTxSpCq+if5C0WoTCyV9n24rua28jeuQ2pL/HOf+yUe/Mef+H/5p60K0Id3bg==}
 
   resolve@1.22.12:
     resolution: {integrity: sha512-TyeJ1zif53BPfHootBGwPRYT1RUt6oGWsaQr8UyZW/eAm9bKoijtvruSDEmZHm92CwS9nj7/fWttqPCgzep8CA==}
@@ -9043,10 +9037,6 @@ snapshots:
       safe-buffer: 5.2.1
       through2: 2.0.5
       umd: 3.0.3
-
-  browser-resolve@1.11.3:
-    dependencies:
-      resolve: 1.1.7
 
   browser-resolve@2.0.0:
     dependencies:
@@ -12907,8 +12897,6 @@ snapshots:
       walk-up-path: 4.0.0
 
   resolve.exports@2.0.3: {}
-
-  resolve@1.1.7: {}
 
   resolve@1.22.12:
     dependencies:

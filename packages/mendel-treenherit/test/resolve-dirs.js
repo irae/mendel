@@ -23,6 +23,26 @@ tap.test('With defaults', function (t) {
     });
 });
 
+tap.test('resolves the browser field over main', function (t) {
+    t.plan(2);
+
+    process.chdir(appDir);
+    resolveInDirs(
+        'browser-field-pkg',
+        ['app'],
+        false,
+        false,
+        function (err, path) {
+            t.error(err);
+            t.match(
+                path,
+                '/1/app/node_modules/browser-field-pkg/browser-entry.js',
+                'uses the package.json browser field, not main'
+            );
+        }
+    );
+});
+
 tap.test('With full params', function (t) {
     t.plan(5);
 
