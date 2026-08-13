@@ -43,7 +43,7 @@ outlets:
 bundles:
   main:
     outlet: manifest
-    outfile: main.js
+    manifest: main.manifest.json
     entries:
       - ./index.js
   css:

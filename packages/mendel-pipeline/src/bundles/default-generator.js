@@ -10,8 +10,10 @@ function defaultGenerator(bundle, doneBundles, registry) {
     if (!entries) return;
 
     let order = 0;
-    entries.forEach((entrance) => {
-        registry.getEntriesByGlob([entrance]).forEach((entry) => {
+    const negatives = entries.filter((glob) => glob[0] === '!');
+    const positives = entries.filter((glob) => glob[0] !== '!');
+    positives.forEach((entrance) => {
+        registry.getEntriesByGlob([entrance, ...negatives]).forEach((entry) => {
             const { normalizedId, type } = entry;
             registry.walk(normalizedId, { types: [type], runtime }, (dep) => {
                 if (resolvedEntries.has(dep.id)) return false;
