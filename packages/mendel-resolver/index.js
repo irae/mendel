@@ -8,6 +8,107 @@ function withPrefix(path) {
     return path;
 }
 
+// Mendel emits CommonJS (browser-pack / m.wrap), so every runtime prefers
+// the "require" condition; only the "module" runtime may pick ESM entries,
+// mirroring how the legacy "module" field is treated.
+const RUNTIME_CONDITIONS = {
+    main: ['node', 'require', 'default'],
+    browser: ['browser', 'require', 'default'],
+    module: ['module', 'import', 'default'],
+};
+
+function conditionsFor(runtime) {
+    return RUNTIME_CONDITIONS[runtime] || [runtime, 'require', 'default'];
+}
+
+function normalizeExports(exports) {
+    if (typeof exports === 'string' || Array.isArray(exports))
+        return { '.': exports };
+    if (typeof exports !== 'object' || exports === null) return null;
+    const keys = Object.keys(exports);
+    const subpathKeys = keys.filter((key) => key[0] === '.');
+    if (subpathKeys.length === 0) return { '.': exports };
+    // mixing "./subpath" and condition keys is invalid per Node
+    if (subpathKeys.length !== keys.length) return null;
+    return exports;
+}
+
+function matchExportsSubpath(exportsMap, subpath) {
+    if (Object.prototype.hasOwnProperty.call(exportsMap, subpath))
+        return { target: exportsMap[subpath], patternMatch: null };
+
+    // Node's PATTERN_KEY_COMPARE: the pattern with the longest static
+    // prefix (then longest suffix) wins over other matching patterns.
+    let best = null;
+    Object.keys(exportsMap).forEach((key) => {
+        const starIndex = key.indexOf('*');
+        if (starIndex < 0 || key.indexOf('*', starIndex + 1) >= 0) return;
+        const prefix = key.slice(0, starIndex);
+        const suffix = key.slice(starIndex + 1);
+        if (subpath.length < prefix.length + suffix.length) return;
+        if (!subpath.startsWith(prefix) || !subpath.endsWith(suffix)) return;
+        if (
+            !best ||
+            prefix.length > best.prefix.length ||
+            (prefix.length === best.prefix.length &&
+                suffix.length > best.suffix.length)
+        ) {
+            best = { key, prefix, suffix };
+        }
+    });
+    if (!best) return null;
+    return {
+        target: exportsMap[best.key],
+        patternMatch: subpath.slice(
+            best.prefix.length,
+            subpath.length - best.suffix.length
+        ),
+    };
+}
+
+// Walks a target expression depth-first honoring key order. Returns an
+// ordered list of candidate paths (array targets contribute alternatives),
+// null when the subpath is explicitly blocked, or undefined on no match.
+function expandExportsTarget(target, conditions, patternMatch) {
+    if (target === null) return null;
+    if (typeof target === 'string') {
+        if (target.slice(0, 2) !== './') return undefined;
+        return [
+            patternMatch === null
+                ? target
+                : target.split('*').join(patternMatch),
+        ];
+    }
+    if (Array.isArray(target)) {
+        const candidates = [];
+        for (const item of target) {
+            const expanded = expandExportsTarget(
+                item,
+                conditions,
+                patternMatch
+            );
+            if (expanded === null && candidates.length === 0) return null;
+            if (expanded) candidates.push(...expanded);
+        }
+        return candidates.length ? candidates : undefined;
+    }
+    if (typeof target === 'object') {
+        for (const key of Object.keys(target)) {
+            if (key !== 'default' && conditions.indexOf(key) < 0) continue;
+            const expanded = expandExportsTarget(
+                target[key],
+                conditions,
+                patternMatch
+            );
+            // undefined means an unmatched nested branch; per Node the
+            // search continues with the next sibling condition
+            if (expanded !== undefined) return expanded;
+        }
+        return undefined;
+    }
+    return undefined;
+}
+
 class ModuleResolver {
     /**
      * @param {Object} options
@@ -177,10 +278,86 @@ class ModuleResolver {
             });
     }
 
+    resolveExports(moduleDir, pkg, subpath) {
+        const exportsMap = normalizeExports(pkg.exports);
+        const matched = exportsMap && matchExportsSubpath(exportsMap, subpath);
+        const attempts = this.runtimes.map((runtime) => {
+            if (!matched) return Promise.resolve(undefined);
+            const candidates = expandExportsTarget(
+                matched.target,
+                conditionsFor(runtime),
+                matched.patternMatch
+            );
+            if (!candidates || !candidates.length)
+                return Promise.resolve(undefined);
+            let promise = Promise.reject();
+            candidates.forEach((candidate) => {
+                promise = promise.catch(() =>
+                    this.resolveFile(path.join(moduleDir, candidate)).then(
+                        (filePaths) => filePaths[runtime]
+                    )
+                );
+            });
+            return promise.catch(() => undefined);
+        });
+        return Promise.all(attempts).then((values) => {
+            const resolved = {};
+            this.runtimes.forEach((runtime, index) => {
+                if (values[index]) resolved[runtime] = values[index];
+            });
+            return resolved;
+        });
+    }
+
     resolvePackageJson(moduleName) {
         const packagePath = path.join(moduleName, '/package.json');
-        return this.readPackageJson(packagePath)
-            .then((pkg) => {
+        return this.readPackageJson(packagePath).then((pkg) => {
+            const viaExports =
+                pkg.exports != null
+                    ? this.resolveExports(moduleName, pkg, '.')
+                    : Promise.resolve({});
+            const viaLegacy = this._resolveLegacyFields(moduleName, pkg).catch(
+                () => ({})
+            );
+            return Promise.all([viaExports, viaLegacy]).then(
+                ([exportsResolved, legacyResolved]) => {
+                    const resolved = this.runtimes.reduce((reduced, name) => {
+                        // mendel's browser field overlay predates "exports"
+                        // and remains authoritative for the browser runtime
+                        const preferLegacy =
+                            name === 'browser' && pkg.browser != null;
+                        const first = preferLegacy
+                            ? legacyResolved
+                            : exportsResolved;
+                        const second = preferLegacy
+                            ? exportsResolved
+                            : legacyResolved;
+                        const value =
+                            first[name] !== undefined
+                                ? first[name]
+                                : second[name];
+                        if (value !== undefined) reduced[name] = value;
+                        return reduced;
+                    }, {});
+
+                    if (!Object.keys(resolved).length) {
+                        throw new Error(
+                            `package.json without "${this.runtimes}" or resolvable "exports"`
+                        );
+                    }
+                    if (this.recordPackageJson)
+                        resolved.packageJson = packagePath;
+                    debugFilter(verbose, `${moduleName} runtimes`);
+                    debugFilter(verbose, resolved, moduleName);
+                    return resolved;
+                }
+            );
+        });
+    }
+
+    _resolveLegacyFields(moduleName, pkg) {
+        return Promise.resolve()
+            .then(() => {
                 if (this.runtimes.every((name) => !pkg[name])) {
                     throw new Error(`package.json without "${this.runtimes}"`);
                 }
@@ -263,14 +440,16 @@ class ModuleResolver {
                     return reduced;
                 }, {});
 
-                if (this.recordPackageJson) resolved.packageJson = packagePath;
-                debugFilter(verbose, `${moduleName} runtimes`);
-                debugFilter(verbose, resolved, moduleName);
                 return resolved;
             });
     }
 
     resolveNodeModules(moduleName) {
+        const parts = moduleName.split('/');
+        const packageName =
+            moduleName[0] === '@' ? parts.slice(0, 2).join('/') : parts[0];
+        const subpath = '.' + moduleName.slice(packageName.length);
+
         const nodeModulePaths = this.getPotentialNodeModulePaths(this.basedir);
         let promise = Promise.reject();
         nodeModulePaths.forEach((nodeModulePath) => {
@@ -286,9 +465,32 @@ class ModuleResolver {
                         nodeModulePath,
                         moduleName
                     );
-                    return this.resolveFile(moduleFullPath).catch(() =>
-                        this.resolveDir(moduleFullPath)
-                    );
+                    const resolveWithoutExports = () =>
+                        this.resolveFile(moduleFullPath).catch(() =>
+                            this.resolveDir(moduleFullPath)
+                        );
+                    if (subpath === '.') return resolveWithoutExports();
+
+                    // when "exports" declares subpaths, undeclared ones are
+                    // encapsulated even if the file exists on disk
+                    const packageDir = path.join(nodeModulePath, packageName);
+                    return this.readPackageJson(
+                        path.join(packageDir, 'package.json')
+                    ).then((pkg) => {
+                        if (pkg.exports == null) return resolveWithoutExports();
+                        return this.resolveExports(
+                            packageDir,
+                            pkg,
+                            subpath
+                        ).then((resolved) => {
+                            if (!Object.keys(resolved).length) {
+                                throw new Error(
+                                    `${subpath} is not exported by ${packageName}`
+                                );
+                            }
+                            return resolved;
+                        });
+                    }, resolveWithoutExports);
                 });
             });
         });
