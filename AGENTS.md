@@ -23,7 +23,7 @@ Assume the developer left the repo in working condition. Escalate or offer to he
 
 Worktrees are **temporary**. Treat them as scratch space that always gets torn down.
 
-1. A worktree **must** be a sibling directory of the repo (`../mendel-<name>`). Never nested inside it.
+1. A worktree **must** be a sibling directory of the repo (`../mendel-<name>`). Never nested inside it (specifically denied to create `.claude/worktrees/`).
 2. Before deleting, salvage from the worktree's gitignored `docs/superpowers/`: copy files back to the main worktree **only when no file of that name already exists there** — never overwrite. From `agent-communications/`, copy back only files that still carry open items; records of finished work stay behind.
 3. Once the work is merged into the main worktree, **delete the worktree and its branch**. Do not keep one around for reuse.
 
