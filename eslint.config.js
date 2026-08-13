@@ -14,6 +14,7 @@ module.exports = [
             '**/build-requirify/**',
             '**/fixtures/**',
             '**/.tap.coverage.map.js',
+            'legacy-packages/**',
         ],
     },
     js.configs.recommended,

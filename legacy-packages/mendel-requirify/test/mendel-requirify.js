@@ -8,11 +8,11 @@ var temp = require('temp');
 var test = require('tap').test;
 var rimraf = require('rimraf');
 var browserify = require('browserify');
-var requirify = require('../legacy-packages/mendel-requirify');
-var treenherit = require('../packages/mendel-treenherit');
-var requireTransform = require('../packages/mendel-development/require-transform');
+var requirify = require('../');
+var treenherit = require('../../../packages/mendel-treenherit');
+var requireTransform = require('../../../packages/mendel-development/require-transform');
 
-var srcDir = path.resolve(__dirname, './app-samples/1');
+var srcDir = path.resolve(__dirname, '../../../test/app-samples/1');
 
 temp.track();
 var buildDir = temp.mkdirSync('build-requirify');

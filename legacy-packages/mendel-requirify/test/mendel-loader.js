@@ -7,12 +7,12 @@ var temp = require('temp');
 var test = require('tap').test;
 var Module = require('module');
 var browserify = require('browserify');
-var mendelify = require('../packages/mendel-browserify');
-var requirify = require('../legacy-packages/mendel-requirify');
-var Tree = require('../packages/mendel-core/trees.js');
-var Loader = require('../packages/mendel-loader');
+var mendelify = require('../../../packages/mendel-browserify');
+var requirify = require('../');
+var Tree = require('../../../packages/mendel-core/trees.js');
+var Loader = require('../../../packages/mendel-loader');
 
-var srcDir = path.resolve(__dirname, './app-samples/1');
+var srcDir = path.resolve(__dirname, '../../../test/app-samples/1');
 var buildDir = temp.mkdirSync('mendel-loader');
 var mountDir = path.join(buildDir, 'server');
 
