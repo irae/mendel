@@ -68,7 +68,13 @@ test('postProcessManifests sorts and cleans manifests', function (t) {
 
 test('postProcessManifests validates manifests', function (t) {
     copyRecursiveSync(realSamples, copySamples);
-    t.plan(1);
+    t.plan(3);
+
+    var logs = [];
+    var originalLog = console.log;
+    console.log = function () {
+        logs.push(Array.prototype.join.call(arguments, ' '));
+    };
 
     postProcessManifests(
         {
@@ -81,7 +87,29 @@ test('postProcessManifests validates manifests', function (t) {
             ],
         },
         function (err) {
+            console.log = originalLog;
+
             t.equal(err.code, 'INVALID_MANIFEST', 'should validate manifests');
+
+            var writtenLine = logs
+                .map(function (line) {
+                    return line.trim();
+                })
+                .filter(function (line) {
+                    return / written$/.test(line);
+                })[0];
+            var debugManifestPath = writtenLine
+                ? writtenLine.replace(/ written$/, '')
+                : null;
+
+            t.ok(
+                debugManifestPath && fs.existsSync(debugManifestPath),
+                'debug manifest was written to a readable location'
+            );
+
+            t.doesNotThrow(function () {
+                JSON.parse(fs.readFileSync(debugManifestPath, 'utf8'));
+            }, 'debug manifest is valid JSON');
         }
     );
 });
