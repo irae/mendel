@@ -11,3 +11,6 @@ build-requirify/
 jsdom.js
 debug.sh
 .tap/
+
+docs/superpowers/
+.claude/settings.local.json
