@@ -6,7 +6,7 @@ function OutletConfig({ id, plugin, options = {} }, { projectRoot }) {
     this._plugin = plugin;
     this.options = options;
 
-    this.plugin = resolvePlugin(plugin, projectRoot).plugin;
+    this.plugin = resolvePlugin(plugin, projectRoot, `outlets.${id}`).plugin;
 
     if (this.options.plugin) {
         if (!Array.isArray(this.options.plugin)) {
@@ -19,10 +19,15 @@ function OutletConfig({ id, plugin, options = {} }, { projectRoot }) {
                 );
             }
 
+            const subContext = `outlets.${id}.options.plugin[${index}]`;
             if (typeof plugin === 'string')
-                return resolvePlugin(plugin, projectRoot).plugin;
+                return resolvePlugin(plugin, projectRoot, subContext).plugin;
 
-            plugin[0] = resolvePlugin(plugin[0], projectRoot).plugin;
+            plugin[0] = resolvePlugin(
+                plugin[0],
+                projectRoot,
+                subContext
+            ).plugin;
             return plugin;
         });
     }

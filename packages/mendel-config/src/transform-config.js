@@ -9,7 +9,11 @@ function TransformConfig(id, transform, mendelConfig) {
         mendelConfig: { projectRoot, baseConfig, variationConfig },
     };
 
-    var resolved = resolvePlugin(transform.plugin, projectRoot);
+    var resolved = resolvePlugin(
+        transform.plugin,
+        projectRoot,
+        `transforms.${id}`
+    );
     this.plugin = resolved.plugin;
     this.mode = resolved.mode;
 

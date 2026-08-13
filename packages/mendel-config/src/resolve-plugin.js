@@ -1,11 +1,24 @@
 var nodeResolveSync = require('resolve').sync;
 var path = require('path');
 
-function resolvePlugin(pluginName, basedir) {
+function resolvePlugin(pluginName, basedir, context) {
+    const pluginPath = _resolve(pluginName, { basedir });
+
+    if (!pluginPath) {
+        throw new Error(
+            [
+                `[Config][ERROR] Cannot find Mendel plugin "${pluginName}"` +
+                    (context ? ` (referenced by ${context})` : '') +
+                    '.',
+                `Install it, e.g.: npm install --save-dev ${pluginName}`,
+                `(resolved from ${basedir})`,
+            ].join(' ')
+        );
+    }
+
     const pluginPackagePath = _resolve(path.join(pluginName, 'package.json'), {
         basedir,
     });
-    const pluginPath = _resolve(pluginName, { basedir });
 
     const resolved = {
         plugin: pluginPath,
@@ -30,8 +43,8 @@ function resolvePlugin(pluginName, basedir) {
         console.error(
             'WARN: ' +
                 pluginName +
-                ' was not found. Check your configuration ' +
-                'or your "npm install --save-dev" your plugin'
+                ' resolved but failed to load; defaulting mode to "unknown". ' +
+                'Check the plugin for load-time errors.'
         );
     }
 
