@@ -61,3 +61,77 @@ tap.test('With full params', function (t) {
         }
     );
 });
+
+tap.test(
+    'resolves from the first directory in the chain that has the file',
+    function (t) {
+        t.plan(2);
+
+        process.chdir(__dirname);
+        resolveInDirs(
+            './math',
+            ['test_A', 'app'],
+            appDir,
+            false,
+            function (err, path) {
+                t.error(err);
+                t.match(
+                    path,
+                    '/1/test_A/math.js',
+                    'earlier directory wins over a later one that also has the file'
+                );
+            }
+        );
+    }
+);
+
+tap.test(
+    'reports a module-not-found error when no directory resolves',
+    function (t) {
+        t.plan(2);
+
+        process.chdir(__dirname);
+        resolveInDirs(
+            './math',
+            ['unexisting1', 'unexisting2'],
+            appDir,
+            false,
+            function (err, path) {
+                t.match(
+                    err.message,
+                    'unexisting2',
+                    'error reflects the last directory tried, not the first'
+                );
+                t.notOk(path, 'no path is returned');
+            }
+        );
+    }
+);
+
+tap.test('never invokes the callback more than once', function (t) {
+    t.plan(2);
+
+    process.chdir(__dirname);
+
+    var foundCalls = 0;
+    resolveInDirs('./math', ['test_A', 'app'], appDir, false, function () {
+        foundCalls++;
+        t.equal(foundCalls, 1, 'found path only invokes callback once');
+    });
+
+    var notFoundCalls = 0;
+    resolveInDirs(
+        './math',
+        ['unexisting1', 'unexisting2'],
+        appDir,
+        false,
+        function () {
+            notFoundCalls++;
+            t.equal(
+                notFoundCalls,
+                1,
+                'not-found path only invokes callback once'
+            );
+        }
+    );
+});

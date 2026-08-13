@@ -34,10 +34,10 @@ function resolveInDirs(file, dirs, base, parent, callback) {
                     finalPath = path;
                 }
                 lastError = err;
-                doneModule(!err);
+                doneModule(null, !err);
             });
         },
-        function (moduleIn) {
+        function (err, moduleIn) {
             if (!moduleIn) {
                 return callback(lastError);
             }
