@@ -74,7 +74,7 @@
     "async": "^3.2.6",
     "browserify": "^17.0.1",
     "debug": "^4.4.3",
-    "eslint": "^9.39.4",
+    "eslint": "^10.8.1",
     "eslint-plugin-implicit-dependencies": "^1.1.1",
     "eslint-plugin-react": "^7.37.5",
     "express": "^4.21.2",

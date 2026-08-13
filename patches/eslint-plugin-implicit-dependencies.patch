@@ -1,0 +1,13 @@
+diff --git a/rules/no-implicit-dependencies.js b/rules/no-implicit-dependencies.js
+index c7e2818faa2e31a6d96958ad7a23e8a15f59bda2..d4a817a79afd720bcfc86811020cd7cd66055fac 100644
+--- a/rules/no-implicit-dependencies.js
++++ b/rules/no-implicit-dependencies.js
+@@ -29,7 +29,7 @@ module.exports = {
+   },
+   create: (context) => {
+     // find the nearest package.json
+-    const dir = path.dirname(context.getFilename());
++    const dir = path.dirname(context.filename);
+     const jsonPath = path.join(findup.sync(dir, 'package.json'), 'package.json');
+     const pkg = require(jsonPath);
+     const checkModuleName = (name, node) => {

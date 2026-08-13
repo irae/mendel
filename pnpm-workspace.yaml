@@ -21,3 +21,6 @@ allowBuilds:
 
 # Avoid hanging pnpm install under non-TTY test runs.
 verifyDepsBeforeRun: false
+
+patchedDependencies:
+  eslint-plugin-implicit-dependencies: patches/eslint-plugin-implicit-dependencies.patch
