@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "debug": "^4.4.0",
-    "falafel": "^2.1.0",
+    "falafel": "^2.2.5",
     "mendel-development": "workspace:^",
     "mendel-outlet-manifest": "workspace:^",
     "mkdirp": "^3.0.1"

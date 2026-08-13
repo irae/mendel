@@ -614,7 +614,7 @@ importers:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@5.5.0)
       falafel:
-        specifier: ^2.1.0
+        specifier: ^2.2.5
         version: 2.2.5
       mendel-development:
         specifier: workspace:^
