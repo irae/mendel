@@ -19,7 +19,7 @@
   "dependencies": {
     "concentrate": "^0.2.3",
     "debug": "^4.4.0",
-    "dissolve": "^0.3.3",
+    "dissolve": "^0.2.1",
     "mendel-config": "workspace:^",
     "urlsafe-base64": "^1.0.0",
     "xtend": "^4.0.1"
