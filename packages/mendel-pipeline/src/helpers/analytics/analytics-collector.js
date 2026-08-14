@@ -10,7 +10,11 @@ class AnalyticsCollector {
 
     onExit() {
         if (this.options.printer && this.data.length) {
-            this.options.printer.print(this.data);
+            try {
+                this.options.printer.print(this.data);
+            } catch (err) {
+                console.error('Analytics printer error (suppressed):', err);
+            }
         }
     }
 

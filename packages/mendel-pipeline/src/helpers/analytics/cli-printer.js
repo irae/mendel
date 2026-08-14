@@ -4,21 +4,24 @@ const { default: prettyMs } = require('pretty-ms');
 const { default: figure } = require('figures');
 
 function getBarText(percent, maxBarSize) {
+    maxBarSize = Math.max(0, maxBarSize);
     const barNumber = Math.max(Math.ceil((percent / 100) * maxBarSize), 1);
     return (
         chalk.blue(new Array(barNumber + 1).join(figure.square)) +
         chalk.blue.dim(
-            new Array(maxBarSize - barNumber + 1).join(figure.square)
+            new Array(Math.max(0, maxBarSize - barNumber + 1)).join(
+                figure.square
+            )
         )
     );
 }
 
 function padLeft(str, width) {
-    return new Array(width - str.length + 1).join(' ') + str;
+    return new Array(Math.max(0, width - str.length + 1)).join(' ') + str;
 }
 
 function padRight(str, width) {
-    return str + new Array(width - str.length + 1).join(' ');
+    return str + new Array(Math.max(0, width - str.length + 1)).join(' ');
 }
 
 class CliPrinter extends BasePrinter {
@@ -96,7 +99,9 @@ class CliPrinter extends BasePrinter {
         // Textify
         const tabledText = points
             .map(({ name, aggregate }) => {
-                const percent = (aggregate / totalAggregateTime) * 100;
+                const percent = totalAggregateTime
+                    ? (aggregate / totalAggregateTime) * 100
+                    : 0;
                 // 7 for the time string, 4 for percent string, 3 to compensate for column char of the table
                 const maxBarSize =
                     (process.stdout.columns || 80) -
