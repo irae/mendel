@@ -7,7 +7,7 @@ const EventEmitter = require('events').EventEmitter;
 const debug = require('debug')('mendel:net:client');
 const error = require('debug')('mendel:net:client:error');
 const verbose = require('debug')('verbose:mendel:net:client');
-const colors = require('chalk');
+const { default: colors } = require('chalk');
 const debugFilter = require('mendel-development/debug-filter');
 
 class CacheClient extends EventEmitter {

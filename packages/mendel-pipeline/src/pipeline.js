@@ -6,7 +6,7 @@ const IST = require('./step/ist');
 const End = require('./step/end');
 const GST = require('./step/gst');
 const Waiter = require('./step/waiter');
-const colors = require('chalk');
+const { default: colors } = require('chalk');
 
 const EventEmitter = require('events').EventEmitter;
 

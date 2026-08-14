@@ -1,7 +1,7 @@
 const BasePrinter = require('./printer');
-const chalk = require('chalk');
-const prettyMs = require('pretty-ms');
-const figure = require('figures');
+const { default: chalk } = require('chalk');
+const { default: prettyMs } = require('pretty-ms');
+const { default: figure } = require('figures');
 
 function getBarText(percent, maxBarSize) {
     const barNumber = Math.max(Math.ceil((percent / 100) * maxBarSize), 1);
@@ -25,7 +25,7 @@ class CliPrinter extends BasePrinter {
     constructor(options = {}) {
         super(options);
 
-        chalk.enabled = true && (options.enableColor || true);
+        chalk.level = options.enableColor !== false ? 3 : 0;
         this.processStart = Date.now();
 
         this.nameMaxLen = options.nameMaxLen || 30;
