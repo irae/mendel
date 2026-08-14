@@ -50,7 +50,7 @@ Mendel's model is sound. Its implementation and documentation have not kept pace
 
 **Variation override mechanisms are undocumented.** Design.md says variations can be overridden in development via query string, cookie, or developer-box configuration. None of these mechanisms are documented as user-facing features. The full example presumably implements them in server code; there is no reference for how the middleware exposes them.
 
-**Testing variations has no user documentation.** The full example uses `mendel-mocha` and `karma-mendel`. No document explains how to write tests against specific variations. `mendel-mocha-runner` has no README. Developers cargo-cult test setup from the example.
+**Testing variations has no user documentation.** The full example uses `karma-mendel` (its earlier mocha+jsdom path was orphaned and removed in 2026-08). No document explains how to write tests against specific variations. `mendel-mocha-runner` has no README. Developers cargo-cult test setup from the example.
 
 **Multilayer has no example.** `Design.md` explains the architecture and the permutation problem. The `full-example` does not demonstrate multilayer. No document shows what a multilayer `.mendelrc` looks like or how the production server handles a user assigned to variations from multiple layers.
 
