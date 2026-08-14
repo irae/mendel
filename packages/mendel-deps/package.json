@@ -16,8 +16,8 @@
   "dependencies": {
     "@babel/parser": "^7.29.0",
     "@babel/traverse": "^7.29.0",
-    "css": "^3.0.0",
-    "debug": "^4.4.0"
+    "debug": "^4.4.0",
+    "postcss": "^8.5.0"
   },
   "devDependencies": {
     "glob": "^13.0.6",
