@@ -51,6 +51,96 @@ the invariant it exists for, which tests consume it, and — for stub npm
 packages — which real package and version its shape mirrors. See
 `packages/mendel-resolver/test/fixtures/imports/README.md`.
 
+#### End-to-end daemon and client harness
+
+Some behaviour only exists between two processes: daemon lifecycle, watch-mode
+recovery, error propagation from a transform to a bundle, client sync state,
+one-shot exit codes. None of it is reachable from a unit test of a single
+package — the pipeline, the IPC socket and the client registry all have to be
+real. For anything narrower (a resolver algorithm, a config key, a parser),
+stay in the package's own `test/` directory instead.
+
+The harness is a real builder spawned as a child process over a **scratch
+socket**, plus a real client driven the way
+`packages/mendel-development-middleware/index.js` drives it in a dev server:
+`BuildOnDemand` with `noout: true`, `resolveVariations()`, then
+`client.build(bundleId, variations)`.
+
+Use `examples/full-example` as the target project. It is a real React/JSX app
+whose `.mendelrc` deliberately keeps the awkward cases alive: four variations
+with an inheritance chain (`bucket_D` → `partner_C`) and a variation pointing at
+a directory that does not exist, babel + uglify + istanbul transforms, a JSON
+parser with type conversion (`json` → `js`), CSS and RTL-CSS outlets, both
+generators (`extract-bundles`, `node-modules`), a `browser`-field dual package
+under `components/about/`, a lazy-loaded bundle, server-side render and manifest
+outlets in the `production` env, and a `test` env with its own type map. A build
+that survives it has touched most of the pipeline.
+
+```js
+const ipcPath = path.join(os.tmpdir(), `mendel-probe-${process.pid}.sock`);
+const appPath = path.resolve(__dirname, '../../../examples/full-example');
+
+const daemon = spawn(process.execPath, [cliPath, '--watch'], {
+    cwd: appPath,
+    env: Object.assign({}, process.env, {
+        MENDEL_IPC: ipcPath,
+        MENDEL_ENV: 'development',
+        NODE_ENV: 'development',
+    }),
+    stdio: ['ignore', 'ignore', 'pipe'],
+});
+// The daemon reports transform failures on stderr; capture it to assert on.
+daemon.stderr.on('data', (d) => (stderr += d));
+await waitFor(() => fs.existsSync(ipcPath)); // builder is up
+
+// mendel-config defaults projectRoot to process.cwd()
+process.chdir(appPath);
+const BuildOnDemand = require('mendel-pipeline/client');
+const client = new BuildOnDemand({
+    environment: 'development',
+    noout: true,
+    verbose: false,
+});
+client.run();
+
+await waitFor(() => client.isSynced());
+const vars = resolveVariations(client.config.variationConfig.variations, [
+    'bucket_A',
+]);
+const output = await client.build('main', vars); // string or Stream
+
+// ... mutate a source file, then watch the client leave and re-enter sync ...
+
+client.exit();
+daemon.kill('SIGKILL');
+fs.unlinkSync(ipcPath);
+```
+
+Notes that cost time to rediscover:
+
+- **Always a scratch socket.** `MENDEL_IPC` defaults to `.mendelipc` in the
+  project root, so a test that uses the default silently attaches to whatever
+  builder the developer already has running. Put the scratch socket in
+  `os.tmpdir()`: unix socket paths cap out near 104 bytes and a path inside a
+  deep checkout truncates without an error.
+- **State to poll**, since there is no single "done" callback: `client.isSynced()`
+  (`false` from the first file change until the pipeline goes idle again), and
+  the `ready` / `change` events the client re-emits from the cache client's
+  `sync` / `unsync`. Poll on an interval with a deadline; a full-example build
+  is tens of seconds, so raise the test timeout well past tap's default.
+- **`build()` resolves to a string or a Stream** depending on the outlet — drain
+  it before asserting on bundle contents.
+- **One-shot mode** (`mendel` with no `--watch`) is the other half: it exits `1`
+  when any entry fails to transform and `0` on a clean build, verified by
+  running `packages/mendel-pipeline/src/cli.js` with `cwd` set to the project.
+- **Restore what you break.** Rewrite the mutated source, kill the daemon and
+  unlink the socket in a `teardown`, and also from a `process.on('exit')` guard
+  so an aborted run does not leave a broken file in the working tree.
+
+See also `packages/mendel-pipeline/test/error-handling.js` — landing with the
+daemon error-handling work — for this pattern as an automated test rather than
+an ad hoc probe.
+
 #### Running tests.
 
 If you develop against a consumer app, link packages with the pnpm flow in
