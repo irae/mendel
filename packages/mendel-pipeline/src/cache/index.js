@@ -182,10 +182,10 @@ class MendelCache extends EventEmitter {
         return this._store.has(id);
     }
 
-    removeEntry(id) {
+    removeEntry(id, { final = false } = {}) {
         if (this.hasEntry(id)) {
             this._store.delete(id);
-            this.emit('entryRemoved', id);
+            this.emit('entryRemoved', id, { final });
         }
     }
 

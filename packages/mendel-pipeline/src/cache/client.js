@@ -71,6 +71,16 @@ class CacheClient extends EventEmitter {
                     this.registry.removeEntry(data.id);
                     this.erroredEntries.delete(data.id);
                     if (unsynced) this.emit('unsync', data.id);
+
+                    // Only a "final" removal (a real fs unlink, never
+                    // followed by an addEntry) is safe to re-check status
+                    // for here. A file being rebuilt also goes through
+                    // removeEntry, and resyncing before its addEntry lands
+                    // would let a request through against a bundle that's
+                    // still missing that entry.
+                    if (data.final && typeof data.totalEntries === 'number') {
+                        this.checkStatus(data.totalEntries);
+                    }
                     break;
                 }
                 case 'errorEntry': {

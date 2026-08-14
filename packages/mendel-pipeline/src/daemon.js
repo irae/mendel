@@ -26,8 +26,8 @@ class CacheManager extends EventEmitter {
         this._caches.set(env, cache);
         cache.on('entryRequested', (path) => this.emit('entryRequested', path));
         cache.on('doneEntry', (ent) => this.emit('doneEntry', cache, ent));
-        cache.on('entryRemoved', (ent) =>
-            this.emit('entryRemoved', cache, ent)
+        cache.on('entryRemoved', (ent, meta) =>
+            this.emit('entryRemoved', cache, ent, meta)
         );
         cache.on('entryChanged', (ent) =>
             this.emit('entryRemoved', cache, ent)
@@ -76,10 +76,10 @@ class CacheManager extends EventEmitter {
         );
     }
 
-    removeEntry(id) {
+    removeEntry(id, meta) {
         this._watchedFileId.delete(id);
         Array.from(this._caches.values()).forEach((cache) =>
-            cache.removeEntry(id)
+            cache.removeEntry(id, meta)
         );
     }
 }

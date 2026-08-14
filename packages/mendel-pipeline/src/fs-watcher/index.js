@@ -57,7 +57,13 @@ class FsWatcher {
                 }
             })
             .on('unlink', (path) => {
-                this.cacheManager.removeEntry(withPrefix(path));
+                // Unlike the remove+add pair a 'change' does above, an
+                // unlink is never followed by an addEntry for this id, so
+                // it's marked final: this is what lets a client resync
+                // immediately instead of waiting on an unrelated file event.
+                this.cacheManager.removeEntry(withPrefix(path), {
+                    final: true,
+                });
             })
             .on('add', (path, stats) => {
                 path = withPrefix(path);

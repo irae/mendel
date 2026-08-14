@@ -104,11 +104,11 @@ class CacheServer extends EventEmitter {
                 .filter((c) => c.environment === cache.environment)
                 .forEach((c) => this._sendEntry(c, cache, entry));
         });
-        this.cacheManager.on('entryRemoved', (cache, entryId) => {
+        this.cacheManager.on('entryRemoved', (cache, entryId, meta) => {
             this.clients
                 .filter((client) => client.environment === cache.environment)
                 .forEach((client) =>
-                    this._signalRemoval(client, cache, entryId)
+                    this._signalRemoval(client, cache, entryId, meta)
                 );
         });
         this.cacheManager.on('entryErrored', (cache, desc) => {
@@ -186,10 +186,14 @@ class CacheServer extends EventEmitter {
         debugFilter(verbose, 'sent ' + entry.id);
     }
 
-    _signalRemoval(client, cache, id) {
+    // "final" tells a client this id is gone for good (a real fs unlink), as
+    // opposed to the remove+add pair a file edit produces, so only a final
+    // removal is safe for the client to resync its status against.
+    _signalRemoval(client, cache, id, meta = {}) {
         this.send(client, {
             totalEntries: cache.deliverableSize(),
             type: 'removeEntry',
+            final: !!meta.final,
             id,
         });
     }

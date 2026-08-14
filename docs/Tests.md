@@ -172,6 +172,36 @@ See also `packages/mendel-pipeline/test/error-handling.js` — landing with the
 daemon error-handling work — for this pattern as an automated test rather than
 an ad hoc probe.
 
+#### Event-order bugs
+
+Some bugs are not visible from inspecting state at any single point in time —
+the state is fine in isolation, but nothing gets triggered by what should
+happen _after_ it. They only reproduce by actually driving the real sequence
+of async events in order: a state-only assertion (call a function, check the
+result) cannot see them, because the bug is in what's missing between two
+events, not in either event alone.
+
+Concrete example: `packages/mendel-pipeline/src/cache/client.js`'s `synced`
+flag used to be cleared on `removeEntry` but only ever re-set from `addEntry`'s
+`checkStatus()` call. Deleting a file the daemon watches sends a `removeEntry`
+with no `addEntry` ever following it, so nothing re-checked status again — the
+client stayed `unsynced` forever, and every subsequent bundle request hung
+with no response until an unrelated file happened to change. Nothing about
+this was visible from a unit test of `checkStatus()` or `removeEntry()` alone;
+both behave exactly as coded. It only shows up by actually deleting a file in
+a running daemon+client and watching what does (and doesn't) happen next. See
+`packages/mendel-pipeline/test/delete-unsync.js`.
+
+The prevention pattern is a genuine **red-green functional test**: reproduce
+the event sequence for real — real daemon, real file operations, real timing —
+and confirm the test _fails_ on the unfixed code before trusting that it
+passing on the fixed code means anything. A test that only checks "is the code
+shaped correctly" misses this class of bug entirely; a poll-based assertion
+can miss it too if the race it's checking for resolves faster than the poll's
+first tick, so prefer waiting on the actual event (`client.once('change', …)`)
+over sampling state on an interval when the thing being proven is "did this
+transition happen at all."
+
 #### Running tests.
 
 If you develop against a consumer app, link packages with the pnpm flow in
