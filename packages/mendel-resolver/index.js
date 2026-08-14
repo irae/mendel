@@ -69,10 +69,16 @@ function matchExportsSubpath(exportsMap, subpath) {
 // Walks a target expression depth-first honoring key order. Returns an
 // ordered list of candidate paths (array targets contribute alternatives),
 // null when the subpath is explicitly blocked, or undefined on no match.
-function expandExportsTarget(target, conditions, patternMatch) {
+function expandExportsTarget(target, conditions, patternMatch, allowBare) {
     if (target === null) return null;
     if (typeof target === 'string') {
-        if (target.slice(0, 2) !== './') return undefined;
+        // "imports" may target another package; "exports" may not. Even for
+        // "imports" the target must stay a package specifier: "#" would
+        // recurse into the same map forever, "/" and "../" escape the package.
+        if (target.slice(0, 2) !== './') {
+            if (!allowBare || /^(?:#|\.\.?[\\/]|[\\/])/.test(target))
+                return undefined;
+        }
         return [
             patternMatch === null
                 ? target
@@ -85,7 +91,8 @@ function expandExportsTarget(target, conditions, patternMatch) {
             const expanded = expandExportsTarget(
                 item,
                 conditions,
-                patternMatch
+                patternMatch,
+                allowBare
             );
             if (expanded === null && candidates.length === 0) return null;
             if (expanded) candidates.push(...expanded);
@@ -98,7 +105,8 @@ function expandExportsTarget(target, conditions, patternMatch) {
             const expanded = expandExportsTarget(
                 target[key],
                 conditions,
-                patternMatch
+                patternMatch,
+                allowBare
             );
             // undefined means an unmatched nested branch; per Node the
             // search continues with the next sibling condition
@@ -128,6 +136,7 @@ class ModuleResolver {
         this.basedir = path.resolve(this.cwd, basedir);
         this.runtimes = runtimes;
         this.recordPackageJson = recordPackageJson;
+        this._scopeCache = new Map();
     }
 
     static pStat(filePath) {
@@ -172,7 +181,9 @@ class ModuleResolver {
      */
     resolve(moduleName) {
         let promise;
-        if (!ModuleResolver.isNodeModule(moduleName)) {
+        if (moduleName[0] === '#') {
+            promise = this.resolveImports(moduleName);
+        } else if (!ModuleResolver.isNodeModule(moduleName)) {
             const moduleAbsPath = path.resolve(this.basedir, moduleName);
             promise = this.resolveFile(moduleAbsPath).catch(() =>
                 this.resolveDir(moduleAbsPath)
@@ -269,24 +280,41 @@ class ModuleResolver {
     }
 
     resolveExports(moduleDir, pkg, subpath) {
-        const exportsMap = normalizeExports(pkg.exports);
-        const matched = exportsMap && matchExportsSubpath(exportsMap, subpath);
+        return this._resolveConditionalMap(
+            moduleDir,
+            normalizeExports(pkg.exports),
+            subpath,
+            false
+        );
+    }
+
+    // shared engine for the "exports" and "imports" fields: both match a
+    // subpath against a map and pick a target per runtime conditions
+    _resolveConditionalMap(scopeDir, map, subpath, allowBare) {
+        const matched = map && matchExportsSubpath(map, subpath);
         const attempts = this.runtimes.map((runtime) => {
             if (!matched) return Promise.resolve(undefined);
             const candidates = expandExportsTarget(
                 matched.target,
                 conditionsFor(runtime),
-                matched.patternMatch
+                matched.patternMatch,
+                allowBare
             );
             if (!candidates || !candidates.length)
                 return Promise.resolve(undefined);
             let promise = Promise.reject();
             candidates.forEach((candidate) => {
-                promise = promise.catch(() =>
-                    this.resolveFile(path.join(moduleDir, candidate)).then(
-                        (filePaths) => filePaths[runtime]
-                    )
-                );
+                promise = promise.catch(() => {
+                    if (candidate.slice(0, 2) !== './') {
+                        return this.resolve(candidate).then((resolved) => {
+                            if (!resolved[runtime]) throw new Error();
+                            return resolved[runtime];
+                        });
+                    }
+                    return this.resolveFile(
+                        path.join(scopeDir, candidate)
+                    ).then((filePaths) => filePaths[runtime]);
+                });
             });
             return promise.catch(() => undefined);
         });
@@ -296,6 +324,56 @@ class ModuleResolver {
                 if (values[index]) resolved[runtime] = values[index];
             });
             return resolved;
+        });
+    }
+
+    // Node's LOOKUP_PACKAGE_SCOPE: nearest enclosing package.json, never
+    // crossing out of a package into its own "node_modules" parent
+    lookupPackageScope(dir) {
+        if (this._scopeCache.has(dir)) return this._scopeCache.get(dir);
+
+        let promise;
+        if (
+            path.basename(dir) === 'node_modules' ||
+            dir === path.dirname(dir)
+        ) {
+            promise = Promise.reject(
+                new Error(`${dir} is not inside a package scope`)
+            );
+        } else {
+            promise = this.readPackageJson(path.join(dir, 'package.json')).then(
+                (pkg) => ({ dir, pkg }),
+                () => this.lookupPackageScope(path.dirname(dir))
+            );
+        }
+        this._scopeCache.set(dir, promise);
+        return promise;
+    }
+
+    /**
+     * "#" specifiers are private to the package that owns the requesting
+     * file. Per Node they never fall back to node_modules or to a file on
+     * disk: an unmatched specifier is a hard failure.
+     */
+    resolveImports(specifier) {
+        return this.lookupPackageScope(this.basedir).then(({ dir, pkg }) => {
+            const importsMap =
+                pkg.imports && typeof pkg.imports === 'object'
+                    ? pkg.imports
+                    : null;
+            return this._resolveConditionalMap(
+                dir,
+                importsMap,
+                specifier,
+                true
+            ).then((resolved) => {
+                if (!Object.keys(resolved).length) {
+                    throw new Error(
+                        `${specifier} is not declared by "imports" of ${dir}`
+                    );
+                }
+                return resolved;
+            });
         });
     }
 

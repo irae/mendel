@@ -12,11 +12,13 @@ class CachedBisourceVariationalResolver extends VariationalModuleResolver {
     }
 
     resolve(moduleName) {
-        const cacheKey = CachedBisourceVariationalResolver.isNodeModule(
-            moduleName
-        )
-            ? moduleName
-            : path.resolve(this.basedir, moduleName);
+        // "#" specifiers mean different things per package, so they cannot
+        // share a cache entry across basedirs the way npm names do
+        const cacheKey =
+            moduleName[0] !== '#' &&
+            CachedBisourceVariationalResolver.isNodeModule(moduleName)
+                ? moduleName
+                : path.resolve(this.basedir, moduleName);
 
         if (this._cache.has(cacheKey))
             return Promise.resolve(this._cache.get(cacheKey));

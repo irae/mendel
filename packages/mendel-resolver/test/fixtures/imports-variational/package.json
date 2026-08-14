@@ -1,0 +1,7 @@
+{
+    "name": "imports-variational-fixture",
+    "private": true,
+    "imports": {
+        "#shared": "./base/shared.js"
+    }
+}
