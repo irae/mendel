@@ -88,6 +88,7 @@ exports.baseYaml = function baseYaml({
     transforms = '',
     entry,
     extraTop = '',
+    bundleExtra = '',
 }) {
     return `base-config:
   id: base
@@ -117,7 +118,7 @@ bundles:
   main:
     outlet: manifest
     manifest: main.manifest.json
-    entries:
+${bundleExtra ? bundleExtra + '\n' : ''}    entries:
       - ./${entry}
 `;
 };

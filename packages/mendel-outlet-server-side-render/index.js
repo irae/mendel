@@ -64,17 +64,22 @@ module.exports = class ServerSideRenderOutlet extends ManifestOutlet {
             source += map;
         }
 
-        if (this.outletOptions.requireTransform === true) {
-            source = mendelRequireTransform(dest, entry, (entry, mod) => {
-                if (!entry.deps[mod]) return mod;
-                return entry.deps[mod][runtime];
-            });
-        }
-
         // JSON is transformed by default in Mendel but
         // node has special way of evaluating JSON for SSR
         if (path.extname(id) === '.json') {
             source = rawSource;
+        } else if (this.outletOptions.requireTransform === true) {
+            try {
+                source = mendelRequireTransform(dest, entry, (entry, mod) => {
+                    if (!entry.deps[mod]) return mod;
+                    return entry.deps[mod][runtime];
+                });
+            } catch (err) {
+                throw new Error(
+                    `Failed to transform requires in "${entry.id}": ${err.message}`,
+                    { cause: err }
+                );
+            }
         }
 
         return source;

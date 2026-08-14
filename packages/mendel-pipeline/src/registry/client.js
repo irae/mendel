@@ -135,12 +135,12 @@ class MendelOutletRegistry {
             .map((id) => this.getEntry(id));
     }
 
-    // Only browser bundling actually stitches an entry's raw source into a
-    // JS module body, so that is the only runtime where an unconfigured
-    // extension produces broken output; leave SSR/main-runtime walks alone.
-    assertParserCoverage(entry, runtime) {
+    // Both browser bundling and main-runtime SSR output are loaded as JS.
+    // An unconfigured non-JS extension produces broken output in either case:
+    // raw markdown is a syntax error in JS (via Node's .js fallback loader or
+    // mendel-exec's vm evaluation), so both paths need configured parsers.
+    assertParserCoverage(entry) {
         if (this._options.environment === 'production') return;
-        if (runtime !== 'browser') return;
         if (entry.normalizedId === '_noop') return;
         if (this._options.types.get(entry.type)) return;
 
@@ -191,7 +191,7 @@ class MendelOutletRegistry {
                 );
             })
             .some((entry) => {
-                this.assertParserCoverage(entry, runtime);
+                this.assertParserCoverage(entry);
 
                 const isContinue = visitorFunction(entry);
 
