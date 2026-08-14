@@ -1,17 +1,4 @@
-const HTML_ESCAPES = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-};
-
-function escapeHTML(value) {
-    return String(value == null ? '' : value).replace(
-        /[&<>"']/g,
-        (char) => HTML_ESCAPES[char]
-    );
-}
+const { escapeHTML, stripANSI, ansiToHTML } = require('./ansi');
 
 // A stack trace quoting source can contain "*/", which would close the comment
 // early and let the rest of the trace through as (broken) CSS declarations.
@@ -33,9 +20,9 @@ function errorSection(err) {
         '<section class="mendel-error">',
         `<h2>${escapeHTML(err.id)}</h2>`,
         `<p class="mendel-env">environment: ${escapeHTML(err.environment)}</p>`,
-        `<pre class="mendel-message">${escapeHTML(err.message)}</pre>`,
+        `<pre class="mendel-message">${ansiToHTML(err.message)}</pre>`,
         '<details open><summary>Stack trace</summary>',
-        `<pre class="mendel-stack">${escapeHTML(
+        `<pre class="mendel-stack">${ansiToHTML(
             err.stack || 'No stack available'
         )}</pre>`,
         '</details>',
@@ -86,10 +73,16 @@ class ErrorBundleGenerator {
     static generateJSErrorBundle(errors, environment) {
         const list = normalize(errors, environment);
         const page = this.generateErrorPage(list, environment);
+        // Browser consoles print escape codes literally; only the page renders them.
+        const logged = list.map((err) => ({
+            ...err,
+            message: stripANSI(err.message),
+            stack: stripANSI(err.stack),
+        }));
 
         return `
 (function () {
-    var errors = ${JSON.stringify(list, null, 2)};
+    var errors = ${JSON.stringify(logged, null, 2)};
     errors.forEach(function (err) {
         console.error(
             '%c[Mendel Build Error]%c %s (%s)',
@@ -116,7 +109,9 @@ class ErrorBundleGenerator {
         const messages = list
             .map(
                 (err) =>
-                    `${err.id} [${err.environment}]: ${err.message}\n${err.stack}`
+                    `${err.id} [${err.environment}]: ${stripANSI(
+                        err.message
+                    )}\n${stripANSI(err.stack)}`
             )
             .join('\n\n');
 

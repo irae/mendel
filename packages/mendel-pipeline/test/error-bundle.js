@@ -1,6 +1,34 @@
 const tap = require('tap');
+const { codeFrameColumns } = require('@babel/code-frame');
 const ErrorBundleGenerator = require('../src/bundles/error-bundle');
 const CacheServer = require('../src/cache/server');
+
+const ESC = String.fromCharCode(27);
+const ANSI = new RegExp(`${ESC}\\[`);
+
+const BROKEN_SOURCE = [
+    "import React from 'react';",
+    '',
+    'export default function Broken() {',
+    '    return <div>;',
+    '}',
+].join('\n');
+
+function coloredFrameError() {
+    const frame = codeFrameColumns(
+        BROKEN_SOURCE,
+        { start: { line: 4, column: 17 } },
+        { highlightCode: true, forceColor: true }
+    );
+    const message = `./app/broken.js: Unexpected token (4:17)\n\n${frame}`;
+
+    return {
+        id: './app/broken.js',
+        environment: 'development',
+        message,
+        stack: `SyntaxError: ${message}\n    at Parser.raise (parser.js:1:1)`,
+    };
+}
 
 const JSX_ERROR = {
     id: './app/broken.js',
@@ -89,6 +117,71 @@ tap.test('bundle flavour follows the requested type', (t) => {
 
     t.end();
 });
+
+/**
+ * Functional regression: a real babel code frame arrives colored for the
+ * terminal. The browser has no terminal, so the page must show highlighted
+ * source, never the escape codes themselves.
+ */
+tap.test(
+    'colored code frames reach the browser as markup, not escapes',
+    (t) => {
+        const err = coloredFrameError();
+        t.match(
+            err.message,
+            ANSI,
+            'the error really is ansi colored to begin with'
+        );
+
+        const page = ErrorBundleGenerator.generateErrorPage(
+            [err],
+            'development'
+        );
+
+        t.notMatch(page, ANSI, 'no escape sequence survives into the page');
+        t.notMatch(
+            page,
+            /\[39m|\[90m|\[36m/,
+            'no escape code text is rendered'
+        );
+        t.match(
+            page,
+            /<span style="color:#[0-9a-f]{6}">/,
+            'source is colorized'
+        );
+        t.match(
+            page,
+            /<span style="color:[^"]*;font-weight:bold">/,
+            'the error pointer keeps its emphasis'
+        );
+        t.match(page, />return</, 'the source line is still readable');
+        t.notMatch(page, /<div>/, 'source markup is still escaped');
+        t.match(page, /&lt;/, 'source markup is shown escaped');
+
+        const bundle = ErrorBundleGenerator.generate([err], {
+            type: 'js',
+            environment: 'development',
+        });
+        t.notMatch(
+            bundle,
+            ANSI,
+            'the javascript bundle carries no escape codes'
+        );
+        t.match(
+            bundle,
+            /Unexpected token \(4:17\)/,
+            'the console still gets the message'
+        );
+
+        const css = ErrorBundleGenerator.generate([err], {
+            type: 'css',
+            environment: 'development',
+        });
+        t.notMatch(css, ANSI, 'the css bundle carries no escape codes');
+
+        t.end();
+    }
+);
 
 /**
  * Unit regression: Error instances serialize to "{}" through JSON, which used
