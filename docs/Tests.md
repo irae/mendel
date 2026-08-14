@@ -11,6 +11,46 @@ For the moment, Mendel relies on some private repositories for integration tests
 - Only stubs and fixtures use subdirectories
 - All build/ directories are ignored via the .gitignore to prevent generated output from being committed
 
+#### Test fixtures
+
+Mendel is a bundler, so most tests need a small project on disk rather than a
+mock. Prefer **few, realistically shaped fixtures** over one fixture per
+assertion: a fixture that combines several related shapes the way a real
+application would covers more surface and stays recognisable to a human reader.
+`examples/full-example` is the reference for what "realistic" means.
+
+**Where a fixture lives.** There are three kinds:
+
+- **Project fixture** — a tree with a `.mendelrc`: base dir, variation dirs,
+  `node_modules/`. Lives in `test/fixtures/<name>/` of the _lowest_ package in
+  the dependency graph that needs it (`mendel-config` → `mendel-deps` →
+  `mendel-resolver` → `mendel-pipeline` → outlets). Packages above it in the
+  graph reuse it by relative path instead of copying it; the reverse direction
+  is not allowed.
+- **Package-shape catalog** — a `node_modules/`-only tree of stub packages
+  mirroring real npm packages to exercise one resolution algorithm (`exports`,
+  `imports`, legacy `browser`/`main` fields). Lives in `mendel-resolver`, shared.
+- **Unit input** — a single file or two fed straight to one module: manifest
+  JSON snapshots, parser inputs, config-parsing inputs. Package-local, never
+  shared.
+
+Rule of thumb: if it has a root `.mendelrc` or `package.json`, it is shared; if
+it is the input to exactly one module's parse or serialize step, it is local.
+
+Fixtures never ship — every package uses a `files` whitelist in its
+`package.json` — so a cross-package fixture read costs nothing at publish time.
+
+**Fixtures are read-only.** A test that runs a real build must copy the fixture
+to a temp directory first and build there, so that generated `.mendelrc`,
+`.mendelipc` and `build/` never land in the repository and two tests can share
+one fixture without racing each other.
+
+**Conventions.** Name the directory `test/fixtures/`, name the fixture after its
+intent rather than a number, and give each fixture root a `README.md` stating
+the invariant it exists for, which tests consume it, and — for stub npm
+packages — which real package and version its shape mirrors. See
+`packages/mendel-resolver/test/fixtures/imports/README.md`.
+
 #### Running tests.
 
 If you develop against a consumer app, link packages with the pnpm flow in
