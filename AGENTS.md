@@ -26,6 +26,7 @@ Worktrees are **temporary**. Treat them as scratch space that always gets torn d
 1. A worktree **must** be a sibling directory of the repo (`../mendel-<name>`). Never nested inside it (specifically denied to create `.claude/worktrees/`).
 2. Before deleting, salvage from the worktree's gitignored `docs/superpowers/`: copy files back to the main worktree **only when no file of that name already exists there** — never overwrite. From `agent-communications/`, copy back only files that still carry open items; records of finished work stay behind.
 3. Once the work is merged into the main worktree, **delete the worktree and its branch**. Do not keep one around for reuse.
+4. Never `git stash` inside a worktree. The stash ref lives in the shared `.git` directory, not per-worktree — concurrent agents in different worktrees can clobber or cross-apply each other's stashed changes. Save work-in-progress as a commit on a temp branch instead (or a WIP commit on the worktree's own branch, amended/reset away later).
 
 ### Tests
 
