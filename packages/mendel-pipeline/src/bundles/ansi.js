@@ -49,10 +49,17 @@ function styleFor(state) {
     return styles.join(';');
 }
 
+// 38/48/58 carry their color inline (`38;5;n`, `38;2;r;g;b`); those arguments
+// are not codes of their own and must not be read as one.
+const EXTENDED_ARGS = { 5: 1, 2: 3 };
+
 function applyCodes(state, params) {
-    params.split(';').forEach((raw) => {
-        const code = Number(raw || '0');
-        if (code === 0) {
+    const codes = params.split(';');
+    for (let i = 0; i < codes.length; i++) {
+        const code = Number(codes[i] || '0');
+        if (code === 38 || code === 48 || code === 58) {
+            i += 1 + (EXTENDED_ARGS[Number(codes[i + 1])] || 0);
+        } else if (code === 0) {
             state.color = null;
             state.bold = false;
         } else if (code === 1) {
@@ -64,7 +71,7 @@ function applyCodes(state, params) {
         } else if (COLORS[code]) {
             state.color = COLORS[code];
         }
-    });
+    }
 }
 
 function ansiToHTML(value) {

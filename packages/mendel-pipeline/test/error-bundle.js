@@ -184,6 +184,42 @@ tap.test(
 );
 
 /**
+ * Unit regression: 256-colour and truecolour sequences carry their colour as
+ * trailing arguments. Reading those arguments as codes of their own repainted
+ * the text at random and swallowed emphasis around them.
+ */
+tap.test('extended colour sequences do not repaint the page', (t) => {
+    const err = {
+        id: './app/broken.js',
+        environment: 'development',
+        // 256-colour index 33, background index 31, bold around truecolour black
+        message: `${ESC}[38;5;33mplain${ESC}[39m ${ESC}[48;5;31malso plain${ESC}[49m`,
+        stack: `${ESC}[1m${ESC}[38;2;0;0;0mstill bold${ESC}[22m`,
+    };
+
+    const page = ErrorBundleGenerator.generateErrorPage([err], 'development');
+
+    t.notMatch(page, ANSI, 'no escape sequence survives into the page');
+    t.notMatch(
+        page,
+        /<span style="color:[^"]*">plain/,
+        'a 256-colour index is not mistaken for a basic colour'
+    );
+    t.notMatch(
+        page,
+        /<span style="color:[^"]*">also plain/,
+        'a background colour never becomes a foreground colour'
+    );
+    t.match(
+        page,
+        /<span style="font-weight:bold">still bold/,
+        'emphasis survives a truecolour sequence'
+    );
+
+    t.end();
+});
+
+/**
  * Unit regression: Error instances serialize to "{}" through JSON, which used
  * to reach clients as an error with no message and no stack.
  */
