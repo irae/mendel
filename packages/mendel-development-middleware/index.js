@@ -97,7 +97,7 @@ function MendelMiddleware(opts) {
 
         // A build error leaves the registry missing the errored module and its
         // subtree; SSR against that renders a broken page, so it is not ready.
-        req.mendel.isSsrReady = () => client.getSyncState() === 'synced';
+        req.mendel.isSsrReady = () => client.isRegistryComplete();
 
         // Match bundle route
         const reqParams = bundleRoute.exec(req.url);

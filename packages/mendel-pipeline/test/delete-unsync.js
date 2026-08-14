@@ -186,7 +186,10 @@ tap.test('a deleted file does not leave bundle requests hanging', async (t) => {
     );
 
     client = makeClient();
-    t.ok(await waitFor(() => client.isSynced()), 'client syncs with builder');
+    t.ok(
+        await waitFor(() => client.canServeRequest()),
+        'client syncs with builder'
+    );
 
     const healthy = await readBundle(
         await client.build('main', variationsFor(client))
@@ -194,7 +197,7 @@ tap.test('a deleted file does not leave bundle requests hanging', async (t) => {
     t.match(healthy, /hello/, 'healthy bundle contains the module source');
 
     // Waits for the client's own desync notification (rather than
-    // polling isSynced() after firing the delete) since isSynced() is
+    // polling canServeRequest() after firing the delete) since it is
     // still true on the very first poll: the fs event, the daemon's
     // removeEntry broadcast and the client's socket handling are all
     // asynchronous, so a synchronous read right after unlinkSync races
@@ -209,7 +212,7 @@ tap.test('a deleted file does not leave bundle requests hanging', async (t) => {
     t.pass('client leaves sync when a watched file is deleted');
 
     const resynced = await withTimeout(
-        waitFor(() => client.isSynced(), 15000),
+        waitFor(() => client.canServeRequest(), 15000),
         20000,
         'waiting for the client to resync after the delete'
     );
@@ -268,7 +271,7 @@ tap.test(
 
         client = makeClient();
         t.ok(
-            await waitFor(() => client.isSynced()),
+            await waitFor(() => client.canServeRequest()),
             'client syncs with builder'
         );
 
@@ -278,7 +281,7 @@ tap.test(
         t.match(healthy, /hello/, 'healthy bundle contains the original text');
 
         // Waits for the client's own desync notification (rather than
-        // polling isSynced() after firing the write) so the build() call
+        // polling canServeRequest() after firing the write) so the build() call
         // below is guaranteed to queue against an unsynced client instead
         // of racing the file watcher and hitting the stale bundle cache.
         const desynced = new Promise((resolve) =>
@@ -291,7 +294,7 @@ tap.test(
             'client leaving sync after the edit'
         );
         t.notOk(
-            client.isSynced(),
+            client.canServeRequest(),
             'client is unsynced once the edit is detected'
         );
 
@@ -351,7 +354,10 @@ tap.test('deleting an errored file clears the error and resyncs', async (t) => {
     t.ok(await waitFor(() => fs.existsSync(ipcPath)), 'builder is up');
 
     client = makeClient();
-    t.ok(await waitFor(() => client.isSynced()), 'client syncs with builder');
+    t.ok(
+        await waitFor(() => client.canServeRequest()),
+        'client syncs with builder'
+    );
 
     const broke = new Promise((resolve) => client.once('change', resolve));
     fs.writeFileSync(helperFile, BAD_SOURCE);
@@ -373,7 +379,7 @@ tap.test('deleting an errored file clears the error and resyncs', async (t) => {
     );
     t.ok(
         await withTimeout(
-            waitFor(() => client.isSynced(), 15000),
+            waitFor(() => client.canServeRequest(), 15000),
             20000,
             'waiting for the client to resync after deleting the errored file'
         ),

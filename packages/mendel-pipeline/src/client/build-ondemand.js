@@ -38,16 +38,8 @@ class BuildOnDemand extends BaseClient {
                 promise: { resolve, reject },
             };
             this._requests.push(request);
-            if (this.synced) this._perform();
+            if (this.canServeRequest()) this._perform();
         });
-    }
-
-    isSynced() {
-        return this.synced;
-    }
-
-    getSyncState() {
-        return this.client.getSyncState();
     }
 
     _perform() {

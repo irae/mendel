@@ -70,12 +70,19 @@ async function initMendelFramework(logger, emitter, fileList, karmaConfig) {
         debug('file_list_modified');
         // karma will swallow errors without this try/catch
         try {
-            await new Promise(function waiter(resolve) {
-                if (globalClient.isSynced()) {
+            // This handler reads the registry directly, so it needs the
+            // strict check: an errored build drops entries but keeps their
+            // variations, and walking that would serve a different
+            // variation's code as if it were the base one.
+            await new Promise(function waiter(resolve, reject) {
+                if (globalClient.isRegistryComplete()) {
                     return resolve();
                 }
+                if (globalClient.getSyncState() === 'synced-with-errors') {
+                    return reject(buildError(globalClient));
+                }
                 debug('file_list_modified hold');
-                setTimeout(() => waiter(resolve), 100);
+                setTimeout(() => waiter(resolve, reject), 100);
             });
 
             debug('file_list_modified continue');
@@ -207,7 +214,17 @@ var createPreprocesor = function (logger) {
             './' + path.relative(globalConfig.projectRoot, file.originalPath);
         logged !== 'logged' && log.debug('transforming "%s".', relativeFile);
 
-        if (!globalClient.isSynced() || debounce) {
+        // Strict check: this reads the registry directly, see the comment on
+        // the framework's file_list_modified handler.
+        if (globalClient.getSyncState() === 'synced-with-errors') {
+            debounce = true;
+            var error = buildError(globalClient);
+            log.error(error.message);
+            done(error, null);
+            return;
+        }
+
+        if (!globalClient.isRegistryComplete() || debounce) {
             debounce = false;
             setTimeout(() => getFile(content, file, done, 'logged'), 250);
             return;
@@ -239,6 +256,21 @@ var createPreprocesor = function (logger) {
     };
 };
 createPreprocesor.$inject = ['logger'];
+
+function buildError(client) {
+    var errors = (client.client && client.client.getErrors()) || [];
+    var details = errors
+        .map(function (error) {
+            return '  ' + error.id + ': ' + error.message;
+        })
+        .join('\n');
+
+    return new Error(
+        'Mendel build failed, refusing to run tests against an incomplete ' +
+            'registry:\n' +
+            (details || '  (no error detail reported by the builder)')
+    );
+}
 
 function globalModuleContent() {
     var variationsString = JSON.stringify(

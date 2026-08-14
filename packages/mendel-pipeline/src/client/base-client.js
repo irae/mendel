@@ -116,8 +116,34 @@ class BaseMendelClient extends EventEmitter {
 
     onSync() {}
 
-    isReady() {
+    /**
+     * Two readiness checks on purpose. Do not collapse them back into one
+     * generic "isSynced": each caller needs one of the two and the wrong one
+     * is silently broken.
+     *
+     * canServeRequest() is loose: a build() call will get an answer now, which
+     * may legitimately be an error bundle. Anything that goes through build()
+     * wants this — waiting for a clean build instead makes a request hang for
+     * as long as a source file stays broken.
+     *
+     * isRegistryComplete() is strict: every entry is present and correct, so
+     * `registry`/`getEntry()`/`walk()` may be read directly. An errored entry
+     * is dropped from the registry, but its normalizedId can still hold that
+     * module's *variation* entries — a direct reader that trusts the loose
+     * check walks right past the missing base file and silently gets a
+     * different variation's code instead.
+     */
+    canServeRequest() {
         return this.synced;
+    }
+
+    isRegistryComplete() {
+        return this.getSyncState() === 'synced';
+    }
+
+    getSyncState() {
+        if (!this.client) return 'unsynced';
+        return this.client.getSyncState();
     }
 }
 

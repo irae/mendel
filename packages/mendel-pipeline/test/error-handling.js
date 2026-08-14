@@ -187,7 +187,10 @@ tap.test('daemon and client serve error bundles over a socket', async (t) => {
     );
 
     client = makeClient();
-    t.ok(await waitFor(() => client.isSynced()), 'client syncs with builder');
+    t.ok(
+        await waitFor(() => client.canServeRequest()),
+        'client syncs with builder'
+    );
     t.equal(client.getSyncState(), 'synced', 'a healthy build is fully synced');
 
     const healthy = await readBundle(
@@ -202,7 +205,7 @@ tap.test('daemon and client serve error bundles over a socket', async (t) => {
         'client learns about the build error'
     );
     t.ok(
-        await waitFor(() => client.isSynced()),
+        await waitFor(() => client.canServeRequest()),
         'errored environment still becomes servable'
     );
     t.equal(
@@ -258,7 +261,7 @@ tap.test('daemon and client serve error bundles over a socket', async (t) => {
         }
     });
     t.ok(
-        await waitFor(() => lateClient.isSynced()),
+        await waitFor(() => lateClient.canServeRequest()),
         'a client connecting during an error still syncs'
     );
     t.equal(
@@ -279,7 +282,9 @@ tap.test('daemon and client serve error bundles over a socket', async (t) => {
 
     fs.writeFileSync(brokenFile, GOOD_SOURCE);
     t.ok(
-        await waitFor(() => client.isSynced() && !client.client.hasErrors()),
+        await waitFor(
+            () => client.canServeRequest() && !client.client.hasErrors()
+        ),
         'client recovers once the file is fixed'
     );
     const recovered = await readBundle(
@@ -385,7 +390,7 @@ tap.test(
 
         client = makeClient();
         t.ok(
-            await waitFor(() => client.isSynced()),
+            await waitFor(() => client.canServeRequest()),
             'client syncs with builder'
         );
 

@@ -134,7 +134,7 @@ const client = new BuildOnDemand({
 });
 client.run();
 
-await waitFor(() => client.isSynced());
+await waitFor(() => client.canServeRequest());
 const vars = resolveVariations(client.config.variationConfig.variations, [
     'bucket_A',
 ]);
@@ -154,11 +154,28 @@ Notes that cost time to rediscover:
   builder the developer already has running. Put the scratch socket in
   `os.tmpdir()`: unix socket paths cap out near 104 bytes and a path inside a
   deep checkout truncates without an error.
-- **State to poll**, since there is no single "done" callback: `client.isSynced()`
-  (`false` from the first file change until the pipeline goes idle again), and
-  the `ready` / `change` events the client re-emits from the cache client's
-  `sync` / `unsync`. Poll on an interval with a deadline; a full-example build
-  is tens of seconds, so raise the test timeout well past tap's default.
+- **State to poll**, since there is no single "done" callback: one of the
+  client's two readiness checks (`false` from the first file change until the
+  pipeline goes idle again), and the `ready` / `change` events the client
+  re-emits from the cache client's `sync` / `unsync`. Poll on an interval with
+  a deadline; a full-example build is tens of seconds, so raise the test
+  timeout well past tap's default.
+- **Which readiness check**, because the two are not interchangeable:
+    - `client.canServeRequest()` — loose. A `build()` call gets an answer now,
+      possibly an error bundle. This is what a test driving `build()` wants;
+      waiting for a clean build instead hangs for as long as a source stays
+      broken.
+    - `client.isRegistryComplete()` — strict, equivalent to
+      `client.getSyncState() === 'synced'`. Every entry is present and correct,
+      so `client.registry` / `getEntry()` / `walk()` may be read directly. A
+      test (or consumer, like karma-mendel) that reads the registry directly
+      must use this one: an errored entry is dropped from the registry while
+      its variations stay, so a direct read under the loose check silently
+      resolves to a different variation's file.
+    - `client.getSyncState()` returns the underlying
+      `unsynced` / `synced` / `synced-with-errors`, which is what to assert on
+      when a test cares about the difference between "still building" and
+      "done, but broken".
 - **`build()` resolves to a string or a Stream** depending on the outlet — drain
   it before asserting on bundle contents.
 - **One-shot mode** (`mendel` with no `--watch`) is the other half: it exits `1`
