@@ -10,7 +10,7 @@
     "url": "git+https://github.com/irae/mendel.git"
   },
   "dependencies": {
-    "commander": "^14.0.3",
+    "commander": "^15.0.0",
     "debug": "^4.4.0",
     "mendel-exec": "workspace:^",
     "mendel-pipeline": "workspace:^",
