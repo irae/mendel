@@ -13,7 +13,7 @@ class FsWatcher {
               : [];
         // Default ignore .dot files.
         this.ignored = [
-            buildIgnoreMatcher(ignoresArray),
+            buildIgnoreMatcher(ignoresArray, projectRoot),
             dotSegmentInsideProject(projectRoot),
         ];
 
@@ -107,15 +107,24 @@ class FsWatcher {
 function dotSegmentInsideProject(projectRoot) {
     const DOT_SEGMENT = /(^|[/\\])\./;
     return function (testPath) {
-        const absolute = path.isAbsolute(testPath)
-            ? testPath
-            : path.resolve(projectRoot, testPath);
-        const relative = path.relative(projectRoot, absolute);
-        if (relative.startsWith('..') || path.isAbsolute(relative)) {
-            return DOT_SEGMENT.test(testPath);
-        }
-        return DOT_SEGMENT.test(relative);
+        return DOT_SEGMENT.test(toProjectRelative(projectRoot, testPath));
     };
+}
+
+// chokidar tests `ignored` against absolute paths, so testing a user glob
+// (e.g. `**/node_modules/**`) straight against testPath also matches when
+// the checkout itself sits under a same-named ancestor directory (e.g.
+// ~/work/node_modules-cache/mendel), ignoring the whole project. Match
+// against the project-relative path instead.
+function toProjectRelative(projectRoot, testPath) {
+    const absolute = path.isAbsolute(testPath)
+        ? testPath
+        : path.resolve(projectRoot, testPath);
+    const relative = path.relative(projectRoot, absolute);
+    if (relative.startsWith('..') || path.isAbsolute(relative)) {
+        return testPath;
+    }
+    return relative;
 }
 
 function withPrefix(path) {
@@ -129,7 +138,7 @@ function packageJsonSort(entry) {
     return path.basename(entry.path) === 'package.json' ? 1 : 0;
 }
 
-function buildIgnoreMatcher(ignores) {
+function buildIgnoreMatcher(ignores, projectRoot) {
     if (!ignores || ignores.length === 0) {
         return () => false;
     }
@@ -148,9 +157,10 @@ function buildIgnoreMatcher(ignores) {
 
     return function (testPath) {
         if (positives.length === 0) return false;
+        const relative = toProjectRelative(projectRoot, testPath);
         return (
-            positives.some((g) => g.match(testPath)) &&
-            negatives.every((g) => g.match(testPath))
+            positives.some((g) => g.match(relative)) &&
+            negatives.every((g) => g.match(relative))
         );
     };
 }

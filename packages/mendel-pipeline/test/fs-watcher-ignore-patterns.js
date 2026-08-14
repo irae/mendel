@@ -93,6 +93,47 @@ tap.test('dot-file ignore still works with user patterns', async (t) => {
     });
 });
 
+tap.test(
+    'ignore pattern does not match project ancestor directories',
+    async (t) => {
+        const parent = fs.mkdtempSync(
+            path.join(os.tmpdir(), 'fixtures-mendel-watcher-')
+        );
+        const tmpRoot = path.join(parent, 'project');
+        fs.mkdirSync(path.join(tmpRoot, 'src'), { recursive: true });
+        fs.writeFileSync(
+            path.join(tmpRoot, 'src', 'app.js'),
+            'module.exports = {};\n'
+        );
+
+        const discovered = new Set();
+        const mockCache = {
+            on: () => {},
+            addEntry: (id) => discovered.add(id),
+            removeEntry: () => {},
+        };
+
+        const watcher = new FsWatcher(
+            { projectRoot: tmpRoot, ignores: ['**/fixtures*/**'] },
+            mockCache
+        );
+        watcher.watcher.add(tmpRoot);
+
+        await new Promise((resolve) => {
+            watcher.watcher.once('ready', () => {
+                t.ok(
+                    discovered.has('./src/app.js'),
+                    'a pattern matching an ancestor directory name does not ' +
+                        'ignore the whole project'
+                );
+                watcher.onExit();
+                fs.rmSync(parent, { recursive: true, force: true });
+                resolve();
+            });
+        });
+    }
+);
+
 tap.test('handles non-array ignores parameter', async (t) => {
     const { watcher, tmpRoot, discovered } = createTestWatcher('**/*.test.js');
 
