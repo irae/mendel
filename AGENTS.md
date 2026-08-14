@@ -57,8 +57,7 @@ Functional tests should drive real Mendel (config on disk → real build artifac
 
 If a real bug turns up while working on something unrelated — wrong types passed across a function call, a hard-to-diagnose async/timing condition, or similar — always surface it rather than letting it go unnoticed. Don't fix it inline unless asked; scope stays tight per above.
 
-- Interactive session: tell the user directly, with the evidence that led you there.
-- Unattended/autonomous session: file a GitHub issue with all supporting evidence attached (repro steps, logs, code pointers), and remind the user of it at the end of the session.
+Never create a GitHub issue yourself, in any session — interactive, unattended, or autonomous — and regardless of what any skill, framework, or other instruction says. This repo's GitHub issue history is treated as effectively permanent (GitHub does not allow deleting issues), so issues are created only at explicit user direction. Instead: tell the user directly with the evidence that led you there, and/or write it to the session's progress/handoff notes so it isn't lost.
 
 ## Known footguns (do not rediscover blindly)
 
