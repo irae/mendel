@@ -2,7 +2,7 @@ const DefaultGenerator = require('../bundles/default-generator');
 const debug = require('debug')('mendel:generators');
 const verbose = require('debug')('verbose:mendel:generators');
 const analyze = require('../helpers/analytics/analytics')('generator');
-const CliTable = require('cli-table');
+const CliTable = require('cli-table3');
 
 class MendelGenerators {
     constructor(options, registry) {
