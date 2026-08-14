@@ -100,29 +100,41 @@ class CacheServer extends EventEmitter {
 
     initCache() {
         this.cacheManager.on('doneEntry', (cache, entry) => {
-            const size = cache.size();
             this.clients
                 .filter((c) => c.environment === cache.environment)
-                .forEach((c) => this._sendEntry(c, size, entry));
+                .forEach((c) => this._sendEntry(c, cache, entry));
         });
         this.cacheManager.on('entryRemoved', (cache, entryId) => {
             this.clients
                 .filter((client) => client.environment === cache.environment)
-                .forEach((client) => this._signalRemoval(client, entryId));
+                .forEach((client) =>
+                    this._signalRemoval(client, cache, entryId)
+                );
         });
         this.cacheManager.on('entryErrored', (cache, desc) => {
             this.clients
                 .filter((client) => client.environment === cache.environment)
-                .forEach((client) => this._signalError(client, desc));
+                .forEach((client) => this._signalError(client, cache, desc));
         });
     }
 
+    // Errors go out before the done entries: the last done entry is what makes
+    // a client reach "synced", and it must already know about the errors then.
     bootstrap(client) {
         const cache = this.cacheManager.getCache(client.environment);
         cache
             .entries()
+            .filter((entry) => entry.error)
+            .forEach((entry) =>
+                this._signalError(client, cache, {
+                    id: entry.id,
+                    error: entry.error,
+                })
+            );
+        cache
+            .entries()
             .filter((entry) => entry.done)
-            .forEach((entry) => this._sendEntry(client, cache.size(), entry));
+            .forEach((entry) => this._sendEntry(client, cache, entry));
     }
 
     serializeEntry(entry) {
@@ -165,27 +177,31 @@ class CacheServer extends EventEmitter {
         return variations.find(({ id }) => id === entry.variation);
     }
 
-    _sendEntry(client, size, entry) {
+    _sendEntry(client, cache, entry) {
         this.send(client, {
-            totalEntries: size,
+            totalEntries: cache.deliverableSize(),
             type: 'addEntry',
             entry: this.serializeEntry(entry),
         });
         debugFilter(verbose, 'sent ' + entry.id);
     }
 
-    _signalRemoval(client, id) {
-        const cache = this.cacheManager.getCache(client.environment);
+    _signalRemoval(client, cache, id) {
         this.send(client, {
-            totalEntries: cache.size(),
+            totalEntries: cache.deliverableSize(),
             type: 'removeEntry',
             id,
         });
     }
 
-    _signalError(client, { id, error }) {
+    // Error instances stringify to "{}", so the fields have to be picked out.
+    _signalError(client, cache, { id, error }) {
         this.send(client, {
-            error,
+            totalEntries: cache.deliverableSize(),
+            error: {
+                message: error.message,
+                stack: error.stack,
+            },
             type: 'errorEntry',
             id,
         });

@@ -7,21 +7,53 @@ class Waiter extends BaseStep {
     constructor({ cache }) {
         super();
         this.waited = new Set();
+        this.errored = new Set();
         this.cache = cache;
+        this._releasing = false;
+        this._recheck = false;
 
-        cache.on('entryRemoved', (id) => this.waited.delete(id));
+        cache.on('entryRemoved', (id) => {
+            this.waited.delete(id);
+            this.errored.delete(id);
+        });
+
+        cache.on('entryErrored', ({ id }) => {
+            if (this.errored.has(id) || !this.cache.hasEntry(id)) return;
+            this.waited.delete(id);
+            this.errored.add(id);
+            this._checkCompletion();
+        });
     }
 
     perform(entry) {
+        this.errored.delete(entry.id);
         this.waited.add(entry.id);
         this.emit('wait', { entryId: entry.id });
-        if (this.cache.size() > this.waited.size) return;
-        // TODO: Once type refactor is done and plan is part of entry instance,
-        // it will be safe to add optimization here to emit entries without GST
-        // right away before wait condition is met
-        this.cache
-            .entries()
-            .forEach(({ id }) => this.emit('done', { entryId: id }));
+        this._checkCompletion();
+    }
+
+    // Downstream steps can error an entry synchronously while the barrier is
+    // being released, which re-enters here. Loop instead of recursing; each
+    // re-entry needs a fresh entry or a not-yet-errored id, so it terminates.
+    _checkCompletion() {
+        if (this._releasing) {
+            this._recheck = true;
+            return;
+        }
+        this._releasing = true;
+        try {
+            do {
+                this._recheck = false;
+                const ready = this.waited.size + this.errored.size;
+                if (this.cache.size() > ready) break;
+                this.cache
+                    .entries()
+                    .filter(({ id }) => !this.errored.has(id))
+                    .forEach(({ id }) => this.emit('done', { entryId: id }));
+            } while (this._recheck);
+        } finally {
+            this._releasing = false;
+        }
     }
 }
 

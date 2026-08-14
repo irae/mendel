@@ -78,15 +78,15 @@ class GraphSourceTransform extends BaseStep {
 
     gstDone(entry) {
         this._processed.add(entry.id);
-        if (this._processed.size >= this._cache.size()) {
+        if (this._processed.size >= this._cache.deliverableSize()) {
             this._processed.clear();
             if (++this._curGstIndex >= this._gsts.length) {
-                this._cache.entries().forEach(({ id }) => {
+                this._cache.deliverableEntries().forEach(({ id }) => {
                     this.emit('done', { entryId: id });
                 });
             } else {
                 this._cache
-                    .entries()
+                    .deliverableEntries()
                     .forEach((entry) => this.performHelper(entry));
             }
         }

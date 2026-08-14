@@ -197,6 +197,16 @@ class MendelCache extends EventEmitter {
         return Array.from(this._store.values());
     }
 
+    // Entries a client can ever receive: an errored entry never reaches the
+    // "done" step, so it must not be counted towards a client's sync target.
+    deliverableEntries() {
+        return this.entries().filter((entry) => !entry.error);
+    }
+
+    deliverableSize() {
+        return this.deliverableEntries().length;
+    }
+
     getEntry(id) {
         return this._store.get(id);
     }
@@ -215,6 +225,7 @@ class MendelCache extends EventEmitter {
         if (!this.hasEntry(id)) return;
         const entry = this.getEntry(id);
         entry.error = error;
+        entry.done = false;
         this.emit('entryErrored', { id, error });
     }
 

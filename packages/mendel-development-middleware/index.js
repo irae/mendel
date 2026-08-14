@@ -95,7 +95,9 @@ function MendelMiddleware(opts) {
             };
         };
 
-        req.mendel.isSsrReady = () => client.isSynced();
+        // A build error leaves the registry missing the errored module and its
+        // subtree; SSR against that renders a broken page, so it is not ready.
+        req.mendel.isSsrReady = () => client.getSyncState() === 'synced';
 
         // Match bundle route
         const reqParams = bundleRoute.exec(req.url);
@@ -121,14 +123,15 @@ function MendelMiddleware(opts) {
 
         // Serve bundle
         // req.accepts cannot be used since JS request accepts "*.*"
-        if (req.headers.accept.indexOf('text/css') >= 0) {
+        const isCSS = (req.headers.accept || '').indexOf('text/css') >= 0;
+        if (isCSS) {
             res.header('content-type', 'text/css');
         } else {
             res.header('content-type', 'application/javascript');
         }
 
         client
-            .build(bundle, vars)
+            .build(bundle, vars, { type: isCSS ? 'css' : 'js' })
             .then((bundle) => {
                 if (bundle instanceof Stream) return bundle.pipe(res);
                 else if (typeof bundle === 'string')

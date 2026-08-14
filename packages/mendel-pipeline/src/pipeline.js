@@ -70,20 +70,34 @@ module.exports = class MendelPipeline extends EventEmitter {
 
         let startedEntries = 0;
         let doneEntries = 0;
+        const erroredEntries = new Set();
+
+        const checkIdle = () => {
+            if (!startedEntries) return;
+            if (doneEntries + erroredEntries.size < startedEntries) return;
+
+            const total = this.cache.size();
+            this.debug(`${doneEntries} entries were processed.`);
+            this.debug(`${erroredEntries.size} entries errored.`);
+            this.debug(`${total} entries in registry.`);
+
+            startedEntries = 0;
+            doneEntries = 0;
+            erroredEntries.clear();
+
+            this.emit('idle', doneEntries);
+        };
 
         this.steps[0].on('done', () => startedEntries++);
 
         this.steps[this.steps.length - 1].on('done', () => {
-            if (++doneEntries === startedEntries) {
-                const total = this.cache.size();
-                this.debug(`${doneEntries} entries were processed.`);
-                this.debug(`${total} entries in registry.`);
+            doneEntries++;
+            checkIdle();
+        });
 
-                startedEntries = 0;
-                doneEntries = 0;
-
-                this.emit('idle', doneEntries);
-            }
+        this.cache.on('entryErrored', ({ id }) => {
+            erroredEntries.add(id);
+            checkIdle();
         });
 
         this.steps[0].start();

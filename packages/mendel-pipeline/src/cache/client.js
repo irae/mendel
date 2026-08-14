@@ -21,6 +21,7 @@ class CacheClient extends EventEmitter {
         this.connected = false;
         this.synced = false;
         this.closeReqeusted = false;
+        this.erroredEntries = new Map();
         this.connect();
     }
 
@@ -57,6 +58,7 @@ class CacheClient extends EventEmitter {
                     debugFilter(verbose, 'got ' + data.entry.id);
 
                     this.registry.addEntry(data.entry);
+                    this.erroredEntries.delete(data.entry.id);
 
                     if (typeof data.totalEntries === 'number') {
                         this.checkStatus(data.totalEntries);
@@ -67,6 +69,7 @@ class CacheClient extends EventEmitter {
                     const unsynced = this.synced ? true : false;
                     this.synced = false;
                     this.registry.removeEntry(data.id);
+                    this.erroredEntries.delete(data.id);
                     if (unsynced) this.emit('unsync', data.id);
                     break;
                 }
@@ -74,14 +77,29 @@ class CacheClient extends EventEmitter {
                     const unsynced = this.synced ? true : false;
                     this.synced = false;
                     this.registry.removeEntry(data.id);
+                    this.erroredEntries.set(data.id, {
+                        id: data.id,
+                        environment: this.environment,
+                        message: data.error?.message || 'Unknown error',
+                        stack: data.error?.stack || '',
+                    });
                     if (unsynced) this.emit('unsync', data.id);
 
                     console.error(
                         colors.red(
                             `[Mendel] Errored while parsing ${data.id}\n`
                         ),
-                        data.error.stack
+                        data.error?.stack ||
+                            data.error?.message ||
+                            'Unknown error'
                     );
+
+                    // The server excludes errored entries from totalEntries, so
+                    // this is what lets an environment reach synced-with-errors
+                    // instead of waiting forever for an entry that never lands.
+                    if (typeof data.totalEntries === 'number') {
+                        this.checkStatus(data.totalEntries);
+                    }
                     break;
                 }
                 default:
@@ -100,6 +118,7 @@ class CacheClient extends EventEmitter {
         conn.on('close', () => {
             if (!isRetry) this.emit('unsync');
             this.registry.clear();
+            this.erroredEntries.clear();
             this.synced = false;
 
             debug('Disconnected from master');
@@ -136,6 +155,24 @@ class CacheClient extends EventEmitter {
             this.synced = true;
             this.emit('sync');
         }
+    }
+
+    /**
+     * @returns {'unsynced'|'synced'|'synced-with-errors'} "synced-with-errors"
+     *   means every entry the builder can still deliver has arrived, so bundle
+     *   requests must be answered — with an error bundle, not a truncated one.
+     */
+    getSyncState() {
+        if (!this.synced) return 'unsynced';
+        return this.hasErrors() ? 'synced-with-errors' : 'synced';
+    }
+
+    hasErrors() {
+        return this.erroredEntries.size > 0;
+    }
+
+    getErrors() {
+        return Array.from(this.erroredEntries.values());
     }
 }
 

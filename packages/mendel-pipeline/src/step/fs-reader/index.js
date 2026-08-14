@@ -31,8 +31,8 @@ class FileReader extends BaseStep {
                     ].join(' ')
                 );
                 debugError(`Error message for ${filePath}: ${error.stack}`);
-                // We need to exit in such case..
-                process.exit(1);
+                this.emit('error', { id: entry.id, error });
+                return;
             }
 
             this.registry.addSource({ id: entry.id, source, deps: {} });

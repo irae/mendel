@@ -28,6 +28,19 @@ class FsWatcher {
             ignored: this.ignored,
         });
 
+        // chokidar reports per-path watch failures (EACCES after a mode change,
+        // EMFILE/ENOSPC once the watch limit is reached) as "error" events. An
+        // EventEmitter rethrows those when nothing listens, which lands in the
+        // daemon's uncaughtException handler and force-closes the whole builder
+        // over a single unreadable file.
+        this.watcher.on('error', (error) => {
+            console.error(
+                `[Mendel] Ignoring a file watch error: ${
+                    (error && error.message) || error
+                }`
+            );
+        });
+
         this.watcher
             .on('change', (path) => {
                 path = withPrefix(path);
