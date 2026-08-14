@@ -21,7 +21,7 @@ function errorSection(err) {
         `<h2>${escapeHTML(err.id)}</h2>`,
         `<p class="mendel-env">environment: ${escapeHTML(err.environment)}</p>`,
         `<pre class="mendel-message">${ansiToHTML(err.message)}</pre>`,
-        '<details open><summary>Stack trace</summary>',
+        '<details><summary>Stack trace</summary>',
         `<pre class="mendel-stack">${ansiToHTML(
             err.stack || 'No stack available'
         )}</pre>`,
@@ -96,9 +96,12 @@ class ErrorBundleGenerator {
     });
 
     if (typeof document !== 'undefined' && typeof document.write === 'function') {
-        document.open();
-        document.write(${JSON.stringify(page)});
-        document.close();
+        if (!window.__mendelBuildErrorShown) {
+            window.__mendelBuildErrorShown = true;
+            document.open();
+            document.write(${JSON.stringify(page)});
+            document.close();
+        }
     }
 })();
 `.trim();
