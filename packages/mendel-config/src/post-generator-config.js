@@ -10,7 +10,14 @@ function PostGeneratorConfig(options, { projectRoot }) {
         this.plugin = nodeResolve(plugin, { basedir: projectRoot });
     } catch (e) {
         if (e.code !== 'MODULE_NOT_FOUND') throw e;
-        this.plugin = false;
+        throw new Error(
+            [
+                `[Config][ERROR] Cannot find Mendel plugin "${plugin}"` +
+                    ` (referenced by postgenerators.${id}).`,
+                `Install it, e.g.: npm install --save-dev ${plugin}`,
+                `(resolved from ${projectRoot})`,
+            ].join(' ')
+        );
     }
 
     PostGeneratorConfig.validate(this);

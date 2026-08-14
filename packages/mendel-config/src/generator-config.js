@@ -7,7 +7,14 @@ function GeneratorConfig({ id, plugin }, { projectRoot }) {
         this.plugin = nodeResolve(plugin, { basedir: projectRoot });
     } catch (e) {
         if (e.code !== 'MODULE_NOT_FOUND') throw e;
-        this.plugin = false;
+        throw new Error(
+            [
+                `[Config][ERROR] Cannot find Mendel plugin "${plugin}"` +
+                    ` (referenced by generators.${id}).`,
+                `Install it, e.g.: npm install --save-dev ${plugin}`,
+                `(resolved from ${projectRoot})`,
+            ].join(' ')
+        );
     }
 
     GeneratorConfig.validate(this);

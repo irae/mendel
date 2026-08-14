@@ -1,5 +1,5 @@
 '*(*.md|*.yaml|*.yml|*.json|*.css|*.html|*.less)':
-    - prettier --write
+    - prettier --write --no-error-on-unmatched-pattern
 '*(*.js|*.mjs|*.ts|*.jsx|*.tsx)':
-    - prettier --write
-    - eslint --fix
+    - prettier --write --no-error-on-unmatched-pattern
+    - eslint --fix --no-warn-ignored
