@@ -8,4 +8,9 @@
 !.mendelrc
 pnpm-lock.yaml
 
+# Fixture sources are inputs, not code: their exact bytes are the test.
+packages/*/test/fixtures/**
+!packages/*/test/fixtures/**/
+!packages/*/test/fixtures/**/README.md
+
 /.nx/workspace-data

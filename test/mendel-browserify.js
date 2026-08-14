@@ -3,13 +3,13 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var mkdirp = require('mkdirp');
+var fs = require('fs');
 var tap = require('tap');
 var mendelPlugin = 'skip'; //require('../packages/mendel-browserify');
 
 var appPath = path.resolve(__dirname, 'app-samples/1/');
 var appBuild = path.join(appPath, 'build');
-mkdirp.sync(appBuild);
+fs.mkdirSync(appBuild, { recursive: true });
 process.chdir(appPath);
 
 tap.skip('mendel-browserify', function (t) {

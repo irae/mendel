@@ -1,10 +1,10 @@
 {
-    "name": "deps-imports-fixture",
-    "private": true,
-    "imports": {
-        "#env": {
-            "browser": "./src/env.browser.js",
-            "default": "./src/env.node.js"
-        }
+  "name": "deps-imports-fixture",
+  "private": true,
+  "imports": {
+    "#env": {
+      "browser": "./src/env.browser.js",
+      "default": "./src/env.node.js"
     }
+  }
 }

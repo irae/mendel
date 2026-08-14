@@ -1,8 +1,11 @@
 const tap = require('tap');
 const path = require('path');
-const { baseYaml, runBuild } = require('./parser-coverage-helpers');
+const { baseYaml, stageFixture, runBuild } = require('./helpers');
 
-const appPath = path.resolve(__dirname, './parser-coverage-missing-samples');
+const appPath = stageFixture(
+    path.resolve(__dirname, './fixtures/parser-project'),
+    'parser-coverage-missing'
+);
 
 /**
  * Functional regression: requiring a file whose extension has no configured

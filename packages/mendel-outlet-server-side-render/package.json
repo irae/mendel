@@ -13,8 +13,7 @@
     "debug": "^4.4.0",
     "falafel": "^2.2.5",
     "mendel-development": "workspace:^",
-    "mendel-outlet-manifest": "workspace:^",
-    "mkdirp": "^3.0.1"
+    "mendel-outlet-manifest": "workspace:^"
   },
   "devDependencies": {
     "tap": "^21.0.0"

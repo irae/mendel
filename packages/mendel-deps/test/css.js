@@ -5,7 +5,7 @@ const { globSync } = require('glob');
 const path = require('path');
 const Resolver = require('../../mendel-resolver');
 
-const cssFixtures = globSync(__dirname + '/css-fixtures/**/*.css');
+const cssFixtures = globSync(__dirname + '/fixtures/css/**/*.css');
 
 const cssResolver = new Resolver({
     cwd: __dirname,

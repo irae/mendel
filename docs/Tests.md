@@ -40,16 +40,47 @@ it is the input to exactly one module's parse or serialize step, it is local.
 Fixtures never ship — every package uses a `files` whitelist in its
 `package.json` — so a cross-package fixture read costs nothing at publish time.
 
-**Fixtures are read-only.** A test that runs a real build must copy the fixture
-to a temp directory first and build there, so that generated `.mendelrc`,
-`.mendelipc` and `build/` never land in the repository and two tests can share
-one fixture without racing each other.
+**Fixtures are read-only.** A test that runs a real build stages it first, with
+`stageFixture()` from `packages/mendel-pipeline/test/helpers`:
+
+```js
+const { stageFixture, runBuild, baseYaml } = require('./helpers');
+const appPath = stageFixture(
+    path.resolve(__dirname, './fixtures/parser-project'),
+    'parser-coverage-missing'
+);
+```
+
+That builds `test/.mendel-runs/<run name>/`, which is gitignored and looks like
+a project root: one symlink per top-level child of the fixture, and real,
+writable `.mendelrc`, `.mendelipc` and `build/` alongside them. Generated output
+therefore never lands in the repository, several tests can share one fixture
+without racing, and — unlike a temp directory — the output stays at a short
+relative path you can `cat` after a failure.
+
+Three things to know:
+
+- Each child of the fixture is linked separately, never the fixture root, because
+  `node_modules` is found by walking up from the requiring file to the project
+  root. Linking only `app/` would make that walk land in the run directory.
+- A fixture's dependencies live in `stubs/` and are staged as `node_modules/`;
+  a directory actually named `node_modules` cannot be committed.
+- Tests that mutate their sources — breaking a file to watch the build recover —
+  pass `{ copy: true }` so the mutation lands in the run directory. Never write
+  through a link into a fixture.
+
+Another package's fixture is staged the same way, passing `runRoot: __dirname`
+so the output stays under the consuming package. See
+`packages/mendel-development-middleware/test/middleware.js`, which stages a
+`mendel-pipeline` fixture.
 
 **Conventions.** Name the directory `test/fixtures/`, name the fixture after its
 intent rather than a number, and give each fixture root a `README.md` stating
 the invariant it exists for, which tests consume it, and — for stub npm
 packages — which real package and version its shape mirrors. See
-`packages/mendel-resolver/test/fixtures/imports/README.md`.
+`packages/mendel-resolver/test/fixtures/imports/README.md`. Where one fixture
+backs several assertions, keep expectations in `expect/<case>.json` and drive
+them from a case table; `packages/mendel-resolver/test/all.js` does this.
 
 #### End-to-end daemon and client harness
 

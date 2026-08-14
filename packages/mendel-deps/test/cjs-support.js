@@ -15,7 +15,7 @@ test('supports dual-package extensions', function (t) {
 });
 
 test('parses require() inside .cjs dual-package entry', function (t) {
-    const fixtureDir = path.join(__dirname, 'js-fixtures/cjs-dual');
+    const fixtureDir = path.join(__dirname, 'fixtures/js/cjs-dual');
     const file = path.join(fixtureDir, 'index.cjs');
     const resolver = new Resolver({
         basedir: fixtureDir,

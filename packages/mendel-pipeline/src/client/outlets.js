@@ -1,4 +1,4 @@
-const mkdirp = require('mkdirp');
+const fs = require('fs');
 const path = require('path');
 const analyze = require('../helpers/analytics/analytics')('outlet');
 
@@ -21,7 +21,9 @@ class MendelOutlets {
             );
 
             if (bundle.options.outfile) {
-                mkdirp.sync(path.dirname(bundle.options.outfile));
+                fs.mkdirSync(path.dirname(bundle.options.outfile), {
+                    recursive: true,
+                });
             }
 
             return Promise.resolve()

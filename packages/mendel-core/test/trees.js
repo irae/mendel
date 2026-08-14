@@ -5,14 +5,14 @@
 var tap = require('tap');
 var test = tap.test;
 var path = require('path');
-var mkdirp = require('mkdirp');
+var fs = require('fs');
 var exec = require('child_process').exec;
 
 var MendelTrees = require('../trees');
 
 var appPath = path.resolve(__dirname, 'app-samples/1/');
 var appBuild = path.join(appPath, 'build');
-mkdirp.sync(appBuild);
+fs.mkdirSync(appBuild, { recursive: true });
 
 test('MendelTrees initialization', function (t) {
     t.plan(3);
@@ -169,7 +169,7 @@ tap.skip('MendelTrees valid manifest runtime', function (t) {
     t.plan(10);
 
     process.chdir(appPath);
-    mkdirp.sync(appBuild);
+    fs.mkdirSync(appBuild, { recursive: true });
     exec('./run.sh', { cwd: appPath }, function (error) {
         if (error) {
             console.log(error);

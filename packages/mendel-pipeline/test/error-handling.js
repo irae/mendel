@@ -4,8 +4,15 @@ const fs = require('fs');
 const os = require('os');
 const { spawn } = require('child_process');
 const resolveVariations = require('mendel-development/resolve-variations');
+const { stageFixture } = require('./helpers');
 
-const appPath = path.resolve(__dirname, './error-handling-samples');
+// Sources are mutated to break and repair the build, so the fixture is copied
+// rather than linked.
+const appPath = stageFixture(
+    path.resolve(__dirname, './fixtures/error-project'),
+    'error-handling',
+    { copy: true }
+);
 const brokenFile = path.join(appPath, 'app/helper.js');
 const mendelrcPath = path.join(appPath, '.mendelrc');
 // Unix socket paths are capped near 104 bytes; a path under the fixture would

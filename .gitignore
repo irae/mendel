@@ -4,7 +4,7 @@ coverage/
 .nyc_output/
 *.log
 .DS_*
-fixtures/
+.mendel-runs/
 mendel-build/
 build-requirify/
 *.log

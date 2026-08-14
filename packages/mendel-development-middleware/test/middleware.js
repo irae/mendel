@@ -4,8 +4,18 @@ const fs = require('fs');
 const os = require('os');
 const { spawn } = require('child_process');
 const { Writable } = require('stream');
+const { stageFixture } = require('../../mendel-pipeline/test/helpers');
 
-const appPath = path.resolve(__dirname, './samples');
+// Shared with mendel-pipeline's error-handling test; sources are mutated, so
+// the fixture is copied into this package's own run directory.
+const appPath = stageFixture(
+    path.resolve(
+        __dirname,
+        '../../mendel-pipeline/test/fixtures/error-project'
+    ),
+    'middleware',
+    { copy: true, runRoot: __dirname }
+);
 const helperFile = path.join(appPath, 'app/helper.js');
 const mendelrcPath = path.join(appPath, '.mendelrc');
 // Unix socket paths are capped near 104 bytes; a path under the fixture would

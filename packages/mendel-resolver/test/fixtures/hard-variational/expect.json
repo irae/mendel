@@ -1,5 +1,0 @@
-{
-  "main": "./base/footer/index.js",
-  "browser": "./base/footer/index.js",
-  "extra": "./variations/var1/footer/extra.js"
-}

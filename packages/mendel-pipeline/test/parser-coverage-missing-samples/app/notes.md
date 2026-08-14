@@ -1,3 +1,0 @@
-# notes
-
-some markdown content

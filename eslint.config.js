@@ -13,6 +13,7 @@ module.exports = [
             '**/mendel-build/**',
             '**/build-requirify/**',
             '**/fixtures/**',
+            '**/.mendel-runs/**',
             '**/.tap.coverage.map.js',
             'legacy-packages/**',
         ],

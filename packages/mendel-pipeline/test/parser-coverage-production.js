@@ -1,13 +1,12 @@
 const tap = require('tap');
 const fs = require('fs');
 const path = require('path');
-const {
-    baseYaml,
-    runBuild,
-    buildPathFor,
-} = require('./parser-coverage-helpers');
+const { baseYaml, stageFixture, runBuild, buildPathFor } = require('./helpers');
 
-const appPath = path.resolve(__dirname, './parser-coverage-production-samples');
+const appPath = stageFixture(
+    path.resolve(__dirname, './fixtures/parser-project'),
+    'parser-coverage-production'
+);
 
 /**
  * This check is dev-only by design: production builds must not change

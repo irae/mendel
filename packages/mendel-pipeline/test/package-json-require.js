@@ -1,7 +1,7 @@
 const tap = require('tap');
 const path = require('path');
 const fs = require('fs');
-const rimraf = require('rimraf');
+const { stageFixture } = require('./helpers');
 
 // Resolve monorepo plugins before chdir so config can use absolute plugin paths.
 const monorepoPackages = path.resolve(__dirname, '../..');
@@ -12,18 +12,12 @@ const nodeModulesGen = path.join(
 );
 const parserJson = path.join(monorepoPackages, 'mendel-parser-json');
 
-const appPath = path.resolve(__dirname, './package-json-require-samples');
+const appPath = stageFixture(
+    path.resolve(__dirname, './fixtures/node-modules-project'),
+    'package-json-require'
+);
 const appBuildPath = path.join(appPath, 'build');
 const mendelrcPath = path.join(appPath, '.pkgjson.mendelrc');
-const stubPkg = path.join(appPath, 'stubs', 'fake-pkg-json');
-const nmPkg = path.join(appPath, 'node_modules', 'fake-pkg-json');
-
-// node_modules/ is gitignored; materialize the stub so Node/Mendel can resolve it.
-function materializeNodeModule() {
-    rimraf.sync(path.join(appPath, 'node_modules'));
-    fs.mkdirSync(path.dirname(nmPkg), { recursive: true });
-    fs.cpSync(stubPkg, nmPkg, { recursive: true });
-}
 
 function writeMendelrc() {
     // Same shape consumers use for karma-mendel + elliptic-style package.json requires:
@@ -69,7 +63,7 @@ bundles:
     outlet: manifest
     manifest: main.manifest.json
     entries:
-      - ./index.js
+      - ./package-json-require.js
   vendor:
     outlet: manifest
     manifest: vendor.manifest.json
@@ -92,11 +86,7 @@ tap.test(
     'production-style build keeps package.json dual-dep of node_modules packages',
     function (t) {
         t.plan(8);
-        materializeNodeModule();
         writeMendelrc();
-        rimraf.sync(appBuildPath);
-        rimraf.sync(path.join(appPath, '.mendelipc'));
-        fs.mkdirSync(appBuildPath, { recursive: true });
 
         const prevCwd = process.cwd();
         process.chdir(appPath);
@@ -183,11 +173,6 @@ tap.test(
                     );
                 }
             } finally {
-                try {
-                    fs.unlinkSync(mendelrcPath);
-                } catch (e) {
-                    /* ignore */
-                }
                 if (typeof mendel.onForceExit === 'function') {
                     try {
                         mendel.onForceExit();

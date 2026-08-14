@@ -1,0 +1,5 @@
+{
+  "main": "./base/sidebar/index.js",
+  "browser": "./base/sidebar/index.js",
+  "extra": "./variations/var1/sidebar/extra.js"
+}

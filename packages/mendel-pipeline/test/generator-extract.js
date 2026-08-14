@@ -1,7 +1,7 @@
 const tap = require('tap');
 const path = require('path');
 const fs = require('fs');
-const rimraf = require('rimraf');
+const { stageFixture } = require('./helpers');
 
 // Resolve monorepo plugins before chdir so config can use absolute plugin paths.
 const monorepoPackages = path.resolve(__dirname, '../..');
@@ -11,7 +11,10 @@ const generatorExtract = path.join(
     'mendel-generator-extract'
 );
 
-const appPath = path.resolve(__dirname, './extract-samples');
+const appPath = stageFixture(
+    path.resolve(__dirname, './fixtures/extract-project'),
+    'generator-extract'
+);
 const appBuildPath = path.join(appPath, 'build');
 const mendelrcPath = path.join(appPath, '.extract.mendelrc');
 
@@ -74,9 +77,6 @@ bundles:
 tap.test('Build the extraction app', function (t) {
     t.plan(2);
     writeMendelrc();
-    rimraf.sync(appBuildPath);
-    rimraf.sync(path.join(appPath, '.mendelipc'));
-    fs.mkdirSync(appBuildPath, { recursive: true });
 
     const prevCwd = process.cwd();
     process.chdir(appPath);
@@ -123,11 +123,6 @@ tap.test('Build the extraction app', function (t) {
                 'indices have all normalizedId expected in lazy'
             );
         } finally {
-            try {
-                fs.unlinkSync(mendelrcPath);
-            } catch (e) {
-                /* ignore */
-            }
             // Daemon leaves IPC handles open; same as CLI after build.
             if (typeof mendel.onForceExit === 'function') {
                 try {

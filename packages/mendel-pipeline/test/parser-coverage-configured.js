@@ -3,12 +3,16 @@ const fs = require('fs');
 const path = require('path');
 const {
     baseYaml,
+    stageFixture,
     runBuild,
     buildPathFor,
     parserPlaintext,
-} = require('./parser-coverage-helpers');
+} = require('./helpers');
 
-const appPath = path.resolve(__dirname, './parser-coverage-configured-samples');
+const appPath = stageFixture(
+    path.resolve(__dirname, './fixtures/parser-project'),
+    'parser-coverage-configured'
+);
 
 /**
  * Companion to parser-coverage-missing.js: once the plaintext parser is

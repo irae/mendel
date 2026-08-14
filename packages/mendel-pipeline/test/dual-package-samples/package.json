@@ -1,8 +1,0 @@
-{
-  "name": "dual-package-sample",
-  "private": true,
-  "dependencies": {
-    "fake-dual": "file:./node_modules/fake-dual",
-    "helper-lib": "file:./node_modules/helper-lib"
-  }
-}

@@ -4,7 +4,6 @@
 
 var t = require('tap');
 var path = require('path');
-var mkdirp = require('mkdirp');
 var fs = require('fs');
 
 var config = require('../');
@@ -14,7 +13,7 @@ delete process.env.NODE_ENV;
 delete process.env.MENDEL_ENV;
 var where;
 
-mkdirp.sync('/tmp/1/2/3/');
+fs.mkdirSync('/tmp/1/2/3/', { recursive: true });
 process.chdir('/tmp/');
 
 t.match(
@@ -186,7 +185,7 @@ function fakeModules(modules) {
     });
 
     paths.forEach(function (modulePath) {
-        mkdirp.sync(path.dirname(modulePath));
+        fs.mkdirSync(path.dirname(modulePath), { recursive: true });
         fs.writeFileSync(modulePath, '');
     });
     var moduleNameToPath = {};

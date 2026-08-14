@@ -1,0 +1,9 @@
+{
+  "name": "node-modules-project",
+  "private": true,
+  "dependencies": {
+    "fake-dual": "file:./stubs/fake-dual",
+    "fake-pkg-json": "file:./stubs/fake-pkg-json",
+    "helper-lib": "file:./stubs/helper-lib"
+  }
+}

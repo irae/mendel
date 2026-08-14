@@ -1,0 +1,17 @@
+# relative to basedir, defaults to "build"
+
+bundles:
+  main:
+    entries:
+      - index.js
+
+base-config:
+  id: base # Bundle id for default variation
+  dir: ./base # Source dir for default variation
+  outdir: ./build # Base output dir for all artifacts
+
+variation-config:
+  variation-dirs:
+    - ./variations
+  variations:
+    var1:

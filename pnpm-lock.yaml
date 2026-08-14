@@ -53,9 +53,6 @@ importers:
       lint-staged:
         specifier: ^17.0.8
         version: 17.0.8
-      mkdirp:
-        specifier: ^3.0.1
-        version: 3.0.1
       prettier:
         specifier: ^3.9.5
         version: 3.9.5
@@ -297,9 +294,6 @@ importers:
         specifier: ^4.0.1
         version: 4.0.2
     devDependencies:
-      mkdirp:
-        specifier: ^3.0.1
-        version: 3.0.1
       tap:
         specifier: ^21.0.0
         version: 21.7.4(@types/node@26.1.1)(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
@@ -325,9 +319,6 @@ importers:
         specifier: ^4.0.1
         version: 4.0.2
     devDependencies:
-      mkdirp:
-        specifier: ^3.0.1
-        version: 3.0.1
       tap:
         specifier: ^21.0.0
         version: 21.7.4(@types/node@26.1.1)(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
@@ -616,9 +607,6 @@ importers:
       mendel-outlet-manifest:
         specifier: workspace:^
         version: link:../mendel-outlet-manifest
-      mkdirp:
-        specifier: ^3.0.1
-        version: 3.0.1
     devDependencies:
       tap:
         specifier: ^21.0.0
@@ -679,9 +667,6 @@ importers:
       minimatch:
         specifier: ^10.0.0
         version: 10.2.6
-      mkdirp:
-        specifier: ^3.0.1
-        version: 3.0.1
       node-stdlib-browser:
         specifier: ^1.3.1
         version: 1.3.1

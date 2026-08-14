@@ -1,4 +1,3 @@
-const mkdirp = require('mkdirp');
 const fs = require('fs');
 const mendelRequireTransform = require('./transform-require');
 const path = require('path');
@@ -82,7 +81,7 @@ module.exports = class ServerSideRenderOutlet extends ManifestOutlet {
     }
 
     saveFileToDisk(dest, source) {
-        return mkdirp(path.dirname(dest)).then(
+        return fs.promises.mkdir(path.dirname(dest), { recursive: true }).then(
             () =>
                 new Promise((resolve, reject) => {
                     fs.writeFile(dest, source, 'utf-8', (err) => {

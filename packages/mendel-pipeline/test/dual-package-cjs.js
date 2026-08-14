@@ -1,7 +1,7 @@
 const tap = require('tap');
 const path = require('path');
 const fs = require('fs');
-const rimraf = require('rimraf');
+const { stageFixture } = require('./helpers');
 
 // Resolve monorepo plugins before chdir so config can use absolute plugin paths.
 const monorepoPackages = path.resolve(__dirname, '../..');
@@ -11,7 +11,10 @@ const nodeModulesGen = path.join(
     'mendel-generator-node-modules'
 );
 
-const appPath = path.resolve(__dirname, './dual-package-samples');
+const appPath = stageFixture(
+    path.resolve(__dirname, './fixtures/node-modules-project'),
+    'dual-package-cjs'
+);
 const appBuildPath = path.join(appPath, 'build');
 const mendelrcPath = path.join(appPath, '.dual.mendelrc');
 
@@ -50,7 +53,7 @@ bundles:
     outlet: manifest
     manifest: main.manifest.json
     entries:
-      - ./index.js
+      - ./dual-package.js
   vendor:
     outlet: manifest
     manifest: vendor.manifest.json
@@ -66,9 +69,6 @@ tap.test(
     function (t) {
         t.plan(5);
         writeMendelrc();
-        rimraf.sync(appBuildPath);
-        rimraf.sync(path.join(appPath, '.mendelipc'));
-        fs.mkdirSync(appBuildPath, { recursive: true });
 
         const prevCwd = process.cwd();
         process.chdir(appPath);
@@ -120,11 +120,6 @@ tap.test(
                     'CJS source is present in the manifest'
                 );
             } finally {
-                try {
-                    fs.unlinkSync(mendelrcPath);
-                } catch (e) {
-                    /* ignore */
-                }
                 // Daemon leaves IPC handles open; same as CLI after build.
                 if (typeof mendel.onForceExit === 'function') {
                     try {
