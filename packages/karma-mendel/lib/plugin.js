@@ -21,6 +21,9 @@ fs.writeFileSync(MENDEL_GLOBAL_PATH, 'window');
 
 var globalClient;
 var globalConfig;
+var globalHoldOnError = false;
+var globalExiting = false;
+var reportedBuildError = false;
 
 async function initMendelFramework(logger, emitter, fileList, karmaConfig) {
     debug('initMendelFramework');
@@ -33,6 +36,11 @@ async function initMendelFramework(logger, emitter, fileList, karmaConfig) {
         Number(karmaConfig.autoWatchBatchDelay),
         250
     );
+
+    globalHoldOnError =
+        Boolean(karmaConfig.autoWatch) && !karmaConfig.singleRun;
+    globalExiting = false;
+    reportedBuildError = false;
 
     var log = logger.create('framework:mendel');
     var client = new MendelClient(
@@ -70,20 +78,7 @@ async function initMendelFramework(logger, emitter, fileList, karmaConfig) {
         debug('file_list_modified');
         // karma will swallow errors without this try/catch
         try {
-            // This handler reads the registry directly, so it needs the
-            // strict check: an errored build drops entries but keeps their
-            // variations, and walking that would serve a different
-            // variation's code as if it were the base one.
-            await new Promise(function waiter(resolve, reject) {
-                if (globalClient.isRegistryComplete()) {
-                    return resolve();
-                }
-                if (globalClient.getSyncState() === 'synced-with-errors') {
-                    return reject(buildError(globalClient));
-                }
-                debug('file_list_modified hold');
-                setTimeout(() => waiter(resolve, reject), 100);
-            });
+            await waitForCompleteRegistry(log);
 
             debug('file_list_modified continue');
 
@@ -199,7 +194,58 @@ async function initMendelFramework(logger, emitter, fileList, karmaConfig) {
     // Mendel provides dependencies that Karma don't know about
     // tell karma when those changed
     client.on('change', function () {
-        fileList.refresh();
+        // karma never attaches a rejection handler to refresh() either, and a
+        // rejection here would take the whole process down the same way.
+        Promise.resolve(fileList.refresh()).catch(function (e) {
+            log.error(e);
+        });
+    });
+
+    emitter.on('exit', function (done) {
+        globalExiting = true;
+        client.exit();
+        done();
+    });
+}
+
+/**
+ * Both readers below need the strict check: an errored build drops entries but
+ * keeps their variations, and walking that would serve a different variation's
+ * code as if it were the base one.
+ *
+ * Rejecting is only safe on a single run. In watch mode karma reaches the
+ * preprocessor from its own file watcher, which calls `fileList.changeFile()`
+ * (karma lib/watcher.js) without attaching a rejection handler, and karma's
+ * server turns any unhandled rejection into `_close(1)`. A build error would
+ * therefore kill the karma process instead of the test run. Hold instead: the
+ * daemon keeps rebuilding, and the same poll resumes the run once the file is
+ * fixed, with no restart.
+ */
+function waitForCompleteRegistry(log) {
+    return new Promise(function waiter(resolve, reject) {
+        if (globalClient.isRegistryComplete()) {
+            if (reportedBuildError) {
+                reportedBuildError = false;
+                log.info('Mendel build recovered, resuming.');
+            }
+            return resolve();
+        }
+
+        if (globalClient.getSyncState() === 'synced-with-errors') {
+            var error = buildError(globalClient);
+            if (!globalHoldOnError) return reject(error);
+            if (!reportedBuildError) {
+                reportedBuildError = true;
+                log.error(error);
+            }
+        }
+
+        // Karma is going away: drop the hold rather than keep a poll alive
+        // that would outlive the run and hold the process open.
+        if (globalExiting) return debug('exiting, dropping the hold');
+
+        debug('holding for a complete registry');
+        setTimeout(() => waiter(resolve, reject), 100);
     });
 }
 
@@ -214,17 +260,16 @@ var createPreprocesor = function (logger) {
             './' + path.relative(globalConfig.projectRoot, file.originalPath);
         logged !== 'logged' && log.debug('transforming "%s".', relativeFile);
 
-        // Strict check: this reads the registry directly, see the comment on
-        // the framework's file_list_modified handler.
-        if (globalClient.getSyncState() === 'synced-with-errors') {
+        try {
+            await waitForCompleteRegistry(log);
+        } catch (error) {
             debounce = true;
-            var error = buildError(globalClient);
             log.error(error.message);
             done(error, null);
             return;
         }
 
-        if (!globalClient.isRegistryComplete() || debounce) {
+        if (debounce) {
             debounce = false;
             setTimeout(() => getFile(content, file, done, 'logged'), 250);
             return;
