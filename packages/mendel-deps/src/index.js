@@ -40,7 +40,10 @@ function getDependencies(filePath, source) {
 module.exports = function deps({ file, resolver, source }) {
     return Promise.resolve()
         .then(() => getDependencies(file, source))
-        .catch((e) => debug(e))
+        .catch((e) => {
+            debug(e);
+            return { imports: [], exports: [] };
+        })
         .then((result) => {
             if (debugFileMatching && debugFileMatching.test(file)) {
                 debug({ file, result });
