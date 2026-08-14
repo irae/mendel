@@ -247,9 +247,6 @@ importers:
       debug:
         specifier: ^4.4.0
         version: 4.4.3(supports-color@5.5.0)
-      karma:
-        specifier: ^6.4.2
-        version: 6.4.4(debug@4.4.3(supports-color@5.5.0))
       mendel-config:
         specifier: workspace:^
         version: link:../mendel-config
@@ -263,6 +260,9 @@ importers:
         specifier: ^0.7.4
         version: 0.7.6
     devDependencies:
+      karma:
+        specifier: ^6.4.2
+        version: 6.4.4(debug@4.4.3(supports-color@5.5.0))
       tap:
         specifier: ^21.0.0
         version: 21.7.4(@types/node@26.1.1)(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
