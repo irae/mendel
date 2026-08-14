@@ -82,3 +82,23 @@ test('resolve dual-package main=.cjs module=.js', function (t) {
             });
     });
 });
+
+test('variational variation-only-file', function (t) {
+    const dir = 'variation-only-file';
+    const dirPath = path.resolve(basePath, dir);
+    process.chdir(dirPath);
+    const config = parseConfig();
+
+    config.basedir = dirPath + '/variations/var1';
+    config.runtimes = ['main'];
+
+    return new VariationalResolver(config)
+        .resolve('./variation-only-module')
+        .then((resolved) => {
+            const expected = JSON.parse(
+                fs.readFileSync(path.resolve(dirPath, 'expect.json'))
+            );
+            t.same(resolved, expected);
+            t.end();
+        });
+});

@@ -69,12 +69,9 @@ bundles:
     fs.writeFileSync(mendelrcPath, yaml);
 }
 
-// Skipped: the lazy bundle's ./third-number.js exists only under
-// variations/test_A, with no base counterpart. mendel-resolver can't
-// resolve a file that's introduced entirely by a variation -- see
-// https://github.com/irae/mendel/issues/7. Not a config/fixture problem;
-// re-enable once that's fixed.
-tap.skip('Build the extraction app', function (t) {
+// The lazy bundle's ./third-number.js exists only under variations/test_A,
+// with no base counterpart: this asserts the resolver reaches it.
+tap.test('Build the extraction app', function (t) {
     t.plan(2);
     writeMendelrc();
     rimraf.sync(appBuildPath);

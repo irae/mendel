@@ -8,7 +8,7 @@ function variationMatches(variations, path) {
     var result;
     variations.some(function (variation) {
         return variation.chain.some(function (dir) {
-            var parts = path.split(new RegExp('/' + dir + '/'));
+            var parts = path.split(new RegExp('/' + dir + '(?:/|$)'));
             var found = parts.length > 1;
             if (found)
                 result = {
