@@ -16,6 +16,9 @@ class MendelCache extends EventEmitter {
         this.environment = config.environment;
 
         this._store = new Map();
+        // Kept in step with `entry.error` so `deliverableSize` stays O(1) on
+        // the per-message hot path in cache/server.js.
+        this._erroredCount = 0;
         this._normalizedIdToEntryIds = new Map();
         // PackageMap maps a source to a normalizedId
         // that allows to group sources that they are the "same"
@@ -184,6 +187,7 @@ class MendelCache extends EventEmitter {
 
     removeEntry(id, { final = false } = {}) {
         if (this.hasEntry(id)) {
+            if (this.getEntry(id).error) this._erroredCount--;
             this._store.delete(id);
             this.emit('entryRemoved', id, { final });
         }
@@ -204,7 +208,7 @@ class MendelCache extends EventEmitter {
     }
 
     deliverableSize() {
-        return this.deliverableEntries().length;
+        return this._store.size - this._erroredCount;
     }
 
     getEntry(id) {
@@ -224,6 +228,9 @@ class MendelCache extends EventEmitter {
     setEntryError(id, error) {
         if (!this.hasEntry(id)) return;
         const entry = this.getEntry(id);
+        const wasErrored = !!entry.error;
+        const isErrored = !!error;
+        if (wasErrored !== isErrored) this._erroredCount += isErrored ? 1 : -1;
         entry.error = error;
         entry.done = false;
         this.emit('entryErrored', { id, error });
