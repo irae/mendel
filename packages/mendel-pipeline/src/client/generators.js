@@ -53,6 +53,14 @@ class MendelGenerators {
         // class, or alternativelly refactor bundle to POJO and use
         // validator right here instead.
         if (resultBundle && resultBundle.entries) {
+            if (resultBundle.entries.size === 0) {
+                throw new Error(
+                    `Bundle with name "${bundle.options.id}" has the ` +
+                        `following entries [${bundle.options.entries}] and ` +
+                        'yielded an empty bundle.'
+                );
+            }
+
             debug(
                 [
                     `"${bundle.options.generator}" collected`,
