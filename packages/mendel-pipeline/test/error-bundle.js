@@ -1,4 +1,5 @@
 const tap = require('tap');
+const vm = require('vm');
 const { codeFrameColumns } = require('@babel/code-frame');
 const ErrorBundleGenerator = require('../src/bundles/error-bundle');
 const CacheServer = require('../src/cache/server');
@@ -214,6 +215,74 @@ tap.test('extended colour sequences do not repaint the page', (t) => {
         page,
         /<span style="font-weight:bold">still bold/,
         'emphasis survives a truecolour sequence'
+    );
+
+    t.end();
+});
+
+function runBundle(bundle, times, { browser = true } = {}) {
+    const errors = [];
+    const writes = [];
+    const sandbox = { console: { error: (...args) => errors.push(args) } };
+
+    if (browser) {
+        sandbox.document = {
+            open() {},
+            write: (html) => writes.push(html),
+            close() {},
+        };
+        sandbox.window = { document: sandbox.document };
+    }
+
+    const context = vm.createContext(sandbox);
+    for (let i = 0; i < times; i++) vm.runInContext(bundle, context);
+
+    return { errors, writes };
+}
+
+/**
+ * Unit regression: every errored bundle on a page carries the same error list,
+ * so a page with several of them used to stack error pages and repeat every
+ * error in the console once per bundle.
+ */
+tap.test('a page only reports the build error once', (t) => {
+    const bundle = ErrorBundleGenerator.generate([JSX_ERROR], {
+        type: 'js',
+        environment: 'development',
+    });
+
+    const once = runBundle(bundle, 1);
+    const thrice = runBundle(bundle, 3);
+
+    t.ok(once.errors.length > 0, 'the error does reach the console');
+    t.equal(once.writes.length, 1, 'the page is taken over');
+    t.same(
+        thrice.errors,
+        once.errors,
+        'further bundles add nothing to the console'
+    );
+    t.equal(thrice.writes.length, 1, 'error pages do not stack');
+
+    t.end();
+});
+
+/**
+ * Unit: outside a page (a worker has no window) there is no page to take over
+ * and no flag to carry, so the console stays the only report.
+ */
+tap.test('a windowless context still logs the build error', (t) => {
+    const bundle = ErrorBundleGenerator.generate([JSX_ERROR], {
+        type: 'js',
+        environment: 'development',
+    });
+
+    const { errors } = runBundle(bundle, 1, { browser: false });
+
+    t.ok(errors.length > 0, 'the error is reported without a window');
+    t.match(
+        JSON.stringify(errors),
+        /Unexpected token/,
+        'the message is carried'
     );
 
     t.end();

@@ -10,9 +10,9 @@ class FakeCache extends EventEmitter {
     add(id) {
         this._ids.push(id);
     }
-    remove(id) {
+    remove(id, meta) {
         this._ids = this._ids.filter((existing) => existing !== id);
-        this.emit('entryRemoved', id);
+        this.emit('entryRemoved', id, meta);
     }
     error(id) {
         this.emit('entryErrored', { id });
@@ -125,6 +125,47 @@ tap.test('removing an entry clears its errored state', (t) => {
 
     waiter.perform({ id: 'b' });
     t.same(done, ['a', 'b'], 'both entries are released once the fix is read');
+
+    t.end();
+});
+
+/**
+ * Unit regression: deleting a watched file while a pass is in flight used to
+ * leave every remaining entry accounted for with nobody re-checking, so the
+ * barrier never opened and clients hung until an unrelated file event.
+ */
+tap.test('a deleted file lets the pass complete', (t) => {
+    const cache = new FakeCache(['a', 'b']);
+    const waiter = new Waiter({ cache });
+    const done = collect(waiter);
+
+    waiter.perform({ id: 'a' });
+    t.same(done, [], 'the barrier holds while the second entry is outstanding');
+
+    cache.remove('b', { final: true });
+    t.same(done, ['a'], 'the remaining entry is released');
+
+    t.end();
+});
+
+/**
+ * Unit: a file change removes and immediately re-adds the entry. That removal
+ * is not final, and releasing on it would hand the batch downstream while the
+ * changed file is still unread.
+ */
+tap.test('a changed file does not open the barrier early', (t) => {
+    const cache = new FakeCache(['a', 'b']);
+    const waiter = new Waiter({ cache });
+    const done = collect(waiter);
+
+    waiter.perform({ id: 'a' });
+
+    cache.remove('b');
+    cache.add('b');
+    t.same(done, [], 'nothing is released for a re-added entry');
+
+    waiter.perform({ id: 'b' });
+    t.same(done, ['a', 'b'], 'the batch waits for the changed file');
 
     t.end();
 });
