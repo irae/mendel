@@ -318,6 +318,11 @@ process.env.MENDEL_ENV = origMendelEnv;
 
 where = './config-samples/gst-validation/';
 
+var gstValidationDir = path.resolve(__dirname, where);
+t.teardown(function () {
+    fs.rmSync(gstValidationDir, { recursive: true, force: true });
+});
+
 (function createGstValidationTestFixture() {
     const testDir = path.resolve(__dirname, where);
     fs.mkdirSync(testDir, { recursive: true });
