@@ -40,8 +40,20 @@ function getDependencies(filePath, source) {
 module.exports = function deps({ file, resolver, source }) {
     return Promise.resolve()
         .then(() => getDependencies(file, source))
+        .then((result) => {
+            // jsDependency returns false (instead of throwing) on a parse
+            // failure of the file's own source; mark it so callers can tell
+            // it apart from resolver noise, which must stay non-fatal.
+            if (result === false) {
+                const error = new Error(`Failed to parse ${file}`);
+                error.mendelSourceParseFailure = true;
+                throw error;
+            }
+            return result;
+        })
         .catch((e) => {
             debug(e);
+            if (e.mendelSourceParseFailure) throw e;
             return { imports: [], exports: [] };
         })
         .then((result) => {

@@ -11,7 +11,7 @@ const RUNTIME = ['main', 'browser', 'module'];
 const resolveCache = new Map();
 let resolver;
 
-module.exports = function (done) {
+module.exports = function () {
     return {
         start(payload, sender) {
             const {
@@ -56,21 +56,27 @@ module.exports = function (done) {
                 `Detecting dependencies for ${filePath}`,
                 filePath
             );
-            mendelDeps({ file: filePath, source, resolver })
-                // mendel-resolver throws in case nothing was found
-                .catch((e) => {
-                    shouldLog && verbose(e);
-                    return RUNTIME.reduce((reduced, name) => {
-                        reduced[name] = false;
-                        return reduced;
-                    }, {});
-                })
-                .then((deps) => {
-                    analytics.toc();
-                    shouldLog && debug(`Dependencies for ${filePath} found!`);
-                    shouldLog && verbose({ filePath, deps });
-                    done({ filePath, deps });
-                });
+            return (
+                mendelDeps({ file: filePath, source, resolver })
+                    // mendel-resolver throws in case nothing was found; that
+                    // resolver noise must stay non-fatal, unlike a genuine parse
+                    // failure of the file's own source (which we let escalate).
+                    .catch((e) => {
+                        if (e && e.mendelSourceParseFailure) throw e;
+                        shouldLog && verbose(e);
+                        return RUNTIME.reduce((reduced, name) => {
+                            reduced[name] = false;
+                            return reduced;
+                        }, {});
+                    })
+                    .then((deps) => {
+                        analytics.toc();
+                        shouldLog &&
+                            debug(`Dependencies for ${filePath} found!`);
+                        shouldLog && verbose({ filePath, deps });
+                        return { filePath, deps };
+                    })
+            );
         },
 
         has(payload) {
