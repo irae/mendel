@@ -256,32 +256,27 @@ var createPreprocesor = function (logger) {
     var debounce = true;
 
     return async function getFile(content, file, done, logged) {
-        var relativeFile =
-            './' + path.relative(globalConfig.projectRoot, file.originalPath);
-        logged !== 'logged' && log.debug('transforming "%s".', relativeFile);
-
         try {
+            var relativeFile =
+                './' +
+                path.relative(globalConfig.projectRoot, file.originalPath);
+            logged !== 'logged' &&
+                log.debug('transforming "%s".', relativeFile);
+
             await waitForCompleteRegistry(log);
-        } catch (error) {
-            debounce = true;
-            log.error(error.message);
-            done(error, null);
-            return;
-        }
 
-        if (debounce) {
-            debounce = false;
-            setTimeout(() => getFile(content, file, done, 'logged'), 250);
-            return;
-        }
+            if (debounce) {
+                debounce = false;
+                setTimeout(() => getFile(content, file, done, 'logged'), 250);
+                return;
+            }
 
-        if (file.originalPath === BRIDGE_FILE_PATH) {
-            debounce = true;
-            done(null, content);
-            return;
-        }
+            if (file.originalPath === BRIDGE_FILE_PATH) {
+                debounce = true;
+                done(null, content);
+                return;
+            }
 
-        try {
             var module = globalClient.registry.getEntry(relativeFile);
 
             if (!module) {

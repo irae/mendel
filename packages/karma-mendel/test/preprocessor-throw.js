@@ -215,3 +215,127 @@ tap.test('preprocessor catches throws after the readiness gate', async (t) => {
         'the error is logged by the preprocessor'
     );
 });
+
+/**
+ * Functional regression: preprocessor handles throws in its prologue.
+ * Before wrapping the entire getFile body in try/catch, if globalConfig was
+ * undefined (e.g., initMendelFramework failed early), the prologue's
+ * path.relative call would throw before reaching any error handler.
+ * This was especially dangerous on the debounce retry path: the setTimeout
+ * callback would call getFile, and an unhandled rejection would occur.
+ */
+tap.test('preprocessor catches throws in the prologue', async (t) => {
+    fs.writeFileSync(mendelrcPath, YAML);
+    fs.writeFileSync(helperFile, GOOD_SOURCE);
+    try {
+        fs.unlinkSync(ipcPath);
+    } catch (e) {
+        /* no socket yet */
+    }
+
+    const daemon = spawn(process.execPath, [cliPath, '--watch'], {
+        cwd: appPath,
+        env: Object.assign({}, process.env, {
+            MENDEL_IPC: ipcPath,
+            MENDEL_ENV: 'development',
+            NODE_ENV: 'development',
+        }),
+        stdio: ['ignore', 'ignore', 'pipe'],
+    });
+    daemon.stderr.resume();
+
+    const prevCwd = process.cwd();
+    process.chdir(appPath);
+
+    const BuildOnDemand = require('mendel-pipeline/client');
+    const clients = [];
+    const originalRun = BuildOnDemand.prototype.run;
+    BuildOnDemand.prototype.run = function () {
+        clients.push(this);
+        return originalRun.apply(this, arguments);
+    };
+
+    t.teardown(() => {
+        delete BuildOnDemand.prototype.run;
+        clients.forEach((client) => client.exit());
+        daemon.kill('SIGKILL');
+        process.chdir(prevCwd);
+        fs.writeFileSync(helperFile, GOOD_SOURCE);
+        [mendelrcPath, ipcPath].forEach((file) => {
+            try {
+                fs.unlinkSync(file);
+            } catch (e) {
+                /* already gone */
+            }
+        });
+    });
+
+    t.ok(await waitFor(() => fs.existsSync(ipcPath)), 'builder is up');
+
+    // Clear the require cache to force a fresh module load where we can
+    // manipulate globalConfig
+    delete require.cache[require.resolve('../lib/plugin.js')];
+    const plugin = require('../lib/plugin');
+    const logged = [];
+    const logger = makeLogger(logged);
+    const { EventEmitter } = require('events');
+    const emitter = new EventEmitter();
+    const karmaConfig = {
+        mendel: { environment: 'development', verbose: false },
+        files: [],
+        autoWatchBatchDelay: 0,
+    };
+
+    await plugin['framework:mendel'][1](
+        logger,
+        emitter,
+        { refresh: () => {} },
+        karmaConfig
+    );
+
+    const preprocessorLogged = [];
+    const getFile = plugin['preprocessor:mendel'][1](
+        makeLogger(preprocessorLogged)
+    );
+
+    // Simulate a prologue error by monkeypatching path.relative to throw.
+    // This mimics what would happen if globalConfig was undefined.
+    const pathModule = require('path');
+    const originalRelative = pathModule.relative;
+    let throwOnce = true;
+    pathModule.relative = function (...args) {
+        if (throwOnce) {
+            throwOnce = false;
+            throw new TypeError(
+                "Cannot read property 'projectRoot' of undefined"
+            );
+        }
+        return originalRelative.apply(this, args);
+    };
+
+    t.teardown(() => {
+        pathModule.relative = originalRelative;
+    });
+
+    const helperPath = path.join(appPath, 'app/helper.js');
+    const preprocessed = await new Promise((resolve) => {
+        getFile(
+            fs.readFileSync(helperPath, 'utf8'),
+            { originalPath: helperPath },
+            (error, content) => resolve({ error, content })
+        );
+    });
+
+    t.ok(
+        preprocessed.error instanceof TypeError,
+        'preprocessor catches prologue errors'
+    );
+    t.notOk(
+        preprocessed.content,
+        'no content is passed when a prologue error occurs'
+    );
+    t.ok(
+        preprocessorLogged.length > 0,
+        'the prologue error is logged by the preprocessor'
+    );
+});
