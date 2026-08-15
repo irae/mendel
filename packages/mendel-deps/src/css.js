@@ -5,7 +5,12 @@ function walkAst(root) {
     root.walkAtRules('import', (atRule) => {
         let normImport = atRule.params.trim();
         if (!normImport.startsWith('url')) {
-            normImport = normImport.match(/^["'](\S+)['"]$/)[1];
+            const match = normImport.match(/^["']([^"']+)["']/);
+            if (match) {
+                normImport = match[1];
+            } else {
+                return;
+            }
         }
 
         imports.push(normImport);
