@@ -1,5 +1,7 @@
 @import url('./foo.css');
 @import './bar.css';
+@import "./baz.css" screen and (min-width: 100px);
+@import totally-malformed;
 
 body {
     border: 1px solid red;

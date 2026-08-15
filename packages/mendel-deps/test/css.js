@@ -24,7 +24,11 @@ cssFixtures
                 source: readFileSync(file, 'utf8'),
                 resolver: cssResolver,
             }).then((deps) => {
-                t.equal(Object.keys(deps).length, 2);
+                t.equal(
+                    Object.keys(deps).length,
+                    3,
+                    'malformed import is skipped without dropping the other dependencies'
+                );
 
                 t.equal(
                     deps["url('./foo.css')"],
@@ -35,6 +39,14 @@ cssFixtures
                 const barDep = deps['./bar.css'];
                 t.match(barDep.browser, /bar\.css$/);
                 t.match(barDep.main, /bar\.css$/);
+
+                const bazDep = deps['./baz.css'];
+                t.match(
+                    bazDep.browser,
+                    /baz\.css$/,
+                    'media query suffix is stripped from the import target'
+                );
+                t.match(bazDep.main, /baz\.css$/);
             });
         });
     });
