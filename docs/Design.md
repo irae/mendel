@@ -33,6 +33,7 @@ Here are some highlights:
 - Fast code reload: once one file is saved, regardless of how many implemented variations there are in the project, one should be able to see changes in browser (including server-side rendered markup) in under a second
 - Select/override which variation (as any other configuration) to be loaded in browser via many different methods, including (but not restricted to) query string, developer box local configuration and cookies
 - "Development only variations": When creating a variation, a developer should not need access or try out his new code without resorting to external configuration systems
+- Build errors are reported environment-wide, not per bundle: when a build fails badly enough that the daemon sends the error page to the client, **all** bundles — CSS included — stop rendering and show the error, by design. This mimics a production build: a broken production build fails and nothing renders — no app, so no need for CSS either. Serving stale/last-known-good CSS while the JS is erroring would be inconsistent with that model and is deliberately not pursued. Full analysis, including why general per-bundle scoping is also not cheap: `docs/superpowers/handoff/error-bundle-scope-analysis.md`.
 
 ### Expected differences when inspecting code in production or development
 

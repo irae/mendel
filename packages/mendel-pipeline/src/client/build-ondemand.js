@@ -32,6 +32,10 @@ class BuildOnDemand extends BaseClient {
         }
 
         const key = this.getCacheKey(bundleId, variations);
+        // Deliberately type-blind: serving the last-known-good CSS bundle while
+        // the environment is errored was considered and rejected. A broken
+        // production build renders nothing, so no app means no CSS either.
+        // See docs/superpowers/handoff/error-bundle-scope-analysis.md.
         if (!this.client.hasErrors() && this._bundleCache.has(key)) {
             return Promise.resolve(this._bundleCache.get(key));
         }
@@ -49,6 +53,12 @@ class BuildOnDemand extends BaseClient {
     }
 
     _perform() {
+        // The error gate is environment-wide on purpose: every bundle of every
+        // type answers with the error, mirroring a production build where a
+        // failure means nothing renders at all. Per-bundle scoping — including
+        // the narrow "let CSS through / serve stale CSS" variant — was
+        // considered and rejected; see
+        // docs/superpowers/handoff/error-bundle-scope-analysis.md.
         if (this.client.hasErrors()) {
             const errors = this.client.getErrors();
             this._requests.forEach(({ id, variations, type, promise }) => {

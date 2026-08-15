@@ -177,6 +177,11 @@ class CacheClient extends EventEmitter {
         return this.hasErrors() ? 'synced-with-errors' : 'synced';
     }
 
+    // Error state is per environment, not per bundle, by design: any error breaks
+    // every bundle including CSS, the way a broken production build renders
+    // nothing at all. Scoping it (and the "serve last-known-good CSS" variant)
+    // was considered and rejected — see
+    // docs/superpowers/handoff/error-bundle-scope-analysis.md.
     hasErrors() {
         return this.erroredEntries.size > 0;
     }

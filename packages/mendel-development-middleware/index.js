@@ -130,6 +130,11 @@ function MendelMiddleware(opts) {
             res.header('content-type', 'application/javascript');
         }
 
+        // `type` only picks the error bundle's syntax, never its scope: while the
+        // environment is errored a CSS request gets the error too, matching a
+        // production build where nothing renders. Serving stale CSS through the
+        // error was considered and rejected — see
+        // docs/superpowers/handoff/error-bundle-scope-analysis.md.
         client
             .build(bundle, vars, { type: isCSS ? 'css' : 'js' })
             .then((bundle) => {

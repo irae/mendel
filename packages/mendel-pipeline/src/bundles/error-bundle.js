@@ -111,6 +111,10 @@ class ErrorBundleGenerator {
 `.trim();
     }
 
+    // CSS gets an error bundle like every other type — serving the last-known-good
+    // stylesheet instead was considered and rejected: a broken build renders no
+    // app, so it needs no styles.
+    // See docs/superpowers/handoff/error-bundle-scope-analysis.md.
     static generateCSSErrorBundle(errors, environment) {
         const list = normalize(errors, environment);
         const messages = list
