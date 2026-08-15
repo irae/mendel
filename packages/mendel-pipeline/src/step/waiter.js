@@ -12,9 +12,10 @@ class Waiter extends BaseStep {
         this._releasing = false;
         this._recheck = false;
 
-        cache.on('entryRemoved', (id) => {
+        cache.on('entryRemoved', (id, { final = false } = {}) => {
             this.waited.delete(id);
             this.errored.delete(id);
+            if (final) this._checkCompletion();
         });
 
         cache.on('entryErrored', ({ id }) => {
