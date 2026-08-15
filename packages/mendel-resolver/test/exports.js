@@ -276,3 +276,24 @@ test('scoped package subpath through exports', (t) => {
             });
         });
 });
+
+test('rejects subpath with .. segment', (t) => {
+    return t.rejects(
+        createResolver().resolve('patterns/../../../outside'),
+        'ERR_INVALID_MODULE_SPECIFIER'
+    );
+});
+
+test('rejects pattern match expansion with .. segment', (t) => {
+    return t.rejects(
+        createResolver().resolve('patterns/features/../../outside'),
+        'ERR_INVALID_MODULE_SPECIFIER'
+    );
+});
+
+test('rejects subpath with node_modules segment', (t) => {
+    return t.rejects(
+        createResolver().resolve('patterns/node_modules/something'),
+        'ERR_INVALID_MODULE_SPECIFIER'
+    );
+});

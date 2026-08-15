@@ -33,7 +33,24 @@ function normalizeExports(exports) {
     return exports;
 }
 
+function isInvalidModuleSpecifier(specifier) {
+    const parts = specifier.split(/[/\\]/);
+    for (const part of parts) {
+        if (part === '..' || part === 'node_modules') {
+            return true;
+        }
+    }
+    return false;
+}
+
 function matchExportsSubpath(exportsMap, subpath) {
+    if (isInvalidModuleSpecifier(subpath)) {
+        const err = new Error();
+        err.code = 'ERR_INVALID_MODULE_SPECIFIER';
+        err.message = `Invalid module specifier "${subpath}"`;
+        throw err;
+    }
+
     if (Object.prototype.hasOwnProperty.call(exportsMap, subpath))
         return { target: exportsMap[subpath], patternMatch: null };
 
@@ -79,11 +96,20 @@ function expandExportsTarget(target, conditions, patternMatch, allowBare) {
             if (!allowBare || /^(?:#|\.\.?[\\/]|[\\/])/.test(target))
                 return undefined;
         }
-        return [
+
+        let expandedPath =
             patternMatch === null
                 ? target
-                : target.split('*').join(patternMatch),
-        ];
+                : target.split('*').join(patternMatch);
+
+        if (patternMatch !== null && isInvalidModuleSpecifier(patternMatch)) {
+            const err = new Error();
+            err.code = 'ERR_INVALID_MODULE_SPECIFIER';
+            err.message = `Invalid module specifier "${patternMatch}"`;
+            throw err;
+        }
+
+        return [expandedPath];
     }
     if (Array.isArray(target)) {
         const candidates = [];

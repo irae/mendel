@@ -161,3 +161,24 @@ test('variation file resolves against the project root scope', (t) => {
             t.same(resolved, { main: './base/shared.js' });
         });
 });
+
+test('rejects imports subpath with .. segment', (t) => {
+    return t.rejects(
+        createResolver().resolve('#app/../../../outside'),
+        'ERR_INVALID_MODULE_SPECIFIER'
+    );
+});
+
+test('rejects imports pattern match expansion with .. segment', (t) => {
+    return t.rejects(
+        createResolver().resolve('#app/../../outside'),
+        'ERR_INVALID_MODULE_SPECIFIER'
+    );
+});
+
+test('rejects imports subpath with node_modules segment', (t) => {
+    return t.rejects(
+        createResolver().resolve('#app/node_modules/something'),
+        'ERR_INVALID_MODULE_SPECIFIER'
+    );
+});
