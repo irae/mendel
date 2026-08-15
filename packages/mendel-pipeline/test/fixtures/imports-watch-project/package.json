@@ -1,0 +1,6 @@
+{
+    "name": "imports-watch-project",
+    "imports": {
+        "#dep": "./app/first.js"
+    }
+}

@@ -91,6 +91,7 @@ module.exports = function () {
 
         clearCache() {
             resolveCache.clear();
+            if (resolver) resolver.clearCache();
         },
     };
 };

@@ -176,6 +176,13 @@ class ModuleResolver {
         this.basedir = path.resolve(this.cwd, basedir);
     }
 
+    // A long-lived resolver (the deps worker keeps one for the daemon's
+    // lifetime) would otherwise keep answering with package.json contents
+    // read before a watch-mode edit.
+    clearCache() {
+        this._scopeCache.clear();
+    }
+
     /**
      * @param {String} moduleName name of the module to resolve its path
      */
