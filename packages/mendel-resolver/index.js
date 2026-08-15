@@ -33,23 +33,24 @@ function normalizeExports(exports) {
     return exports;
 }
 
+// Node's PACKAGE_TARGET_RESOLVE rejects these segments in a subpath or in a
+// pattern match: substituted verbatim they would escape the package directory
+// or reach into its nested dependencies.
 function isInvalidModuleSpecifier(specifier) {
-    const parts = specifier.split(/[/\\]/);
-    for (const part of parts) {
-        if (part === '..' || part === 'node_modules') {
-            return true;
-        }
-    }
-    return false;
+    return specifier
+        .split(/[/\\]/)
+        .some((part) => part === '..' || part === 'node_modules');
+}
+
+function invalidModuleSpecifier(specifier) {
+    const err = new Error(`Invalid module specifier "${specifier}"`);
+    err.code = 'ERR_INVALID_MODULE_SPECIFIER';
+    return err;
 }
 
 function matchExportsSubpath(exportsMap, subpath) {
-    if (isInvalidModuleSpecifier(subpath)) {
-        const err = new Error();
-        err.code = 'ERR_INVALID_MODULE_SPECIFIER';
-        err.message = `Invalid module specifier "${subpath}"`;
-        throw err;
-    }
+    if (isInvalidModuleSpecifier(subpath))
+        throw invalidModuleSpecifier(subpath);
 
     if (Object.prototype.hasOwnProperty.call(exportsMap, subpath))
         return { target: exportsMap[subpath], patternMatch: null };
@@ -97,19 +98,10 @@ function expandExportsTarget(target, conditions, patternMatch, allowBare) {
                 return undefined;
         }
 
-        let expandedPath =
-            patternMatch === null
-                ? target
-                : target.split('*').join(patternMatch);
-
-        if (patternMatch !== null && isInvalidModuleSpecifier(patternMatch)) {
-            const err = new Error();
-            err.code = 'ERR_INVALID_MODULE_SPECIFIER';
-            err.message = `Invalid module specifier "${patternMatch}"`;
-            throw err;
-        }
-
-        return [expandedPath];
+        if (patternMatch === null) return [target];
+        if (isInvalidModuleSpecifier(patternMatch))
+            throw invalidModuleSpecifier(patternMatch);
+        return [target.split('*').join(patternMatch)];
     }
     if (Array.isArray(target)) {
         const candidates = [];

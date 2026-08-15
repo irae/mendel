@@ -277,23 +277,20 @@ test('scoped package subpath through exports', (t) => {
         });
 });
 
-test('rejects subpath with .. segment', (t) => {
+// Each of these subpaths resolves to a real file when the ".."/"node_modules"
+// segment is honored, so the rejection only happens because it is rejected.
+test('a .. segment cannot walk a pattern match out of the package', (t) => {
     return t.rejects(
-        createResolver().resolve('patterns/../../../outside'),
-        'ERR_INVALID_MODULE_SPECIFIER'
+        createResolver().resolve('patterns/features/../../../../index')
     );
 });
 
-test('rejects pattern match expansion with .. segment', (t) => {
+test('a node_modules segment cannot reach a package nested dependency', (t) => {
     return t.rejects(
-        createResolver().resolve('patterns/features/../../outside'),
-        'ERR_INVALID_MODULE_SPECIFIER'
+        createResolver().resolve('catchall/node_modules/inner/index')
     );
 });
 
-test('rejects subpath with node_modules segment', (t) => {
-    return t.rejects(
-        createResolver().resolve('patterns/node_modules/something'),
-        'ERR_INVALID_MODULE_SPECIFIER'
-    );
+test('a pattern match that is a bare .. segment is rejected', (t) => {
+    return t.rejects(createResolver().resolve('catchall/esc..'));
 });
