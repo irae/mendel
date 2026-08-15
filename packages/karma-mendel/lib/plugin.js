@@ -281,23 +281,29 @@ var createPreprocesor = function (logger) {
             return;
         }
 
-        var module = globalClient.registry.getEntry(relativeFile);
+        try {
+            var module = globalClient.registry.getEntry(relativeFile);
 
-        if (!module) {
+            if (!module) {
+                debounce = true;
+                done(null, content);
+                return;
+            }
+
+            // preprocessed modules are always entry, as injected modules don't
+            // get preprocessed by karma
+            module.entry = true;
+
+            var output = await wrapMendelModule(module, file.originalPath);
+
+            log.debug(relativeFile, 'transformed');
             debounce = true;
-            done(null, content);
-            return;
+            done(null, output);
+        } catch (error) {
+            debounce = true;
+            log.error(error.message);
+            done(error, null);
         }
-
-        // preprocessed modules are always entry, as injected modules don't
-        // get preprocessed by karma
-        module.entry = true;
-
-        var output = await wrapMendelModule(module, file.originalPath);
-
-        log.debug(relativeFile, 'transformed');
-        debounce = true;
-        done(null, output);
     };
 };
 createPreprocesor.$inject = ['logger'];
