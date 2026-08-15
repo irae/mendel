@@ -143,7 +143,7 @@ function validateTypesAndTransforms(config) {
         if (type.parser) {
             const badTransforms = type.transforms
                 .filter((xformId) => transformMap.has(xformId))
-                .filter((xformId) => transformMap.get(xformId).kind === 'gst');
+                .filter((xformId) => transformMap.get(xformId).mode === 'gst');
 
             if (badTransforms.length) {
                 error.push(

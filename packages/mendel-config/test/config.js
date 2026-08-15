@@ -315,3 +315,64 @@ t.match(
 
 process.env.NODE_ENV = origEnv;
 process.env.MENDEL_ENV = origMendelEnv;
+
+where = './config-samples/gst-validation/';
+
+(function createGstValidationTestFixture() {
+    const testDir = path.resolve(__dirname, where);
+    fs.mkdirSync(testDir, { recursive: true });
+
+    const gstPluginDir = path.join(testDir, 'node_modules', 'test-gst-plugin');
+    fs.mkdirSync(gstPluginDir, { recursive: true });
+    fs.writeFileSync(path.join(gstPluginDir, 'index.js'), '');
+    fs.writeFileSync(
+        path.join(gstPluginDir, 'package.json'),
+        JSON.stringify({ mode: 'gst' })
+    );
+
+    const istPluginDir = path.join(testDir, 'node_modules', 'test-ist-plugin');
+    fs.mkdirSync(istPluginDir, { recursive: true });
+    fs.writeFileSync(path.join(istPluginDir, 'index.js'), '');
+
+    const srcDir = path.join(testDir, 'src', 'default');
+    fs.mkdirSync(srcDir, { recursive: true });
+
+    const baseConfigPath = path.join(testDir, '.mendelrc');
+    const baseConfig = {
+        'build-dir': './output_root',
+        'base-config': {
+            id: 'default',
+            dir: './src/default',
+        },
+        transforms: {
+            'gst-transform': {
+                plugin: 'test-gst-plugin',
+            },
+            'ist-transform': {
+                plugin: 'test-ist-plugin',
+            },
+        },
+        types: {
+            js: {
+                extensions: ['.js'],
+                parser: 'test-parser',
+                transforms: ['gst-transform'],
+            },
+        },
+        bundles: {
+            main: {
+                entries: ['index.js'],
+            },
+        },
+    };
+
+    fs.writeFileSync(baseConfigPath, JSON.stringify(baseConfig, null, 2));
+})();
+
+t.throws(
+    function () {
+        config(path.resolve(__dirname, where));
+    },
+    /cannot define graph source transform/,
+    'config throws when type with parser declares gst transform'
+);
