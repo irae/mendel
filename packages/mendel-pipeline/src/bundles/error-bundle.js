@@ -83,17 +83,21 @@ class ErrorBundleGenerator {
         return `
 (function () {
     var errors = ${JSON.stringify(logged, null, 2)};
-    errors.forEach(function (err) {
-        console.error(
-            '%c[Mendel Build Error]%c %s (%s)',
-            'color: red; font-weight: bold;',
-            'color: inherit;',
-            err.id,
-            err.environment
-        );
-        console.error(err.message);
-        if (err.stack) console.error(err.stack);
-    });
+    var shouldReport =
+        typeof window === 'undefined' || !window.__mendelBuildErrorShown;
+    if (shouldReport) {
+        errors.forEach(function (err) {
+            console.error(
+                '%c[Mendel Build Error]%c %s (%s)',
+                'color: red; font-weight: bold;',
+                'color: inherit;',
+                err.id,
+                err.environment
+            );
+            console.error(err.message);
+            if (err.stack) console.error(err.stack);
+        });
+    }
 
     if (typeof document !== 'undefined' && typeof document.write === 'function') {
         if (!window.__mendelBuildErrorShown) {
