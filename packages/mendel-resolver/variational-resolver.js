@@ -44,7 +44,7 @@ class VariationalModuleResolver extends ModuleResolver {
         const fileInPlace = path.resolve(this.basedir, variationalPath);
         const match = variationMatches(this.variationList, fileInPlace);
 
-        return match ? match.file : '.';
+        return match ? match.file || '.' : '.';
     }
 
     isBasePath(modulePath) {

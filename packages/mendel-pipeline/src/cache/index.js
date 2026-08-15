@@ -84,7 +84,10 @@ class MendelCache extends EventEmitter {
         if (isNodeModule(id)) return id;
         let normalizedId = id;
         const match = variationMatches(this._variations, id);
-        if (match) {
+        // A boundary-only match (id ends exactly at the variation dir) has
+        // no file component to normalize; running it through path.parse/join
+        // would collapse the id to './.'.
+        if (match && match.file) {
             const parts = path.parse(match.file);
             // some people like to directly require package.json 😱
             // and we don't want to give back module entry
