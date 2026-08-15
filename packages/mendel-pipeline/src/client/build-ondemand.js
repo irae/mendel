@@ -25,6 +25,12 @@ class BuildOnDemand extends BaseClient {
             );
         }
 
+        if (!this.client) {
+            throw new Error(
+                'BuildOnDemand.build() called before run() — call run() first'
+            );
+        }
+
         const key = this.getCacheKey(bundleId, variations);
         if (!this.client.hasErrors() && this._bundleCache.has(key)) {
             return Promise.resolve(this._bundleCache.get(key));
