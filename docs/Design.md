@@ -30,6 +30,7 @@ Here are some highlights:
 
 - Source Maps are required in development
     - Might be useful in production if we can have it be external and separate routes that can have extra security in case consumer don't want to be available for visiting users
+    - Development source maps are interleaved into the bundle, one per module: each transformed module is served with its own inline map and script identity, settled by design. Serving the bundle's map at a separate URL (a sibling `.map` route) was entertained and dropped: a dev bundle and its map must be loaded in sync — a rebuild between the two requests would pair fresh code with a stale map — and every major bundler interleaves dev maps for the same reason. Do not reintroduce a separate map URL for development.
 - Fast code reload: once one file is saved, regardless of how many implemented variations there are in the project, one should be able to see changes in browser (including server-side rendered markup) in under a second
 - Select/override which variation (as any other configuration) to be loaded in browser via many different methods, including (but not restricted to) query string, developer box local configuration and cookies
 - "Development only variations": When creating a variation, a developer should not need access or try out his new code without resorting to external configuration systems

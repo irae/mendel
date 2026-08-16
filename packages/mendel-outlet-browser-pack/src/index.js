@@ -1,28 +1,75 @@
 const debug = require('debug')('mendel:outlet:browserpack');
 const fs = require('fs');
+const path = require('path');
 const { Transform } = require('stream');
 const { Buffer } = require('buffer');
 const browserpack = require('browser-pack');
 const INLINE_MAP_PREFIX = '//# sourceMappingURL=data:application/json;base64,';
+const TRAILING_MAP_COMMENT_RE =
+    /\n?(\/\/[#@] sourceMappingURL=data:application\/json[^\n]*)\s*$/;
+
+// Devtools resolve a module's original source through the script that
+// defined it, so each mapped module carries its own map: the module
+// becomes a direct eval() whose payload ends with an inline map and a
+// sourceURL, giving it a script identity that remaps in place. The map
+// sources must share the sourceURL's host or devtools show the
+// transformed output instead of the original file.
+function evalWrapWithMap(source, map, sourceFile, host) {
+    const rel = String(sourceFile || '').replace(/^\.\//, '');
+    const sourceUrl = host + rel;
+    const sources = (map.sources || [rel]).map((s) => {
+        const name = String(s).replace(/^\.\//, '');
+        return name.indexOf('://') === -1 ? host + name : name;
+    });
+    const mapForEval = Object.assign({}, map, {
+        file: sourceUrl,
+        sources,
+    });
+    const payload = [
+        source,
+        INLINE_MAP_PREFIX +
+            Buffer.from(JSON.stringify(mapForEval)).toString('base64'),
+        '//# sourceURL=' + sourceUrl,
+    ].join('\n');
+    return 'eval(' + JSON.stringify(payload) + ');';
+}
+
+// Devtools walk the bundle from EOF for the sourceMappingURL comment and
+// stop at the first non-comment line, so the process/global IIFE appendix
+// must close before browser-pack's trailing map comment.
+function assembleWrappedPack(packSource, prelude, appendix) {
+    let body = packSource;
+    let mapComment = '';
+    const match = packSource.match(TRAILING_MAP_COMMENT_RE);
+    if (match) {
+        mapComment = match[1];
+        body = packSource.slice(0, match.index);
+    }
+    let out = prelude + body + appendix;
+    if (mapComment) {
+        out += '\n' + mapComment + '\n';
+    }
+    return out;
+}
 
 class PaddedStream extends Transform {
     constructor({ prelude = '', appendix = '' }, options) {
         super(options);
         this.prelude = prelude;
         this.appendix = appendix;
-        this.started = false;
+        this.chunks = [];
     }
-    // Called on every chunk
     _transform(chunk, encoding, cb) {
-        if (!this.started) {
-            this.started = true;
-            chunk = Buffer.concat([Buffer.from(this.prelude), chunk]);
-        }
-        cb(null, chunk);
+        this.chunks.push(Buffer.from(chunk));
+        cb();
     }
-    // Called right before it wants to end
     _flush(cb) {
-        this.push(Buffer.from(this.appendix));
+        const packSource = Buffer.concat(this.chunks).toString();
+        this.push(
+            Buffer.from(
+                assembleWrappedPack(packSource, this.prelude, this.appendix)
+            )
+        );
         cb();
     }
 }
@@ -47,6 +94,10 @@ function entriesHaveGlobalDep(entryMap, globalName) {
 module.exports = class BrowserPackOutlet {
     constructor(options) {
         this.config = options;
+        this.sourceHost =
+            'mendel://' +
+            (path.basename(options.projectRoot || '') || 'mendel') +
+            '/';
     }
 
     perform({ entries, options, id }, variations) {
@@ -85,8 +136,10 @@ module.exports = class BrowserPackOutlet {
                 pack.on('error', reject);
                 pack.on('data', (buf) => (source += buf.toString()));
                 pack.on('end', () => {
-                    source += appendix;
-                    fs.writeFileSync(options.outfile, source);
+                    fs.writeFileSync(
+                        options.outfile,
+                        assembleWrappedPack(source, prelude, appendix)
+                    );
                     resolve();
                 });
             } else {
@@ -137,10 +190,10 @@ module.exports = class BrowserPackOutlet {
             });
         }
 
-        const sourceMapLine =
-            INLINE_MAP_PREFIX +
-            Buffer.from(JSON.stringify(item.map)).toString('base64');
-
+        // sourceFile is the filename of the original source. Our sourcemaps
+        // include it, but files without transforms, including node_modules
+        // will need this. Useful specially for performance stack traces.
+        const sourceFile = item.id.replace(/^\.\//, '');
         const data = {
             id: item.normalizedId,
             // Clone the object so mutating it does not mutate source entry
@@ -148,16 +201,15 @@ module.exports = class BrowserPackOutlet {
             runtime: item.runtime,
             file: item.id,
             variation: item.variation || this.config.baseConfig.dir,
-            // sourceFile is the filename of the original source. Our sourcemaps
-            // include it, but files without transforms, including node_modueles
-            // will need this. Useful specially for performance stack traces.
-            sourceFile: item.id.replace(/^\.\//, ''),
-            // Kinda ugly but browser pack uses "combine-source-map" which expects
-            // inline source map which gets removed when putting multiple files together
-            // as a bundle.
+            sourceFile,
             source: !item.map
                 ? item.source
-                : [item.source, sourceMapLine].join('\n'),
+                : evalWrapWithMap(
+                      item.source,
+                      item.map,
+                      sourceFile,
+                      this.sourceHost
+                  ),
             entry: item.entry,
             expose: item.expose,
             map: item.map,
