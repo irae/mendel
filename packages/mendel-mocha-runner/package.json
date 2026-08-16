@@ -1,6 +1,6 @@
 {
   "name": "mendel-mocha-runner",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "Mocha for Mendel. Mendel gains control of how sources are transformed and when and how to execute test",
   "main": "index.js",
   "author": "Stephan Lee <stephanwlee@gmail.com>",

@@ -1,6 +1,6 @@
 {
   "name": "mendel-pipeline",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "The mendel package",
   "main": "src/main.js",
   "bin": {

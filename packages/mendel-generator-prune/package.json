@@ -1,6 +1,6 @@
 {
   "name": "mendel-generator-prune",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "Mendel post-generator that cleans up dangling dependencies and normalizes paths.",
   "main": "index.js",
   "author": "Stephan Lee <stephanwlee@gmail.com>",

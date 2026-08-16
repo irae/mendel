@@ -1,6 +1,6 @@
 {
   "name": "mendel-exec",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "JavaScript executor using VM and Mendelv2 for custom variational resolving.",
   "main": "index.js",
   "author": "Stephan Lee <stephanwlee@gmail.com>",
@@ -10,9 +10,9 @@
     "url": "git+https://github.com/irae/mendel.git"
   },
   "dependencies": {
+    "@jridgewell/trace-mapping": "^0.3.25",
     "debug": "^4.4.0",
-    "mendel-resolver": "workspace:^",
-    "@jridgewell/trace-mapping": "^0.3.25"
+    "mendel-resolver": "workspace:^"
   },
   "devDependencies": {
     "tap": "^21.0.0"

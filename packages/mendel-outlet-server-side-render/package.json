@@ -1,7 +1,7 @@
 {
   "name": "mendel-outlet-server-side-render",
   "description": "Writes out server-side compatible files for mendel-middleware in production mode",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "main": "index.js",
   "author": "Stephan Lee <stephanwlee@gmail.com>",
   "license": "MIT",

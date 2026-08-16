@@ -1,6 +1,6 @@
 {
   "name": "mendel-generator-node-modules",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "Mendel-generator that creates special bundle with only node_modules from a bundle",
   "main": "generator-node-modules.js",
   "keywords": [

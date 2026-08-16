@@ -1,6 +1,6 @@
 {
   "name": "mendel-loader",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "Mendel server side require hook.",
   "main": "loader.js",
   "keywords": [

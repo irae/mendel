@@ -1,6 +1,6 @@
 {
   "name": "mendel-manifest-extract-bundles",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "description": "Parses a list of manifests, extract common dependencies and expose them from the parent bundle.",
   "main": "manifest-extract.js",
   "keywords": [
