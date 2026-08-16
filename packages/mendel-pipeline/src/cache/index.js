@@ -148,6 +148,32 @@ class MendelCache extends EventEmitter {
         debugFilter(extraVerbose, { entry }, id);
     }
 
+    _reindexNormalizedId(entry, normalizedId) {
+        const previous = this._normalizedIdToEntryIds.get(entry.normalizedId);
+        if (previous) {
+            const index = previous.indexOf(entry.id);
+            if (index >= 0) previous.splice(index, 1);
+        }
+        entry.normalizedId = normalizedId;
+        if (!this._normalizedIdToEntryIds.has(normalizedId)) {
+            this._normalizedIdToEntryIds.set(normalizedId, []);
+        }
+        this._normalizedIdToEntryIds.get(normalizedId).push(entry.id);
+    }
+
+    // package.json runtime fields can rewrite an entry's identity after the
+    // entry was added (and possibly synced): keep the index in step and
+    // re-send done entries so client registries agree with newer dep edges
+    _adoptPackageIdentity(id, normalizedId, runtime) {
+        const existing = this.getEntry(id);
+        if (!existing) return;
+        existing.runtime = runtime;
+        if (existing.normalizedId !== normalizedId) {
+            this._reindexNormalizedId(existing, normalizedId);
+            if (existing.done) this.emit('doneEntry', existing);
+        }
+    }
+
     invariantTwoPackagesSameTarget(packageNormId, targetNormId) {
         verbose(`invariantTwoPackagesSameTarget`, {
             packageNormId,
@@ -316,25 +342,24 @@ class MendelCache extends EventEmitter {
                     if (isPkgModule && !isIsomorphic) {
                         const name = path.dirname(oDep.packageJson);
 
-                        if (name) {
+                        // first mapping wins: the "module" runtime falls back
+                        // to the main file, and letting it overwrite would
+                        // strand the main file at runtime "module", which
+                        // browser/main graph walks exclude
+                        if (
+                            name &&
+                            !(
+                                this._packageMap.has(dep) &&
+                                this._packageMap.get(dep).mapToId === name
+                            )
+                        ) {
                             this._packageMap.set(dep, {
                                 mapToId: name,
                                 runtime,
                             });
-
-                            const existing = this.getEntry(dep);
-                            if (existing) {
-                                if (shouldLog) {
-                                    verbose(
-                                        `existing ${dep} runtime ${existing.runtime} -> ${runtime}`
-                                    );
-                                    verbose(
-                                        `existing ${dep} normalizedId ${existing.normalized} -> ${name}`
-                                    );
-                                }
-                                existing.runtime = runtime;
-                                existing.normalizedId = name;
-                            }
+                            shouldLog &&
+                                verbose(`${dep} adopts ${name} (${runtime})`);
+                            this._adoptPackageIdentity(dep, name, runtime);
                         }
                     }
 
@@ -349,13 +374,22 @@ class MendelCache extends EventEmitter {
                         if (typeof toDep === 'undefined') {
                             return;
                         } else if (toDep === false) {
+                            // a browser-field `false` exclusion only covers
+                            // requires made from inside the declaring package
+                            // (e.g. bn.js maps buffer:false for its own
+                            // feature detection, not for the whole graph)
+                            const scope = path.dirname(oDep.packageJson) + '/';
                             this._depIgnoreMap.set(
                                 fromDep,
                                 (
                                     this._depIgnoreMap.get(fromDep) || new Set()
-                                ).add(runtime)
+                                ).add(scope + '\0' + runtime)
                             );
-                        } else if (fromDep.indexOf('./') !== 0) {
+                        } else if (!/^\.\.?\//.test(fromDep)) {
+                            // fromDep is a bare module name only when it never
+                            // resolved to a path; resolved paths outside the
+                            // project root start with "../" and are still
+                            // file mappings, not module aliases
                             // This is the case where node module mapping exists
                             // but it points to unexisting module.
                             // e.g.,
@@ -376,14 +410,21 @@ class MendelCache extends EventEmitter {
                                 }
                             );
                         } else {
+                            const mapToId = this.getNormalizedId(fromDep);
                             this._packageMap.set(toDep, {
-                                mapToId: this.getNormalizedId(fromDep),
+                                mapToId,
                                 runtime,
                             });
                             this._packageMap.set(fromDep, {
-                                mapToId: this.getNormalizedId(fromDep),
+                                mapToId,
                                 runtime: 'main',
                             });
+                            this._adoptPackageIdentity(toDep, mapToId, runtime);
+                            this._adoptPackageIdentity(
+                                fromDep,
+                                mapToId,
+                                'main'
+                            );
                         }
                         this._requestEntry(toDep);
                     });
@@ -420,8 +461,9 @@ class MendelCache extends EventEmitter {
                     this._depIgnoreMap.has(dep.main)
                 ) {
                     const set = this._depIgnoreMap.get(dep.main);
-                    set.forEach((runtime) => {
-                        dep[runtime] = false;
+                    set.forEach((scopedRuntime) => {
+                        const [scope, runtime] = scopedRuntime.split('\0');
+                        if (id.startsWith(scope)) dep[runtime] = false;
                     });
                     shouldLog && verbose(`in ignore map ${mod}`);
                 }
