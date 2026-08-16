@@ -323,6 +323,9 @@ function globalModuleContent() {
         globalConfig.variationConfig.variations
     );
 
+    // global and process mirror the mendel-outlet-browser-pack prelude:
+    // modules reference both as free variables, so the karma page must
+    // define them the same way the served bundles do.
     const contents = `
         window.__mendel_module__ = window.__mendel_module__ || {};
         window.__mendel_config__ = {
@@ -330,6 +333,7 @@ function globalModuleContent() {
             baseVariationDir: ${JSON.stringify(globalConfig.baseConfig.dir)},
             baseVariationId: ${JSON.stringify(globalConfig.baseConfig.id)},
         };
+        global = window;
         process = {
             env: ${JSON.stringify(process.env)},
         };
