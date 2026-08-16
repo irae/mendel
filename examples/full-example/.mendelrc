@@ -51,8 +51,6 @@ transforms:
   javascript-sources:
     plugin: mendel-transform-babel # must match an npm package already installed
     options:
-      plugins:
-        - transform-inline-environment-variables
       presets: &babel-presets
         - '@babel/preset-env'
           # - '@babel/preset-env'
@@ -63,6 +61,8 @@ transforms:
           #   modules: cjs
           #   ignoreBrowserslistConfig: true
         - '@babel/preset-react'
+  inline-environment-variables:
+    plugin: mendel-transform-inline-env
   javascript-minification: # used in production only
     plugin: mendel-transform-uglify
   javascript-sources-coverage: # used in test only
@@ -104,6 +104,7 @@ types:
   js:
     transforms:
       - javascript-sources
+      - inline-environment-variables
     glob:
       - '**/*.{js,jsx}'
   css:
@@ -275,6 +276,7 @@ env:
         include-node_modules: true # in production we minify node modules too
         transforms:
           - javascript-sources
+          - inline-environment-variables
           - javascript-minification
 
     # In Mendel 3.0 it is still required to switch all outlets in production
