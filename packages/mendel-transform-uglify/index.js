@@ -20,6 +20,13 @@ module.exports = function ({ source, filename, map: content }, optionsIn) {
         debug(result);
     }
 
+    if (result.error) {
+        const { message, line, col } = result.error;
+        throw new Error(
+            `uglify-js failed on ${filename}:${line}:${col}: ${message}`
+        );
+    }
+
     const { code, map } = result;
 
     return { source: code, map };
