@@ -2,6 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+Curated per-release summaries: [RELEASE_NOTES.md](RELEASE_NOTES.md).
 
 ## [4.1.1](https://github.com/irae/mendel/compare/v4.1.0...v4.1.1) (2026-07-09)
 
