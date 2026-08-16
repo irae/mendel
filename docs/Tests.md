@@ -221,8 +221,9 @@ transition happen at all."
 
 #### Running tests.
 
-If you develop against a consumer app, link packages with the pnpm flow in
-[DEVELOPMENT.md](../DEVELOPMENT.md) (`pnpm run link:global` in this repo).
+If you develop against a consumer app, link packages with the symlink
+flow in [DEVELOPMENT.md](../DEVELOPMENT.md)
+(`scripts/link-into-project.sh` from the app).
 
 To run tests quickly, please use:
 

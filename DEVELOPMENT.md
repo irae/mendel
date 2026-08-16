@@ -24,30 +24,44 @@ targets Node ≥ 20; `v22.13.1` via nvm is fine).
 Goal: an application that depends on Mendel runs this checkout instead of
 the published `4.x` tarballs, without publishing.
 
-**Preferred path (pnpm 9/10): link package directories directly.** Do not use
-`pnpm link --global <name>` into the consumer — pnpm 10 often fails with
-`Symlink path is the same as the target path (.../pnpm/global/.../pkg)` once
-any Mendel package is already partially linked.
+**What works: replace each installed `mendel-*` / `karma-mendel` directory
+with a plain symlink to `packages/<name>` in this monorepo.** Do not use
+`pnpm link` / `pnpm link --global` for this. pnpm 10 often fails with
+`Symlink path is the same as the target path (.../pnpm/global/.../pkg)`
+once any package is already partially linked, and a consumer whose
+`node_modules` is flattened (npm-style, or a copied tree) has no `.pnpm`
+virtual store for `pnpm link` to rewrite.
 
-Both sides should use **pnpm** and the **same Node**.
+The Mendel checkout still uses pnpm for _its own_ workspace. The consumer
+can be npm or pnpm. Use the **same Node major** on both sides.
 
 ### One step (consumer)
 
-App already has Mendel installed (`pnpm install` once):
+App already has Mendel installed (`pnpm install` / `npm install` once):
 
 ```bash
 cd /path/to/your-app
 bash /path/to/mendel/scripts/link-into-project.sh
 ```
 
-The script lives in this monorepo; it finds every `mendel-*` / `karma-mendel`
-under the app’s `node_modules` and runs:
+The script finds every `mendel-*` / `karma-mendel` under the app’s
+`node_modules`. Real directories are moved to
+`node_modules/.mendel-linked-backup/` the first time; then each name is
+replaced with a symlink:
 
-```bash
-pnpm link /path/to/mendel/packages/<name>
+```text
+node_modules/mendel-deps -> /path/to/mendel/packages/mendel-deps
 ```
 
-Optional monorepo override:
+Runtime `require()` follows that symlink into this checkout. Internal
+workspace deps (`mendel-pipeline/node_modules/mendel-config` →
+`../../mendel-config`, `browser-pack` at the monorepo root) resolve from
+**this** Mendel tree. A second git worktree is an empty checkout: run
+`pnpm install` there (or copy both the repo-root `node_modules` and each
+`packages/*/node_modules`). Root-only `node_modules` is not enough —
+`mendel-config` is not hoisted.
+
+Optional monorepo override (a second worktree, for example):
 
 ```bash
 bash /path/to/mendel/scripts/link-into-project.sh /other/path/to/mendel
@@ -59,15 +73,14 @@ Manual single package:
 
 ```bash
 cd /path/to/your-app
-pnpm link /path/to/mendel/packages/mendel-deps
-pnpm link /path/to/mendel/packages/mendel-resolver
-pnpm link /path/to/mendel/packages/mendel-pipeline
+mkdir -p node_modules/.mendel-linked-backup
+# first time only: mv node_modules/mendel-deps node_modules/.mendel-linked-backup/
+ln -s /path/to/mendel/packages/mendel-deps node_modules/mendel-deps
 ```
 
-Internal monorepo deps are workspace symlinks
-(`mendel-pipeline/node_modules/mendel-deps` → `../../mendel-deps`). Linking
-the packages your app lists is enough for local `mendel-deps` / resolver
-(including the dual-package `.cjs` fix) to load.
+If the consumer’s `node_modules` is itself a symlink to another checkout,
+replace that symlink with a real directory first (copy or clone the tree).
+Otherwise the script would retarget the _shared_ install.
 
 ### Optional: register global links (Mendel side only)
 
@@ -86,12 +99,11 @@ In the consumer:
 ```bash
 ls -la node_modules/mendel-deps
 ls -la node_modules/mendel-pipeline
-# expect: …/mendel/packages/mendel-deps (not only a store hash)
-pnpm why mendel-deps
+# expect: …/mendel/packages/mendel-deps  (or …/mendel-<worktree>/packages/…)
+# not a store hash and not node_modules/.mendel-linked-backup/…
 ```
 
-For the dual-package / `react-use-measure` work, these should resolve into
-this clone:
+These should resolve into this clone:
 
 - `mendel-deps` (parses `.cjs`)
 - `mendel-resolver` (probes `.cjs` / `.mjs`)
@@ -99,16 +111,23 @@ this clone:
 
 ### Unlink (go back to registry versions)
 
+If `.mendel-linked-backup/` still has the originals:
+
 ```bash
 cd /path/to/your-app
-pnpm install   # reinstalls from lockfile; drops local links
+# for each name in node_modules/.mendel-linked-backup:
+#   rm node_modules/<name>
+#   mv node_modules/.mendel-linked-backup/<name> node_modules/<name>
 ```
 
-### If a previous global link left things half-broken
+Or reinstall from the lockfile (`pnpm install` / `npm install`), which
+drops the symlinks. Then remove an empty `.mendel-linked-backup/`.
+
+### If a previous global `pnpm link` left things half-broken
 
 ```bash
 cd /path/to/your-app
-pnpm install
+pnpm install   # or npm install
 bash /path/to/mendel/scripts/link-into-project.sh
 ```
 

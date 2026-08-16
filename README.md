@@ -129,10 +129,11 @@ The main goal for Mendel is to be sustainable. Sustainability comes from being a
 ### Developing Mendel and Contributions
 
 Mendel is a pnpm + lerna monorepo. Install with `pnpm install`. To point a
-consumer app (for example your production frontend) at this checkout, use the
-two-step link flow in **[DEVELOPMENT.md](DEVELOPMENT.md)** (`pnpm run
-link:global` here, then `scripts/link-into-project.sh` in the app). Stale
-`npm run bootstrap` / `npm link` instructions no longer apply.
+consumer app at this checkout, run `scripts/link-into-project.sh` from the
+app — it replaces each installed `mendel-*` / `karma-mendel` with a
+symlink to `packages/<name>` here. See **[DEVELOPMENT.md](DEVELOPMENT.md)**.
+Stale `npm run bootstrap` / `npm link` / `pnpm link --global` instructions
+no longer apply.
 
 Mendel follows Browserify's plugin pattern and NPM small packages style. Whitespace conventions are on `.editorconfig` file, please use [editor config plugin for your code editor](http://editorconfig.org).
 
