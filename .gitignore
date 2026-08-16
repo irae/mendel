@@ -13,3 +13,6 @@ debug.sh
 
 docs/superpowers/
 .claude/settings.local.json
+
+# per-package copies made by scripts/prepack.js; only the root file is tracked
+packages/*/RELEASE_NOTES.md

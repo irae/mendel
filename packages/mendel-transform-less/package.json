@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage --allow-empty-coverage",
-    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+    "prepack": "node ../../scripts/prepack.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "legacy",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "RELEASE_NOTES.md"
   ]
 }

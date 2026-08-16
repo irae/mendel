@@ -40,9 +40,10 @@
     "legacy",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "RELEASE_NOTES.md"
   ],
   "scripts": {
-    "prepack": "node -e \"if(!/pnpm\\//.test(process.env.npm_config_user_agent||''))throw new Error('pack/publish with pnpm only')\""
+    "prepack": "node ../../scripts/prepack.js"
   }
 }
