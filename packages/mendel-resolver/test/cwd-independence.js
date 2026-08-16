@@ -49,7 +49,7 @@ test('legacy field resolution does not depend on process.cwd()', (t) => {
                     t.same(fromTmp, fromFixture);
                     t.same(fromTmp, {
                         main: './node_modules/umd-ignored/dist/lib.cjs.js',
-                        browser: './node_modules/umd-ignored/dist/lib.cjs.js',
+                        browser: './node_modules/umd-ignored/dist/lib.umd.js',
                         module: './node_modules/umd-ignored/dist/lib.esm.js',
                     });
                 });

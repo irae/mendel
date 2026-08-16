@@ -1,8 +1,8 @@
 // Pins package.json field behaviors:
-// - pkg.exports.umd / pkg.unpkg are ignored; browser falls back to main.
-//   The umd/unpkg special case (commit a4faf37e) never worked — its
-//   fallback path never entered the resolved deps map, so it dropped the
-//   browser runtime instead of picking the umd build — and was retired.
+// - pkg.exports.umd is an honored browser condition: d3-style packages
+//   expose only {umd, default} where default is raw ESM a CJS pack cannot
+//   wrap. pkg.unpkg (outside exports) stays ignored — the old special
+//   case for it (commit a4faf37e) never worked and was retired.
 // - browser-field object mapping incl. module rename and `false` stub,
 //   motivated by superagent (commits 64521c6d and d899fae)
 const { test } = require('tap');
@@ -26,26 +26,26 @@ function pkgPath(rest) {
     return './node_modules/' + rest;
 }
 
-test('exports.umd is ignored; browser falls back to main', (t) => {
+test('exports.umd wins the browser runtime; main and module keep legacy', (t) => {
     return createResolver()
         .resolve('umd-pkg')
         .then((resolved) => {
             t.same(resolved, {
                 main: pkgPath('umd-pkg/dist/lib.js'),
                 module: pkgPath('umd-pkg/dist/lib.js'),
-                browser: pkgPath('umd-pkg/dist/lib.js'),
+                browser: pkgPath('umd-pkg/dist/lib.umd.js'),
             });
         });
 });
 
-test('exports.umd ignored when main differs from module', (t) => {
+test('exports.umd wins browser when main differs from module', (t) => {
     return createResolver()
         .resolve('umd-ignored')
         .then((resolved) => {
             t.same(resolved, {
                 main: pkgPath('umd-ignored/dist/lib.cjs.js'),
                 module: pkgPath('umd-ignored/dist/lib.esm.js'),
-                browser: pkgPath('umd-ignored/dist/lib.cjs.js'),
+                browser: pkgPath('umd-ignored/dist/lib.umd.js'),
             });
         });
 });

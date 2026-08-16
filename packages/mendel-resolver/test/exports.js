@@ -31,6 +31,18 @@ test('exports-only package with require/import conditions', (t) => {
         });
 });
 
+test('browser prefers "umd" over ESM "default" (d3 ecosystem)', (t) => {
+    return createResolver()
+        .resolve('d3like')
+        .then((resolved) => {
+            t.same(resolved, {
+                main: pkgPath('d3like/src/index.js'),
+                browser: pkgPath('d3like/dist/d3like.min.js'),
+                module: pkgPath('d3like/src/index.js'),
+            });
+        });
+});
+
 test('exports string sugar', (t) => {
     return createResolver()
         .resolve('stringsugar')

@@ -11,9 +11,12 @@ function withPrefix(path) {
 // Mendel emits CommonJS (browser-pack / m.wrap), so every runtime prefers
 // the "require" condition; only the "module" runtime may pick ESM entries,
 // mirroring how the legacy "module" field is treated.
+// "umd" is non-standard but the d3 ecosystem's only non-ESM condition
+// (e.g. d3-array exposes just {umd, default}); without it the browser
+// runtime lands on raw ESM source that a CJS pack cannot wrap.
 const RUNTIME_CONDITIONS = {
     main: ['node', 'require', 'default'],
-    browser: ['browser', 'require', 'default'],
+    browser: ['browser', 'umd', 'require', 'default'],
     module: ['module', 'import', 'default'],
 };
 
