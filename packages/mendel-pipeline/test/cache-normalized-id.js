@@ -22,6 +22,45 @@ function makeCache() {
  * ids, but an id that ends exactly at the variation directory has no file
  * component and must pass through unchanged instead of collapsing to './.'.
  */
+/**
+ * Unit: "process" and "node:process" alias the same shim file. The file's
+ * normalizedId must stay the unprefixed id — mendel-outlet-browser-pack
+ * keys its global prelude (`var process=...`) on deps resolving to exactly
+ * "process", so an alias winning the map would silently drop the prelude.
+ */
+tap.test('shim aliases sharing a file keep the first id', (t) => {
+    const cache = new MendelCache({
+        projectRoot: '/tmp/mendel-normalized-id',
+        environment: 'development',
+        baseConfig: { id: 'base', dir: './app' },
+        variationConfig: { variations: [] },
+        shim: {
+            process: './node_modules/shims/process.js',
+            'node:process': './node_modules/shims/process.js',
+        },
+        types: [],
+        ignores: [],
+    });
+
+    t.equal(
+        cache.getNormalizedId('./node_modules/shims/process.js'),
+        'process',
+        'shim file normalizes to the unprefixed shim id'
+    );
+    t.equal(
+        cache.getNormalizedId('node:process'),
+        'node:process',
+        'prefixed literal still normalizes to itself'
+    );
+    t.equal(
+        cache.getNormalizedId('process'),
+        'process',
+        'unprefixed literal normalizes to itself'
+    );
+
+    t.end();
+});
+
 tap.test('getNormalizedId around the variation-dir boundary', (t) => {
     const cache = makeCache();
 

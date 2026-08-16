@@ -38,7 +38,12 @@ class MendelCache extends EventEmitter {
         this._variations = config.variationConfig.variations;
         this._shimPathToId = new Map();
         Object.keys(config.shim).forEach((shimId) => {
-            this._shimPathToId.set(config.shim[shimId], shimId);
+            // "process" and "node:process" share one shim file; the first
+            // (unprefixed) id must stay the file's normalizedId — outlets
+            // key global handling on it (e.g. the browser-pack "process"
+            // prelude).
+            if (!this._shimPathToId.has(config.shim[shimId]))
+                this._shimPathToId.set(config.shim[shimId], shimId);
             this._shimPathToId.set(shimId, shimId);
         });
         this._types = config.types;
