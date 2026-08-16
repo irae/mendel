@@ -148,6 +148,31 @@ pnpm lerna version --conventional-commits --no-push   # review first
 pnpm lerna version --conventional-commits
 ```
 
+## Release notes (`RELEASE_NOTES.md`)
+
+Two documents, two jobs:
+
+- **`CHANGELOG.md`** (root and per-package) is lerna-generated from
+  conventional commits and is the commit-by-commit ledger. Never hand-edit
+  it; `lerna version --conventional-commits` owns it.
+- **`RELEASE_NOTES.md`** (repo root) is the curated summary: changes grouped
+  by user-meaningful outcome (a few thematic paragraphs, breaking changes
+  with migration guidance), pointing at the changelogs for full detail.
+  It never lists one item per commit — that is the changelog's job.
+
+Process, every release:
+
+1. The agent preparing the release writes the new version's section **before**
+   running `lerna version` — the tag must contain it.
+2. **Rolling window**: keep at most the last 3 versions in the file. When
+   adding a new section, strip the oldest so the file stays small. Older
+   notes live on in git history and in the changelogs.
+3. The notes ship inside every npm package: each package's `prepack`
+   (`scripts/prepack.js`) enforces pnpm and copies the root
+   `RELEASE_NOTES.md` into the package, and every `files` whitelist includes
+   it. The per-package copies are gitignored — only the root file is
+   tracked.
+
 ## Workspace dependencies (`workspace:^`)
 
 Internal packages and examples use:
