@@ -336,6 +336,18 @@ function globalModuleContent() {
         global = window;
         process = {
             env: ${JSON.stringify(process.env)},
+            browser: true,
+            version: '',
+            versions: {},
+            platform: 'browser',
+            title: 'browser',
+            argv: [],
+            nextTick: function (fn) {
+                var args = Array.prototype.slice.call(arguments, 1);
+                setTimeout(function () { fn.apply(null, args); }, 0);
+            },
+            cwd: function () { return '/'; },
+            umask: function () { return 0; },
         };
     `;
     return contents;
