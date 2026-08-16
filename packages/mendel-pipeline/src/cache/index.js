@@ -10,7 +10,12 @@ const variationMatches = require('mendel-development/variation-matches');
 const RUNTIME = ['main', 'browser', 'module'];
 
 class MendelCache extends EventEmitter {
-    constructor(config) {
+    // identityMaps derive from package.json structure on disk, which is
+    // environment-independent — a daemon shares one set across its env
+    // caches so an environment created later (or one whose entries arrive
+    // pre-processed via CacheManager.sync) normalizes deps the same way
+    // as the environment that ran the dependency processing
+    constructor(config, identityMaps = {}) {
         super();
         this.projectRoot = config.projectRoot;
         this.environment = config.environment;
@@ -23,16 +28,16 @@ class MendelCache extends EventEmitter {
         // PackageMap maps a source to a normalizedId
         // that allows to group sources that they are the "same"
         // so a depdenecy can resolve to different file in different runtime
-        this._packageMap = new Map();
+        this._packageMap = identityMaps.packageMap || new Map();
         // In a package.json, you can define broswer property that
         // is an object with a source path as a key and `false` as a value
         // to depict DO NOT bundle
-        this._depIgnoreMap = new Map();
+        this._depIgnoreMap = identityMaps.depIgnoreMap || new Map();
         // Similar to packageMap but this pertains to dependency out of
         // current module's source paths like sibling or ancestors.
         // In such cases, a destination package may not be used for
         // only one runtime.
-        this._moduleAliasMap = new Map();
+        this._moduleAliasMap = identityMaps.moduleAliasMap || new Map();
 
         this._baseConfig = config.baseConfig;
         this._variations = config.variationConfig.variations;
@@ -165,6 +170,14 @@ class MendelCache extends EventEmitter {
     // entry was added (and possibly synced): keep the index in step and
     // re-send done entries so client registries agree with newer dep edges
     _adoptPackageIdentity(id, normalizedId, runtime) {
+        this.applyPackageIdentity(id, normalizedId, runtime);
+        // identity derives from package.json structure on disk, so it holds
+        // for every environment — but only the environment that ran deps
+        // processing learns it; broadcast for the others
+        this.emit('identityAdopted', { id, normalizedId, runtime });
+    }
+
+    applyPackageIdentity(id, normalizedId, runtime) {
         const existing = this.getEntry(id);
         if (!existing) return;
         existing.runtime = runtime;

@@ -35,6 +35,13 @@ class CacheManager extends EventEmitter {
         cache.on('entryErrored', (des) =>
             this.emit('entryErrored', cache, des)
         );
+        cache.on('identityAdopted', ({ id, normalizedId, runtime }) => {
+            Array.from(this._caches.values())
+                .filter((other) => other !== cache)
+                .forEach((other) =>
+                    other.applyPackageIdentity(id, normalizedId, runtime)
+                );
+        });
     }
 
     /**
@@ -56,6 +63,11 @@ class CacheManager extends EventEmitter {
                 entry.rawDeps,
                 entry.map
             );
+            // raw deps come already normalized against `from`'s package
+            // maps; the fresh cache never ran that dep processing, so its
+            // entries must adopt the same identity or graph walks cannot
+            // find what those dep edges point at
+            to.applyPackageIdentity(id, entry.normalizedId, entry.runtime);
         });
     }
 
@@ -99,6 +111,11 @@ module.exports = class MendelPipelineDaemon extends EventEmitter {
         this.config = config;
 
         this.cacheManager = new CacheManager();
+        this._identityMaps = {
+            packageMap: new Map(),
+            depIgnoreMap: new Map(),
+            moduleAliasMap: new Map(),
+        };
         this.transformer = new Transformer(config);
         // Dependency resolver consults with cache
         this.depsResolver = new DepResolver(config, this.cacheManager);
@@ -212,7 +229,7 @@ module.exports = class MendelPipelineDaemon extends EventEmitter {
                     `[Mendel] Client is expecting an environemnt "${environment}" but it is missing from the configuration.`
                 );
             }
-            const cache = new MendelCache(envConf);
+            const cache = new MendelCache(envConf, this._identityMaps);
 
             this.cacheManager.addCache(cache);
             this.pipelines[environment] = new MendelPipeline({
