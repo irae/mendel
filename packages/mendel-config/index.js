@@ -39,7 +39,7 @@ function loadFromYaml(path) {
     return yaml.load(fs.readFileSync(path, 'utf8'));
 }
 
-function parseConfig(config) {
+function load(config, resolvePlugins) {
     if (typeof config === 'string') config = { projectRoot: config };
     if (typeof config !== 'object') config = {};
 
@@ -58,12 +58,10 @@ function parseConfig(config) {
         }
     }
 
-    var v2probe = xtend(config);
-    delete v2probe.skipPluginResolve;
     // require only inside conditional
-    if (config['base-config'] || JSON.stringify(v2probe) === '{}') {
+    if (config['base-config'] || JSON.stringify(config) === '{}') {
         // This requires node 6 - can use ES6 features
-        return require('./src')(config);
+        return require('./src')(config, resolvePlugins);
     } else {
         config.basedir = config.projectRoot;
         // This requires node 0.10 - must be written in ES5
@@ -71,5 +69,13 @@ function parseConfig(config) {
     }
 }
 
+function parseConfig(config) {
+    return load(config, false);
+}
+
+function devConfig(config) {
+    return load(config, true);
+}
+
 module.exports = parseConfig;
-module.exports.devConfig = parseConfig;
+module.exports.devConfig = devConfig;

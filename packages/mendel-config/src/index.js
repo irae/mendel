@@ -21,7 +21,7 @@ const ShimConfig = require('./shim-config');
 
 let oneLogPerProcessLogged = false;
 
-module.exports = function (rawConfig) {
+module.exports = function (rawConfig, resolvePlugins) {
     const defaults = defaultConfig();
     const pureConfig = onlyKeys(rawConfig, Object.keys(defaults));
     const fullConfig = deepMerge(defaults, pureConfig);
@@ -52,25 +52,59 @@ module.exports = function (rawConfig) {
         types.get = (name) => map.get(name);
     })(config.types);
 
-    config.transforms = Object.keys(config.transforms).map((id) => {
-        return new TransformConfig(id, config.transforms[id], config);
-    });
-
     const only = rawConfig.only || [];
     config.bundles = Object.keys(config.bundles)
         .filter((bundleId) => only.length === 0 || only.includes(bundleId))
         .map(function (bundleId) {
             return new BundleConfig(bundleId, config.bundles[bundleId], config);
         });
-    config.generators = config.generators.map((g) => {
-        return new GeneratorConfig(g, config);
-    });
-    config.postgenerators = config.postgenerators.map((g) => {
-        return new PostGeneratorConfig(g, config);
-    });
-    config.outlets = config.outlets.map((o) => {
-        return new OutletConfig(o, config);
-    });
+
+    if (resolvePlugins) {
+        config.transforms = Object.keys(config.transforms).map((id) => {
+            return new TransformConfig(id, config.transforms[id], config);
+        });
+        config.generators = config.generators.map((g) => {
+            return new GeneratorConfig(g, config);
+        });
+        config.postgenerators = config.postgenerators.map((g) => {
+            return new PostGeneratorConfig(g, config);
+        });
+        config.outlets = config.outlets.map((o) => {
+            return new OutletConfig(o, config);
+        });
+    } else {
+        config.transforms = Object.keys(config.transforms).map((id) => {
+            const transform = config.transforms[id];
+            return {
+                id,
+                plugin: transform.plugin,
+                mode: 'unknown',
+                options: {
+                    ...transform.options,
+                    mendelConfig: {
+                        projectRoot: config.projectRoot,
+                        baseConfig: config.baseConfig,
+                        variationConfig: config.variationConfig,
+                    },
+                },
+            };
+        });
+        config.generators = config.generators.map((g) => ({
+            id: g.id,
+            plugin: g.plugin,
+        }));
+        config.postgenerators = config.postgenerators.map((g) => ({
+            id: g.id,
+            plugin: g.plugin,
+            options: g,
+        }));
+        config.outlets = config.outlets.map((o) => ({
+            id: o.id,
+            _plugin: o.plugin,
+            plugin: o.plugin,
+            options: o.options || {},
+        }));
+    }
 
     config.shim = ShimConfig(config);
 

@@ -233,7 +233,7 @@ t.match(
     'dev environment types'
 );
 t.match(
-    config(where),
+    config.devConfig(where),
     {
         transforms: [
             {
@@ -265,7 +265,7 @@ t.match(
     'dev environment transforms'
 );
 t.match(
-    config(where),
+    config.devConfig(where),
     {
         outlets: [
             {
@@ -376,7 +376,7 @@ t.teardown(function () {
 
 t.throws(
     function () {
-        config(path.resolve(__dirname, where));
+        config.devConfig(path.resolve(__dirname, where));
     },
     /cannot define graph source transform/,
     'config throws when type with parser declares gst transform'
