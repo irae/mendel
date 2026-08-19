@@ -53,6 +53,7 @@ Functional tests should drive real Mendel (config on disk → real build artifac
 - **Tests.** Prefer functional builds (real config → real bundles/manifests) over heavy mocks.
 - **Shims.** Browser Node cores come from **`node-stdlib-browser`** (via pipeline default shims), not `node-libs-browser`. Override per project in config when needed.
 - **Runtimes.** Entries carry `runtime` (`browser` / `main` / `isomorphic` / `package` / …). Client graph walk must keep modules consumers `require()` (e.g. `package.json` dual-deps use `runtime: 'package'`).
+- **Commit types.** A new export or option only other Mendel packages consume is not `feat` on its own. Tag it as the user-facing work: `fix` with a bugfix, `feat` only when it ships inside a feature. Do not put a `feat` commit in a `fix` series (that forces a minor bump).
 
 ## Surfacing incidental bugs
 

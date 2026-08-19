@@ -4,6 +4,14 @@ Curated summaries of what each release means for users, newest first and
 capped to the last few versions. The commit-by-commit ledger lives in
 [CHANGELOG.md](CHANGELOG.md) and in each package's own `CHANGELOG.md`.
 
+## 4.3.0 (2026-08-19)
+
+Production no longer needs transform, generator, or outlet packages on disk.
+`require('mendel-config')` is that parse. The pipeline and other build tools
+use `require('mendel-config').devConfig` and still fail if a plugin is missing.
+If your app loaded plugins from config itself, switch that call to `.devConfig`.
+Fixes [#16](https://github.com/irae/mendel/issues/16).
+
 ## 4.2.0 (2026-08-16)
 
 ### Breaking changes
