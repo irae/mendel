@@ -8,7 +8,7 @@ var path = require('path');
 var fs = require('fs');
 var File = require('karma/lib/file');
 const { createHash } = require('crypto');
-var configLoader = require('mendel-config');
+var configLoader = require('mendel-config').devConfig;
 var MendelClient = require('mendel-pipeline/client');
 var { SourceMapGenerator, SourceMapConsumer } = require('source-map');
 

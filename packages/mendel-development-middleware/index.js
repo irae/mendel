@@ -1,5 +1,5 @@
 const { pathToRegexp, compile } = require('path-to-regexp');
-const parseConfig = require('mendel-config');
+const parseConfig = require('mendel-config').devConfig;
 const resolveVariations = require('mendel-development/resolve-variations');
 const MendelClient = require('mendel-pipeline/client');
 const Stream = require('stream');
