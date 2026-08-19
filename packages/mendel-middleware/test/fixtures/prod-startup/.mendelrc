@@ -1,0 +1,38 @@
+base-config:
+  id: base
+  dir: ./src/base
+  outdir: ./built
+
+variation-config:
+  variation-dirs: []
+  variations: {}
+
+transforms:
+  javascript-sources:
+    plugin: mendel-transform-not-installed
+
+types:
+  js:
+    extensions:
+      - .js
+    transforms:
+      - javascript-sources
+
+generators:
+  - id: extract-bundles
+    plugin: mendel-generator-not-installed
+
+outlets:
+  - id: manifest
+    plugin: mendel-outlet-not-installed
+  - id: ssr
+    plugin: mendel-outlet-server-side-render
+    options:
+      dir: server
+
+bundles:
+  main:
+    outlet: manifest
+    manifest: main.manifest.json
+    entries:
+      - ./main.js

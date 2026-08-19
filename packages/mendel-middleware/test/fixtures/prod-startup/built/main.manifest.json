@@ -1,0 +1,26 @@
+{
+    "indexes": {
+        "./main": 0
+    },
+    "bundles": [
+        {
+            "id": "./main",
+            "index": 0,
+            "entry": true,
+            "expose": false,
+            "variations": ["src/base"],
+            "data": [
+                {
+                    "id": "./main",
+                    "deps": {},
+                    "file": "./src/base/main.js",
+                    "variation": "src/base",
+                    "source": "module.exports = function main() { return 'ok'; };",
+                    "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "order": 0,
+                    "entry": true
+                }
+            ]
+        }
+    ]
+}
