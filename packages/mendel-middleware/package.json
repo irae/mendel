@@ -44,6 +44,7 @@
     "RELEASE_NOTES.md"
   ],
   "scripts": {
+    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage",
     "prepack": "node ../../scripts/prepack.js"
   }
 }
