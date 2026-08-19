@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/irae/mendel/compare/v4.2.0...v4.3.0) (2026-08-19)
+
+### Bug Fixes
+
+- **mendel-config:** load plugins through devConfig in build tools ([50c2c6b](https://github.com/irae/mendel/commit/50c2c6b5fbd3bd83a1a1fba2f9779ba84f8f1db9))
+
 # [4.2.0](https://github.com/irae/mendel/compare/v4.1.1...v4.2.0) (2026-08-16)
 
 ### Bug Fixes

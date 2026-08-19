@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/irae/mendel/compare/v4.2.0...v4.3.0) (2026-08-19)
+
+### Bug Fixes
+
+- **mendel-config:** do not resolve transform plugins in production parse ([0db9e4b](https://github.com/irae/mendel/commit/0db9e4bb3f780ccfb1cc5b7959f7c0ec4de8de75))
+
+### Features
+
+- **mendel-config:** export devConfig next to the default parser ([42d5d3c](https://github.com/irae/mendel/commit/42d5d3cd8b7d98c7eb30924052f593f35e734f7f))
+
 # [4.2.0](https://github.com/irae/mendel/compare/v4.1.1...v4.2.0) (2026-08-16)
 
 ### Bug Fixes

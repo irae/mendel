@@ -1,6 +1,6 @@
 {
   "name": "mendel-core",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "Mendel shared dependencies production use",
   "main": "trees.js",
   "scripts": {
