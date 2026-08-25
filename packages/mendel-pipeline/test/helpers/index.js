@@ -1,7 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const rimraf = require('rimraf');
-
 const monorepoPackages = path.resolve(__dirname, '../../..');
 const outletManifest = path.join(monorepoPackages, 'mendel-outlet-manifest');
 const parserPlaintext = path.join(monorepoPackages, 'mendel-parser-plaintext');
@@ -42,7 +40,7 @@ exports.stageFixture = function stageFixture(
         '.mendel-runs',
         runName
     );
-    rimraf.sync(runDir);
+    fs.rmSync(runDir, { recursive: true, force: true });
     fs.mkdirSync(runDir, { recursive: true });
 
     const place = (target, linkPath) => {
