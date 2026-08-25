@@ -97,8 +97,8 @@ class CacheClient extends EventEmitter {
 
                     console.error(
                         styleText(
-                            `[Mendel] Errored while parsing ${data.id}\n`,
-                            'red'
+                            'red',
+                            `[Mendel] Errored while parsing ${data.id}\n`
                         ),
                         data.error?.stack ||
                             data.error?.message ||

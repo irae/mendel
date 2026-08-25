@@ -71,7 +71,7 @@ if (opts.watch) {
         console.error(
             [
                 `Force closing due to a critical error:\n`,
-                styleText(error.stack, 'red'),
+                styleText('red', error.stack),
             ].join(' ')
         );
         daemon.onForceExit();

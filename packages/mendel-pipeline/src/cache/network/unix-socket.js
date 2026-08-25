@@ -69,17 +69,17 @@ class UnixSocketNetwork extends BaseNetwork {
                     if (error.message === 'FOREIGN_SERVER') {
                         console.error(
                             styleText(
+                                'red',
                                 [
                                     '==================================================',
                                     '[Mendel][Error] Another builder is already running.',
                                     'If no server process is active, ',
                                     `please remove or kill "${styleText(
-                                        path,
-                                        'bold'
+                                        'bold',
+                                        path
                                     )}" manually.`,
                                     '==================================================',
-                                ].join('\n'),
-                                'red'
+                                ].join('\n')
                             )
                         );
                         throw new ReferenceError('Other Daemon Active');

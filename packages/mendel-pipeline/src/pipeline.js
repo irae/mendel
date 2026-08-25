@@ -60,9 +60,9 @@ module.exports = class MendelPipeline extends EventEmitter {
     _handleError(name, descriptor) {
         const { error, id } = descriptor;
         console.error(
-            styleText(`[Mendel] builder "${name}" errored:`, 'white')
+            styleText('white', `[Mendel] builder "${name}" errored:`)
         );
-        console.error(styleText(error.message, 'red'));
+        console.error(styleText('red', error.message));
         console.error(error.stack);
         this.cache.setEntryError(id, error);
     }

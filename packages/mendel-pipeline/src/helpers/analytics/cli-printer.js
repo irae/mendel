@@ -3,21 +3,20 @@ const { styleText } = require('util');
 const { default: prettyMs } = require('pretty-ms');
 const { default: figure } = require('figures');
 
-function style(text, ...styles) {
-    return styles.length ? styleText(text, styles) : text;
+function style(formats, text) {
+    return formats ? styleText(formats, text) : text;
 }
 
 function getBarText(percent, maxBarSize) {
     maxBarSize = Math.max(0, maxBarSize);
     const barNumber = Math.max(Math.ceil((percent / 100) * maxBarSize), 1);
     return (
-        style(new Array(barNumber + 1).join(figure.square), 'blue') +
+        style(['blue'], new Array(barNumber + 1).join(figure.square)) +
         style(
+            ['blue', 'dim'],
             new Array(Math.max(0, maxBarSize - barNumber + 1)).join(
                 figure.square
-            ),
-            'blue',
-            'dim'
+            )
         )
     );
 }
@@ -62,7 +61,7 @@ class CliPrinter extends BasePrinter {
 
                 console.log(
                     new Array(indentation + 1).join('  ') +
-                        style(groupedName, 'underline')
+                        style(['underline'], groupedName)
                 );
                 this._print(dataPart, dimensions.slice(1), indentation + 1);
             });
@@ -137,30 +136,27 @@ class CliPrinter extends BasePrinter {
     print(data) {
         console.log(
             style(
+                ['bgWhite', 'black'],
                 padRight(
                     ' Sorted by grouping (aggregate of all thread)',
                     process.stdout.columns || 80
-                ),
-                'bgWhite',
-                'black'
+                )
             )
         );
         this._print(data, [1]);
 
         console.log(
             style(
-                padRight(' Sorted by subgroup', process.stdout.columns || 80),
-                'bgWhite',
-                'black'
+                ['bgWhite', 'black'],
+                padRight(' Sorted by subgroup', process.stdout.columns || 80)
             )
         );
         this._print(data, [1, 2]);
 
         console.log(
             style(
-                padRight(' Sorted by pid', process.stdout.columns || 80),
-                'bgWhite',
-                'black'
+                ['bgWhite', 'black'],
+                padRight(' Sorted by pid', process.stdout.columns || 80)
             )
         );
         this._print(data, [0]);
@@ -170,11 +166,11 @@ class CliPrinter extends BasePrinter {
         );
         console.log(
             style(
+                ['white'],
                 `Process finished in ${style(
-                    prettyMs(Date.now() - this.processStart),
-                    'bold'
-                )}.`,
-                'white'
+                    ['bold'],
+                    prettyMs(Date.now() - this.processStart)
+                )}.`
             )
         );
     }

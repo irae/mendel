@@ -29,11 +29,11 @@ class Mendel {
                 if (error instanceof ReferenceError) {
                     console.warn(
                         styleText(
+                            'yellow',
                             [
                                 '[Mendel] Instance of builder may be running.',
                                 'Attemping to recycle...',
-                            ].join('\n'),
-                            'yellow'
+                            ].join('\n')
                         )
                     );
                 } else {
