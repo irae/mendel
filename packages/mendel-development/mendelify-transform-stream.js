@@ -3,10 +3,14 @@
    See the accompanying LICENSE file for terms. */
 
 var nodePath = require('path');
-var shasum = require('shasum');
+var crypto = require('crypto');
 var through = require('through2');
 var variationMatches = require('./variation-matches');
 var mendelifyRequireTransform = require('./mendelify-require-transform');
+
+function sha1(str) {
+    return crypto.createHash('sha1').update(str).digest('hex');
+}
 
 function mendelifyTransformStream(variations, bundle) {
     var externals = bundle._external;
@@ -59,7 +63,7 @@ function mendelifyTransformStream(variations, bundle) {
                 }
             );
         }
-        row.sha = shasum(row.source);
+        row.sha = sha1(row.source);
 
         this.push(row);
         next();
