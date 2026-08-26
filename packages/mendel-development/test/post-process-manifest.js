@@ -2,14 +2,18 @@
    Copyrights licensed under the MIT License.
    See the accompanying LICENSE file for terms. */
 
-var test = require('tap').test;
+var tap = require('tap');
+var test = tap.test;
 var fs = require('fs');
+var os = require('os');
 var path = require('path');
-var tmp = require('tmp');
 
 // Since this file re-writes stuff, lets work on a copy
 var realSamples = path.join(__dirname, './manifest-samples/');
-var copySamples = tmp.dirSync().name;
+var copySamples = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-'));
+tap.teardown(function () {
+    fs.rmSync(copySamples, { recursive: true, force: true });
+});
 
 var postProcessManifests = require('../post-process-manifest');
 
@@ -110,6 +114,15 @@ test('postProcessManifests validates manifests', function (t) {
             t.doesNotThrow(function () {
                 JSON.parse(fs.readFileSync(debugManifestPath, 'utf8'));
             }, 'debug manifest is valid JSON');
+
+            if (debugManifestPath) {
+                t.teardown(function () {
+                    fs.rmSync(path.dirname(debugManifestPath), {
+                        recursive: true,
+                        force: true,
+                    });
+                });
+            }
         }
     );
 });
