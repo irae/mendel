@@ -2,9 +2,9 @@
    Copyrights licensed under the MIT License.
    See the accompanying LICENSE file for terms. */
 
+var os = require('os');
 var path = require('path');
 var fs = require('fs');
-var tmp = require('tmp');
 
 module.exports = validateManifest;
 
@@ -52,10 +52,13 @@ function validateManifest(manifest, originalPath, stepName) {
             console.log('  ' + log);
         });
 
-        var tempDir = tmp.dirSync().name;
+        var tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-'));
         var filename = 'debug.' + path.parse(originalPath).base;
         var destination = path.resolve(tempDir, filename);
         fs.writeFileSync(destination, JSON.stringify(manifest, null, 2));
+        process.once('exit', function () {
+            fs.rmSync(tempDir, { recursive: true, force: true });
+        });
 
         console.log('\n' + destination + ' written \n');
         var e = new Error('Invalid manifest');
