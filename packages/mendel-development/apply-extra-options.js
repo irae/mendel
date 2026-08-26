@@ -3,9 +3,13 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var { glob } = require('glob');
+var fs = require('fs');
 
 module.exports = applyExtraOptions;
+
+function glob(pattern) {
+    return Array.fromAsync(fs.promises.glob(pattern));
+}
 
 // Browserify's bundle() waits on `_ready` while `_pending` async work finishes.
 // Honor that handshake for ignore/exclude/external globs so multi-bundle and
