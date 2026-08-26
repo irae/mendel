@@ -4,7 +4,7 @@
 
 var path = require('path');
 var fs = require('fs');
-var tmp = require('tmp');
+var os = require('os');
 
 module.exports = validateManifest;
 
@@ -52,7 +52,9 @@ function validateManifest(manifest, originalPath, stepName) {
             console.log('  ' + log);
         });
 
-        var tempDir = tmp.dirSync().name;
+        // The debug file is for the user to inspect, so this dir is
+        // intentionally left behind (tmp only removed empty dirs).
+        var tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-'));
         var filename = 'debug.' + path.parse(originalPath).base;
         var destination = path.resolve(tempDir, filename);
         fs.writeFileSync(destination, JSON.stringify(manifest, null, 2));
