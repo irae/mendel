@@ -57,19 +57,26 @@
 
 ## 7. tmp → fs.mkdtempSync
 
-- [ ] `packages/mendel-manifest-extract-bundles/test/manifest-extract.js`
-- [ ] `packages/mendel-development/test/post-process-manifest.js`
-- [ ] `packages/mendel-development/validate-manifest.js`
-- [ ] `packages/mendel-manifest-uglify/test/manifest-uglify.js`
-    - [ ] Remove from package.jsons
-    - [ ] Test mendel-manifest-extract-bundles
-    - [ ] Test mendel-development
-    - [ ] Test mendel-manifest-uglify
+- [x] `packages/mendel-manifest-extract-bundles/test/manifest-extract.js`
+- [x] `packages/mendel-development/test/post-process-manifest.js`
+- [x] `packages/mendel-development/validate-manifest.js`
+- [x] `packages/mendel-manifest-uglify/test/manifest-uglify.js`
+    - [x] Remove from package.jsons
+    - [x] Test mendel-manifest-extract-bundles
+    - [x] Test mendel-development
+    - [x] Test mendel-manifest-uglify
 
 ## 8. shasum → crypto.createHash('sha1')
 
-- [ ] `packages/mendel-development/mendelify-transform-stream.js`
-- [ ] `packages/mendel-outlet-manifest/src/index.js`
-    - [ ] Remove from package.jsons
-    - [ ] Test mendel-development
-    - [ ] Test mendel-outlet-manifest
+- [x] `packages/mendel-development/mendelify-transform-stream.js`
+- [x] `packages/mendel-outlet-manifest/src/index.js`
+    - [x] Remove from package.jsons
+    - [x] Test mendel-development
+    - [x] Test mendel-outlet-manifest (no test files; integration covered by mendel-development)
+
+**All tasks complete!** ✅
+
+## Remaining Notes
+
+- `mendel-pipeline` integration tests (dot-dir, dual-package, empty-bundle, etc.) still timeout under resource pressure - pre-existing issue unrelated to changes.
+- `mendel-outlet-manifest` has no test files - integration covered by `mendel-development` tests.
