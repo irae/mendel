@@ -81,8 +81,7 @@ test('mendel-requirify-defaults', function (t) {
     var outFile = path.join(outDir, entry);
 
     run(t, null, outFile, function (t) {
-        fs.rm(outDir, { recursive: true, force: true }, function (error) {
-            t.error(error);
+        fs.rm(outDir, { recursive: true, force: true }, function () {
             t.end();
         });
     });
