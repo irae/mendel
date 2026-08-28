@@ -338,9 +338,6 @@ importers:
       falafel:
         specifier: ^2.2.5
         version: 2.2.5
-      glob:
-        specifier: ^13.0.6
-        version: 13.0.6
       resolve:
         specifier: ^1.22.10
         version: 1.22.12
