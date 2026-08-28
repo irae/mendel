@@ -74,18 +74,18 @@ t.throws(
 
 t.match(
     new GeneratorConfig(
-        { id: 'extract-bundles', plugin: 'mendel-extract-bundles' },
+        { id: 'extract-bundles', plugin: 'mendel-generator-extract' },
         contextConfig
     ),
-    { id: 'extract-bundles', plugin: /.*mendel-extract-bundles.*/ },
+    { id: 'extract-bundles', plugin: /.*mendel-generator-extract.*/ },
     'GeneratorConfig resolves an installed plugin without throwing'
 );
 
 t.match(
     new PostGeneratorConfig(
-        { id: 'test', plugin: 'mendel-extract-bundles' },
+        { id: 'test', plugin: 'mendel-generator-extract' },
         contextConfig
     ),
-    { id: 'test', plugin: /.*mendel-extract-bundles.*/ },
+    { id: 'test', plugin: /.*mendel-generator-extract.*/ },
     'PostGeneratorConfig resolves an installed plugin without throwing'
 );

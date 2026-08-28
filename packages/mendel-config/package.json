@@ -24,6 +24,7 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
+    "mendel-generator-extract": "workspace:^",
     "tap": "^21.0.0"
   },
   "homepage": "https://github.com/irae/mendel#readme",
