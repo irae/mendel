@@ -1,14 +1,22 @@
 const BasePrinter = require('./printer');
-const { default: chalk } = require('chalk');
+const { styleText } = require('util');
 const { default: prettyMs } = require('pretty-ms');
 const { default: figure } = require('figures');
+
+let enableColor = true;
+
+function styled(styles, text) {
+    if (!enableColor) return text;
+    return styleText(styles, text);
+}
 
 function getBarText(percent, maxBarSize) {
     maxBarSize = Math.max(0, maxBarSize);
     const barNumber = Math.max(Math.ceil((percent / 100) * maxBarSize), 1);
     return (
-        chalk.blue(new Array(barNumber + 1).join(figure.square)) +
-        chalk.blue.dim(
+        styled('blue', new Array(barNumber + 1).join(figure.square)) +
+        styled(
+            ['blue', 'dim'],
             new Array(Math.max(0, maxBarSize - barNumber + 1)).join(
                 figure.square
             )
@@ -28,7 +36,7 @@ class CliPrinter extends BasePrinter {
     constructor(options = {}) {
         super(options);
 
-        chalk.level = options.enableColor !== false ? 3 : 0;
+        enableColor = options.enableColor !== false;
         this.processStart = Date.now();
 
         this.nameMaxLen = options.nameMaxLen || 30;
@@ -57,7 +65,7 @@ class CliPrinter extends BasePrinter {
 
                 console.log(
                     new Array(indentation + 1).join('  ') +
-                        chalk.underline(groupedName)
+                        styled('underline', groupedName)
                 );
                 this._print(dataPart, dimensions.slice(1), indentation + 1);
             });
@@ -131,7 +139,8 @@ class CliPrinter extends BasePrinter {
 
     print(data) {
         console.log(
-            chalk.bgWhite.black(
+            styled(
+                ['bgWhite', 'black'],
                 padRight(
                     ' Sorted by grouping (aggregate of all thread)',
                     process.stdout.columns || 80
@@ -141,14 +150,16 @@ class CliPrinter extends BasePrinter {
         this._print(data, [1]);
 
         console.log(
-            chalk.bgWhite.black(
+            styled(
+                ['bgWhite', 'black'],
                 padRight(' Sorted by subgroup', process.stdout.columns || 80)
             )
         );
         this._print(data, [1, 2]);
 
         console.log(
-            chalk.bgWhite.black(
+            styled(
+                ['bgWhite', 'black'],
                 padRight(' Sorted by pid', process.stdout.columns || 80)
             )
         );
@@ -158,8 +169,10 @@ class CliPrinter extends BasePrinter {
             new Array((process.stdout.columns || 80) + 1).join(figure.line)
         );
         console.log(
-            chalk.white(
-                `Process finished in ${chalk.bold(
+            styled(
+                'white',
+                `Process finished in ${styled(
+                    'bold',
                     prettyMs(Date.now() - this.processStart)
                 )}.`
             )
