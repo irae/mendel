@@ -7,7 +7,6 @@ var debug = require('debug')('mendel:tree-serializer');
 var Concentrate = require('concentrate');
 var crypto = require('crypto');
 var util = require('util');
-var URLSafeBase64 = require('urlsafe-base64');
 
 function TreeSerialiser() {
     if (!(this instanceof TreeSerialiser)) {
@@ -62,9 +61,9 @@ TreeSerialiser.prototype.result = function () {
     this._digest = this._hash.digest();
     this.buffer(this._digest);
 
-    this._result = URLSafeBase64.encode(
-        Concentrate.prototype.result.call(this)
-    );
+    this._result = Concentrate.prototype.result
+        .call(this)
+        .toString('base64url');
 
     debug({
         result: this._result,

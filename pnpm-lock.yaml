@@ -222,9 +222,6 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
-      uuid:
-        specifier: ^11.1.0
-        version: 11.1.1
     devDependencies:
       '@babel/preset-env':
         specifier: ^7.29.0
@@ -287,9 +284,6 @@ importers:
       resolve:
         specifier: ^1.22.10
         version: 1.22.12
-      xtend:
-        specifier: ^4.0.1
-        version: 4.0.2
     devDependencies:
       tap:
         specifier: ^21.0.0
@@ -309,12 +303,6 @@ importers:
       mendel-config:
         specifier: workspace:^
         version: link:../mendel-config
-      urlsafe-base64:
-        specifier: ^1.0.0
-        version: 1.0.0
-      xtend:
-        specifier: ^4.0.1
-        version: 4.0.2
     devDependencies:
       tap:
         specifier: ^21.0.0
@@ -6154,9 +6142,6 @@ packages:
     resolution: {integrity: sha512-oCwdVC7mTuWiPyjLUz/COz5TLk6wgp0RCsN+wHZ2Ekneac9w8uuV0njcbbie2ME+Vs+d6duwmYuR3HgQXs1fOg==}
     engines: {node: '>= 0.4'}
 
-  urlsafe-base64@1.0.0:
-    resolution: {integrity: sha512-RtuPeMy7c1UrHwproMZN9gN6kiZ0SvJwRaEzwZY0j9MypEkFqyBaKv176jvlPtg58Zh36bOkS0NFABXMHvvGCA==}
-
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -6169,10 +6154,6 @@ packages:
   utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
-
-  uuid@11.1.1:
-    resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
-    hasBin: true
 
   uuid@14.0.1:
     resolution: {integrity: sha512-6ZxzVpzDXDa3bJWaHilVayA+BH/1zmxCJoVgvmqJnid/gPoKHxUrS/aC/T6LGQtNHT+XHG9fXPJB4d+IrU30Ew==}
@@ -13236,8 +13217,6 @@ snapshots:
       punycode: 1.4.1
       qs: 6.15.3
 
-  urlsafe-base64@1.0.0: {}
-
   util-deprecate@1.0.2: {}
 
   util@0.10.4:
@@ -13253,8 +13232,6 @@ snapshots:
       which-typed-array: 1.1.22
 
   utils-merge@1.0.1: {}
-
-  uuid@11.1.1: {}
 
   uuid@14.0.1: {}
 
