@@ -2,7 +2,6 @@ const tap = require('tap');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const rimraf = require('rimraf');
 const browserify = require('browserify');
 const requirify = require('../');
 
@@ -64,7 +63,7 @@ tap.test(
             'written source carries the mendel require-transform wrapper'
         );
 
-        rimraf.sync(outdir);
+        fs.rmSync(outdir, { recursive: true, force: true });
         t.end();
     }
 );
@@ -84,7 +83,7 @@ tap.test('creates missing output directories', async (t) => {
         'writes into the deeply nested outdir it created'
     );
 
-    rimraf.sync(outdir);
+    fs.rmSync(outdir, { recursive: true, force: true });
     t.end();
 });
 
@@ -103,7 +102,7 @@ tap.test('skips modules under node_modules', async (t) => {
         'does not write a file for the node_modules package'
     );
 
-    rimraf.sync(outdir);
+    fs.rmSync(outdir, { recursive: true, force: true });
     t.end();
 });
 
@@ -119,7 +118,7 @@ tap.test('skips modules outside the variation chain', async (t) => {
         'does not write base-tree modules that have no variation match'
     );
 
-    rimraf.sync(outdir);
+    fs.rmSync(outdir, { recursive: true, force: true });
     t.end();
 });
 
@@ -129,7 +128,7 @@ tap.test('re-registers its hooks when browserify resets', async (t) => {
     requirify(b, { outdir, dirs });
 
     await bundle(b);
-    rimraf.sync(outdir);
+    fs.rmSync(outdir, { recursive: true, force: true });
     t.notOk(fs.existsSync(outdir), 'cleared output between bundle runs');
 
     await bundle(b);
@@ -140,6 +139,6 @@ tap.test('re-registers its hooks when browserify resets', async (t) => {
         'still writes output on the second bundle from the same instance'
     );
 
-    rimraf.sync(outdir);
+    fs.rmSync(outdir, { recursive: true, force: true });
     t.end();
 });
