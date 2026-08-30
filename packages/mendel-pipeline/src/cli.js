@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint max-len: "off" */
 const { Command } = require('commander');
-const { default: chalk } = require('chalk');
+const util = require('util');
 
 const program = new Command();
 
@@ -71,7 +71,7 @@ if (opts.watch) {
         console.error(
             [
                 `Force closing due to a critical error:\n`,
-                chalk.red(error.stack),
+                util.styleText('red', error.stack, { validateStream: false }),
             ].join(' ')
         );
         daemon.onForceExit();
