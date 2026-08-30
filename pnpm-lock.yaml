@@ -53,6 +53,9 @@ importers:
       lint-staged:
         specifier: ^17.0.8
         version: 17.0.8
+      mendel-pipeline:
+        specifier: workspace:^
+        version: link:packages/mendel-pipeline
       prettier:
         specifier: ^3.9.5
         version: 3.9.5
