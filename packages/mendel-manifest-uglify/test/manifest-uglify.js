@@ -4,18 +4,22 @@
 
 var tap = require('tap');
 var fs = require('fs');
+var os = require('os');
 var path = require('path');
-var tmp = require('tmp');
 
 // Since this file re-writes stuff, lets work on a copy
 var realSamples = path.join(
     __dirname,
     '../../mendel-development/test/manifest-samples'
 );
-var copySamples = tmp.dirSync().name;
+var copySamples = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-'));
 
 var postProcessManifests = require('../../mendel-development/post-process-manifest');
 var uglify = require('../manifest-uglify');
+
+tap.teardown(function () {
+    fs.rmSync(copySamples, { recursive: true, force: true });
+});
 
 var simpleCompressionSize;
 
