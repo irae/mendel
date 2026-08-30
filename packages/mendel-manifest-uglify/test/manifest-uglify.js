@@ -5,14 +5,14 @@
 var tap = require('tap');
 var fs = require('fs');
 var path = require('path');
-var tmp = require('tmp');
+var os = require('os');
 
 // Since this file re-writes stuff, lets work on a copy
 var realSamples = path.join(
     __dirname,
     '../../mendel-development/test/manifest-samples'
 );
-var copySamples = tmp.dirSync().name;
+var copySamples = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-'));
 
 var postProcessManifests = require('../../mendel-development/post-process-manifest');
 var uglify = require('../manifest-uglify');
@@ -137,6 +137,12 @@ tap.test('mendel-manifest-uglify compress with options', function (t) {
             );
         }
     );
+});
+
+tap.test('cleanup', function (t) {
+    fs.rmSync(copySamples, { recursive: true, force: true });
+    t.pass('cleaned up temp directory');
+    t.end();
 });
 
 function copyRecursiveSync(src, dest) {
