@@ -116,6 +116,9 @@ test('postProcessManifests validates manifests', function (t) {
 
 test('postProcessManifests applying post-processors', function (t) {
     copyRecursiveSync(realSamples, copySamples);
+    t.teardown(() => {
+        fs.rmSync(copySamples, { recursive: true, force: true });
+    });
     t.plan(4);
 
     var calls = [];
@@ -153,10 +156,6 @@ test('postProcessManifests applying post-processors', function (t) {
             t.equal(calls[1], 'external file', 'loads external processors');
         }
     );
-});
-
-test.teardown(() => {
-    fs.rmSync(copySamples, { recursive: true, force: true });
 });
 
 function copyRecursiveSync(src, dest) {
