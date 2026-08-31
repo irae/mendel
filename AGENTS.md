@@ -32,6 +32,7 @@ Worktrees are **temporary**. Treat them as scratch space that always gets torn d
 
 Prefer the narrowest run that covers the change during development.
 Run Prettier and ESLint on files before every commit. Run the full test suite before finishing a feature.
+`legacy-packages/` are frozen legacy code: change their files when a task requires it, but do not write tests for them and do not run their test suites — they are broken by design and stay that way.
 Regressions your session introduced are amended directly into their commit; bug fixes for other sessions are committed as one commit per bug fix, not bundled into feature commits.
 
 | Scope             | Command                                                                                           |
