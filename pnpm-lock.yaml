@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  eslint-plugin-implicit-dependencies: 5461f9700d27b624e184fd698728d0e76a08a681a6686b7431299af189c280eb
+  eslint-plugin-implicit-dependencies: 0f48efbc5bb6c8e5e879dc4a1998edf0d9ce8d9045b810c4ae150fcb303881c1
 
 importers:
 
@@ -34,7 +34,7 @@ importers:
         version: 10.8.1(jiti@2.6.1)(supports-color@5.5.0)
       eslint-plugin-implicit-dependencies:
         specifier: ^1.1.1
-        version: 1.1.1(patch_hash=5461f9700d27b624e184fd698728d0e76a08a681a6686b7431299af189c280eb)
+        version: 1.1.1(patch_hash=0f48efbc5bb6c8e5e879dc4a1998edf0d9ce8d9045b810c4ae150fcb303881c1)
       eslint-plugin-react:
         specifier: ^7.37.5
         version: 7.37.5(eslint@10.8.1(jiti@2.6.1)(supports-color@5.5.0))
@@ -9918,7 +9918,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-implicit-dependencies@1.1.1(patch_hash=5461f9700d27b624e184fd698728d0e76a08a681a6686b7431299af189c280eb):
+  eslint-plugin-implicit-dependencies@1.1.1(patch_hash=0f48efbc5bb6c8e5e879dc4a1998edf0d9ce8d9045b810c4ae150fcb303881c1):
     dependencies:
       builtin-modules: 1.1.1
       findup: 0.1.5
