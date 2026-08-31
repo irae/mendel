@@ -1,5 +1,5 @@
 diff --git a/rules/no-implicit-dependencies.js b/rules/no-implicit-dependencies.js
-index c7e2818faa2e31a6d96958ad7a23e8a15f59bda2..d4a817a79afd720bcfc86811020cd7cd66055fac 100644
+index c7e2818faa2e31a6d96958ad7a23e8a15f59bda2..9577d52a4001eeee49d3ccd559a74919a72424b6 100644
 --- a/rules/no-implicit-dependencies.js
 +++ b/rules/no-implicit-dependencies.js
 @@ -29,7 +29,7 @@ module.exports = {
@@ -11,3 +11,14 @@ index c7e2818faa2e31a6d96958ad7a23e8a15f59bda2..d4a817a79afd720bcfc86811020cd7cd
      const jsonPath = path.join(findup.sync(dir, 'package.json'), 'package.json');
      const pkg = require(jsonPath);
      const checkModuleName = (name, node) => {
+@@ -47,6 +47,10 @@ module.exports = {
+         } else {
+           moduleName = name.split('/')[0];
+         }
++        // node:-prefixed core modules are the same modules
++        if (moduleName.startsWith('node:')) {
++          moduleName = moduleName.slice(5);
++        }
+         // if module is a node core module then skip
+         if (builtin[moduleName]) {
+           return;
