@@ -1,8 +1,7 @@
 const Mocha = require('mocha');
 const MendelClient = require('mendel-pipeline/client');
 const { execWithRegistry, exec } = require('mendel-exec');
-const fs = require('fs');
-const { globSync } = require('glob');
+const { globSync } = require('fs');
 const errorMapper = require('mendel-exec/source-mapper');
 
 const DEFAULT_OPTIONS = {
@@ -21,7 +20,7 @@ function MendelRunner(filePaths, options = {}) {
     options = Object.assign({}, DEFAULT_OPTIONS, options, { watch: false });
 
     if (options.prelude) {
-        options.prelude = globSync(options.prelude);
+        options.prelude = globSync(options.prelude, { withFileTypes: false });
     }
 
     client.on('ready', function () {
