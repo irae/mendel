@@ -6,8 +6,7 @@ const IST = require('./step/ist');
 const End = require('./step/end');
 const GST = require('./step/gst');
 const Waiter = require('./step/waiter');
-const { default: colors } = require('chalk');
-
+const util = require('util');
 const EventEmitter = require('events').EventEmitter;
 
 module.exports = class MendelPipeline extends EventEmitter {
@@ -59,8 +58,8 @@ module.exports = class MendelPipeline extends EventEmitter {
 
     _handleError(name, descriptor) {
         const { error, id } = descriptor;
-        console.error(colors.white(`[Mendel] builder "${name}" errored:`));
-        console.error(colors.red(error.message));
+        console.error(util.styleText(['white'], `[Mendel] builder "${name}" errored:`, { validateStream: false }));
+        console.error(util.styleText(['red'], error.message, { validateStream: false }));
         console.error(error.stack);
         this.cache.setEntryError(id, error);
     }

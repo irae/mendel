@@ -7,7 +7,7 @@ const EventEmitter = require('events').EventEmitter;
 const debug = require('debug')('mendel:net:client');
 const error = require('debug')('mendel:net:client:error');
 const verbose = require('debug')('verbose:mendel:net:client');
-const { default: colors } = require('chalk');
+const util = require('util');
 const debugFilter = require('mendel-development/debug-filter');
 
 class CacheClient extends EventEmitter {
@@ -96,8 +96,10 @@ class CacheClient extends EventEmitter {
                     if (unsynced) this.emit('unsync', data.id);
 
                     console.error(
-                        colors.red(
-                            `[Mendel] Errored while parsing ${data.id}\n`
+                        util.styleText(
+                            ['red'],
+                            `[Mendel] Errored while parsing ${data.id}\n`,
+                            { validateStream: false }
                         ),
                         data.error?.stack ||
                             data.error?.message ||
