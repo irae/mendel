@@ -2,17 +2,18 @@
    Copyrights licensed under the MIT License.
    See the accompanying LICENSE file for terms. */
 
-var test = require('tap').test;
+var tap = require('tap');
+var test = tap.test;
 var fs = require('fs');
 var path = require('path');
-var tmp = require('tmp');
+var os = require('os');
 
 // Since this file re-writes stuff, lets work on a copy
 var realSamples = path.join(
     __dirname,
     '../../mendel-development/test/manifest-samples/'
 );
-var copySamples = tmp.dirSync().name;
+var copySamples = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-'));
 
 var postProcessManifests = require('../../mendel-development/post-process-manifest');
 var extract = require('../manifest-extract');
@@ -67,6 +68,10 @@ test('postProcessManifests applying post-processors', function (t) {
             );
         }
     );
+});
+
+tap.after(function () {
+    fs.rmSync(copySamples, { recursive: true, force: true });
 });
 
 function copyRecursiveSync(src, dest) {
