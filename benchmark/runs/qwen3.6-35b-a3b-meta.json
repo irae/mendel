@@ -1,0 +1,8 @@
+{
+  "model": "qwen3.6-35b-a3b",
+  "harness": "pi",
+  "branch": "qwen3.6-35b-a3b-guided-issue-13",
+  "base_commit": "4679b5a",
+  "start": "2026-08-31T03:04:12Z",
+  "end": "2026-08-31T04:19:48Z"
+}

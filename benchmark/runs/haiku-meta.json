@@ -1,0 +1,8 @@
+{
+  "model": "haiku",
+  "harness": "claude",
+  "branch": "haiku-issue-13",
+  "base_commit": "182b07f",
+  "start": "2026-08-28T19:38:21Z",
+  "end": "2026-08-28T19:58:35Z"
+}
