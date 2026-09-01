@@ -35,13 +35,13 @@ below matches its row on `assistant_msgs` and `tool_calls` exactly.
 
 ## Guided runs
 
-| File                                                               | Branch                                             | Session UUID                           | Start (UTC)      | Note                                                         |
-| ------------------------------------------------------------------ | -------------------------------------------------- | -------------------------------------- | ---------------- | ------------------------------------------------------------ |
+| File                                                                   | Branch                                                 | Session UUID                           | Start (UTC)      | Note                                                         |
+| ---------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------- | ---------------- | ------------------------------------------------------------ |
 | `qwen3.6-35b-a3b-guided-issue-13-session.jsonl`                        | `qwen3.6-35b-a3b-guided-issue-13`                      | `01a055c6-4769-78d7-842a-a8cff7ce2591` | 2026-08-31 03:04 |                                                              |
 | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-guided-issue-13-session.jsonl`   | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-guided-issue-13` | `01a0561b-94aa-73ca-9ab6-4bc38e61e917` | 2026-08-31 04:37 |                                                              |
 | `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13-session-1.jsonl`   | `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13`   | `01a056f8-1e8f-7040-9486-a3d567f7ee02` | 2026-08-31 08:38 | reasoning effort low                                         |
 | `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13-session-2.jsonl`   | `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13`   | `01a05747-4350-77b2-bc04-c13960a97763` | 2026-08-31 10:04 | reasoning effort low, after the restart                      |
-| `mlx-community-Qwen3.8-27B-4bit-guided-issue-13-aborted-session.jsonl` | none                                               | `01a055c0-c135-7a38-85d9-5db8573e0580` | 2026-08-31 02:58 | abandoned attempt at medium effort; no branch, no result row |
+| `mlx-community-Qwen3.8-27B-4bit-guided-issue-13-aborted-session.jsonl` | none                                                   | `01a055c0-c135-7a38-85d9-5db8573e0580` | 2026-08-31 02:58 | abandoned attempt at medium effort; no branch, no result row |
 
 ## The gemma-4-26b-a4b cutoff
 
@@ -54,6 +54,18 @@ the record, but stop at line 236 when you recompute telemetry.
 
 ## Claude Code runs
 
-The three claude-code blind runs (`opus`, `sonnet`, `haiku`) and the two
-claude-code guided runs keep their transcripts under `~/.claude/projects/`.
-They are not in this directory.
+The three claude-code blind runs are copied here from `~/.claude/projects/`,
+with every absolute home path rewritten to `~`. The e-mail addresses inside
+are git authorship from the repo history. Each run has a false start: the
+first spawn was killed after three tool calls and respawned four minutes later
+with the same prompt. The two claude-code guided runs still keep their
+transcripts under `~/.claude/projects/` only.
+
+| File                              | Branch            | Session UUID                           | Start (UTC)      | Note                                |
+| --------------------------------- | ----------------- | -------------------------------------- | ---------------- | ----------------------------------- |
+| `opus-issue-13-session-1.jsonl`   | `opus-issue-13`   | `83a7280d-dd30-4a0b-a038-e071ad6d2118` | 2026-08-28 19:34 | false start, 13 seconds, not scored |
+| `opus-issue-13-session-2.jsonl`   | `opus-issue-13`   | `198df496-4295-4d02-8819-8f92b01a83c2` | 2026-08-28 19:38 | the scored run                      |
+| `sonnet-issue-13-session-1.jsonl` | `sonnet-issue-13` | `a1d2cdbc-857c-4163-aa3a-f53e90f76e12` | 2026-08-28 19:34 | false start, 11 seconds, not scored |
+| `sonnet-issue-13-session-2.jsonl` | `sonnet-issue-13` | `0e139574-8967-4f80-a065-dc52eae4dba5` | 2026-08-28 19:38 | the scored run                      |
+| `haiku-issue-13-session-1.jsonl`  | `haiku-issue-13`  | `c74bb092-03d9-43ba-bea8-9948946a5db0` | 2026-08-28 19:34 | false start, 9 seconds, not scored  |
+| `haiku-issue-13-session-2.jsonl`  | `haiku-issue-13`  | `9cedeeeb-2086-4306-aa8b-9430d6abb734` | 2026-08-28 19:38 | the scored run                      |
