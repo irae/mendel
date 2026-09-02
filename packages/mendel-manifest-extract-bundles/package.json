@@ -23,7 +23,7 @@
     "mendel-development": "workspace:^"
   },
   "devDependencies": {
-    "tap": "^21.0.0",
+    "tap": "^21.7.5",
     "tmp": "^0.2.1"
   },
   "homepage": "https://github.com/irae/mendel#readme",

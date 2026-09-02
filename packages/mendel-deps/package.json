@@ -22,7 +22,7 @@
   "devDependencies": {
     "glob": "^13.0.6",
     "mendel-resolver": "workspace:^",
-    "tap": "^21.0.0"
+    "tap": "^21.7.5"
   },
   "files": [
     "*.js",

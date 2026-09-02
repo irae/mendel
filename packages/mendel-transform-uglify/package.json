@@ -23,7 +23,7 @@
     "uglify-js": "^3.19.0"
   },
   "devDependencies": {
-    "tap": "^21.0.0"
+    "tap": "^21.7.5"
   },
   "files": [
     "*.js",

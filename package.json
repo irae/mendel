@@ -43,7 +43,7 @@
   },
   "scripts": {
     "prepare": "husky",
-    "postinstall": "bash scripts/link-example-bins.sh --warn",
+    "postinstall": "bash scripts/link-example-bins.sh --warn && tap build",
     "link:example-bins": "bash scripts/link-example-bins.sh --warn",
     "commitlint": "commitlint --edit",
     "prettier": "prettier --write --list-different .",
