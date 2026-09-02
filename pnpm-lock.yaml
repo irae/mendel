@@ -323,9 +323,6 @@ importers:
         specifier: ^8.5.0
         version: 8.5.26
     devDependencies:
-      glob:
-        specifier: ^13.0.6
-        version: 13.0.6
       mendel-resolver:
         specifier: workspace:^
         version: link:../mendel-resolver
