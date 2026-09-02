@@ -1,5 +1,5 @@
 const BasePrinter = require('./printer');
-const { default: chalk } = require('chalk');
+const { styleText } = require('util');
 const { default: prettyMs } = require('pretty-ms');
 const { default: figure } = require('figures');
 
@@ -7,8 +7,9 @@ function getBarText(percent, maxBarSize) {
     maxBarSize = Math.max(0, maxBarSize);
     const barNumber = Math.max(Math.ceil((percent / 100) * maxBarSize), 1);
     return (
-        chalk.blue(new Array(barNumber + 1).join(figure.square)) +
-        chalk.blue.dim(
+        styleText('blue', new Array(barNumber + 1).join(figure.square)) +
+        styleText(
+            ['blue', 'dim'],
             new Array(Math.max(0, maxBarSize - barNumber + 1)).join(
                 figure.square
             )
@@ -28,7 +29,7 @@ class CliPrinter extends BasePrinter {
     constructor(options = {}) {
         super(options);
 
-        chalk.level = options.enableColor !== false ? 3 : 0;
+        this._enableColor = options.enableColor !== false;
         this.processStart = Date.now();
 
         this.nameMaxLen = options.nameMaxLen || 30;
@@ -57,7 +58,9 @@ class CliPrinter extends BasePrinter {
 
                 console.log(
                     new Array(indentation + 1).join('  ') +
-                        chalk.underline(groupedName)
+                        (this._enableColor
+                            ? styleText('underline', groupedName)
+                            : groupedName)
                 );
                 this._print(dataPart, dimensions.slice(1), indentation + 1);
             });
@@ -131,39 +134,55 @@ class CliPrinter extends BasePrinter {
 
     print(data) {
         console.log(
-            chalk.bgWhite.black(
-                padRight(
-                    ' Sorted by grouping (aggregate of all thread)',
-                    process.stdout.columns || 80
-                )
-            )
+            this._enableColor
+                ? styleText(
+                      ['bgWhite', 'black'],
+                      padRight(
+                          ' Sorted by grouping (aggregate of all thread)',
+                          process.stdout.columns || 80
+                      )
+                  )
+                : padRight(
+                      ' Sorted by grouping (aggregate of all thread)',
+                      process.stdout.columns || 80
+                  )
         );
         this._print(data, [1]);
 
         console.log(
-            chalk.bgWhite.black(
-                padRight(' Sorted by subgroup', process.stdout.columns || 80)
-            )
+            this._enableColor
+                ? styleText(
+                      ['bgWhite', 'black'],
+                      padRight(
+                          ' Sorted by subgroup',
+                          process.stdout.columns || 80
+                      )
+                  )
+                : padRight(' Sorted by subgroup', process.stdout.columns || 80)
         );
         this._print(data, [1, 2]);
 
         console.log(
-            chalk.bgWhite.black(
-                padRight(' Sorted by pid', process.stdout.columns || 80)
-            )
+            this._enableColor
+                ? styleText(
+                      ['bgWhite', 'black'],
+                      padRight(' Sorted by pid', process.stdout.columns || 80)
+                  )
+                : padRight(' Sorted by pid', process.stdout.columns || 80)
         );
         this._print(data, [0]);
 
         console.log(
             new Array((process.stdout.columns || 80) + 1).join(figure.line)
         );
-        console.log(
-            chalk.white(
-                `Process finished in ${chalk.bold(
-                    prettyMs(Date.now() - this.processStart)
-                )}.`
-            )
-        );
+        if (this._enableColor) {
+            console.log(
+                styleText(
+                    'white',
+                    `Process finished in ${styleText('bold', prettyMs(Date.now() - this.processStart))}.`
+                )
+            );
+        }
     }
 }
 
