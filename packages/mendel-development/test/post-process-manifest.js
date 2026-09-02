@@ -5,11 +5,11 @@
 var test = require('tap').test;
 var fs = require('fs');
 var path = require('path');
-var tmp = require('tmp');
+var os = require('os');
 
 // Since this file re-writes stuff, lets work on a copy
 var realSamples = path.join(__dirname, './manifest-samples/');
-var copySamples = tmp.dirSync().name;
+var copySamples = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-'));
 
 var postProcessManifests = require('../post-process-manifest');
 
@@ -175,3 +175,7 @@ function copyRecursiveSync(src, dest) {
         fs.writeFileSync(dest, fs.readFileSync(src));
     }
 }
+
+process.on('exit', () => {
+    fs.rmSync(copySamples, { recursive: true, force: true });
+});
