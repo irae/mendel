@@ -62,11 +62,12 @@ first spawn was killed after three tool calls and respawned four minutes later
 with the same prompt. The two claude-code guided runs still keep their
 transcripts under `~/.claude/projects/` only.
 
-| File                              | Branch            | Session UUID                           | Start (UTC)      | Note                                |
-| --------------------------------- | ----------------- | -------------------------------------- | ---------------- | ----------------------------------- |
-| `opus-issue-13-session-1.jsonl`   | `opus-issue-13`   | `83a7280d-dd30-4a0b-a038-e071ad6d2118` | 2026-08-28 19:34 | false start, 13 seconds, not scored |
-| `opus-issue-13-session-2.jsonl`   | `opus-issue-13`   | `198df496-4295-4d02-8819-8f92b01a83c2` | 2026-08-28 19:38 | the scored run                      |
-| `sonnet-issue-13-session-1.jsonl` | `sonnet-issue-13` | `a1d2cdbc-857c-4163-aa3a-f53e90f76e12` | 2026-08-28 19:34 | false start, 11 seconds, not scored |
-| `sonnet-issue-13-session-2.jsonl` | `sonnet-issue-13` | `0e139574-8967-4f80-a065-dc52eae4dba5` | 2026-08-28 19:38 | the scored run                      |
-| `haiku-issue-13-session-1.jsonl`  | `haiku-issue-13`  | `c74bb092-03d9-43ba-bea8-9948946a5db0` | 2026-08-28 19:34 | false start, 9 seconds, not scored  |
-| `haiku-issue-13-session-2.jsonl`  | `haiku-issue-13`  | `9cedeeeb-2086-4306-aa8b-9430d6abb734` | 2026-08-28 19:38 | the scored run                      |
+| File                                                                                     | Branch                                                                     | Session UUID                           | Start (UTC)      | Note                                    |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------- | ---------------- | --------------------------------------- |
+| `opus-issue-13-session-1.jsonl`                                                          | `opus-issue-13`                                                            | `83a7280d-dd30-4a0b-a038-e071ad6d2118` | 2026-08-28 19:34 | false start, 13 seconds, not scored     |
+| `opus-issue-13-session-2.jsonl`                                                          | `opus-issue-13`                                                            | `198df496-4295-4d02-8819-8f92b01a83c2` | 2026-08-28 19:38 | the scored run                          |
+| `sonnet-issue-13-session-1.jsonl`                                                        | `sonnet-issue-13`                                                          | `a1d2cdbc-857c-4163-aa3a-f53e90f76e12` | 2026-08-28 19:34 | false start, 11 seconds, not scored     |
+| `sonnet-issue-13-session-2.jsonl`                                                        | `sonnet-issue-13`                                                          | `0e139574-8967-4f80-a065-dc52eae4dba5` | 2026-08-28 19:38 | the scored run                          |
+| `haiku-issue-13-session-1.jsonl`                                                         | `haiku-issue-13`                                                           | `c74bb092-03d9-43ba-bea8-9948946a5db0` | 2026-08-28 19:34 | false start, 9 seconds, not scored      |
+| `haiku-issue-13-session-2.jsonl`                                                         | `haiku-issue-13`                                                           | `9cedeeeb-2086-4306-aa8b-9430d6abb734` | 2026-08-28 19:38 | the scored run                          |
+| `accounts-fireworks-models-deepseek-v4-flash-0731-high-guided-v3-issue-13-session.jsonl` | `accounts-fireworks-models-deepseek-v4-flash-0731-high-guided-v3-issue-13` | `01a05f83-634d-7fc9-8041-a406b3272b5d` | 2026-09-02 00:27 | guided v3.0, run-pi-rpc, the scored run |
