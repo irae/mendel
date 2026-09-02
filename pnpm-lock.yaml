@@ -341,9 +341,6 @@ importers:
       resolve:
         specifier: ^1.22.10
         version: 1.22.12
-      shasum:
-        specifier: ^1.0.2
-        version: 1.0.2
       through2:
         specifier: ^5.0.11
         version: 5.0.11
@@ -549,9 +546,6 @@ importers:
       mendel-manifest-uglify:
         specifier: workspace:^
         version: link:../mendel-manifest-uglify
-      shasum:
-        specifier: ^1.0.2
-        version: 1.0.2
     devDependencies:
       tap:
         specifier: ^21.0.0
@@ -4366,9 +4360,6 @@ packages:
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
-  json-stable-stringify@0.0.1:
-    resolution: {integrity: sha512-nKtD/Qxm7tWdZqJoldEC7fF0S41v0mWbeaXG3637stOWfyGxTgWTYE2wtfKmjzpvxv2MA2xzxsXOIiwUpkX6Qw==}
-
   json-stringify-nice@1.1.4:
     resolution: {integrity: sha512-5Z5RFW63yxReJ7vANgW6eZFGWaQvnPE3WNmZoOJrSkGju2etKA2L5rrOa1sm877TVTFt57A80BH1bArcmlLfPw==}
 
@@ -4388,9 +4379,6 @@ packages:
 
   jsonfile@6.2.1:
     resolution: {integrity: sha512-zwOTdL3rFQ/lRdBnntKVOX6k5cKJwEc1HdilT71BWEu7J41gXIB2MRp+vxduPSwZJPWBxEzv4yH1wYLJGUHX4Q==}
-
-  jsonify@0.0.1:
-    resolution: {integrity: sha512-2/Ki0GcmuqSrgFyelQq9M05y7PS0mEwuIzrf3f1fPqkVDVRvZrPZtVSMHxdgo8Aq0sxAOb/cr2aqqA3LeWHVPg==}
 
   jsonparse@1.3.1:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
@@ -5569,9 +5557,6 @@ packages:
   shasum-object@1.0.1:
     resolution: {integrity: sha512-SsC+1tW7XKQ/94D4k1JhLmjDFpVGET/Nf54jVDtbavbALf8Zhp0Td9zTlxScjMW6nbEIrpADtPWfLk9iCXzHDQ==}
     hasBin: true
-
-  shasum@1.0.2:
-    resolution: {integrity: sha512-UTzHm/+AzKfO9RgPgRpDIuMSNie1ubXRaljjlhFMNGYoG7z+rm9AHLPMf70R7887xboDH9Q+5YQbWKObFHEAtw==}
 
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
@@ -10844,10 +10829,6 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  json-stable-stringify@0.0.1:
-    dependencies:
-      jsonify: 0.0.1
-
   json-stringify-nice@1.1.4: {}
 
   json5@2.2.3: {}
@@ -10867,8 +10848,6 @@ snapshots:
       universalify: 2.0.1
     optionalDependencies:
       graceful-fs: 4.2.11
-
-  jsonify@0.0.1: {}
 
   jsonparse@1.3.1: {}
 
@@ -12479,11 +12458,6 @@ snapshots:
   shasum-object@1.0.1:
     dependencies:
       fast-safe-stringify: 2.1.1
-
-  shasum@1.0.2:
-    dependencies:
-      json-stable-stringify: 0.0.1
-      sha.js: 2.4.12
 
   shebang-command@2.0.0:
     dependencies:
