@@ -3,7 +3,8 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var { glob } = require('glob');
+var { promisify } = require('util');
+var glob = promisify(require('fs').glob);
 
 module.exports = applyExtraOptions;
 
