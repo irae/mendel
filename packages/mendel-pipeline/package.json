@@ -35,7 +35,6 @@
   },
   "devDependencies": {
     "@babel/code-frame": "^7.29.7",
-    "rimraf": "^5.0.1",
     "tap": "^21.7.5"
   },
   "engines": {
