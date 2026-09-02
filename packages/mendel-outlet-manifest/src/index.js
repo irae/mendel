@@ -1,8 +1,8 @@
 const debug = require('debug')('mendel:outlet:manifest');
 const babelCore = require('@babel/core');
 const manifestUglify = require('mendel-manifest-uglify');
+const crypto = require('crypto');
 const fs = require('fs');
-const shasum = require('shasum');
 const inliner = require('babel-plugin-transform-inline-environment-variables');
 
 // Manifest
@@ -62,7 +62,7 @@ module.exports = class ManifestOutlet {
             file: item.id,
             variation: item.variation || this.config.baseConfig.dir,
             source: item.source,
-            sha: shasum(item.source),
+            sha: crypto.createHash('sha1').update(item.source).digest('hex'),
         };
 
         if (item.expose) data.expose = item.expose;
