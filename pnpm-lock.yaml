@@ -306,9 +306,6 @@ importers:
       mendel-config:
         specifier: workspace:^
         version: link:../mendel-config
-      urlsafe-base64:
-        specifier: ^1.0.0
-        version: 1.0.0
     devDependencies:
       tap:
         specifier: ^21.7.5
@@ -6005,9 +6002,6 @@ packages:
   url@0.11.4:
     resolution: {integrity: sha512-oCwdVC7mTuWiPyjLUz/COz5TLk6wgp0RCsN+wHZ2Ekneac9w8uuV0njcbbie2ME+Vs+d6duwmYuR3HgQXs1fOg==}
     engines: {node: '>= 0.4'}
-
-  urlsafe-base64@1.0.0:
-    resolution: {integrity: sha512-RtuPeMy7c1UrHwproMZN9gN6kiZ0SvJwRaEzwZY0j9MypEkFqyBaKv176jvlPtg58Zh36bOkS0NFABXMHvvGCA==}
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -12701,8 +12695,6 @@ snapshots:
     dependencies:
       punycode: 1.4.1
       qs: 6.15.3
-
-  urlsafe-base64@1.0.0: {}
 
   util-deprecate@1.0.2: {}
 
