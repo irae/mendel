@@ -1,8 +1,7 @@
 const Mocha = require('mocha');
 const MendelClient = require('mendel-pipeline/client');
 const { execWithRegistry, exec } = require('mendel-exec');
-const fs = require('fs');
-const { globSync } = require('glob');
+const { readFileSync, globSync } = require('fs');
 const errorMapper = require('mendel-exec/source-mapper');
 
 const DEFAULT_OPTIONS = {
@@ -47,7 +46,7 @@ function MendelRunner(filePaths, options = {}) {
                 const id = entry ? entry.id : file;
                 const source = entry
                     ? entry.source
-                    : fs.readFileSync(file, 'utf8');
+                    : readFileSync(file, 'utf8');
 
                 exec(id, source, {
                     sandbox,
