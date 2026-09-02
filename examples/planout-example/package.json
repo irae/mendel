@@ -5,6 +5,7 @@
   "description": "Example of app using mendel, es6, jsx, react, planout for assignment, server-side-rendering, multivariant and multilayer support.",
   "main": "index.js",
   "scripts": {
+    "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage",
     "build": "mendel",
     "development": "nodemon index.js",
     "production": "NODE_ENV=production node index.js"
@@ -16,8 +17,7 @@
     "morgan": "^1.7.0",
     "planout": "^5.3.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "uuid": "^11.1.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.29.0",
@@ -26,6 +26,7 @@
     "mendel-development-middleware": "workspace:^",
     "mendel-pipeline": "workspace:^",
     "nodemon": "^3.0.1",
+    "tap": "^21.7.5",
     "watchify": "^4.0.0"
   },
   "babel": {
