@@ -3,7 +3,7 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var { glob } = require('glob');
+var { glob } = require('fs');
 
 module.exports = applyExtraOptions;
 
