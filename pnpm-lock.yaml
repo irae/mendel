@@ -284,9 +284,6 @@ importers:
       resolve:
         specifier: ^1.22.10
         version: 1.22.12
-      xtend:
-        specifier: ^4.0.1
-        version: 4.0.2
     devDependencies:
       tap:
         specifier: ^21.7.5
