@@ -3,8 +3,8 @@
    See the accompanying LICENSE file for terms. */
 
 var fs = require('fs');
+var os = require('os');
 var path = require('path');
-var temp = require('temp');
 var test = require('tap').test;
 var browserify = require('browserify');
 var requirify = require('../');
@@ -13,8 +13,9 @@ var requireTransform = require('../../../packages/mendel-development/require-tra
 
 var srcDir = path.resolve(__dirname, '../../../test/app-samples/1');
 
-temp.track();
-var buildDir = temp.mkdirSync('build-requirify');
+var buildDir = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'mendel-build-requirify-')
+);
 
 var entry = 'app/number-list.js';
 var variationDirs = ['test_A', 'app'];
@@ -60,7 +61,7 @@ function run(t, outDir, outFile, cb) {
                 'wrapper epilogue pos'
             );
 
-            temp.cleanup(function () {
+            fs.rm(buildDir, { recursive: true, force: true }, function () {
                 if (cb) {
                     return cb(t);
                 }

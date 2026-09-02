@@ -2,8 +2,9 @@
    Copyrights licensed under the MIT License.
    See the accompanying LICENSE file for terms. */
 
+var fs = require('fs');
+var os = require('os');
 var path = require('path');
-var temp = require('temp');
 var test = require('tap').test;
 var Module = require('module');
 var browserify = require('browserify');
@@ -13,13 +14,15 @@ var Tree = require('../../../packages/mendel-core/trees.js');
 var Loader = require('../../../packages/mendel-loader');
 
 var srcDir = path.resolve(__dirname, '../../../test/app-samples/1');
-var buildDir = temp.mkdirSync('mendel-loader');
+var buildDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-loader-'));
 var mountDir = path.join(buildDir, 'server');
+
+function cleanup(callback) {
+    fs.rm(buildDir, { recursive: true, force: true }, callback);
+}
 
 test('mendel-loader-server', function (t) {
     t.plan(12);
-    temp.track();
-
     var b = browserify({
         entries: [
             path.join(srcDir, 'app/index.js'),
@@ -38,7 +41,7 @@ test('mendel-loader-server', function (t) {
 
     b.bundle(function (err) {
         if (err) {
-            return temp.cleanup(function () {
+            return cleanup(function () {
                 t.fail(err.message || err);
             });
         }
@@ -102,7 +105,7 @@ test('mendel-loader-server', function (t) {
                 );
             });
 
-            temp.cleanup(function () {
+            cleanup(function () {
                 t.end();
             });
         }, 1000);
