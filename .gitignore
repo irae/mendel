@@ -17,5 +17,5 @@ docs/superpowers/
 # per-package copies made by scripts/prepack.js; only the root file is tracked
 packages/*/RELEASE_NOTES.md
 
-# Session task list an agent maintains for itself; never lands in git
-TASKS.md
+# Session scratch space an agent maintains for itself; never lands in git
+scratchpad/
