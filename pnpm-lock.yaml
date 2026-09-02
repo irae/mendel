@@ -665,9 +665,6 @@ importers:
       '@babel/code-frame':
         specifier: ^7.29.7
         version: 7.29.7
-      rimraf:
-        specifier: ^5.0.1
-        version: 5.0.10
       tap:
         specifier: ^21.0.0
         version: 21.7.4(@types/node@26.1.1)(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
