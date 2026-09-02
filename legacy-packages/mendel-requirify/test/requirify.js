@@ -2,7 +2,6 @@ const tap = require('tap');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const rimraf = require('rimraf');
 const browserify = require('browserify');
 const requirify = require('../');
 
