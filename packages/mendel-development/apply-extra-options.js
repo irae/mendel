@@ -3,7 +3,7 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var { glob } = require('glob');
+var fs = require('fs');
 
 module.exports = applyExtraOptions;
 
@@ -78,6 +78,10 @@ function applyExtraOptions(b, options) {
                 else b.external(x, opts);
             }
         });
+}
+
+function glob(pattern) {
+    return Array.fromAsync(fs.promises.glob(pattern));
 }
 
 function splitOnColon(f) {
