@@ -36,13 +36,14 @@ below matches its row on `assistant_msgs` and `tool_calls` exactly.
 
 ## Guided runs
 
-| File                                                                   | Branch                                                 | Session UUID                           | Start (UTC)      | Note                                                         |
-| ---------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------- | ---------------- | ------------------------------------------------------------ |
-| `qwen3.6-35b-a3b-guided-issue-13-session.jsonl`                        | `qwen3.6-35b-a3b-guided-issue-13`                      | `01a055c6-4769-78d7-842a-a8cff7ce2591` | 2026-08-31 03:04 |                                                              |
-| `prism-ml-Ternary-Bonsai-27B-mlx-2bit-guided-issue-13-session.jsonl`   | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-guided-issue-13` | `01a0561b-94aa-73ca-9ab6-4bc38e61e917` | 2026-08-31 04:37 |                                                              |
-| `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13-session-1.jsonl`   | `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13`   | `01a056f8-1e8f-7040-9486-a3d567f7ee02` | 2026-08-31 08:38 | reasoning effort low                                         |
-| `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13-session-2.jsonl`   | `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13`   | `01a05747-4350-77b2-bc04-c13960a97763` | 2026-08-31 10:04 | reasoning effort low, after the restart                      |
-| `mlx-community-Qwen3.8-27B-4bit-guided-issue-13-aborted-session.jsonl` | none                                                   | `01a055c0-c135-7a38-85d9-5db8573e0580` | 2026-08-31 02:58 | abandoned attempt at medium effort; no branch, no result row |
+| File                                                                   | Branch                                                  | Session UUID                           | Start (UTC)      | Note                                                                                                |
+| ---------------------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------- |
+| `qwen3.6-35b-a3b-guided-issue-13-session.jsonl`                        | `qwen3.6-35b-a3b-guided-issue-13`                       | `01a055c6-4769-78d7-842a-a8cff7ce2591` | 2026-08-31 03:04 |                                                                                                     |
+| `prism-ml-Ternary-Bonsai-27B-mlx-2bit-guided-issue-13-session.jsonl`   | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-guided-issue-13`  | `01a0561b-94aa-73ca-9ab6-4bc38e61e917` | 2026-08-31 04:37 |                                                                                                     |
+| `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13-session-1.jsonl`   | `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13`    | `01a056f8-1e8f-7040-9486-a3d567f7ee02` | 2026-08-31 08:38 | reasoning effort low                                                                                |
+| `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13-session-2.jsonl`   | `mlx-community-Qwen3.8-27B-4bit-low-guided-issue-13`    | `01a05747-4350-77b2-bc04-c13960a97763` | 2026-08-31 10:04 | reasoning effort low, after the restart                                                             |
+| `mlx-community-Qwen3.8-27B-4bit-guided-issue-13-aborted-session.jsonl` | none                                                    | `01a055c0-c135-7a38-85d9-5db8573e0580` | 2026-08-31 02:58 | abandoned attempt at medium effort; no branch, no result row                                        |
+| `mlx-community-Qwen3.8-27B-4bit-low-guided-v3-issue-13-session.jsonl`  | `mlx-community-Qwen3.8-27B-4bit-low-guided-v3-issue-13` | `01a05feb-272b-74dd-bb18-ae7816ebc8e7` | 2026-09-02 02:20 | prompt v3.0; partial, tooling_budget_exhausted after 3 mlx server dead-thread crashes, zero commits |
 
 ## The gemma-4-26b-a4b cutoff
 
