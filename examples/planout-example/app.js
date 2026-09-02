@@ -6,7 +6,7 @@ var ReactDOMServer = require('react-dom/server');
 var express = require('express');
 var logger = require('morgan');
 var MendelMiddleware = require('mendel-middleware');
-var { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 var PlanoutAssignment = require('./PlanoutAssignment');
 var cookieParser = require('cookie-parser');
 if (process.env.NODE_ENV !== 'production') {
@@ -24,7 +24,7 @@ app.use(`*`, function (req, res, next) {
     if (req.cookies && req.cookies.visitorId && !req.query.reset) {
         req.visitorId = req.cookies.visitorId;
     } else {
-        req.visitorId = uuidv4(); // create new userId
+        req.visitorId = randomUUID(); // create new userId
     }
     // set or reset the cookie
     res.cookie('visitorId', req.visitorId, {
