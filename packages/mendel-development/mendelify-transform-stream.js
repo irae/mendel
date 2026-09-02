@@ -3,7 +3,7 @@
    See the accompanying LICENSE file for terms. */
 
 var nodePath = require('path');
-var shasum = require('shasum');
+var crypto = require('crypto');
 var through = require('through2');
 var variationMatches = require('./variation-matches');
 var mendelifyRequireTransform = require('./mendelify-require-transform');
@@ -59,7 +59,7 @@ function mendelifyTransformStream(variations, bundle) {
                 }
             );
         }
-        row.sha = shasum(row.source);
+        row.sha = crypto.createHash('sha1').update(row.source).digest('hex');
 
         this.push(row);
         next();
