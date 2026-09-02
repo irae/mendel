@@ -3,6 +3,9 @@
   "version": "4.3.0",
   "description": "Mocha for Mendel. Mendel gains control of how sources are transformed and when and how to execute test",
   "main": "index.js",
+  "scripts": {
+    "prepack": "node ../../scripts/prepack.js"
+  },
   "author": "Stephan Lee <stephanwlee@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -21,7 +24,6 @@
     "mendel-mocha": "cli.js"
   },
   "devDependencies": {
-    "glob": "^13.0.6",
     "tap": "^21.0.0"
   },
   "homepage": "https://github.com/irae/mendel#readme",
@@ -39,8 +41,5 @@
     "CHANGELOG.md",
     "LICENSE",
     "RELEASE_NOTES.md"
-  ],
-  "scripts": {
-    "prepack": "node ../../scripts/prepack.js"
-  }
+  ]
 }
