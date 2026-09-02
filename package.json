@@ -85,8 +85,7 @@
     "mendel-pipeline": "workspace:^",
     "prettier": "^3.9.5",
     "tap": "^21.7.5",
-    "temp": "^0.9.4",
-    "tmp": "^0.2.7"
+    "temp": "^0.9.4"
   },
   "homepage": "https://github.com/irae/mendel#readme",
   "bugs": {
