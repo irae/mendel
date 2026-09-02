@@ -18,20 +18,21 @@ below matches its row on `assistant_msgs` and `tool_calls` exactly.
 
 ## Blind runs
 
-| File                                                            | Branch                                          | Session UUID                           | Start (UTC)      | Note                                                |
-| --------------------------------------------------------------- | ----------------------------------------------- | -------------------------------------- | ---------------- | --------------------------------------------------- |
-| `grok-4.6-issue-13-session.jsonl`                               | `grok-4.6-issue-13`                             | `01a03e60-9980-7d31-8eee-b7bce05dd89c` | 2026-08-26 14:01 |                                                     |
-| `luna-5.6-max-issue-13-session.jsonl`                           | `luna-5.6-max-issue-13`                         | `01a03ec2-6c9c-7ecf-ac07-6352ad578749` | 2026-08-26 15:48 |                                                     |
-| `kimi-k3-issue-13-session.jsonl`                                | `kimi-k3-issue-13`                              | `01a03fd2-e021-76e4-97f5-21b4cc9aad34` | 2026-08-26 20:46 |                                                     |
-| `deepseekv4-pro-0813-issue-13-session.jsonl`                    | `deepseekv4-pro-0813-issue-13`                  | `01a03e11-d982-78f1-96e8-5c1cd7ae398b` | 2026-08-26 12:35 |                                                     |
-| `qwen3.6-35b-a3b-issue-13-session-1.jsonl`                      | `qwen3.6-35b-a3b-issue-13`                      | `01a03adb-4cb2-7ac5-bb46-3f0583578759` | 2026-08-25 21:37 | false start, 7 minutes, not scored                  |
-| `qwen3.6-35b-a3b-issue-13-session-2.jsonl`                      | `qwen3.6-35b-a3b-issue-13`                      | `01a03ae2-3d8a-7243-8db1-88c0153ea4a9` | 2026-08-25 21:45 | the scored run                                      |
-| `gemma-4-26b-a4b-issue-13-session.jsonl`                        | `gemma-4-26b-a4b-issue-13`                      | `01a03ba6-9652-70f9-abb8-40682e380f83` | 2026-08-26 01:19 | **the scored run is lines 1-236 only**, see below   |
-| `gpt-5.6-sol-issue-13-session.jsonl`                            | `gpt-5.6-sol-issue-13`                          | `01a04a22-be47-77ec-b1e2-a24617284fae` | 2026-08-28 20:49 |                                                     |
-| `prism-ml-Ternary-Bonsai-27B-mlx-2bit-issue-13-session-1.jsonl` | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-issue-13` | `01a053b4-6a8e-75b8-84b8-d6bfbdd822a8` | 2026-08-30 17:25 | first attempt, killed by the tool-call parser crash |
-| `prism-ml-Ternary-Bonsai-27B-mlx-2bit-issue-13-session-2.jsonl` | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-issue-13` | `01a053df-17c8-7ae5-ba76-a0df6aeae5ec` | 2026-08-30 18:12 | the scored attempt                                  |
-| `mlx-community-Qwen3.8-27B-4bit-issue-13-session-1.jsonl`       | `mlx-community-Qwen3.8-27B-4bit-issue-13`       | `01a05449-0773-7869-a96c-4b584c8ef96d` | 2026-08-30 20:07 | before the mid-run restart                          |
-| `mlx-community-Qwen3.8-27B-4bit-issue-13-session-2.jsonl`       | `mlx-community-Qwen3.8-27B-4bit-issue-13`       | `01a054bd-a5c3-7526-9b0a-3e5af3b2ce56` | 2026-08-30 22:15 | after the mid-run restart                           |
+| File                                                            | Branch                                          | Session UUID                           | Start (UTC)      | Note                                                               |
+| --------------------------------------------------------------- | ----------------------------------------------- | -------------------------------------- | ---------------- | ------------------------------------------------------------------ |
+| `grok-4.6-issue-13-session.jsonl`                               | `grok-4.6-issue-13`                             | `01a03e60-9980-7d31-8eee-b7bce05dd89c` | 2026-08-26 14:01 |                                                                    |
+| `luna-5.6-max-issue-13-session.jsonl`                           | `luna-5.6-max-issue-13`                         | `01a03ec2-6c9c-7ecf-ac07-6352ad578749` | 2026-08-26 15:48 |                                                                    |
+| `kimi-k3-issue-13-session.jsonl`                                | `kimi-k3-issue-13`                              | `01a03fd2-e021-76e4-97f5-21b4cc9aad34` | 2026-08-26 20:46 |                                                                    |
+| `deepseekv4-pro-0813-issue-13-session.jsonl`                    | `deepseekv4-pro-0813-issue-13`                  | `01a03e11-d982-78f1-96e8-5c1cd7ae398b` | 2026-08-26 12:35 |                                                                    |
+| `qwen3.6-35b-a3b-issue-13-session-1.jsonl`                      | `qwen3.6-35b-a3b-issue-13`                      | `01a03adb-4cb2-7ac5-bb46-3f0583578759` | 2026-08-25 21:37 | false start, 7 minutes, not scored                                 |
+| `qwen3.6-35b-a3b-issue-13-session-2.jsonl`                      | `qwen3.6-35b-a3b-issue-13`                      | `01a03ae2-3d8a-7243-8db1-88c0153ea4a9` | 2026-08-25 21:45 | the scored run                                                     |
+| `gemma-4-26b-a4b-issue-13-session.jsonl`                        | `gemma-4-26b-a4b-issue-13`                      | `01a03ba6-9652-70f9-abb8-40682e380f83` | 2026-08-26 01:19 | **the scored run is lines 1-236 only**, see below                  |
+| `gpt-5.6-sol-issue-13-session.jsonl`                            | `gpt-5.6-sol-issue-13`                          | `01a04a22-be47-77ec-b1e2-a24617284fae` | 2026-08-28 20:49 |                                                                    |
+| `prism-ml-Ternary-Bonsai-27B-mlx-2bit-issue-13-session-1.jsonl` | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-issue-13` | `01a053b4-6a8e-75b8-84b8-d6bfbdd822a8` | 2026-08-30 17:25 | first attempt, killed by the tool-call parser crash                |
+| `prism-ml-Ternary-Bonsai-27B-mlx-2bit-issue-13-session-2.jsonl` | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-issue-13` | `01a053df-17c8-7ae5-ba76-a0df6aeae5ec` | 2026-08-30 18:12 | the scored attempt                                                 |
+| `mlx-community-Qwen3.8-27B-4bit-issue-13-session-1.jsonl`       | `mlx-community-Qwen3.8-27B-4bit-issue-13`       | `01a05449-0773-7869-a96c-4b584c8ef96d` | 2026-08-30 20:07 | before the mid-run restart                                         |
+| `mlx-community-Qwen3.8-27B-4bit-issue-13-session-2.jsonl`       | `mlx-community-Qwen3.8-27B-4bit-issue-13`       | `01a054bd-a5c3-7526-9b0a-3e5af3b2ce56` | 2026-08-30 22:15 | after the mid-run restart                                          |
+| `mlx-community-Qwen3.8-27B-4bit-low-issue-13-session.jsonl`     | `mlx-community-Qwen3.8-27B-4bit-low-issue-13`   | `01a05f81-f474-7b76-8647-33c364b53413` | 2026-09-02 00:25 | partial, tooling_budget_exhausted at 88% of the 26624-token window |
 
 ## Guided runs
 
