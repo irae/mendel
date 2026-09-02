@@ -2,7 +2,7 @@ const Mocha = require('mocha');
 const MendelClient = require('mendel-pipeline/client');
 const { execWithRegistry, exec } = require('mendel-exec');
 const fs = require('fs');
-const { globSync } = require('glob');
+const { globSync } = require('node:fs');
 const errorMapper = require('mendel-exec/source-mapper');
 
 const DEFAULT_OPTIONS = {
