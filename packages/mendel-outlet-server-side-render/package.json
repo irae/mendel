@@ -16,7 +16,7 @@
     "mendel-outlet-manifest": "workspace:^"
   },
   "devDependencies": {
-    "tap": "^21.0.0"
+    "tap": "^21.7.5"
   },
   "homepage": "https://github.com/irae/mendel#readme",
   "bugs": {
