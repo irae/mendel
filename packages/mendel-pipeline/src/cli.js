@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint max-len: "off" */
 const { Command } = require('commander');
-const { default: chalk } = require('chalk');
+const util = require('util');
 
 const program = new Command();
 
@@ -52,7 +52,7 @@ if (opts.watch) {
     const AnalyticsCliPrinter = require('./helpers/analytics/cli-printer');
     const collector = require('./helpers/analytics/analytics-collector');
     collector.setOptions({
-        printer: new AnalyticsCliPrinter({ enableColor: true }),
+        printer: new AnalyticsCliPrinter(),
     });
 
     process.on('exit', (code) => {
@@ -71,7 +71,7 @@ if (opts.watch) {
         console.error(
             [
                 `Force closing due to a critical error:\n`,
-                chalk.red(error.stack),
+                util.styleText('red', error.stack),
             ].join(' ')
         );
         daemon.onForceExit();
