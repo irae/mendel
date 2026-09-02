@@ -13,8 +13,7 @@
     "@babel/core": "^7.29.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "debug": "^4.4.0",
-    "mendel-manifest-uglify": "workspace:^",
-    "shasum": "^1.0.2"
+    "mendel-manifest-uglify": "workspace:^"
   },
   "devDependencies": {
     "tap": "^21.7.5"
@@ -36,6 +35,7 @@
     "RELEASE_NOTES.md"
   ],
   "scripts": {
+    "test": "../../node_modules/.bin/tap test/*.js --allow-incomplete-coverage",
     "prepack": "node ../../scripts/prepack.js"
   }
 }
