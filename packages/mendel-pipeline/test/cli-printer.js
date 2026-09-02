@@ -16,7 +16,7 @@ function captureConsoleLog(fn) {
 tap.test(
     'renders bar/separator glyphs instead of undefined interop artifacts',
     (t) => {
-        const printer = new CliPrinter({ enableColor: false });
+        const printer = new CliPrinter();
         const data = [
             { name: '1:groupA:sub', before: 0, after: 300 },
             { name: '1:groupB:sub', before: 0, after: 700 },
@@ -36,7 +36,7 @@ tap.test(
 );
 
 tap.test('renders a report when every measurement took zero time', (t) => {
-    const printer = new CliPrinter({ enableColor: false });
+    const printer = new CliPrinter();
     const data = [
         { name: '1:groupA:sub', before: 5, after: 5 },
         { name: '1:groupB:sub', before: 7, after: 7 },
@@ -93,7 +93,7 @@ tap.test('a failing printer cannot fail the process on exit', (t) => {
 });
 
 tap.test('handles narrow terminal widths without throwing RangeError', (t) => {
-    const printer = new CliPrinter({ enableColor: false });
+    const printer = new CliPrinter();
     const data = [
         { name: '1:groupA:sub', before: 0, after: 300 },
         { name: '1:groupB:sub', before: 0, after: 700 },
