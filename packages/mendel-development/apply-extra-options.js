@@ -3,7 +3,7 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var { glob } = require('glob');
+var fsPromises = require('fs').promises;
 
 module.exports = applyExtraOptions;
 
@@ -16,7 +16,8 @@ function applyExtraOptions(b, options) {
         .filter(Boolean)
         .forEach(function (i) {
             b._pending++;
-            glob(i)
+            fsPromises
+                .glob(i)
                 .then(function (files) {
                     if (files.length === 0) {
                         b.ignore(i);
@@ -39,7 +40,8 @@ function applyExtraOptions(b, options) {
             b.exclude(u);
 
             b._pending++;
-            glob(u)
+            fsPromises
+                .glob(u)
                 .then(function (files) {
                     files.forEach(function (file) {
                         b.exclude(file);
@@ -61,7 +63,8 @@ function applyExtraOptions(b, options) {
             } else if (/\*/.test(x)) {
                 b.external(x);
                 b._pending++;
-                glob(x)
+                fsPromises
+                    .glob(x)
                     .then(function (files) {
                         files.forEach(function (file) {
                             add(file, {});
