@@ -1,4 +1,4 @@
-const { default: chalk } = require('chalk');
+const util = require('node:util');
 const MendelPipelineDaemon = require('./daemon');
 const MendelClient = require('./client/build-all');
 
@@ -28,7 +28,8 @@ class Mendel {
             if (error) {
                 if (error instanceof ReferenceError) {
                     console.warn(
-                        chalk.yellow(
+                        util.styleText(
+                            ['yellow'],
                             [
                                 '[Mendel] Instance of builder may be running.',
                                 'Attemping to recycle...',
