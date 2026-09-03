@@ -36,6 +36,7 @@ below matches its row on `assistant_msgs` and `tool_calls` exactly.
 | `qwen3.6-35b-a3b-high-issue-13-session.jsonl`                     | `qwen3.6-35b-a3b-high-issue-13`                     | `01a06462-b2b1-71c8-8ab4-761271e5e838` | 2026-09-02 23:09 | complete, 0 nudges; not present on the scoring machine at first score, added here      |
 | `google-gemma-4-12b-high-issue-13-session.jsonl`                  | `google-gemma-4-12b-high-issue-13`                  | `01a06531-e3c1-73ef-abc0-33ff458bd8ec` | 2026-09-03 02:56 | partial, model_budget_exhausted; 0 commits, generation collapse after a failed edit, scored 30.5/100 |
 | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-low-issue-13-session.jsonl` | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-low-issue-13` | `01a060e2-b8f4-794b-bb1e-a57dceb8251b` | 2026-09-02 06:51 | partial, wall_clock (300 min); 3/8 libraries, self-inflicted JSON syntax break mid-run |
+| `bonsai-prism-high-issue-13-session.jsonl`                        | `bonsai-prism-high-issue-13`                        | `01a065f2-55dd-7217-a256-c5ad63afae40` | 2026-09-03 06:26 | complete, 0 nudges; model typoed the repo, never found issue 13, self-scoped to chalk only (1/8), scored 60.5/100 |
 
 ## Guided runs
 
