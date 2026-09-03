@@ -6,7 +6,7 @@ var fs = require('fs');
 var path = require('path');
 var temp = require('temp');
 var test = require('tap').test;
-var rimraf = require('rimraf');
+
 var browserify = require('browserify');
 var requirify = require('../');
 var treenherit = require('../../../packages/mendel-treenherit');
@@ -82,8 +82,11 @@ test('mendel-requirify-defaults', function (t) {
     var outFile = path.join(outDir, entry);
 
     run(t, null, outFile, function (t) {
-        rimraf(outDir, function () {
-            t.end();
-        });
+        try {
+            fs.rmSync(outDir, { recursive: true, force: true });
+        } catch (e) {
+            /* ignore */
+        }
+        t.end();
     });
 });
