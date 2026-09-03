@@ -5,14 +5,14 @@
 var tap = require('tap');
 var fs = require('fs');
 var path = require('path');
-var tmp = require('tmp');
+var os = require('os');
 
 // Since this file re-writes stuff, lets work on a copy
 var realSamples = path.join(
     __dirname,
     '../../mendel-development/test/manifest-samples'
 );
-var copySamples = tmp.dirSync().name;
+var copySamples = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-uglify-'));
 
 var postProcessManifests = require('../../mendel-development/post-process-manifest');
 var uglify = require('../manifest-uglify');
@@ -52,6 +52,13 @@ tap.test('mendel-manifest-uglify compress', function (t) {
             t.ok(compressedSize / realSize < 0.8, 'compressed file');
         }
     );
+    t.teardown(() => {
+        try {
+            fs.rmSync(copySamples, { recursive: true, force: true });
+        } catch (e) {
+            /* ignore */
+        }
+    });
 });
 
 tap.test('mendel-manifest-uglify skips based on bundle id', function (t) {
@@ -94,6 +101,13 @@ tap.test('mendel-manifest-uglify skips based on bundle id', function (t) {
             t.equal(compressedSize, realSize, 'dont compressed skipped');
         }
     );
+    t.teardown(() => {
+        try {
+            fs.rmSync(copySamples, { recursive: true, force: true });
+        } catch (e) {
+            /* ignore */
+        }
+    });
 });
 
 tap.test('mendel-manifest-uglify compress with options', function (t) {
@@ -137,6 +151,13 @@ tap.test('mendel-manifest-uglify compress with options', function (t) {
             );
         }
     );
+    t.teardown(() => {
+        try {
+            fs.rmSync(copySamples, { recursive: true, force: true });
+        } catch (e) {
+            /* ignore */
+        }
+    });
 });
 
 function copyRecursiveSync(src, dest) {
