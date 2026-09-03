@@ -1,7 +1,7 @@
 const test = require('tap').test;
 const deps = require('../');
 const { readFileSync } = require('fs');
-const { globSync } = require('glob');
+const { globSync } = require('node:fs');
 const path = require('path');
 const Resolver = require('../../mendel-resolver');
 
