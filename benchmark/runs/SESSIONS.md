@@ -34,6 +34,7 @@ below matches its row on `assistant_msgs` and `tool_calls` exactly.
 | `mlx-community-Qwen3.8-27B-4bit-issue-13-session-2.jsonl`         | `mlx-community-Qwen3.8-27B-4bit-issue-13`           | `01a054bd-a5c3-7526-9b0a-3e5af3b2ce56` | 2026-08-30 22:15 | after the mid-run restart                                                              |
 | `mlx-community-Qwen3.8-27B-4bit-low-issue-13-session.jsonl`       | `mlx-community-Qwen3.8-27B-4bit-low-issue-13`       | `01a05f81-f474-7b76-8647-33c364b53413` | 2026-09-02 00:25 | partial, tooling_budget_exhausted at 88% of the 26624-token window                     |
 | `qwen3.6-35b-a3b-high-issue-13-session.jsonl`                     | `qwen3.6-35b-a3b-high-issue-13`                     | `01a06462-b2b1-71c8-8ab4-761271e5e838` | 2026-09-02 23:09 | complete, 0 nudges; not present on the scoring machine at first score, added here      |
+| `google-gemma-4-12b-high-issue-13-session.jsonl`                  | `google-gemma-4-12b-high-issue-13`                  | `01a06531-e3c1-73ef-abc0-33ff458bd8ec` | 2026-09-03 02:56 | partial, model_budget_exhausted; 0 commits, generation collapse after a failed edit, scored 30.5/100 |
 | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-low-issue-13-session.jsonl` | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-low-issue-13` | `01a060e2-b8f4-794b-bb1e-a57dceb8251b` | 2026-09-02 06:51 | partial, wall_clock (300 min); 3/8 libraries, self-inflicted JSON syntax break mid-run |
 
 ## Guided runs
