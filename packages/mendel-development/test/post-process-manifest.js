@@ -14,9 +14,6 @@ var copySamples = fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-'));
 var postProcessManifests = require('../post-process-manifest');
 
 test('postProcessManifests loads manifests', function (t) {
-    t.teardown(function () {
-        fs.rmSync(copySamples, { recursive: true, force: true });
-    });
     copyRecursiveSync(realSamples, copySamples);
     t.plan(1);
 
@@ -35,9 +32,6 @@ test('postProcessManifests loads manifests', function (t) {
 });
 
 test('postProcessManifests sorts and cleans manifests', function (t) {
-    t.teardown(function () {
-        fs.rmSync(copySamples, { recursive: true, force: true });
-    });
     copyRecursiveSync(realSamples, copySamples);
     t.plan(4);
 
@@ -73,9 +67,6 @@ test('postProcessManifests sorts and cleans manifests', function (t) {
 });
 
 test('postProcessManifests validates manifests', function (t) {
-    t.teardown(function () {
-        fs.rmSync(copySamples, { recursive: true, force: true });
-    });
     copyRecursiveSync(realSamples, copySamples);
     t.plan(3);
 
@@ -124,9 +115,6 @@ test('postProcessManifests validates manifests', function (t) {
 });
 
 test('postProcessManifests applying post-processors', function (t) {
-    t.teardown(function () {
-        fs.rmSync(copySamples, { recursive: true, force: true });
-    });
     copyRecursiveSync(realSamples, copySamples);
     t.plan(4);
 
