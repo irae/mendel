@@ -136,10 +136,13 @@ class CliPrinter extends BasePrinter {
     print(data) {
         console.log(
             styleText(
-                'bgWhite black',
-                padRight(
-                    ' Sorted by grouping (aggregate of all thread)',
-                    process.stdout.columns || 80
+                'black',
+                styleText(
+                    'bgWhite',
+                    padRight(
+                        ' Sorted by grouping (aggregate of all thread)',
+                        process.stdout.columns || 80
+                    )
                 )
             )
         );
@@ -147,16 +150,25 @@ class CliPrinter extends BasePrinter {
 
         console.log(
             styleText(
-                'bgWhite black',
-                padRight(' Sorted by subgroup', process.stdout.columns || 80)
+                'black',
+                styleText(
+                    'bgWhite',
+                    padRight(
+                        ' Sorted by subgroup',
+                        process.stdout.columns || 80
+                    )
+                )
             )
         );
         this._print(data, [1, 2]);
 
         console.log(
             styleText(
-                'bgWhite black',
-                padRight(' Sorted by pid', process.stdout.columns || 80)
+                'black',
+                styleText(
+                    'bgWhite',
+                    padRight(' Sorted by pid', process.stdout.columns || 80)
+                )
             )
         );
         this._print(data, [0]);
