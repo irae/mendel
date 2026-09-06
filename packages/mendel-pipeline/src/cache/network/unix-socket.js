@@ -2,7 +2,7 @@ const BaseNetwork = require('./base-network');
 const net = require('net');
 const fs = require('fs');
 const { resolve } = require('path');
-const { default: chalk } = require('chalk');
+const { chalk } = require('../../ansi-colors');
 const verbose = require('debug')('verbose:mendel:net:unix-socket');
 
 function patchSocket(socket) {

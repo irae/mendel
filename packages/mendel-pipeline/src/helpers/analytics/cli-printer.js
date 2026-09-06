@@ -1,5 +1,5 @@
 const BasePrinter = require('./printer');
-const { default: chalk } = require('chalk');
+const { chalk } = require('../../ansi-colors');
 const { default: prettyMs } = require('pretty-ms');
 const { default: figure } = require('figures');
 

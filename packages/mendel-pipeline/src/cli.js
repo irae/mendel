@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint max-len: "off" */
 const { Command } = require('commander');
-const { default: chalk } = require('chalk');
+const { chalk } = require('./ansi-colors');
 
 const program = new Command();
 

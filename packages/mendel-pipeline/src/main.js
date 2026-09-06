@@ -1,4 +1,4 @@
-const { default: chalk } = require('chalk');
+const { chalk } = require('./ansi-colors');
 const MendelPipelineDaemon = require('./daemon');
 const MendelClient = require('./client/build-all');
 
