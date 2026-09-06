@@ -53,6 +53,7 @@ below matches its row on `assistant_msgs` and `tool_calls` exactly.
 | `google-gemma-4-12b-low-guided-v3-issue-13-session.jsonl`              | `google-gemma-4-12b-low-guided-v3-issue-13`             | `01a0658c-66ec-75ce-aacb-beaf26597238` | 2026-09-03 04:34 | prompt v3.0; partial, model_budget_exhausted; 0 commits, correct plan in reasoning but no edits landed, scored 29.5/100 |
 | `qwen3.6-35b-a3b-high-guided-v3-issue-13-session.jsonl`                | `qwen3.6-35b-a3b-high-guided-v3-issue-13`               | `01a064cb-3e3f-7329-ac5d-d93da8c62cdd` | 2026-09-03 01:03 | prompt v3.0; complete, 0 nudges, scored 83/100                                                     |
 | `gemma-4-12b-off-guided-v3-issue-13-session.jsonl`                     | `gemma-4-12b-off-guided-v3-issue-13`                    | `01a071dc-3dc7-7b9c-a3a2-408926685499` | 2026-09-05 13:57 | prompt v3.0; llama-server, f16 KV, no MTP, thinking off; partial, model_budget_exhausted, 3 nudges, 3/8 done, scored 58/37.5 capped |
+| `prism-ml-Ternary-Bonsai-27B-mlx-2bit-off-guided-v3-issue-13-session.jsonl` | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-off-guided-v3-issue-13` | `01a0755a-5dec-75a5-a96d-69cb7544f04e` | 2026-09-06 06:14 | prompt v3.0; mlx_lm.server, --prompt-cache-size 2, thinking off; invalid: host gh token invalid (HTTP 401), model looped on interactive gh auth login, 10 tooling nudges, tooling_budget_exhausted, zero commits, raw 27/100 |
 
 ## The gemma-4-26b-a4b cutoff
 
