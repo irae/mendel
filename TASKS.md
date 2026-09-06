@@ -20,6 +20,6 @@
     - [x] `mendel-development`
     - [ ] `mendel-manifest-extract-bundles` (test)
     - [ ] `mendel-manifest-uglify` (test)
-- [ ] `shasum`
+- [x] `shasum`
     - [x] `mendel-development`
-    - [ ] `mendel-outlet-manifest`
+    - [x] `mendel-outlet-manifest`
