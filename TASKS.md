@@ -16,10 +16,10 @@
     - [x] `mendel-deps` (test)
 - [x] `chalk`
     - [x] `mendel-pipeline`
-- [ ] `tmp`
+- [x] `tmp`
     - [x] `mendel-development`
-    - [ ] `mendel-manifest-extract-bundles` (test)
-    - [ ] `mendel-manifest-uglify` (test)
+    - [x] `mendel-manifest-extract-bundles` (test)
+    - [x] `mendel-manifest-uglify` (test)
 - [x] `shasum`
     - [x] `mendel-development`
     - [x] `mendel-outlet-manifest`
