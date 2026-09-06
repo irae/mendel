@@ -24,5 +24,5 @@
   - [x] packages/mendel-deps/test/edge-case1.js
   - [x] packages/mendel-deps/test/css.js
 - [x] chalk
-- [ ] tmp
-- [ ] shasum
+- [x] tmp
+- [x] shasum
