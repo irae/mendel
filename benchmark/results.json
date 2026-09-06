@@ -3219,6 +3219,156 @@
       "invalid": true,
       "invalid_reason": "live loop stop: repetition_loop on 5 identical edit tool calls, 18:42:46Z to 18:50:15Z; 1 of 8 libraries landed",
       "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call) on packages/mendel-pipeline/src/helpers/analytics/cli-printer.js (same getBarText oldText), 5 identical calls, first at 18:42:46Z, final at 18:50:15Z (meta.json); a sixth near-identical attempt preceded them at 18:41:03Z; run cut at 120 tool calls with chalk/tmp/shasum untouched.; critical: trap A failed on the working tree, apply-extra-options.js:6 'var { glob } = require(\"node:fs/promises\")' with the .then() chain left in place; repro prints THREW TypeError glob(...).then is not a function; the mendel-development test run passed vacuously, no test covers the file.; medium: ef4c566 removes glob from mendel-development's package.json only; the apply-extra-options.js edit was never staged, so the branch tip still requires glob with the dependency undeclared.; medium: d7f3b03 removes rimraf from mendel-transform-less and mendel-pipeline package.json, but test/outlet-css.js:3 and test/helpers/index.js:3 still require('rimraf') at tip; the fs.rmSync rewrites stayed uncommitted.; medium: commits 33bee3b, 68fa338, fef93eb, bec1dbf git add package.json files never actually edited; xtend and urlsafe-base64 (mendel-core), xtend (mendel-config), glob (mendel-deps) remain declared.; medium: uncommitted chalk port ignores enableColor, calls styleText unconditionally with no validateStream:false; unused color helper at cli-printer.js:131; prettier fails on the file; chalk.blue.dim replaced with plain blue.; minor: mocha-runner/index.js:5 const { globSync } = require('node:fs') left unused after switching to fs.globSync, uncommitted.; minor: 33bee3b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a new object.; process: node: prefix trap hit 3 times (turn 41, 213, and again uncommitted); commitlint reject at turn 45; 0 full-suite runs across 7 commits; mendel-requirify never found; root rimraf/tmp still declared."
+    },
+    {
+      "model": "gemma-4-12b",
+      "model_id": "gemma-4-12b",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "gemma-4-12b-off-issue-13",
+      "base_commit": "2652ed6",
+      "partial": true,
+      "prompt_version": "v1.1",
+      "config_note": "llama-server b10621, gemma-4-12b-it-UD-Q4_K_XL.gguf, f16 KV, n_ctx 262144, speculative.types none (no MTP drafter), maxTokens 8192, thinking off",
+      "score_raw": 2,
+      "score_total": 0,
+      "scores": {
+        "bugs": 0,
+        "completion": 0,
+        "node_modules": 0,
+        "lint": 0,
+        "commit_craft": 0,
+        "first_time": 0,
+        "test_discipline": 0,
+        "conventions": 1,
+        "task_list": 1,
+        "truncation": 0
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "zero commits, 92 tool calls, 37 bash, 0 git add/git commit, 0 test runs, 0 lint runs; ended on model_budget_exhausted after 3 nudges."
+        },
+        {
+          "severity": "critical",
+          "summary": "tool-schema loop consumed the budget, 24 of 28 edit calls failed validation with the same shape error (edits: [{...}, 1, 25], line numbers sent as array elements, 'edits.1: must be object'); model never adapted, alternated between retrying the broken shape and full-file write/heredoc."
+        },
+        {
+          "severity": "critical",
+          "summary": "(uncommitted) uuid swap is broken, var { v4: uuidv4 } = () => crypto.randomUUID(); leaves uuidv4 undefined."
+        },
+        {
+          "severity": "critical",
+          "summary": "(uncommitted) heredoc overwrote packages/mendel-pipeline/test/helpers/index.js with the mendel-transform-less/test/outlet-css.js body (173-line diff), then declared rimraf done."
+        },
+        {
+          "severity": "critical",
+          "summary": "root devDependencies rimraf/tmp never removed."
+        },
+        {
+          "severity": "medium",
+          "summary": "six pnpm remove calls edited package.json and the lockfile in the worktree with no matching source edits for mendel-deps, mendel-mocha-runner, mendel-config."
+        },
+        {
+          "severity": "medium",
+          "summary": "trap A untouched, both apply-extra-options.js edits failed; the evidence pack's SYNC OK is vacuous."
+        },
+        {
+          "severity": "medium",
+          "summary": "outlet-css.js rewritten 3 times with identical content, grep -r rimraf run 5 times."
+        },
+        {
+          "severity": "minor",
+          "summary": "stripped the copyright header from post-process-manifest.js."
+        },
+        {
+          "severity": "minor",
+          "summary": "mixed node:crypto and bare crypto prefixes."
+        },
+        {
+          "severity": "minor",
+          "summary": "TASKS.md written as a full per-file tree upfront, ticked by rewrite, stale after xtend (urlsafe-base64 and rimraf claimed done in chat, never ticked)."
+        },
+        {
+          "severity": "minor",
+          "summary": "0 of 9 noisy commands truncated, grep -r swept node_modules; each segment ended in a prose 'Next steps' summary instead of a commit; 80 min wall, peak context 178629 of 262144 (not context-bound)."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 80.3,
+        "tokens_total": 9993529,
+        "tokens_in": 168386,
+        "tokens_out": 41678,
+        "cache_read": 9783465,
+        "peak_context": 178629,
+        "window_pct": 68.14,
+        "compactions": 0,
+        "assistant_msgs": 96,
+        "tool_calls": 92,
+        "tool_errors": 30,
+        "commits": 0,
+        "failed_commits": 0,
+        "truncation_pct": 0,
+        "nudges_tooling": 0,
+        "nudges_model": 3,
+        "loop_flag": "ok",
+        "loop_ratio": 0.33,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "thinking": "off",
+      "end_reason": "model_budget_exhausted",
+      "libraries_done": 0,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">nothing landed; the uncommitted uuid swap never binds uuidv4</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">never ran a test; a heredoc overwrote mendel-pipeline/test/helpers/index.js with another package's test</span></td>",
+        "<td><span class=\"pill p-mid\">SYNC OK at tip, but tip = base 2652ed6, so the check is vacuous</span></td>",
+        "<td><span class=\"pill p-bad\">0 / 8 done, branch tip equals the base commit</span></td>",
+        "<td><span class=\"pill p-bad\">28 stale requires, all still the base's own</span></td>",
+        "<td><span class=\"pill p-bad\">18 entries left, root rimraf + tmp still declared</span></td>",
+        "<td><span class=\"pill p-bad\">never found</span></td>",
+        "<td><b>0</b></td>",
+        "<td><span class=\"pill p-bad\">no install, no prune</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">no change</span></td>",
+        "<td><span class=\"pill p-bad\">prettier 2 files, eslint 7 errors; ran neither tool in the session</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">mixed node:crypto and bare crypto in the uncommitted edit</span></td>",
+        "<td><span class=\"pill p-bad\">0 commits</span></td>",
+        "<td><span class=\"pill p-bad\">0 commits</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf + tmp still declared at root</span></td>",
+        "<td><span class=\"pill p-bad\">never reached a hook, 0 git commit calls</span></td>",
+        "<td><span class=\"pill p-good\">kept out (gitignored)</span></td>",
+        "<td><b>0</b></td>",
+        "<td><span class=\"pill p-bad\">24 of 28 edit calls rejected on the same schema error, never adapted</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">0 test runs of any kind</span></td>",
+        "<td><span class=\"pill p-bad\">0 full-suite runs, 0 commits</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">full per-file tree written upfront, ticked by rewrite, stale after xtend</span> <b>1</b></td>",
+        "<td><span class=\"pill p-bad\">0 of 9 noisy commands piped; grep -r swept node_modules</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">minimal swaps attempted, but header stripped and node: prefixes mixed</span> <b>1</b></td>",
+        "<td><span class=\"pill p-bad\">10.0 M</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">0</span></td>",
+        "<td><span class=\"pill p-good\">32 %</span></td>",
+        "<td><span class=\"pill p-bad\">92, 30 errors, budget spent on the edit-schema loop</span></td>"
+      ],
+      "invalid": true,
+      "invalid_reason": "zero commits: budget spent on a repeated edit-tool schema error (24 of 28 calls), model_budget_exhausted after 3 nudges",
+      "notes": "critical: zero commits, 92 tool calls, 37 bash, 0 git add/git commit, 0 test runs, 0 lint runs; ended on model_budget_exhausted after 3 nudges.; critical: tool-schema loop consumed the budget, 24 of 28 edit calls failed validation with the same shape error (edits: [{...}, 1, 25], line numbers sent as array elements, 'edits.1: must be object'); model never adapted, alternated between retrying the broken shape and full-file write/heredoc.; critical (uncommitted): uuid swap is broken, var { v4: uuidv4 } = () => crypto.randomUUID(); leaves uuidv4 undefined.; critical (uncommitted): heredoc overwrote packages/mendel-pipeline/test/helpers/index.js with the mendel-transform-less/test/outlet-css.js body (173-line diff), then declared rimraf done.; critical: root devDependencies rimraf/tmp never removed.; medium: six pnpm remove calls edited package.json and the lockfile in the worktree with no matching source edits for mendel-deps, mendel-mocha-runner, mendel-config.; medium: trap A untouched, both apply-extra-options.js edits failed; the evidence pack's SYNC OK is vacuous.; medium: outlet-css.js rewritten 3 times with identical content, grep -r rimraf run 5 times.; minor: stripped the copyright header from post-process-manifest.js.; minor: mixed node:crypto and bare crypto prefixes.; minor: TASKS.md written as a full per-file tree upfront, ticked by rewrite, stale after xtend (urlsafe-base64 and rimraf claimed done in chat, never ticked).; minor: 0 of 9 noisy commands truncated, grep -r swept node_modules; each segment ended in a prose 'Next steps' summary instead of a commit; 80 min wall, peak context 178629 of 262144 (not context-bound)."
     }
   ],
   "matrix_rows": [
