@@ -4,7 +4,6 @@
    See the accompanying LICENSE file for terms. */
 
 var Dissolve = require('dissolve');
-var URLSafeBase64 = require('urlsafe-base64');
 
 module.exports = deserialize;
 function deserialize(treeHash) {
@@ -48,7 +47,7 @@ function deserialize(treeHash) {
         });
 
     try {
-        var binary = URLSafeBase64.decode(treeHash);
+        var binary = Buffer.from(treeHash, 'base64url');
         parser.write(binary);
     } catch (e) {
         result.error = error('bad base64 input');
