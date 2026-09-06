@@ -1889,6 +1889,132 @@
       "invalid": true,
       "invalid_reason": "operator stop: non-terminating identical-command loop (one bash ls/cat of a missing .taprc, 85 times in a row); zero commits",
       "notes": "Operator-stopped after 186.9 min: non-terminating identical-command loop. The model sent the bash command `ls -la ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null; cat ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null` 85 times in a row (tool calls 21 to 105, from 17.9 min into the run until the kill) against a file that does not exist, both halves silenced, every result `(no output)` exit 1, zero variation. Zero commits, zero libraries, zero tracked-file edits; only TASKS.md (git-ignored) and an untracked examples/planout-example/test/app-test.js were written before the loop. The harness had no stop for this shape (each turn ended in a fresh tool call inside the stall and turn caps), so the run had no natural end. Record: runs/…-retry2-events.jsonl and runs/…-retry2-summary.md. Distinct from the earlier gh-401 invalid attempt (commit 238ae57)."
+    },
+    {
+      "model": "gemma-4-26b-a4b",
+      "model_id": "gemma-4-26b-a4b",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "gemma-4-26b-a4b-off-guided-v3-issue-13",
+      "base_commit": "86935f4",
+      "partial": true,
+      "prompt_version": "v3.0",
+      "config_note": "llama-server b10621, gemma-4-26B-A4B-it-UD-Q4_K_XL.gguf, n_ctx 212992, speculative.types none (no MTP drafter), maxTokens 8192, thinking off",
+      "score_raw": 44,
+      "score_total": 25,
+      "scores": {
+        "bugs": 4,
+        "completion": 4,
+        "node_modules": 8,
+        "lint": 3,
+        "commit_craft": 12,
+        "first_time": 3,
+        "test_discipline": 3,
+        "conventions": 4,
+        "task_list": 3,
+        "truncation": 0
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call), 5 identical calls, first at 18:12:06Z, final at 18:12:47Z (meta.json). run-worker.sh's own post-hoc loop check logged \"ok, worst ratio 0.22\" on the same session, computed before this live stop was read; treat the live stop as authoritative and this row as invalid."
+        },
+        {
+          "severity": "critical",
+          "summary": "root package.json still declares rimraf and tmp, never touched; 6 of 8 libraries not started, 23 stale requires across 12 packages, 15 stale package.json entries; legacy-packages/mendel-requirify rimraf reference never found."
+        },
+        {
+          "severity": "medium",
+          "summary": "uncommitted packages/mendel-core/tree-deserialiser.js:7 set to 'var URLSafeBase64 = Buffer;', so Buffer.decode is undefined and every hash returns 'Invalid hash: bad base64 input'; model then edited two test files to guard around it instead of fixing the source, then failed 12 edit calls before the loop stop."
+        },
+        {
+          "severity": "minor",
+          "summary": "fb8880b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a copy."
+        },
+        {
+          "severity": "minor",
+          "summary": "untracked examples/planout-example/test-uuid.js scratch file left behind."
+        },
+        {
+          "severity": "minor",
+          "summary": "only one pnpm run unit (aborted after a 10-minute stall); commits fb8880b and 4020e36 had no full-suite run."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 20.4,
+        "tokens_total": 2604745,
+        "tokens_in": 60978,
+        "tokens_out": 15903,
+        "cache_read": 2527864,
+        "peak_context": 72725,
+        "window_pct": 34.15,
+        "compactions": 0,
+        "assistant_msgs": 93,
+        "tool_calls": 91,
+        "tool_errors": 28,
+        "commits": 3,
+        "failed_commits": 0,
+        "truncation_pct": 4,
+        "nudges_tooling": 1,
+        "nudges_model": 0,
+        "loop_flag": "LOOP",
+        "loop_ratio": 0.22,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "thinking": "off",
+      "end_reason": "repetition_loop",
+      "libraries_done": 2,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">urlsafe-base64 swap left broken, tests guarded around it</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">not re-run; worktree left mid-edit</span></td>",
+        "<td><span class=\"pill p-mid\">vacuous pass, apply-extra-options.js untouched</span></td>",
+        "<td><span class=\"pill p-bad\">2 / 8 done</span></td>",
+        "<td><span class=\"pill p-bad\">23 stale requires in 12 packages</span></td>",
+        "<td><span class=\"pill p-bad\">15 entries left, root rimraf + tmp still declared</span></td>",
+        "<td><span class=\"pill p-bad\">never found</span></td>",
+        "<td><b>4</b></td>",
+        "<td><span class=\"pill p-good\">real pnpm install, store pruned</span> <b>8</b></td>",
+        "<td><span class=\"pill p-mid\">20 lines removed, 5 added</span></td>",
+        "<td><span class=\"pill p-mid\">clean on the branch, never ran either tool</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base)</span></td>",
+        "<td><span class=\"pill p-good\">all 3 chore</span></td>",
+        "<td><span class=\"pill p-good\">3 of 3, one package each</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf + tmp still declared at root</span></td>",
+        "<td><span class=\"pill p-good\">no failures, no bypass</span></td>",
+        "<td><span class=\"pill p-good\">kept out (gitignored)</span></td>",
+        "<td><b>12</b></td>",
+        "<td><span class=\"pill p-bad\">broken Buffer swap, 12 failed edit calls, then the loop stop</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">tap on mendel-core only, plus its own test-uuid.js scratch</span></td>",
+        "<td><span class=\"pill p-bad\">1 of 3 commits covered, and that run aborted on a 10-min stall</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">per-file sub-items, ticked late, 6 libraries never listed</span> <b>3</b></td>",
+        "<td><span class=\"pill p-bad\">1 of 23 noisy commands piped (4 %)</span> <b>0</b></td>",
+        "<td><span class=\"pill p-mid\">tidy swaps; stray test-uuid.js, Object.assign mutates in place</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">2.6 M</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">0</span></td>",
+        "<td><span class=\"pill p-good\">66 %</span></td>",
+        "<td><span class=\"pill p-bad\">91, 28 errors, ended in a 5x identical edit loop</span></td>"
+      ],
+      "invalid": true,
+      "invalid_reason": "live loop stop: repetition_loop on 5 identical edit tool calls, 18:12:06Z to 18:12:47Z; 2 of 8 libraries landed",
+      "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call), 5 identical calls, first at 18:12:06Z, final at 18:12:47Z (meta.json). run-worker.sh's own post-hoc loop check logged \"ok, worst ratio 0.22\" on the same session, computed before this live stop was read; treat the live stop as authoritative and this row as invalid.; critical: root package.json still declares rimraf and tmp, never touched; 6 of 8 libraries not started, 23 stale requires across 12 packages, 15 stale package.json entries; legacy-packages/mendel-requirify rimraf reference never found.; medium: uncommitted packages/mendel-core/tree-deserialiser.js:7 set to 'var URLSafeBase64 = Buffer;', so Buffer.decode is undefined and every hash returns 'Invalid hash: bad base64 input'; model then edited two test files to guard around it instead of fixing the source, then failed 12 edit calls before the loop stop.; minor: fb8880b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a copy.; minor: untracked examples/planout-example/test-uuid.js scratch file left behind.; minor: only one pnpm run unit (aborted after a 10-minute stall); commits fb8880b and 4020e36 had no full-suite run."
     }
   ],
   "matrix_rows": [
