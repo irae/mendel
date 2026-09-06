@@ -1,0 +1,25 @@
+# Tasks
+
+- [x] `uuid`
+    - [x] `examples/planout-example`
+- [x] `xtend`
+    - [x] `mendel-core`
+    - [x] `mendel-config`
+- [x] `urlsafe-base64`
+    - [x] `mendel-core`
+- [x] `rimraf`
+    - [x] `mendel-transform-less` (test)
+    - [x] `mendel-pipeline` (test)
+- [x] `glob`
+    - [x] `mendel-mocha-runner`
+    - [x] `mendel-development`
+    - [x] `mendel-deps` (test)
+- [x] `chalk`
+    - [x] `mendel-pipeline`
+- [ ] `tmp`
+    - [ ] `mendel-manifest-extract-bundles` (test)
+    - [ ] `mendel-development`
+    - [ ] `mendel-manifest-uglify` (test)
+- [ ] `shasum`
+    - [ ] `mendel-development`
+    - [ ] `mendel-outlet-manifest`
