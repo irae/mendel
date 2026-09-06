@@ -3081,6 +3081,144 @@
       "notes": [
         "Scored on Fable 2026-09-06 from scratchpad/benchmark/runs/qwen3.8-27b-medium-issue-13-evidence.json. GGUF Q4_K_M on llama-server with MTP n=3, f16 KV, 49152-token window, maxTokens 8192, reasoning effort medium. Start: gh issue view got HTTP 401 (host token invalid); the model checked gh auth status and fell back to an unauthenticated curl of the public API in the same turn (session lines 5-10), no harness fault, no nudge. Bugs: none. Trap A passes with SYNC OK: apply-extra-options.js moved to fs.globSync and kept the _pending/_ready handshake; the .catch → emit('error') branch is gone because the sync call throws instead. Trap B: rimraf in legacy-packages/mendel-requirify (two test files, package.json) found by its own grep at line 25 and fixed in e7c885e. Trap C: tmp.dirSync → fs.mkdtempSync, no exit hook. Chalk follows the v1.1 contract: chalk.level line removed, plain util.styleText, no enableColor; styleText emits no ANSI when piped. Static grep clean, root rimraf and tmp removed, lockfile −96 lines. node_modules: only pnpm install --lockfile-only (14×), never a real install or a hand check → 2. Lint: prettier and eslint clean on re-run (score.mjs only flags the untracked, git-excluded TASKS.md); the model ran both tools itself once on the uuid file (line 54) and then let the husky hook run on the other 9 commits → 3.5. The node: prefix trap rejected the chalk commit twice (lines 296-299, the second run was to read the error); the model grepped the repo style and switched to bare require('util') before the commit landed. Commit craft: 4 types (10/10 chore) + 2 split (6/10 single-package: rimraf remainder 3 pkgs, glob 3, tmp 4, shasum 2, grouped by library) + 3 hygiene (one --no-verify on the first commit, no add -A, TASKS.md never committed; it was staged by mistake near the end and unstaged at line 389). First time: no repair commits, node: trap once (−1), 0 model nudges → 7. Test discipline: narrow pnpm --filter runs before every commit with tests (planout-example has no test script; node --check + prettier + eslint instead); full pnpm run unit after commit 5 (line 136, 260/260, only mendel-full-example karma fails for the daemon, as on master) and after commit 10 (line 380); unit-legacy 7/11 confirmed identical on a stashed clean tree. Task list: written at line 10 from the issue text (libraries with the packages the issue names), refined at line 35 after the grep with file-level sub-items and the discovered mendel-requirify, ticked per library after its commit; after the last compaction it rewrote the file once to the final state (line 403) → 3. Truncation 75 % of noisy commands piped, mostly grep -E \"total:|not ok\" filters → 2.5. One tooling nudge: the second pnpm run unit (line 138, a grep over the full suite) produced no events for 10 min and the harness aborted the turn; not scored. Compactions: 4 real (the 08:21 \"No prior history\" split-turn marker is not counted). Peak context 45705 of 49152 (93 %). Tool errors 17: 7 edit oldText misses, 4 API probes in node -e, 6 grep/exit-1 checks. Human messages inside the scored region: only the one harness nudge. Per-package tap on the branch: core 71/72 (1 skip), config 41 (×3), deps 27, development 42, extract-bundles 4, uglify 3, cli-printer 15; outlet-manifest has no test dir; requirify 3/3 fail as on master."
       ]
+    },
+    {
+      "model": "gemma-4-26b-a4b",
+      "model_id": "gemma-4-26b-a4b",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "gemma-4-26b-a4b-off-issue-13",
+      "base_commit": "2652ed6",
+      "partial": true,
+      "prompt_version": "v1.1",
+      "config_note": "llama-server b10621, gemma-4-26B-A4B-it-UD-Q4_K_XL.gguf, f16 KV, n_ctx 212992, speculative.types none (no MTP drafter), maxTokens 8192, thinking off",
+      "score_raw": 21,
+      "score_total": 12.5,
+      "scores": {
+        "bugs": 0,
+        "completion": 3,
+        "node_modules": 0,
+        "lint": 0,
+        "commit_craft": 6,
+        "first_time": 3,
+        "test_discipline": 5,
+        "conventions": 2,
+        "task_list": 2,
+        "truncation": 0
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call) on packages/mendel-pipeline/src/helpers/analytics/cli-printer.js (same getBarText oldText), 5 identical calls, first at 18:42:46Z, final at 18:50:15Z (meta.json); a sixth near-identical attempt preceded them at 18:41:03Z; run cut at 120 tool calls with chalk/tmp/shasum untouched."
+        },
+        {
+          "severity": "critical",
+          "summary": "trap A failed on the working tree, apply-extra-options.js:6 'var { glob } = require(\"node:fs/promises\")' with the .then() chain left in place; repro prints THREW TypeError glob(...).then is not a function; the mendel-development test run passed vacuously, no test covers the file."
+        },
+        {
+          "severity": "medium",
+          "summary": "ef4c566 removes glob from mendel-development's package.json only; the apply-extra-options.js edit was never staged, so the branch tip still requires glob with the dependency undeclared."
+        },
+        {
+          "severity": "medium",
+          "summary": "d7f3b03 removes rimraf from mendel-transform-less and mendel-pipeline package.json, but test/outlet-css.js:3 and test/helpers/index.js:3 still require('rimraf') at tip; the fs.rmSync rewrites stayed uncommitted."
+        },
+        {
+          "severity": "medium",
+          "summary": "commits 33bee3b, 68fa338, fef93eb, bec1dbf git add package.json files never actually edited; xtend and urlsafe-base64 (mendel-core), xtend (mendel-config), glob (mendel-deps) remain declared."
+        },
+        {
+          "severity": "medium",
+          "summary": "uncommitted chalk port ignores enableColor, calls styleText unconditionally with no validateStream:false; unused color helper at cli-printer.js:131; prettier fails on the file; chalk.blue.dim replaced with plain blue."
+        },
+        {
+          "severity": "minor",
+          "summary": "mocha-runner/index.js:5 const { globSync } = require('node:fs') left unused after switching to fs.globSync, uncommitted."
+        },
+        {
+          "severity": "minor",
+          "summary": "33bee3b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a new object."
+        },
+        {
+          "severity": "minor",
+          "summary": "node: prefix trap hit 3 times (turn 41, 213, and again uncommitted); commitlint reject at turn 45; 0 full-suite runs across 7 commits; mendel-requirify never found; root rimraf/tmp still declared."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 28.0,
+        "tokens_total": 8053449,
+        "tokens_in": 114213,
+        "tokens_out": 29390,
+        "cache_read": 7909846,
+        "peak_context": 135797,
+        "window_pct": 63.76,
+        "compactions": 0,
+        "assistant_msgs": 121,
+        "tool_calls": 120,
+        "tool_errors": 21,
+        "commits": 7,
+        "failed_commits": 1,
+        "truncation_pct": 0,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "LOOP",
+        "loop_ratio": 0.38,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "thinking": "off",
+      "end_reason": "repetition_loop",
+      "libraries_done": 1,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">TypeError: fs.promises.glob(...).then left in the tree (trap A)</span> <b>0</b></td>",
+        "<td><span class=\"pill p-mid\">mendel-development tap passes vacuously; nothing covers apply-extra-options.js</span></td>",
+        "<td><span class=\"pill p-bad\">THREW: TypeError glob(...).then is not a function</span></td>",
+        "<td><span class=\"pill p-bad\">1 / 8 done (uuid only)</span></td>",
+        "<td><span class=\"pill p-bad\">18 stale requires at tip, incl. rimraf and glob it claimed to remove</span></td>",
+        "<td><span class=\"pill p-bad\">14 entries left, root rimraf + tmp still declared</span></td>",
+        "<td><span class=\"pill p-bad\">never found</span></td>",
+        "<td><b>3</b></td>",
+        "<td><span class=\"pill p-bad\">never ran pnpm install, lockfile unchanged</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">no change</span></td>",
+        "<td><span class=\"pill p-bad\">prettier fails on cli-printer.js, eslint 5 errors; ran neither tool</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">hit 3×, node: prefixes still in the tree at the stop</span></td>",
+        "<td><span class=\"pill p-bad\">0 / 7 chore, all fix:</span></td>",
+        "<td><span class=\"pill p-mid\">6 / 7 single-package; d7f3b03 covers 2</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf + tmp still declared at root</span></td>",
+        "<td><span class=\"pill p-mid\">1 commitlint reject, no bypass</span></td>",
+        "<td><span class=\"pill p-good\">kept out (gitignored)</span></td>",
+        "<td><b>6</b></td>",
+        "<td><span class=\"pill p-bad\">node: trap 3×, 1 commitlint reject, 4 commits staged package.json files it never edited</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">per-package tap before some commits; edits left uncommitted</span></td>",
+        "<td><span class=\"pill p-bad\">0 full-suite runs across 7 commits</span> <b>5</b></td>",
+        "<td><span class=\"pill p-mid\">list written, ticked ahead of the work; boxes flipped back and forth</span> <b>2</b></td>",
+        "<td><span class=\"pill p-bad\">0 of 17 noisy commands piped</span> <b>0</b></td>",
+        "<td><span class=\"pill p-mid\">minimal swaps, but node: prefix against house style, unused globSync and color left</span> <b>2</b></td>",
+        "<td><span class=\"pill p-mid\">8.1 M</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">0</span></td>",
+        "<td><span class=\"pill p-good\">36 %</span></td>",
+        "<td><span class=\"pill p-bad\">120, 21 errors, ended in a 5× identical edit loop</span></td>"
+      ],
+      "invalid": true,
+      "invalid_reason": "live loop stop: repetition_loop on 5 identical edit tool calls, 18:42:46Z to 18:50:15Z; 1 of 8 libraries landed",
+      "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call) on packages/mendel-pipeline/src/helpers/analytics/cli-printer.js (same getBarText oldText), 5 identical calls, first at 18:42:46Z, final at 18:50:15Z (meta.json); a sixth near-identical attempt preceded them at 18:41:03Z; run cut at 120 tool calls with chalk/tmp/shasum untouched.; critical: trap A failed on the working tree, apply-extra-options.js:6 'var { glob } = require(\"node:fs/promises\")' with the .then() chain left in place; repro prints THREW TypeError glob(...).then is not a function; the mendel-development test run passed vacuously, no test covers the file.; medium: ef4c566 removes glob from mendel-development's package.json only; the apply-extra-options.js edit was never staged, so the branch tip still requires glob with the dependency undeclared.; medium: d7f3b03 removes rimraf from mendel-transform-less and mendel-pipeline package.json, but test/outlet-css.js:3 and test/helpers/index.js:3 still require('rimraf') at tip; the fs.rmSync rewrites stayed uncommitted.; medium: commits 33bee3b, 68fa338, fef93eb, bec1dbf git add package.json files never actually edited; xtend and urlsafe-base64 (mendel-core), xtend (mendel-config), glob (mendel-deps) remain declared.; medium: uncommitted chalk port ignores enableColor, calls styleText unconditionally with no validateStream:false; unused color helper at cli-printer.js:131; prettier fails on the file; chalk.blue.dim replaced with plain blue.; minor: mocha-runner/index.js:5 const { globSync } = require('node:fs') left unused after switching to fs.globSync, uncommitted.; minor: 33bee3b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a new object.; process: node: prefix trap hit 3 times (turn 41, 213, and again uncommitted); commitlint reject at turn 45; 0 full-suite runs across 7 commits; mendel-requirify never found; root rimraf/tmp still declared."
     }
   ],
   "matrix_rows": [
