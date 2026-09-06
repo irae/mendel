@@ -2015,6 +2015,151 @@
       "invalid": true,
       "invalid_reason": "live loop stop: repetition_loop on 5 identical edit tool calls, 18:12:06Z to 18:12:47Z; 2 of 8 libraries landed",
       "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call), 5 identical calls, first at 18:12:06Z, final at 18:12:47Z (meta.json). run-worker.sh's own post-hoc loop check logged \"ok, worst ratio 0.22\" on the same session, computed before this live stop was read; treat the live stop as authoritative and this row as invalid.; critical: root package.json still declares rimraf and tmp, never touched; 6 of 8 libraries not started, 23 stale requires across 12 packages, 15 stale package.json entries; legacy-packages/mendel-requirify rimraf reference never found.; medium: uncommitted packages/mendel-core/tree-deserialiser.js:7 set to 'var URLSafeBase64 = Buffer;', so Buffer.decode is undefined and every hash returns 'Invalid hash: bad base64 input'; model then edited two test files to guard around it instead of fixing the source, then failed 12 edit calls before the loop stop.; minor: fb8880b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a copy.; minor: untracked examples/planout-example/test-uuid.js scratch file left behind.; minor: only one pnpm run unit (aborted after a 10-minute stall); commits fb8880b and 4020e36 had no full-suite run."
+    },
+    {
+      "model": "qwen3.6-35b-a3b",
+      "model_id": "qwen3.6-35b-a3b",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "qwen3.6-35b-a3b-off-guided-v3-issue-13",
+      "base_commit": "86935f4",
+      "partial": false,
+      "prompt_version": "v3.0",
+      "config_note": "llama-server b10621, Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf (MTP drafter), q8_0 KV, -c 98304, wired 25000, pi context window 49152, maxTokens 8192, reserveTokens 8192, thinking off",
+      "score_total": 46.5,
+      "score_raw": 46.5,
+      "scores": {
+        "bugs": 4,
+        "completion": 20,
+        "node_modules": 3,
+        "lint": 3,
+        "commit_craft": 3,
+        "first_time": 1,
+        "test_discipline": 6,
+        "conventions": 3,
+        "task_list": 1.5,
+        "truncation": 2
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "trap A. packages/mendel-development/apply-extra-options.js:6 still var { glob } = require('node:fs').promises with the .then() call; repro THREW TypeError glob(...).then is not a function; commit 10ab582."
+        },
+        {
+          "severity": "medium",
+          "summary": "chalk direction ignored. Prompt asked for util.styleText, drop enableColor and the forced level; branch adds a 54-line hand-rolled ansi-colors.js (LEVEL=3, fn.__proto__ = base where base is undefined at construction) and cli-printer.js:31 still forces chalk.level; commit 045d590 typed refactor, not chore."
+        },
+        {
+          "severity": "medium",
+          "summary": "stale lockfile. tmp and shasum removed with sed, not pnpm; pnpm-lock.yaml still lists both; pnpm install --frozen-lockfile fails at HEAD; commit de04a02 touches no lockfile."
+        },
+        {
+          "severity": "medium",
+          "summary": "commit craft. 4 of 7 commits multi-package; TASKS.md forced past .gitignore with git add -f and leaked into 2 commits; git add -A used once despite the prompt; 3 pre-commit hook rejects (commitlint header, eslint unused fn, commitlint missing type)."
+        },
+        {
+          "severity": "medium",
+          "summary": "no green full suite before the last two commits; root pnpm run unit failed or timed out repeatedly after the chalk edits, then the model ran only the mendel-pipeline package suite and reported all tests passing."
+        },
+        {
+          "severity": "minor",
+          "summary": "self-inflicted rework, wrong relative require paths fixed twice, an early ansi-colors.js draft with a duplicate red and non-callable blue rewritten, sed left trailing commas in 5 package.json files."
+        },
+        {
+          "severity": "minor",
+          "summary": "task list sub-items added at tick time, not on discovery; chalk/tmp/shasum missing sub-items; a duplicate '- [ ] glob' line appeared."
+        },
+        {
+          "severity": "minor",
+          "summary": "prettier/eslint never self-run, clean via hooks only."
+        },
+        {
+          "severity": "minor",
+          "summary": "false final claim that uuid was kept internal, when it was replaced in commit 1b45c7b."
+        },
+        {
+          "severity": "minor",
+          "summary": "style, blank lines left where requires were removed in 3 files; a const inserted into a var-only block."
+        },
+        {
+          "severity": "note",
+          "summary": "trap B (mendel-requirify rimraf) found and removed; trap C avoided; 12 compactions, 11 from overflow, peak context 51567 exceeded the pi entry's 49152 window."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 95.6,
+        "tokens_total": 9472521,
+        "tokens_in": 655201,
+        "tokens_out": 49934,
+        "cache_read": 8767386,
+        "peak_context": 51567,
+        "window_pct": 104.9,
+        "compactions": 12,
+        "assistant_msgs": 275,
+        "tool_calls": 299,
+        "tool_errors": 37,
+        "commits": 7,
+        "failed_commits": 0,
+        "truncation_pct": 58,
+        "nudges_tooling": 0,
+        "nudges_model": 2,
+        "loop_flag": "ok",
+        "loop_ratio": 0.3,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "thinking": "off",
+      "end_reason": "complete",
+      "libraries_done": 8,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">trap A still throws: glob(...).then is not a function</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">mendel-pipeline package suite green; root suite never green after the chalk edits</span></td>",
+        "<td><span class=\"pill p-bad\">apply-extra-options.js:6 THREW TypeError</span></td>",
+        "<td><span class=\"pill p-good\">8 / 8 done</span></td>",
+        "<td><span class=\"pill p-good\">0 stale requires</span></td>",
+        "<td><span class=\"pill p-good\">0 stale entries, root cleared</span></td>",
+        "<td><span class=\"pill p-good\">found and removed (trap B)</span></td>",
+        "<td><b>20</b></td>",
+        "<td><span class=\"pill p-mid\">pnpm used, but tmp and shasum cut with sed; pnpm-lock.yaml still lists both</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">183 lines removed, 47 added; --frozen-lockfile fails at HEAD</span></td>",
+        "<td><span class=\"pill p-mid\">clean on re-run, never ran either tool itself</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base)</span></td>",
+        "<td><span class=\"pill p-mid\">6 of 7 chore, 045d590 typed refactor</span></td>",
+        "<td><span class=\"pill p-bad\">4 of 7 touch several packages</span></td>",
+        "<td><span class=\"pill p-good\">rimraf and tmp removed from root</span></td>",
+        "<td><span class=\"pill p-mid\">3 pre-commit rejects, no bypass</span></td>",
+        "<td><span class=\"pill p-bad\">forced past .gitignore with git add -f, leaked into 2 commits</span></td>",
+        "<td><b>3</b></td>",
+        "<td><span class=\"pill p-bad\">require paths fixed twice, ansi-colors.js rewritten, sed left trailing commas in 5 package.json files</span> <b>1</b></td>",
+        "<td><span class=\"pill p-mid\">per-package tap runs, then only the mendel-pipeline suite at the end</span></td>",
+        "<td><span class=\"pill p-mid\">20 full-suite attempts, none green before the last 2 commits</span> <b>6</b></td>",
+        "<td><span class=\"pill p-bad\">sub-items added at tick time; chalk, tmp and shasum never listed</span> <b>1.5</b></td>",
+        "<td><span class=\"pill p-mid\">52 of 89 noisy commands piped (58 %)</span> <b>2</b></td>",
+        "<td><span class=\"pill p-mid\">hand-rolled 54-line ansi-colors.js against the util.styleText direction; blank lines and a stray const left behind</span> <b>3</b></td>",
+        "<td><span class=\"pill p-bad\">9.5 M</span></td>",
+        "<td><span class=\"pill p-bad\">12, 11 of them on overflow</span></td>",
+        "<td><span class=\"pill p-bad\">none, peak 51567 over the 49152 window (104.9 %)</span></td>",
+        "<td><span class=\"pill p-mid\">299, 37 errors</span></td>"
+      ],
+      "invalid": false,
+      "notes": "critical: trap A. packages/mendel-development/apply-extra-options.js:6 still var { glob } = require('node:fs').promises with the .then() call; repro THREW TypeError glob(...).then is not a function; commit 10ab582.; medium: chalk direction ignored. Prompt asked for util.styleText, drop enableColor and the forced level; branch adds a 54-line hand-rolled ansi-colors.js (LEVEL=3, fn.__proto__ = base where base is undefined at construction) and cli-printer.js:31 still forces chalk.level; commit 045d590 typed refactor, not chore.; medium: stale lockfile. tmp and shasum removed with sed, not pnpm; pnpm-lock.yaml still lists both; pnpm install --frozen-lockfile fails at HEAD; commit de04a02 touches no lockfile.; medium: commit craft. 4 of 7 commits multi-package; TASKS.md forced past .gitignore with git add -f and leaked into 2 commits; git add -A used once despite the prompt; 3 pre-commit hook rejects (commitlint header, eslint unused fn, commitlint missing type).; medium: no green full suite before the last two commits; root pnpm run unit failed or timed out repeatedly after the chalk edits, then the model ran only the mendel-pipeline package suite and reported all tests passing.; minor: self-inflicted rework, wrong relative require paths fixed twice, an early ansi-colors.js draft with a duplicate red and non-callable blue rewritten, sed left trailing commas in 5 package.json files.; minor: task list sub-items added at tick time, not on discovery; chalk/tmp/shasum missing sub-items; a duplicate '- [ ] glob' line appeared.; minor: prettier/eslint never self-run, clean via hooks only.; minor: false final claim that uuid was kept internal, when it was replaced in commit 1b45c7b.; minor: style, blank lines left where requires were removed in 3 files; a const inserted into a var-only block.; note: trap B (mendel-requirify rimraf) found and removed; trap C avoided; 12 compactions, 11 from overflow, peak context 51567 exceeded the pi entry's 49152 window."
     }
   ],
   "matrix_rows": [

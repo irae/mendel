@@ -247,7 +247,7 @@ const share = (t) =>
 
 const bugPoints = (r) =>
     r.defects.reduce(
-        (n, d) => n + { critical: 3, medium: 2, minor: 1 }[d.severity],
+        (n, d) => n + ({ critical: 3, medium: 2, minor: 1 }[d.severity] ?? 0),
         0
     );
 const bugTone = (n) => (n === 0 ? 'good' : n <= 4 ? 'mid' : 'bad');
