@@ -5,7 +5,6 @@
 
 var debug = require('debug')('mendel:tree-variation-walker');
 var util = require('util');
-var xtend = require('xtend');
 
 var MendelWalker = require('./tree-walker');
 
@@ -58,8 +57,9 @@ MendelVariationWalker.prototype._resolveBranch = function (module) {
 };
 
 MendelVariationWalker.prototype.found = function () {
-    return xtend(MendelWalker.prototype.found.call(this), {
+    return {
+        ...MendelWalker.prototype.found.call(this),
         conflicts: this.conflicts,
         conflictList: this.conflictList,
-    });
+    };
 };
