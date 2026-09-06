@@ -6,7 +6,7 @@ var ReactDOMServer = require('react-dom/server');
 var express = require('express');
 var logger = require('morgan');
 var MendelMiddleware = require('mendel-middleware');
-var { v4: uuidv4 } = require('uuid');
+var { randomUUID: uuidv4 } = require('crypto');
 var PlanoutAssignment = require('./PlanoutAssignment');
 var cookieParser = require('cookie-parser');
 if (process.env.NODE_ENV !== 'production') {
