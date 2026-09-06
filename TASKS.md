@@ -17,9 +17,9 @@
 - [x] `chalk`
     - [x] `mendel-pipeline`
 - [ ] `tmp`
+    - [x] `mendel-development`
     - [ ] `mendel-manifest-extract-bundles` (test)
-    - [ ] `mendel-development`
     - [ ] `mendel-manifest-uglify` (test)
 - [ ] `shasum`
-    - [ ] `mendel-development`
+    - [x] `mendel-development`
     - [ ] `mendel-outlet-manifest`
