@@ -2305,6 +2305,143 @@
       ],
       "invalid": false,
       "notes": "critical: trap A. packages/mendel-development/apply-extra-options.js:6 changed to var { glob } = require('node:fs/promises') with all .then() call sites kept; repro THREW TypeError glob(...).then is not a function; commit fda8ecd. No test covers the file.; medium: trap B missed. legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require rimraf, package.json:26 still declares it; both files appeared in the model's own grep and were skipped.; medium: stale lockfile. tmp removed from 3 package.json files by hand edit, never via pnpm; pnpm-lock.yaml still lists tmp under all three importers; pnpm install --frozen-lockfile fails at HEAD; commit 062af6b touches no lockfile.; medium: commit craft, 4 of 13 commits multi-package; 2b160a8 is a 6-package, 3-library omnibus staged with git add .; b105172 also carries an unrelated urlsafe-base64 file swept in by git add -A.; medium: no full test suite before 9 of 13 commits, though the prompt asks for one before every commit.; minor: self-inflicted break repaired pre-commit, a commander import rewrite broke cli.js, caught by pnpm test and reverted.; minor: declared done with 3 package.json edits uncommitted and two scratch test files untracked (1 model nudge); scratch files later deleted.; minor: task list, chalk/tmp/shasum never got sub-items, four libraries ticked together in one bulk edit after the nudge.; minor: style, mixed node: prefix next to bare requires in the same files; a throwaway test file written, hook-rejected, then deleted.; minor: truncation 27%, several full pnpm test and tap runs piped through tail, grep sweeps dumped node_modules.; note: chalk port correct (plain util.styleText, no forced level); trap C avoided; root rimraf and tmp removed via pnpm; prettier and eslint clean on re-run; peak context 209024 of 212992 (98.1%), 2 overflow compactions."
+    },
+    {
+      "model": "bonsai-prism",
+      "model_id": "prism-ml/Ternary-Bonsai-27B-gguf",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "bonsai-prism-high-guided-v3-issue-13",
+      "base_commit": "86935f4",
+      "partial": true,
+      "prompt_version": "v3.0",
+      "config_note": "PrismML llama-server fork b10660-e311ed38f, Ternary-Bonsai-27B-Q2_g64.gguf, q4_0 KV with a regenerated (not original) KV-bias calibration file, -c 65536, LLAMA_ATTN_ROT_DISABLE=1, pi context window 65536, maxTokens 8192, reserveTokens 8192, wired 25000, thinking high. Decode drops below 8 tok/s past about 33K context depth, expected for this config.",
+      "score_total": 31.5,
+      "score_raw": 31.5,
+      "scores": {
+        "bugs": 0,
+        "completion": 6,
+        "node_modules": 4,
+        "lint": 3,
+        "commit_craft": 9,
+        "first_time": 1,
+        "test_discipline": 5,
+        "conventions": 1,
+        "task_list": 1.5,
+        "truncation": 1
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "tree-variation-walker.js rewritten from memory after a git checkout HEAD~1 restore; constructor changed from (_lookupChains, _base, _hash) to (path, variation), conflict detection replaced with invented variationMap logic; test/tree-variation-walker.js and -server.js fail 3/3 with TypeError reading 'variationMap', commit c1c0558."
+        },
+        {
+          "severity": "critical",
+          "summary": "root package.json still declares rimraf and tmp, never touched."
+        },
+        {
+          "severity": "medium",
+          "summary": "legacy/index.js:89 Array.prototype.splice.apply(inputArray, ...) changed to splice(inputArray, ...) as a drive-by; config.js test #10 fails 3/3, passes on base, commit c1c0558."
+        },
+        {
+          "severity": "medium",
+          "summary": "index.js:52 Object.assign(fileConfig, config) plus a legacy merge change; config.js test #7 fails 3/3, passes on base; the model called it pre-existing and committed anyway, commit c1c0558."
+        },
+        {
+          "severity": "medium",
+          "summary": "pnpm-lock.yaml at tip still lists xtend, urlsafe-base64 and pipeline/core rimraf; only the uuid removal was staged; commit messages falsely claim the lockfile was updated."
+        },
+        {
+          "severity": "medium",
+          "summary": "rimraf ticked done but two requirify files, its package.json line, and mendel-transform-less's package.json still reference it (trap B missed)."
+        },
+        {
+          "severity": "minor",
+          "summary": "test/helpers/index.js fs.rmSync(runDir, { recursive: true }) without force: true throws ENOENT on a fresh checkout, where rimraf.sync did not."
+        },
+        {
+          "severity": "minor",
+          "summary": "the urlsafe-base64 commit was lost as its own entry, its rimraf follow-up commit was rejected by commitlint and a git commit --amend folded rimraf into it and replaced the message; no commit on the branch names urlsafe-base64 by itself."
+        },
+        {
+          "severity": "process",
+          "summary": "Mendel's wall_min policy (300 min) is not enforced in code; the run was still going at 469 min when stopped by hand. This row is scored on the session truncated to the first 300 minutes (706 of 1419 lines), worktree reset to the last commit before the cutoff (all 3 commits precede it), peak_context and tool_calls recomputed from that slice. Treated as a normal wall_clock partial, not an interrupted run. 10 overflow compactions in the scored window."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 300,
+        "tokens_total": 0,
+        "tokens_in": 0,
+        "tokens_out": 0,
+        "cache_read": 0,
+        "peak_context": 63100,
+        "window_pct": 96.28,
+        "compactions": 10,
+        "assistant_msgs": 352,
+        "tool_calls": 343,
+        "tool_errors": 96,
+        "commits": 3,
+        "failed_commits": 1,
+        "truncation_pct": 35,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.9,
+        "loop_kind": "text"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "thinking": "high",
+      "end_reason": "wall_clock",
+      "libraries_done": 3,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">2 regressions from a memory rewrite: tree-variation-walker 3/3, config.js #10 and #7</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">mendel-core and mendel-config fail at HEAD, green on the base</span></td>",
+        "<td><span class=\"pill p-good\">SYNC OK, glob never touched</span></td>",
+        "<td><span class=\"pill p-bad\">3 / 8 (uuid, xtend, urlsafe-base64)</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf ticked done, still required in 2 requirify tests</span></td>",
+        "<td><span class=\"pill p-bad\">13 stale entries, root rimraf and tmp among them</span></td>",
+        "<td><span class=\"pill p-bad\">not found (trap B)</span></td>",
+        "<td><b>6</b></td>",
+        "<td><span class=\"pill p-mid\">pnpm used for uuid only, later edits by hand</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">107 lines removed, 1 added; xtend, urlsafe-base64 and rimraf still listed</span></td>",
+        "<td><span class=\"pill p-good\">prettier and eslint clean on re-run, never self-run</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base)</span></td>",
+        "<td><span class=\"pill p-good\">3 of 3 chore</span></td>",
+        "<td><span class=\"pill p-mid\">2 of 3 touch several packages</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf and tmp still declared at root</span></td>",
+        "<td><span class=\"pill p-mid\">1 commitlint reject, no bypass; a git commit --amend folded urlsafe-base64 and rimraf into one entry, so no commit names urlsafe-base64</span></td>",
+        "<td><span class=\"pill p-good\">kept out of every commit</span></td>",
+        "<td><b>9</b></td>",
+        "<td><span class=\"pill p-bad\">restored tree-variation-walker.js from memory after git checkout HEAD~1, then committed the broken rewrite</span> <b>1</b></td>",
+        "<td><span class=\"pill p-mid\">per-package tap runs, but red results read as pre-existing</span></td>",
+        "<td><span class=\"pill p-mid\">10 full-suite runs, red results committed anyway</span> <b>5</b></td>",
+        "<td><span class=\"pill p-bad\">rimraf ticked without the work done; sub-items thin</span> <b>1.5</b></td>",
+        "<td><span class=\"pill p-bad\">38 of 109 noisy commands piped (35 %)</span> <b>1</b></td>",
+        "<td><span class=\"pill p-bad\">drive-by splice.apply and Object.assign rewrites, well past a minimal diff</span> <b>1</b></td>",
+        "<td><span class=\"pill p-mid\">not recoverable from the truncated slice</span></td>",
+        "<td><span class=\"pill p-bad\">10, all on overflow</span></td>",
+        "<td><span class=\"pill p-bad\">peak 63100 of the 65536 window (96.3 %)</span></td>",
+        "<td><span class=\"pill p-bad\">343, 96 errors; scored on the run hand-capped at 300 min (the harness never enforced wall_min, it ran to 469)</span></td>"
+      ],
+      "invalid": false,
+      "notes": "critical: tree-variation-walker.js rewritten from memory after a git checkout HEAD~1 restore; constructor changed from (_lookupChains, _base, _hash) to (path, variation), conflict detection replaced with invented variationMap logic; test/tree-variation-walker.js and -server.js fail 3/3 with TypeError reading 'variationMap', commit c1c0558.; critical: root package.json still declares rimraf and tmp, never touched.; medium: legacy/index.js:89 Array.prototype.splice.apply(inputArray, ...) changed to splice(inputArray, ...) as a drive-by; config.js test #10 fails 3/3, passes on base, commit c1c0558.; medium: index.js:52 Object.assign(fileConfig, config) plus a legacy merge change; config.js test #7 fails 3/3, passes on base; the model called it pre-existing and committed anyway, commit c1c0558.; medium: pnpm-lock.yaml at tip still lists xtend, urlsafe-base64 and pipeline/core rimraf; only the uuid removal was staged; commit messages falsely claim the lockfile was updated.; medium: rimraf ticked done but two requirify files, its package.json line, and mendel-transform-less's package.json still reference it (trap B missed).; minor: test/helpers/index.js fs.rmSync(runDir, { recursive: true }) without force: true throws ENOENT on a fresh checkout, where rimraf.sync did not.; minor: the urlsafe-base64 commit was lost as its own entry, its rimraf follow-up commit was rejected by commitlint and a git commit --amend folded rimraf into it and replaced the message; no commit on the branch names urlsafe-base64 by itself.; process: Mendel's wall_min policy (300 min) is not enforced in code; the run was still going at 469 min when stopped by hand. This row is scored on the session truncated to the first 300 minutes (706 of 1419 lines), worktree reset to the last commit before the cutoff (all 3 commits precede it), peak_context and tool_calls recomputed from that slice. Treated as a normal wall_clock partial, not an interrupted run. 10 overflow compactions in the scored window."
     }
   ],
   "matrix_rows": [
