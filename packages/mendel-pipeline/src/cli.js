@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /* eslint max-len: "off" */
 const { Command } = require('commander');
-const { default: chalk } = require('chalk');
+const util = require('util');
+const chalk = { red: (s) => util.styleText('red', s) };
 
 const program = new Command();
 

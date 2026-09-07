@@ -1,5 +1,17 @@
 const BasePrinter = require('./printer');
-const { default: chalk } = require('chalk');
+const util = require('util');
+
+const chalk = {
+    level: 3,
+    blue: (s) => util.styleText('blue', s),
+    blueDim: (s) => util.styleText(['blue', 'dim'], s),
+    white: (s) => util.styleText('white', s),
+    bold: (s) => util.styleText('bold', s),
+    underline: (s) => util.styleText('underline', s),
+    bgWhiteBlack: (s) => util.styleText(['white', 'bgBlack'], s),
+};
+
+
 const { default: prettyMs } = require('pretty-ms');
 const { default: figure } = require('figures');
 
@@ -8,7 +20,7 @@ function getBarText(percent, maxBarSize) {
     const barNumber = Math.max(Math.ceil((percent / 100) * maxBarSize), 1);
     return (
         chalk.blue(new Array(barNumber + 1).join(figure.square)) +
-        chalk.blue.dim(
+        chalk.blueDim(
             new Array(Math.max(0, maxBarSize - barNumber + 1)).join(
                 figure.square
             )
@@ -131,7 +143,7 @@ class CliPrinter extends BasePrinter {
 
     print(data) {
         console.log(
-            chalk.bgWhite.black(
+            chalk.bgWhiteBlack(
                 padRight(
                     ' Sorted by grouping (aggregate of all thread)',
                     process.stdout.columns || 80
@@ -141,14 +153,14 @@ class CliPrinter extends BasePrinter {
         this._print(data, [1]);
 
         console.log(
-            chalk.bgWhite.black(
+            chalk.bgWhiteBlack(
                 padRight(' Sorted by subgroup', process.stdout.columns || 80)
             )
         );
         this._print(data, [1, 2]);
 
         console.log(
-            chalk.bgWhite.black(
+            chalk.bgWhiteBlack(
                 padRight(' Sorted by pid', process.stdout.columns || 80)
             )
         );
