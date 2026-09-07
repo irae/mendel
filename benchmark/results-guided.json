@@ -2160,6 +2160,151 @@
       ],
       "invalid": false,
       "notes": "critical: trap A. packages/mendel-development/apply-extra-options.js:6 still var { glob } = require('node:fs').promises with the .then() call; repro THREW TypeError glob(...).then is not a function; commit 10ab582.; medium: chalk direction ignored. Prompt asked for util.styleText, drop enableColor and the forced level; branch adds a 54-line hand-rolled ansi-colors.js (LEVEL=3, fn.__proto__ = base where base is undefined at construction) and cli-printer.js:31 still forces chalk.level; commit 045d590 typed refactor, not chore.; medium: stale lockfile. tmp and shasum removed with sed, not pnpm; pnpm-lock.yaml still lists both; pnpm install --frozen-lockfile fails at HEAD; commit de04a02 touches no lockfile.; medium: commit craft. 4 of 7 commits multi-package; TASKS.md forced past .gitignore with git add -f and leaked into 2 commits; git add -A used once despite the prompt; 3 pre-commit hook rejects (commitlint header, eslint unused fn, commitlint missing type).; medium: no green full suite before the last two commits; root pnpm run unit failed or timed out repeatedly after the chalk edits, then the model ran only the mendel-pipeline package suite and reported all tests passing.; minor: self-inflicted rework, wrong relative require paths fixed twice, an early ansi-colors.js draft with a duplicate red and non-callable blue rewritten, sed left trailing commas in 5 package.json files.; minor: task list sub-items added at tick time, not on discovery; chalk/tmp/shasum missing sub-items; a duplicate '- [ ] glob' line appeared.; minor: prettier/eslint never self-run, clean via hooks only.; minor: false final claim that uuid was kept internal, when it was replaced in commit 1b45c7b.; minor: style, blank lines left where requires were removed in 3 files; a const inserted into a var-only block.; note: trap B (mendel-requirify rimraf) found and removed; trap C avoided; 12 compactions, 11 from overflow, peak context 51567 exceeded the pi entry's 49152 window."
+    },
+    {
+      "model": "gemma-4-26b-a4b",
+      "model_id": "gemma-4-26b-a4b",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "gemma-4-26b-a4b-high-guided-v3-issue-13",
+      "base_commit": "86935f4",
+      "partial": true,
+      "prompt_version": "v3.0",
+      "config_note": "llama-server b10621, gemma-4-26B-A4B-it-UD-Q4_K_XL.gguf, f16 KV, -c 212992, speculative.types none (no MTP drafter), wired 25000, pi context window 212992, maxTokens 8192, reserveTokens 8192, thinking high",
+      "score_total": 57,
+      "score_raw": 57,
+      "scores": {
+        "bugs": 10,
+        "completion": 16,
+        "node_modules": 5,
+        "lint": 5,
+        "commit_craft": 7,
+        "first_time": 4,
+        "test_discipline": 3,
+        "conventions": 4,
+        "task_list": 2,
+        "truncation": 1
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "trap A. packages/mendel-development/apply-extra-options.js:6 changed to var { glob } = require('node:fs/promises') with all .then() call sites kept; repro THREW TypeError glob(...).then is not a function; commit fda8ecd. No test covers the file."
+        },
+        {
+          "severity": "medium",
+          "summary": "trap B missed. legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require rimraf, package.json:26 still declares it; both files appeared in the model's own grep and were skipped."
+        },
+        {
+          "severity": "medium",
+          "summary": "stale lockfile. tmp removed from 3 package.json files by hand edit, never via pnpm; pnpm-lock.yaml still lists tmp under all three importers; pnpm install --frozen-lockfile fails at HEAD; commit 062af6b touches no lockfile."
+        },
+        {
+          "severity": "medium",
+          "summary": "commit craft, 4 of 13 commits multi-package; 2b160a8 is a 6-package, 3-library omnibus staged with git add .; b105172 also carries an unrelated urlsafe-base64 file swept in by git add -A."
+        },
+        {
+          "severity": "medium",
+          "summary": "no full test suite before 9 of 13 commits, though the prompt asks for one before every commit."
+        },
+        {
+          "severity": "minor",
+          "summary": "self-inflicted break repaired pre-commit, a commander import rewrite broke cli.js, caught by pnpm test and reverted."
+        },
+        {
+          "severity": "minor",
+          "summary": "declared done with 3 package.json edits uncommitted and two scratch test files untracked (1 model nudge); scratch files later deleted."
+        },
+        {
+          "severity": "minor",
+          "summary": "task list, chalk/tmp/shasum never got sub-items, four libraries ticked together in one bulk edit after the nudge."
+        },
+        {
+          "severity": "minor",
+          "summary": "style, mixed node: prefix next to bare requires in the same files; a throwaway test file written, hook-rejected, then deleted."
+        },
+        {
+          "severity": "minor",
+          "summary": "truncation 27%, several full pnpm test and tap runs piped through tail, grep sweeps dumped node_modules."
+        },
+        {
+          "severity": "note",
+          "summary": "chalk port correct (plain util.styleText, no forced level); trap C avoided; root rimraf and tmp removed via pnpm; prettier and eslint clean on re-run; peak context 209024 of 212992 (98.1%), 2 overflow compactions."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 115.1,
+        "tokens_total": 24802790,
+        "tokens_in": 611369,
+        "tokens_out": 60829,
+        "cache_read": 24130592,
+        "peak_context": 209024,
+        "window_pct": 98.1,
+        "compactions": 2,
+        "assistant_msgs": 273,
+        "tool_calls": 269,
+        "tool_errors": 42,
+        "commits": 13,
+        "failed_commits": 2,
+        "truncation_pct": 27,
+        "nudges_tooling": 0,
+        "nudges_model": 1,
+        "loop_flag": "ok",
+        "loop_ratio": 0.25,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "thinking": "high",
+      "end_reason": "complete",
+      "libraries_done": 7,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">trap A still throws: glob(...).then is not a function</span> <b>10</b></td>",
+        "<td><span class=\"pill p-good\">full suite green at HEAD, per-package tap green</span></td>",
+        "<td><span class=\"pill p-bad\">apply-extra-options.js:6 THREW TypeError</span></td>",
+        "<td><span class=\"pill p-mid\">7 / 8 done, rimraf incomplete</span></td>",
+        "<td><span class=\"pill p-bad\">2 stale rimraf requires in mendel-requirify tests</span></td>",
+        "<td><span class=\"pill p-bad\">1 stale entry, mendel-requirify package.json:26</span></td>",
+        "<td><span class=\"pill p-bad\">seen in its own grep, then skipped (trap B)</span></td>",
+        "<td><b>16</b></td>",
+        "<td><span class=\"pill p-mid\">pnpm used at root, but tmp cut from 3 package.json by hand</span> <b>5</b></td>",
+        "<td><span class=\"pill p-mid\">206 lines removed, 26 added; --frozen-lockfile fails at HEAD</span></td>",
+        "<td><span class=\"pill p-good\">clean on re-run, never ran either tool itself</span> <b>5</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base)</span></td>",
+        "<td><span class=\"pill p-good\">13 of 13 chore</span></td>",
+        "<td><span class=\"pill p-bad\">4 of 13 touch several packages; 2b160a8 is a 6-package omnibus</span></td>",
+        "<td><span class=\"pill p-good\">rimraf and tmp removed from root</span></td>",
+        "<td><span class=\"pill p-mid\">2 rejected commits, no bypass</span></td>",
+        "<td><span class=\"pill p-good\">kept out of every commit</span></td>",
+        "<td><b>7</b></td>",
+        "<td><span class=\"pill p-mid\">one self-inflicted break: a commander import rewrite broke cli.js, caught by pnpm test and reverted before commit</span> <b>4</b></td>",
+        "<td><span class=\"pill p-good\">per-package tap runs as instructed</span></td>",
+        "<td><span class=\"pill p-bad\">8 full-suite runs, none before 9 of 13 commits</span> <b>3</b></td>",
+        "<td><span class=\"pill p-bad\">chalk, tmp and shasum never got sub-items; 4 libraries ticked in one bulk edit after the nudge</span> <b>2</b></td>",
+        "<td><span class=\"pill p-bad\">19 of 71 noisy commands piped (27 %)</span> <b>1</b></td>",
+        "<td><span class=\"pill p-mid\">chalk ported correctly with plain util.styleText; mixed node: and bare requires left in the same files</span> <b>4</b></td>",
+        "<td><span class=\"pill p-bad\">24.8 M</span></td>",
+        "<td><span class=\"pill p-mid\">2, both on overflow</span></td>",
+        "<td><span class=\"pill p-bad\">peak 209024 of the 212992 window (98.1 %)</span></td>",
+        "<td><span class=\"pill p-mid\">269, 42 errors</span></td>"
+      ],
+      "invalid": false,
+      "notes": "critical: trap A. packages/mendel-development/apply-extra-options.js:6 changed to var { glob } = require('node:fs/promises') with all .then() call sites kept; repro THREW TypeError glob(...).then is not a function; commit fda8ecd. No test covers the file.; medium: trap B missed. legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require rimraf, package.json:26 still declares it; both files appeared in the model's own grep and were skipped.; medium: stale lockfile. tmp removed from 3 package.json files by hand edit, never via pnpm; pnpm-lock.yaml still lists tmp under all three importers; pnpm install --frozen-lockfile fails at HEAD; commit 062af6b touches no lockfile.; medium: commit craft, 4 of 13 commits multi-package; 2b160a8 is a 6-package, 3-library omnibus staged with git add .; b105172 also carries an unrelated urlsafe-base64 file swept in by git add -A.; medium: no full test suite before 9 of 13 commits, though the prompt asks for one before every commit.; minor: self-inflicted break repaired pre-commit, a commander import rewrite broke cli.js, caught by pnpm test and reverted.; minor: declared done with 3 package.json edits uncommitted and two scratch test files untracked (1 model nudge); scratch files later deleted.; minor: task list, chalk/tmp/shasum never got sub-items, four libraries ticked together in one bulk edit after the nudge.; minor: style, mixed node: prefix next to bare requires in the same files; a throwaway test file written, hook-rejected, then deleted.; minor: truncation 27%, several full pnpm test and tap runs piped through tail, grep sweeps dumped node_modules.; note: chalk port correct (plain util.styleText, no forced level); trap C avoided; root rimraf and tmp removed via pnpm; prettier and eslint clean on re-run; peak context 209024 of 212992 (98.1%), 2 overflow compactions."
     }
   ],
   "matrix_rows": [
