@@ -166,7 +166,7 @@ repetition_loop`; three in a row are enough when the call already stalled
       overrides its path, and the default is
       `../choose-a-local-llm/benchmarks/loop-check.py`.
     - Nothing reads the chat. The runner also forces auto-compaction and
-      auto-retry on and records whether they took effect; `--wall-min` (default 300) is the hard stop. Both time budgets are
+      auto-retry on and records whether they took effect; `--wall-min` (default 300) is the hard stop: at the cap the runner aborts the turn, and when the turn has not settled `--wall-grace-min` (default 5) minutes later it kills pi and ends the run with `end_reason: wall_clock` and `wall_clock.hard_kill: true` in the meta file (run 11 block 8 ran 469 minutes on an abort the server never honoured). Both time budgets are
       absolute minutes and favour fast serving stacks; the runner records
       measured output speed (`throughput` in the meta file) so the budgets can
       be tuned from data, and the stall watchdog first asks the server whether

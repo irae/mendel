@@ -3,7 +3,7 @@
 //
 //   node run-pi-rpc.mjs --model <id> --prompt <file> --out <prefix> [--cwd <dir>]
 //        [--thinking <level>] [--max-tooling 10] [--max-model 3]
-//        [--stall-min 10] [--wall-min 300] [--turn-min 25] [--allow-bad-config]
+//        [--stall-min 10] [--wall-min 300] [--wall-grace-min 5] [--turn-min 25] [--allow-bad-config]
 //
 // Why: `pi -p` exits on the first `length`/`error` stop, which is a harness
 // limitation, not a model failure. A person in the TUI would type "continue".
@@ -61,6 +61,7 @@ const maxModel = Number(args['max-model'] ?? 3);
 const stallMs = Number(args['stall-min'] ?? 10) * 60_000;
 const turnMs = Number(args['turn-min'] ?? 25) * 60_000;
 const wallMs = Number(args['wall-min'] ?? 300) * 60_000;
+const wallGraceMs = Number(args['wall-grace-min'] ?? 5) * 60_000;
 const prompt = readFileSync(promptFile, 'utf8');
 
 // ---- bookkeeping ----------------------------------------------------------
@@ -77,6 +78,7 @@ const meta = {
         max_model: maxModel,
         stall_min: stallMs / 60_000,
         wall_min: wallMs / 60_000,
+        wall_grace_min: wallGraceMs / 60_000,
         turn_min: turnMs / 60_000,
         tooling_msg: TOOLING_MSG,
         model_msg: MODEL_MSG,
@@ -88,6 +90,7 @@ const meta = {
     output_limit_hits: [],
     reissue_msgs: [],
     turn_timeout: null,
+    wall_clock: null,
     output_limit_stop: null,
     repetition_loop: null,
     degenerate_output: null,
@@ -786,17 +789,34 @@ async function main() {
             'started with --allow-bad-config: this run is not comparable'
         );
 
+    let wallHit = false;
     const wallTimer = setTimeout(async () => {
         say('wall clock budget reached, aborting');
         // flag first: agent_settled can arrive before the abort response
         wallHit = true;
+        meta.wall_clock = {
+            at: new Date().toISOString(),
+            wall_min: wallMs / 60_000,
+            hard_kill: false,
+        };
+        setTimeout(() => {
+            if (exited || !settledWaiter) return;
+            meta.wall_clock.hard_kill = true;
+            say(
+                `ALARM wall clock: the turn did not settle ${wallGraceMs / 60_000} min after the abort, killing pi`
+            );
+            try {
+                pi.kill('SIGKILL');
+            } catch {
+                // best effort; the run is ending anyway
+            }
+        }, wallGraceMs).unref();
         try {
             await send({ type: 'abort' });
         } catch {
             // best effort; the run is ending anyway
         }
     }, wallMs);
-    let wallHit = false;
 
     // stall watchdog
     let stallFlag = false;
@@ -845,6 +865,10 @@ async function main() {
 
     let message = prompt;
     for (;;) {
+        if (wallHit) {
+            await finish('wall_clock');
+            break;
+        }
         stallFlag = false;
         let settleKind = await turn(message);
         if (wallHit) {
