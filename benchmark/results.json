@@ -1187,8 +1187,8 @@
       "prompt_version": "v1.0",
       "end_reason": "harness_crash",
       "libraries_done": 3,
-      "kv_type": "f16",
-      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
+      "kv_type": "unquantized",
+      "kv_type_source": "backend: mlx_lm.server serves an unquantized 16-bit KV cache and takes no KV option"
     },
     {
       "model": "mlx-community/Qwen3.8-27B-4bit",
@@ -1295,8 +1295,8 @@
       "prompt_version": "v1.0",
       "end_reason": "wall_clock",
       "libraries_done": 3,
-      "kv_type": "f16",
-      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
+      "kv_type": "unquantized",
+      "kv_type_source": "backend: mlx_lm.server serves an unquantized 16-bit KV cache and takes no KV option"
     },
     {
       "model": "Qwen3.8-27B (mlx, low)",
@@ -1397,8 +1397,8 @@
         "rate_tone": null,
         "provider_label": "local"
       },
-      "kv_type": "f16",
-      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
+      "kv_type": "unquantized",
+      "kv_type_source": "backend: mlx_lm.server serves an unquantized 16-bit KV cache and takes no KV option"
     },
     {
       "model": "deepseek-v4-flash-0731",
@@ -2233,8 +2233,8 @@
         "<td><span class=\"pill p-mid\">135</span></td>"
       ],
       "config_note": "run-worker.sh was invoked with --thinking low, but the session log\u2019s only thinking_level_change event records \"high\" \u2014 the flag was not honored (same failure as the guided v3.0 run). Renamed from \"(mlx, low)\" and scored as the observed high level.",
-      "kv_type": "f16",
-      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
+      "kv_type": "unquantized",
+      "kv_type_source": "backend: mlx_lm.server serves an unquantized 16-bit KV cache and takes no KV option"
     },
     {
       "model": "gpt-5.6-sol",
@@ -2776,8 +2776,8 @@
       "notes": "Scored on Fable 2026-09-03. model_budget_exhausted pattern: 15 tool calls of orientation (issue fetch, TASKS.md write, grep/ls/cat) in the first 23 min, then one failed exact-match edit, then 4 consecutive turns (3 nudged, 1 unsent) that each hit the 16384-token output cap with stop_reason length. The capped output is not reasoning: it is ~16K tokens of newline characters plus a stray <|channel|> token in the thinking channel. The nudge text never changed the behaviour. Bugs remaining is a vacuous 25: the branch is identical to the base, so trap A, chalk, prettier, and eslint pass by absence of work. Lint and conventions score 0 for the same reason. Criterion 6: 8 base minus 2 per model nudge (3 nudges) = 2. TASKS.md was written upfront with the full library and package tree and never ticked; the file stayed out of git.",
       "invalid": true,
       "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits",
-      "kv_type": "f16",
-      "kv_type_source": "backend: the LM Studio MLX engine serves f16 KV and takes no KV option"
+      "kv_type": "unquantized",
+      "kv_type_source": "backend: the LM Studio MLX engine serves an unquantized 16-bit KV cache and takes no KV option"
     },
     {
       "model": "bonsai-prism",
