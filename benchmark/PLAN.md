@@ -112,6 +112,13 @@ table across versions.
       context below its system prompt plus the summary plus that budget.
       The operator's own file is never edited. Every row's config note
       carries the window, the reserve and the keep budget it ran with.
+    - **Every row records its KV cache type** in `kv_type`, with
+      `kv_type_source` saying where it came from: the run's config note, the
+      runbook that served it, the backend when the server offers no choice
+      (mlx_lm.server and the LM Studio engine serve f16), or an assumption.
+      Rows before the KV pick of 2026-09-04 that no record covers carry
+      `q8_0`, the standard of that time, marked as assumed. A new run never
+      assumes: the runner records the serving parameters it was given.
     - Starts the harness with the bench's prompt and writes its transient
       outputs to `scratchpad/benchmark/runs/` (gitignored).
 3. **pi runs go through `run-pi-rpc.mjs`, never `pi -p`.** `pi -p` exits on the
@@ -438,6 +445,8 @@ run belongs to (blind: `results.json`/`results.csv`/`report.html`; guided:
   scores per criterion, defects, telemetry (guided rows also carry
   `prompt_version`).
 - the results `.csv` — flat one-row-per-model summary for spreadsheet use.
+  It carries `kv_type` beside `serving`, because the KV cache type sets the
+  depth curve and a row without it is not a configuration.
 - the report `.html` — the self-contained HTML report. **Do not edit its tables by
   hand.** The report is data driven: `generate-report.mjs` reads the bench's
   results file and template (prose + `{{SCOREBOARD}}`/`{{MATRIX}}`/`{{COST}}`/`{{PLAN}}`

@@ -60,7 +60,7 @@
         "provider_label": "Claude plan"
       },
       "plan": {
-        "marginal": "≈ $0.38 est.",
+        "marginal": "\u2248 $0.38 est.",
         "marginal_tone": null,
         "plan": "Claude Max 5x $100/mo",
         "alloc": "$100",
@@ -68,7 +68,7 @@
         "week": "$23.08",
         "w5h": "not exposed",
         "wweek": "not exposed",
-        "rpw": "≈ 60"
+        "rpw": "\u2248 60"
       },
       "matrix_cells": [
         "<td class=\"best\"><span class=\"pill p-good\">none</span> <b>25</b></td>",
@@ -79,9 +79,9 @@
         "<td class=\"best\"><span class=\"pill p-good\">all gone</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td class=\"best\"><b>20</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">real installs ×8</span> <b>8</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">−96 lines</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · self-run</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real installs \u00d78</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">\u221296 lines</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 self-run</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">avoided</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">18 / 18</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">one each</span></td>",
@@ -171,7 +171,7 @@
         "provider_label": "Claude plan"
       },
       "plan": {
-        "marginal": "≈ $0.17 est.",
+        "marginal": "\u2248 $0.17 est.",
         "marginal_tone": null,
         "plan": "Claude Max 5x $100/mo",
         "alloc": "$100",
@@ -179,20 +179,20 @@
         "week": "$23.08",
         "w5h": "not exposed",
         "wweek": "not exposed",
-        "rpw": "≈ 135"
+        "rpw": "\u2248 135"
       },
       "matrix_cells": [
-        "<td><span class=\"pill p-bad\">1 crit · stale chalk</span> <b>16</b></td>",
+        "<td><span class=\"pill p-bad\">1 crit \u00b7 stale chalk</span> <b>16</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">pass</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">SYNC OK</span></td>",
-        "<td><span class=\"pill p-mid\">7½ / 8</span></td>",
-        "<td><span class=\"pill p-bad\">chalk ×2 left</span></td>",
+        "<td><span class=\"pill p-mid\">7\u00bd / 8</span></td>",
+        "<td><span class=\"pill p-bad\">chalk \u00d72 left</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all gone</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td><b>12</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">real installs ×11</span> <b>8</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">−96 lines</span></td>",
-        "<td><span class=\"pill p-bad\">eslint ×2 · prettier clean · never ran</span> <b>1</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real installs \u00d711</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">\u221296 lines</span></td>",
+        "<td><span class=\"pill p-bad\">eslint \u00d72 \u00b7 prettier clean \u00b7 never ran</span> <b>1</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">avoided</span></td>",
         "<td><span class=\"pill p-mid\">1 fix commit</span></td>",
         "<td><span class=\"pill p-bad\">3 multi-package</span></td>",
@@ -202,7 +202,7 @@
         "<td><b>7</b></td>",
         "<td><span class=\"pill p-mid\">1 repair</span> <b>6</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
-        "<td><span class=\"pill p-mid\">4 full runs · 4 libs untested pre-commit</span> <b>8</b></td>",
+        "<td><span class=\"pill p-mid\">4 full runs \u00b7 4 libs untested pre-commit</span> <b>8</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">textbook, checked per commit</span> <b>4</b></td>",
         "<td><span class=\"pill p-mid\">40 %</span> <b>2</b></td>",
         "<td><span class=\"pill p-mid\">stale requires</span> <b>4</b></td>",
@@ -248,11 +248,11 @@
         },
         {
           "severity": "medium",
-          "summary": "cli-printer.js's top-level print() method calls colorize() unconditionally; only the nested _print() method checks this._enableColor, so enableColor:false still emits ANSI codes — the exact chalk trap the guided prompt disclosed, only half-fixed (confirmed by capturing print() output with and without enableColor:false, both contain escape codes)"
+          "summary": "cli-printer.js's top-level print() method calls colorize() unconditionally; only the nested _print() method checks this._enableColor, so enableColor:false still emits ANSI codes \u2014 the exact chalk trap the guided prompt disclosed, only half-fixed (confirmed by capturing print() output with and without enableColor:false, both contain escape codes)"
         },
         {
           "severity": "minor",
-          "summary": "all 8 commits used --no-verify, against the guided prompt's explicit rule, with no hook failure in the session log to explain it — a systematic bypass, not a reaction to a broken hook"
+          "summary": "all 8 commits used --no-verify, against the guided prompt's explicit rule, with no hook failure in the session log to explain it \u2014 a systematic bypass, not a reaction to a broken hook"
         },
         {
           "severity": "minor",
@@ -285,7 +285,7 @@
       "cost_usd": 0,
       "cost_basis": "local",
       "matrix_cells": [
-        "<td><span class=\"pill p-bad\">1 crit · 1 med</span> <b>10</b></td>",
+        "<td><span class=\"pill p-bad\">1 crit \u00b7 1 med</span> <b>10</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">ran 23x, pass</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">SYNC OK</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
@@ -293,14 +293,14 @@
         "<td class=\"best\"><span class=\"pill p-good\">all gone</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td class=\"best\"><b>20</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">real installs ×9</span> <b>8</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">−96 lines</span></td>",
-        "<td><span class=\"pill p-bad\">eslint 1 err · prettier 2 files · never ran</span> <b>0</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real installs \u00d79</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">\u221296 lines</span></td>",
+        "<td><span class=\"pill p-bad\">eslint 1 err \u00b7 prettier 2 files \u00b7 never ran</span> <b>0</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">avoided</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
         "<td><span class=\"pill p-bad\">5 multi-package</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">both dropped</span></td>",
-        "<td><span class=\"pill p-bad\">bypassed ×8</span></td>",
+        "<td><span class=\"pill p-bad\">bypassed \u00d78</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">untracked</span></td>",
         "<td><b>4.5</b></td>",
         "<td><span class=\"pill p-mid\">bug slipped through</span> <b>5</b></td>",
@@ -328,7 +328,9 @@
       },
       "thinking": "high",
       "end_reason": "complete",
-      "libraries_done": 8
+      "libraries_done": 8,
+      "kv_type": "q8_0",
+      "kv_type_source": "assumed: q8_0 was the standard before the KV pick of 2026-09-04; no record names the type"
     },
     {
       "model": "prism-ml/Ternary-Bonsai-27B-mlx-2bit",
@@ -404,8 +406,8 @@
         "<td><span class=\"pill p-bad\">5 left</span></td>",
         "<td><span class=\"pill p-mid\">not reached</span></td>",
         "<td><b>7.5</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">real installs ×3</span> <b>8</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">−23 lines</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real installs \u00d73</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">\u221223 lines</span></td>",
         "<td><span class=\"pill p-mid\">clean diff, never ran itself</span> <b>2</b></td>",
         "<td><span class=\"pill p-mid\">not reached</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -439,7 +441,9 @@
       },
       "thinking": "high",
       "end_reason": "stuck",
-      "libraries_done": 3
+      "libraries_done": 3,
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "mlx-community/Qwen3.8-27B-4bit",
@@ -512,8 +516,8 @@
         "<td><span class=\"pill p-bad\">4 left, rimraf partial</span></td>",
         "<td><span class=\"pill p-bad\">missed mendel-requirify</span></td>",
         "<td><b>9.5</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">real installs ×6</span> <b>8</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">−37 lines</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real installs \u00d76</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">\u221237 lines</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">clean, ran itself</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">avoided</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
@@ -547,7 +551,9 @@
       },
       "thinking": "low",
       "end_reason": "harness_crash",
-      "libraries_done": 6
+      "libraries_done": 6,
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "glm-5p3-flash",
@@ -603,7 +609,7 @@
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td class=\"best\"><b>20</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real install</span> <b>8</b></td>",
-        "<td><span class=\"pill p-mid\">+199/−106 lines</span></td>",
+        "<td><span class=\"pill p-mid\">+199/\u2212106 lines</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">clean, self-checked 2x</span> <b>5</b></td>",
         "<td><span class=\"pill p-mid\">retired (v3 base)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
@@ -698,7 +704,7 @@
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td class=\"best\"><b>20</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real install</span> <b>8</b></td>",
-        "<td><span class=\"pill p-mid\">+134/−133 lines</span></td>",
+        "<td><span class=\"pill p-mid\">+134/\u2212133 lines</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">clean, self-checked 14x</span> <b>5</b></td>",
         "<td><span class=\"pill p-mid\">retired (v3 base)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
@@ -765,7 +771,7 @@
       "defects": [
         {
           "severity": "critical",
-          "summary": "mlx_lm.server's generation thread crashed three times (Metal OOM dead-thread trap) during this run, on top of 10 tooling nudges over 4h21m; the model made zero commits and no library was touched. Harness/server instability, not a model-authored defect — see benchmarks/bench7/state.md in the sibling repo for the crash log."
+          "summary": "mlx_lm.server's generation thread crashed three times (Metal OOM dead-thread trap) during this run, on top of 10 tooling nudges over 4h21m; the model made zero commits and no library was touched. Harness/server instability, not a model-authored defect \u2014 see benchmarks/bench7/state.md in the sibling repo for the crash log."
         }
       ],
       "telemetry": {
@@ -838,7 +844,9 @@
         "<td><span class=\"pill p-bad\">48, 3 crashes</span></td>"
       ],
       "invalid": true,
-      "invalid_reason": "three Metal OOM server crashes, tooling budget exhausted; zero commits"
+      "invalid_reason": "three Metal OOM server crashes, tooling budget exhausted; zero commits",
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "gpt-5.6-luna",
@@ -868,7 +876,7 @@
       "defects": [
         {
           "severity": "medium",
-          "summary": "packages/mendel-development/validate-manifest.js registers a process.once('exit') hook that deletes the debug-manifest temp dir right after printing its path — trap C, a self-inflicted regression not present on master"
+          "summary": "packages/mendel-development/validate-manifest.js registers a process.once('exit') hook that deletes the debug-manifest temp dir right after printing its path \u2014 trap C, a self-inflicted regression not present on master"
         }
       ],
       "telemetry": {
@@ -940,17 +948,17 @@
       "end_reason": "complete",
       "libraries_done": 8,
       "plan": {
-        "marginal": "≈ $0.05",
+        "marginal": "\u2248 $0.05",
         "marginal_tone": "good",
         "plan": "ChatGPT Plus $20/mo",
         "alloc": "$20",
         "alloc_note": "all of it",
         "week": "$4.62",
         "w5h": "not measured",
-        "wweek": "≈ 1 %",
-        "rpw": "≈ 100"
+        "wweek": "\u2248 1 %",
+        "rpw": "\u2248 100"
       },
-      "config_note": "Cost basis corrected 2026-09-02: the run used the ChatGPT-plan OAuth login, but run-worker.sh probed the plan as \"none\" (bare model name) and recorded the metered token price as paid. Plan share estimated from the same model’s v1.0 measured run, scaled by vendor token cost; token and wall-clock scalings agree within $0.02."
+      "config_note": "Cost basis corrected 2026-09-02: the run used the ChatGPT-plan OAuth login, but run-worker.sh probed the plan as \"none\" (bare model name) and recorded the metered token price as paid. Plan share estimated from the same model\u2019s v1.0 measured run, scaled by vendor token cost; token and wall-clock scalings agree within $0.02."
     },
     {
       "model": "prism-ml/Ternary-Bonsai-27B-mlx-2bit",
@@ -964,7 +972,7 @@
       "base_commit": "86935f4",
       "partial": true,
       "prompt_version": "v3.0",
-      "config_note": "run-worker.sh was invoked with --thinking low, but the session log's only thinking_level_change event records \"high\" — the flag was not honored. Scored and reported as the observed level.",
+      "config_note": "run-worker.sh was invoked with --thinking low, but the session log's only thinking_level_change event records \"high\" \u2014 the flag was not honored. Scored and reported as the observed level.",
       "score_total": 59,
       "scores": {
         "bugs": 25,
@@ -1048,7 +1056,9 @@
         "<td class=\"best\"><span class=\"pill p-good\">0</span></td>",
         "<td><span class=\"pill p-mid\">n/a</span></td>",
         "<td><span class=\"pill p-bad\">122, path-typo loop</span></td>"
-      ]
+      ],
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "Claude Haiku 4.5",
@@ -1078,7 +1088,7 @@
       "defects": [
         {
           "severity": "critical",
-          "summary": "packages/mendel-development/apply-extra-options.js calls fs.promises.glob(i).then(...) — fs.promises.glob() returns an AsyncIterator, not a Promise; throws TypeError: glob(...).then is not a function (trap A)"
+          "summary": "packages/mendel-development/apply-extra-options.js calls fs.promises.glob(i).then(...) \u2014 fs.promises.glob() returns an AsyncIterator, not a Promise; throws TypeError: glob(...).then is not a function (trap A)"
         }
       ],
       "telemetry": {
@@ -1203,7 +1213,7 @@
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td class=\"best\"><b>20</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real remove, verified</span> <b>8</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">+123/−101 lines</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">+123/\u2212101 lines</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">clean, self-checked</span> <b>5</b></td>",
         "<td><span class=\"pill p-mid\">retired (v3 base)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
@@ -1346,7 +1356,9 @@
         "<td><span class=\"pill p-mid\">285</span></td>"
       ],
       "notes": "Scored on Fable 2026-09-03. Lint credit: score.mjs counts 0 self-runs because it looks for prettier --check/eslint ., but the model ran pnpm test (which runs the repo's static script: prettier + eslint) after its last commit, so self-run credit is given. The install loop mid-run (tap link broke after pnpm remove) is environmental, not a code repair. The chalk port uses plain util.styleText with no forced level, correct for v3.0.",
-      "anomaly": "peak_context corrected 2026-09-04: the earlier 77849 was the value after the compaction."
+      "anomaly": "peak_context corrected 2026-09-04: the earlier 77849 was the value after the compaction.",
+      "kv_type": "q8_0",
+      "kv_type_source": "assumed: q8_0 was the standard before the KV pick of 2026-09-04; no record names the type"
     },
     {
       "model": "google/gemma-4-12b",
@@ -1453,7 +1465,9 @@
       ],
       "notes": "Scored on Fable 2026-09-03; independent of the blind sibling row. model_budget_exhausted pattern: 21 tool calls of orientation in the first 18 min (gh issue view, TASKS.md write with the 8 libraries and no sub-items, one grep pair per library with --exclude-dir=node_modules), then an edit call that failed validation (duplicate edit entry, second without oldText), then 4 consecutive turns (1 spontaneous, 3 nudged) that each hit the 16384-token cap with stop_reason length. Output of those turns is a newline flood in the thinking channel; the last turn holds about 2.4K chars of real uuid planning before the flood resumes. Nudge text never changed the outcome. Bugs remaining is a vacuous 25: branch is identical to the base, so trap A, prettier, and eslint pass by absence of work; lint and conventions score 0 for the same reason. Criterion 6: 8 minus 2 per model nudge (3) = 2. Task list: the flat upfront list is the right v3 form, the per-package sub-item edit (v3 asks per file) failed and was never retried; never ticked; file stayed out of git. Truncation: evidence shows 0 noisy commands, so the share is null; partial credit for filtering every grep. Tool errors: 2 bash quoting errors (same command re-sent), 2 bash calls with command: 3, 1 edit validation; plus 1 write with empty args that terminated the stream (harness retry). Peak context 29970 of 158464. Difference from the blind sibling: the blind run collapsed after a failed exact-match edit on a real code file at about 23 min; this guided run collapsed earlier, at about 18 min, on a TASKS.md edit, before any code work. The command: 3 calls are a separate, milder glitch the model noticed and recovered from at once, distinct from the terminal newline-flood collapse.",
       "invalid": true,
-      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits"
+      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits",
+      "kv_type": "f16",
+      "kv_type_source": "backend: the LM Studio MLX engine serves f16 KV and takes no KV option"
     },
     {
       "model": "Gemma-4-12B (low)",
@@ -1564,7 +1578,9 @@
       ],
       "notes": "Scored on Fable 2026-09-03; independent of the two sibling rows. Same terminal failure as the high siblings (newline flood at the 16384-token cap, 6 length-capped turns) but a different path to it. Orientation was faster and more complete: 4 min, gh issue view, TASKS.md with 8 libraries and per-package sub-items, 15 greps, and by 04:47 a fully correct per-file inventory in the reasoning channel that names trap B (legacy-packages/mendel-requirify rimraf) and the root rimraf/tmp. The failure point was the edit that should have written that inventory: empty arguments {} twice (04:47, 04:52), then the flood at 05:02. After nudges 1 and 2 the run alternated floods with a 12-min window (05:37-05:50) of 100 identical failing ls -F_r calls, inside which it read app.js and package.json for uuid but made no edit. Nudge 3 (05:50) followed a 36-token turn that emitted a raw tool-call token string as text; the two turns after it were floods, ending the run on the model budget at 06:13. Bugs remaining is a vacuous 25: branch identical to base, trap A, prettier, eslint pass by absence of work. Criterion 6: 8 minus 2 per model nudge (3) = 2; the ls loop is not a repair commit so it is not scored again there. Task list 1: upfront per-package sub-items where v3 asks per-file, never expanded, never ticked; the correct inventory existed only in reasoning. Truncation 1.5: evidence shows 3 noisy commands, none piped, but almost every grep was narrowed with grep -v; the 100 ls errors were tiny outputs. Tool errors 108 = 100 ls loop + 3 empty-argument calls + 5 concatenated-grep errors. Peak context 45159 of 158464 with 4 overflow compactions; 1.97M total tokens versus about 0.3M for the high siblings because the run lasted 99 min instead of 46-49.",
       "invalid": true,
-      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits"
+      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits",
+      "kv_type": "f16",
+      "kv_type_source": "backend: the LM Studio MLX engine serves f16 KV and takes no KV option"
     },
     {
       "model": "Gemma-4-12B (llama.cpp, off)",
@@ -1678,7 +1694,9 @@
         "<td><span class=\"pill p-mid\">52 %</span></td>",
         "<td><span class=\"pill p-bad\">132, 42 errors, 3 capped turns</span></td>"
       ],
-      "notes": "Scored on Fable 2026-09-05. Config: llama-server b10621, unsloth gemma-4-12b-it-UD-Q4_K_XL.gguf, n_ctx 262144, speculative.types none (no MTP drafter), f16 KV, thinking off; the models.json entry name still reads 'llama MTP, q8 KV', the server props are authoritative. First scored attempt at this config, no reruns penalty. Raw 58, capped 37.5 (3 of 8). Bugs 25: the three landed replacements are correct; Buffer base64url matches urlsafe-base64 encode/decode and tap passes tree-serializer/deserializer; Object.assign on the fresh object that MendelWalker.found() returns is behaviour-equivalent to xtend; crypto.randomUUID is right. Static grep for uuid, xtend, urlsafe-base64 is clean in code and package.json. Trap A is a vacuous pass (apply-extra-options.js untouched). Completion 7.5 = 20 x 3/8, the same as the Bonsai 3/8 row; trap B was grepped at 14:13 and the two mendel-requirify test files were edited in the final turn, but nothing of rimraf beyond 2 of 4 requires reached the branch. node_modules 8: four pnpm --filter remove calls, lockfile -121 lines, uuid@11.1.1 and urlsafe-base64 gone from the store (uuid@14 and xtend@4.0.2 remain as other packages' transitive deps). Lint 3: prettier and eslint clean on re-run, the model never ran either; husky ran and rejected the first omnibus commit (eslint on legacy/index.js, which still required xtend after its package.json entry was removed). Commit craft 7 = chore 4 + split 1 + hygiene 2 (one git add ., no --no-verify, TASKS.md gitignored). Right the first time 2 = 8 - 2 x 3 model nudges; no repair commit. Test discipline 0: no tap, no pnpm run unit, no full suite before any of the 3 commits. Conventions 3: swaps match neighbour style, but a stray test-uuid.js landed and node:crypto sits next to bare crypto. Task list 2: flat 8-library list at 13:58, per-file sub-items on discovery (v3 form), uuid ticked right after its commit, xtend and urlsafe-base64 ticked 30 min before their commit, trap-B files never added. Truncation 0.5: 0 of 28 noisy commands piped; the first two grep -r sweeps dumped node_modules, later greps used --exclude-dir. Provenance: the 3 branch commits match session commands at 14:04:18, 14:06:43, 14:43:14; the 14:40:39 commit was hook-rejected. No human message inside the scored region other than the 3 harness nudges. Tool errors 42 = 12 repeated TASKS.md tick edits + 5 repeated outlet-css edits + 2 test-uuid.js runs + 23 assorted (pnpm path errors, greps with no match, a missing config.json read). Peak context 125135 of 262144, no compaction. mendel-config tap: 40/1 once, then 41/41 twice (documented flake). Worktree left with uncommitted rimraf work in 7 files."
+      "notes": "Scored on Fable 2026-09-05. Config: llama-server b10621, unsloth gemma-4-12b-it-UD-Q4_K_XL.gguf, n_ctx 262144, speculative.types none (no MTP drafter), f16 KV, thinking off; the models.json entry name still reads 'llama MTP, q8 KV', the server props are authoritative. First scored attempt at this config, no reruns penalty. Raw 58, capped 37.5 (3 of 8). Bugs 25: the three landed replacements are correct; Buffer base64url matches urlsafe-base64 encode/decode and tap passes tree-serializer/deserializer; Object.assign on the fresh object that MendelWalker.found() returns is behaviour-equivalent to xtend; crypto.randomUUID is right. Static grep for uuid, xtend, urlsafe-base64 is clean in code and package.json. Trap A is a vacuous pass (apply-extra-options.js untouched). Completion 7.5 = 20 x 3/8, the same as the Bonsai 3/8 row; trap B was grepped at 14:13 and the two mendel-requirify test files were edited in the final turn, but nothing of rimraf beyond 2 of 4 requires reached the branch. node_modules 8: four pnpm --filter remove calls, lockfile -121 lines, uuid@11.1.1 and urlsafe-base64 gone from the store (uuid@14 and xtend@4.0.2 remain as other packages' transitive deps). Lint 3: prettier and eslint clean on re-run, the model never ran either; husky ran and rejected the first omnibus commit (eslint on legacy/index.js, which still required xtend after its package.json entry was removed). Commit craft 7 = chore 4 + split 1 + hygiene 2 (one git add ., no --no-verify, TASKS.md gitignored). Right the first time 2 = 8 - 2 x 3 model nudges; no repair commit. Test discipline 0: no tap, no pnpm run unit, no full suite before any of the 3 commits. Conventions 3: swaps match neighbour style, but a stray test-uuid.js landed and node:crypto sits next to bare crypto. Task list 2: flat 8-library list at 13:58, per-file sub-items on discovery (v3 form), uuid ticked right after its commit, xtend and urlsafe-base64 ticked 30 min before their commit, trap-B files never added. Truncation 0.5: 0 of 28 noisy commands piped; the first two grep -r sweeps dumped node_modules, later greps used --exclude-dir. Provenance: the 3 branch commits match session commands at 14:04:18, 14:06:43, 14:43:14; the 14:40:39 commit was hook-rejected. No human message inside the scored region other than the 3 harness nudges. Tool errors 42 = 12 repeated TASKS.md tick edits + 5 repeated outlet-css edits + 2 test-uuid.js runs + 23 assorted (pnpm path errors, greps with no match, a missing config.json read). Peak context 125135 of 262144, no compaction. mendel-config tap: 40/1 once, then 41/41 twice (documented flake). Worktree left with uncommitted rimraf work in 7 files.",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     },
     {
       "model": "prism-ml/Ternary-Bonsai-27B-mlx-2bit",
@@ -1782,7 +1800,9 @@
         "<td><span class=\"pill p-bad\">10, 8 of them gh auth login</span></td>"
       ],
       "invalid": true,
-      "invalid_reason": "gh token invalid on the host (HTTP 401), model looped on interactive gh auth login, tooling budget exhausted; zero commits"
+      "invalid_reason": "gh token invalid on the host (HTTP 401), model looped on interactive gh auth login, tooling budget exhausted; zero commits",
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "prism-ml/Ternary-Bonsai-27B-mlx-2bit",
@@ -1797,7 +1817,7 @@
       "partial": true,
       "prompt_version": "v3.0",
       "attempt": 2,
-      "config_note": "mlx_lm.server, --prompt-cache-size 2, thinking off — retry after gh auth was fixed",
+      "config_note": "mlx_lm.server, --prompt-cache-size 2, thinking off \u2014 retry after gh auth was fixed",
       "score_total": 25,
       "scores": {
         "bugs": 25,
@@ -1814,7 +1834,7 @@
       "defects": [
         {
           "severity": "critical",
-          "summary": "Operator-stopped after 186.9 min: non-terminating identical-command loop. The model sent the bash command `ls -la ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null; cat ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null` 85 times in a row (tool calls 21 to 105, from 17.9 min into the run until the kill) against a file that does not exist, both halves silenced, every result `(no output)` exit 1, zero variation. Zero commits, zero libraries, zero tracked-file edits; only TASKS.md (git-ignored) and an untracked examples/planout-example/test/app-test.js were written before the loop. The harness had no stop for this shape (each turn ended in a fresh tool call inside the stall and turn caps), so the run had no natural end. Record: runs/…-retry2-events.jsonl and runs/…-retry2-summary.md. Distinct from the earlier gh-401 invalid attempt (commit 238ae57)."
+          "summary": "Operator-stopped after 186.9 min: non-terminating identical-command loop. The model sent the bash command `ls -la ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null; cat ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null` 85 times in a row (tool calls 21 to 105, from 17.9 min into the run until the kill) against a file that does not exist, both halves silenced, every result `(no output)` exit 1, zero variation. Zero commits, zero libraries, zero tracked-file edits; only TASKS.md (git-ignored) and an untracked examples/planout-example/test/app-test.js were written before the loop. The harness had no stop for this shape (each turn ended in a fresh tool call inside the stall and turn caps), so the run had no natural end. Record: runs/\u2026-retry2-events.jsonl and runs/\u2026-retry2-summary.md. Distinct from the earlier gh-401 invalid attempt (commit 238ae57)."
         }
       ],
       "telemetry": {
@@ -1888,7 +1908,9 @@
       ],
       "invalid": true,
       "invalid_reason": "operator stop: non-terminating identical-command loop (one bash ls/cat of a missing .taprc, 85 times in a row); zero commits",
-      "notes": "Operator-stopped after 186.9 min: non-terminating identical-command loop. The model sent the bash command `ls -la ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null; cat ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null` 85 times in a row (tool calls 21 to 105, from 17.9 min into the run until the kill) against a file that does not exist, both halves silenced, every result `(no output)` exit 1, zero variation. Zero commits, zero libraries, zero tracked-file edits; only TASKS.md (git-ignored) and an untracked examples/planout-example/test/app-test.js were written before the loop. The harness had no stop for this shape (each turn ended in a fresh tool call inside the stall and turn caps), so the run had no natural end. Record: runs/…-retry2-events.jsonl and runs/…-retry2-summary.md. Distinct from the earlier gh-401 invalid attempt (commit 238ae57)."
+      "notes": "Operator-stopped after 186.9 min: non-terminating identical-command loop. The model sent the bash command `ls -la ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null; cat ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null` 85 times in a row (tool calls 21 to 105, from 17.9 min into the run until the kill) against a file that does not exist, both halves silenced, every result `(no output)` exit 1, zero variation. Zero commits, zero libraries, zero tracked-file edits; only TASKS.md (git-ignored) and an untracked examples/planout-example/test/app-test.js were written before the loop. The harness had no stop for this shape (each turn ended in a fresh tool call inside the stall and turn caps), so the run had no natural end. Record: runs/\u2026-retry2-events.jsonl and runs/\u2026-retry2-summary.md. Distinct from the earlier gh-401 invalid attempt (commit 238ae57).",
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "gemma-4-26b-a4b",
@@ -2014,7 +2036,9 @@
       ],
       "invalid": true,
       "invalid_reason": "live loop stop: repetition_loop on 5 identical edit tool calls, 18:12:06Z to 18:12:47Z; 2 of 8 libraries landed",
-      "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call), 5 identical calls, first at 18:12:06Z, final at 18:12:47Z (meta.json). run-worker.sh's own post-hoc loop check logged \"ok, worst ratio 0.22\" on the same session, computed before this live stop was read; treat the live stop as authoritative and this row as invalid.; critical: root package.json still declares rimraf and tmp, never touched; 6 of 8 libraries not started, 23 stale requires across 12 packages, 15 stale package.json entries; legacy-packages/mendel-requirify rimraf reference never found.; medium: uncommitted packages/mendel-core/tree-deserialiser.js:7 set to 'var URLSafeBase64 = Buffer;', so Buffer.decode is undefined and every hash returns 'Invalid hash: bad base64 input'; model then edited two test files to guard around it instead of fixing the source, then failed 12 edit calls before the loop stop.; minor: fb8880b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a copy.; minor: untracked examples/planout-example/test-uuid.js scratch file left behind.; minor: only one pnpm run unit (aborted after a 10-minute stall); commits fb8880b and 4020e36 had no full-suite run."
+      "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call), 5 identical calls, first at 18:12:06Z, final at 18:12:47Z (meta.json). run-worker.sh's own post-hoc loop check logged \"ok, worst ratio 0.22\" on the same session, computed before this live stop was read; treat the live stop as authoritative and this row as invalid.; critical: root package.json still declares rimraf and tmp, never touched; 6 of 8 libraries not started, 23 stale requires across 12 packages, 15 stale package.json entries; legacy-packages/mendel-requirify rimraf reference never found.; medium: uncommitted packages/mendel-core/tree-deserialiser.js:7 set to 'var URLSafeBase64 = Buffer;', so Buffer.decode is undefined and every hash returns 'Invalid hash: bad base64 input'; model then edited two test files to guard around it instead of fixing the source, then failed 12 edit calls before the loop stop.; minor: fb8880b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a copy.; minor: untracked examples/planout-example/test-uuid.js scratch file left behind.; minor: only one pnpm run unit (aborted after a 10-minute stall); commits fb8880b and 4020e36 had no full-suite run.",
+      "kv_type": "f16",
+      "kv_type_source": "runbook: run 11 server A, f16 KV, -c 212992"
     },
     {
       "model": "qwen3.6-35b-a3b",
@@ -2159,7 +2183,9 @@
         "<td><span class=\"pill p-mid\">299, 37 errors</span></td>"
       ],
       "invalid": false,
-      "notes": "critical: trap A. packages/mendel-development/apply-extra-options.js:6 still var { glob } = require('node:fs').promises with the .then() call; repro THREW TypeError glob(...).then is not a function; commit 10ab582.; medium: chalk direction ignored. Prompt asked for util.styleText, drop enableColor and the forced level; branch adds a 54-line hand-rolled ansi-colors.js (LEVEL=3, fn.__proto__ = base where base is undefined at construction) and cli-printer.js:31 still forces chalk.level; commit 045d590 typed refactor, not chore.; medium: stale lockfile. tmp and shasum removed with sed, not pnpm; pnpm-lock.yaml still lists both; pnpm install --frozen-lockfile fails at HEAD; commit de04a02 touches no lockfile.; medium: commit craft. 4 of 7 commits multi-package; TASKS.md forced past .gitignore with git add -f and leaked into 2 commits; git add -A used once despite the prompt; 3 pre-commit hook rejects (commitlint header, eslint unused fn, commitlint missing type).; medium: no green full suite before the last two commits; root pnpm run unit failed or timed out repeatedly after the chalk edits, then the model ran only the mendel-pipeline package suite and reported all tests passing.; minor: self-inflicted rework, wrong relative require paths fixed twice, an early ansi-colors.js draft with a duplicate red and non-callable blue rewritten, sed left trailing commas in 5 package.json files.; minor: task list sub-items added at tick time, not on discovery; chalk/tmp/shasum missing sub-items; a duplicate '- [ ] glob' line appeared.; minor: prettier/eslint never self-run, clean via hooks only.; minor: false final claim that uuid was kept internal, when it was replaced in commit 1b45c7b.; minor: style, blank lines left where requires were removed in 3 files; a const inserted into a var-only block.; note: trap B (mendel-requirify rimraf) found and removed; trap C avoided; 12 compactions, 11 from overflow, peak context 51567 exceeded the pi entry's 49152 window."
+      "notes": "critical: trap A. packages/mendel-development/apply-extra-options.js:6 still var { glob } = require('node:fs').promises with the .then() call; repro THREW TypeError glob(...).then is not a function; commit 10ab582.; medium: chalk direction ignored. Prompt asked for util.styleText, drop enableColor and the forced level; branch adds a 54-line hand-rolled ansi-colors.js (LEVEL=3, fn.__proto__ = base where base is undefined at construction) and cli-printer.js:31 still forces chalk.level; commit 045d590 typed refactor, not chore.; medium: stale lockfile. tmp and shasum removed with sed, not pnpm; pnpm-lock.yaml still lists both; pnpm install --frozen-lockfile fails at HEAD; commit de04a02 touches no lockfile.; medium: commit craft. 4 of 7 commits multi-package; TASKS.md forced past .gitignore with git add -f and leaked into 2 commits; git add -A used once despite the prompt; 3 pre-commit hook rejects (commitlint header, eslint unused fn, commitlint missing type).; medium: no green full suite before the last two commits; root pnpm run unit failed or timed out repeatedly after the chalk edits, then the model ran only the mendel-pipeline package suite and reported all tests passing.; minor: self-inflicted rework, wrong relative require paths fixed twice, an early ansi-colors.js draft with a duplicate red and non-callable blue rewritten, sed left trailing commas in 5 package.json files.; minor: task list sub-items added at tick time, not on discovery; chalk/tmp/shasum missing sub-items; a duplicate '- [ ] glob' line appeared.; minor: prettier/eslint never self-run, clean via hooks only.; minor: false final claim that uuid was kept internal, when it was replaced in commit 1b45c7b.; minor: style, blank lines left where requires were removed in 3 files; a const inserted into a var-only block.; note: trap B (mendel-requirify rimraf) found and removed; trap C avoided; 12 compactions, 11 from overflow, peak context 51567 exceeded the pi entry's 49152 window.",
+      "kv_type": "q8_0",
+      "kv_type_source": "config note"
     },
     {
       "model": "gemma-4-26b-a4b",
@@ -2304,7 +2330,9 @@
         "<td><span class=\"pill p-mid\">269, 42 errors</span></td>"
       ],
       "invalid": false,
-      "notes": "critical: trap A. packages/mendel-development/apply-extra-options.js:6 changed to var { glob } = require('node:fs/promises') with all .then() call sites kept; repro THREW TypeError glob(...).then is not a function; commit fda8ecd. No test covers the file.; medium: trap B missed. legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require rimraf, package.json:26 still declares it; both files appeared in the model's own grep and were skipped.; medium: stale lockfile. tmp removed from 3 package.json files by hand edit, never via pnpm; pnpm-lock.yaml still lists tmp under all three importers; pnpm install --frozen-lockfile fails at HEAD; commit 062af6b touches no lockfile.; medium: commit craft, 4 of 13 commits multi-package; 2b160a8 is a 6-package, 3-library omnibus staged with git add .; b105172 also carries an unrelated urlsafe-base64 file swept in by git add -A.; medium: no full test suite before 9 of 13 commits, though the prompt asks for one before every commit.; minor: self-inflicted break repaired pre-commit, a commander import rewrite broke cli.js, caught by pnpm test and reverted.; minor: declared done with 3 package.json edits uncommitted and two scratch test files untracked (1 model nudge); scratch files later deleted.; minor: task list, chalk/tmp/shasum never got sub-items, four libraries ticked together in one bulk edit after the nudge.; minor: style, mixed node: prefix next to bare requires in the same files; a throwaway test file written, hook-rejected, then deleted.; minor: truncation 27%, several full pnpm test and tap runs piped through tail, grep sweeps dumped node_modules.; note: chalk port correct (plain util.styleText, no forced level); trap C avoided; root rimraf and tmp removed via pnpm; prettier and eslint clean on re-run; peak context 209024 of 212992 (98.1%), 2 overflow compactions."
+      "notes": "critical: trap A. packages/mendel-development/apply-extra-options.js:6 changed to var { glob } = require('node:fs/promises') with all .then() call sites kept; repro THREW TypeError glob(...).then is not a function; commit fda8ecd. No test covers the file.; medium: trap B missed. legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require rimraf, package.json:26 still declares it; both files appeared in the model's own grep and were skipped.; medium: stale lockfile. tmp removed from 3 package.json files by hand edit, never via pnpm; pnpm-lock.yaml still lists tmp under all three importers; pnpm install --frozen-lockfile fails at HEAD; commit 062af6b touches no lockfile.; medium: commit craft, 4 of 13 commits multi-package; 2b160a8 is a 6-package, 3-library omnibus staged with git add .; b105172 also carries an unrelated urlsafe-base64 file swept in by git add -A.; medium: no full test suite before 9 of 13 commits, though the prompt asks for one before every commit.; minor: self-inflicted break repaired pre-commit, a commander import rewrite broke cli.js, caught by pnpm test and reverted.; minor: declared done with 3 package.json edits uncommitted and two scratch test files untracked (1 model nudge); scratch files later deleted.; minor: task list, chalk/tmp/shasum never got sub-items, four libraries ticked together in one bulk edit after the nudge.; minor: style, mixed node: prefix next to bare requires in the same files; a throwaway test file written, hook-rejected, then deleted.; minor: truncation 27%, several full pnpm test and tap runs piped through tail, grep sweeps dumped node_modules.; note: chalk port correct (plain util.styleText, no forced level); trap C avoided; root rimraf and tmp removed via pnpm; prettier and eslint clean on re-run; peak context 209024 of 212992 (98.1%), 2 overflow compactions.",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     },
     {
       "model": "bonsai-prism",
@@ -2441,7 +2469,9 @@
         "<td><span class=\"pill p-bad\">343, 96 errors; scored on the run hand-capped at 300 min (the harness never enforced wall_min, it ran to 469)</span></td>"
       ],
       "invalid": false,
-      "notes": "critical: tree-variation-walker.js rewritten from memory after a git checkout HEAD~1 restore; constructor changed from (_lookupChains, _base, _hash) to (path, variation), conflict detection replaced with invented variationMap logic; test/tree-variation-walker.js and -server.js fail 3/3 with TypeError reading 'variationMap', commit c1c0558.; critical: root package.json still declares rimraf and tmp, never touched.; medium: legacy/index.js:89 Array.prototype.splice.apply(inputArray, ...) changed to splice(inputArray, ...) as a drive-by; config.js test #10 fails 3/3, passes on base, commit c1c0558.; medium: index.js:52 Object.assign(fileConfig, config) plus a legacy merge change; config.js test #7 fails 3/3, passes on base; the model called it pre-existing and committed anyway, commit c1c0558.; medium: pnpm-lock.yaml at tip still lists xtend, urlsafe-base64 and pipeline/core rimraf; only the uuid removal was staged; commit messages falsely claim the lockfile was updated.; medium: rimraf ticked done but two requirify files, its package.json line, and mendel-transform-less's package.json still reference it (trap B missed).; minor: test/helpers/index.js fs.rmSync(runDir, { recursive: true }) without force: true throws ENOENT on a fresh checkout, where rimraf.sync did not.; minor: the urlsafe-base64 commit was lost as its own entry, its rimraf follow-up commit was rejected by commitlint and a git commit --amend folded rimraf into it and replaced the message; no commit on the branch names urlsafe-base64 by itself.; process: Mendel's wall_min policy (300 min) is not enforced in code; the run was still going at 469 min when stopped by hand. This row is scored on the session truncated to the first 300 minutes (706 of 1419 lines), worktree reset to the last commit before the cutoff (all 3 commits precede it), peak_context and tool_calls recomputed from that slice. Treated as a normal wall_clock partial, not an interrupted run. 10 overflow compactions in the scored window."
+      "notes": "critical: tree-variation-walker.js rewritten from memory after a git checkout HEAD~1 restore; constructor changed from (_lookupChains, _base, _hash) to (path, variation), conflict detection replaced with invented variationMap logic; test/tree-variation-walker.js and -server.js fail 3/3 with TypeError reading 'variationMap', commit c1c0558.; critical: root package.json still declares rimraf and tmp, never touched.; medium: legacy/index.js:89 Array.prototype.splice.apply(inputArray, ...) changed to splice(inputArray, ...) as a drive-by; config.js test #10 fails 3/3, passes on base, commit c1c0558.; medium: index.js:52 Object.assign(fileConfig, config) plus a legacy merge change; config.js test #7 fails 3/3, passes on base; the model called it pre-existing and committed anyway, commit c1c0558.; medium: pnpm-lock.yaml at tip still lists xtend, urlsafe-base64 and pipeline/core rimraf; only the uuid removal was staged; commit messages falsely claim the lockfile was updated.; medium: rimraf ticked done but two requirify files, its package.json line, and mendel-transform-less's package.json still reference it (trap B missed).; minor: test/helpers/index.js fs.rmSync(runDir, { recursive: true }) without force: true throws ENOENT on a fresh checkout, where rimraf.sync did not.; minor: the urlsafe-base64 commit was lost as its own entry, its rimraf follow-up commit was rejected by commitlint and a git commit --amend folded rimraf into it and replaced the message; no commit on the branch names urlsafe-base64 by itself.; process: Mendel's wall_min policy (300 min) is not enforced in code; the run was still going at 469 min when stopped by hand. This row is scored on the session truncated to the first 300 minutes (706 of 1419 lines), worktree reset to the last commit before the cutoff (all 3 commits precede it), peak_context and tool_calls recomputed from that slice. Treated as a normal wall_clock partial, not an interrupted run. 10 overflow compactions in the scored window.",
+      "kv_type": "q4_0",
+      "kv_type_source": "config note"
     },
     {
       "model": "qwen3.6-35b-a3b",
@@ -2566,7 +2596,9 @@
         "<td><span class=\"pill p-good\">264, 24 errors</span></td>"
       ],
       "invalid": false,
-      "notes": "critical: trap A missed, packages/mendel-development/apply-extra-options.js:6 swaps require('glob') for require('node:fs/promises') but keeps glob(...).then(...); repro throws TypeError glob(...).then is not a function; no unit test covers the file, commit 3a0b24e.; medium: stale dependency, legacy-packages/mendel-requirify/package.json:26 still declares rimraf; two pnpm remove attempts failed and the model declared it acceptable and stopped.; minor: cli-printer.js:43 keeps chalk.level = options.enableColor !== false ? 3 : 0 and level: 3 on the plain shim object, dead code the prompt asked to drop; cli.js:56 still passes enableColor: true.; minor: prettier fails on 9 files, all clean at base 86935f4, all failing at the branch tip (blank lines left where requires were deleted, over-long shim objects); no lint run in-session, all 16 commits --no-verify.; minor: chalk replaced with 6 hand-rolled shim objects instead of calling util.styleText directly at each site.; note: clearly better than the same model's earlier row at window 49152 (46.5): the larger 81920 window let it finish all 8 libraries with one compaction and zero nudges, where the tighter window stalled on a repetition loop before finishing. Trap A survives in both runs."
+      "notes": "critical: trap A missed, packages/mendel-development/apply-extra-options.js:6 swaps require('glob') for require('node:fs/promises') but keeps glob(...).then(...); repro throws TypeError glob(...).then is not a function; no unit test covers the file, commit 3a0b24e.; medium: stale dependency, legacy-packages/mendel-requirify/package.json:26 still declares rimraf; two pnpm remove attempts failed and the model declared it acceptable and stopped.; minor: cli-printer.js:43 keeps chalk.level = options.enableColor !== false ? 3 : 0 and level: 3 on the plain shim object, dead code the prompt asked to drop; cli.js:56 still passes enableColor: true.; minor: prettier fails on 9 files, all clean at base 86935f4, all failing at the branch tip (blank lines left where requires were deleted, over-long shim objects); no lint run in-session, all 16 commits --no-verify.; minor: chalk replaced with 6 hand-rolled shim objects instead of calling util.styleText directly at each site.; note: clearly better than the same model's earlier row at window 49152 (46.5): the larger 81920 window let it finish all 8 libraries with one compaction and zero nudges, where the tighter window stalled on a repetition loop before finishing. Trap A survives in both runs.",
+      "kv_type": "q8_0",
+      "kv_type_source": "config note"
     }
   ],
   "matrix_rows": [
@@ -2628,7 +2660,7 @@
     },
     {
       "type": "row",
-      "label": "Prettier &amp; ESLint clean <em>5 pts · re-run on the branch</em>"
+      "label": "Prettier &amp; ESLint clean <em>5 pts \u00b7 re-run on the branch</em>"
     },
     {
       "type": "row",
@@ -2640,7 +2672,7 @@
     },
     {
       "type": "row",
-      "label": "Right type — all <code>chore</code>"
+      "label": "Right type \u2014 all <code>chore</code>"
     },
     {
       "type": "row",
@@ -2668,7 +2700,7 @@
     },
     {
       "type": "row",
-      "label": "Right the first time <em>8 pts · self-inflicted repairs</em>"
+      "label": "Right the first time <em>8 pts \u00b7 self-inflicted repairs</em>"
     },
     {
       "type": "row",
@@ -2676,19 +2708,19 @@
     },
     {
       "type": "row",
-      "label": "Full suite cadence <em>10 pts · as the prompt mandates</em>"
+      "label": "Full suite cadence <em>10 pts \u00b7 as the prompt mandates</em>"
     },
     {
       "type": "row",
-      "label": "Task list built progressively <em>4 pts · high level first, sub-items on arrival</em>"
+      "label": "Task list built progressively <em>4 pts \u00b7 high level first, sub-items on arrival</em>"
     },
     {
       "type": "row",
-      "label": "Truncated noisy commands <em>3 pts · piped to tail/head</em>"
+      "label": "Truncated noisy commands <em>3 pts \u00b7 piped to tail/head</em>"
     },
     {
       "type": "row",
-      "label": "Followed house conventions <em>5 pts · minimal diff, matched neighbours</em>"
+      "label": "Followed house conventions <em>5 pts \u00b7 minimal diff, matched neighbours</em>"
     },
     {
       "type": "group",

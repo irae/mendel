@@ -53,13 +53,13 @@
         "<td class=\"best\"><span class=\"pill p-good\">pass</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">works</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
-        "<td><span class=\"pill p-mid\">rimraf ×2 left</span></td>",
+        "<td><span class=\"pill p-mid\">rimraf \u00d72 left</span></td>",
         "<td><span class=\"pill p-mid\">1 left</span></td>",
         "<td><span class=\"pill p-bad\">missed</span></td>",
         "<td><b>15</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">real install ×17</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real install \u00d717</span> <b>8</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">96</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 40×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 40\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">1 turn</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -84,14 +84,14 @@
         "paid_basis": "plan share",
         "paid_usd": "0.14",
         "vendor_usd": "7.76",
-        "rate_in": "2.00 → 4.00",
-        "rate_out": "6.00 → 12.00",
-        "rate_cr": "0.50 → 1.00",
+        "rate_in": "2.00 \u2192 4.00",
+        "rate_out": "6.00 \u2192 12.00",
+        "rate_cr": "0.50 \u2192 1.00",
         "rate_tone": "bad",
         "provider_label": "xAI"
       },
       "plan": {
-        "marginal": "≈ $0.14",
+        "marginal": "\u2248 $0.14",
         "marginal_tone": "mid",
         "plan": "X Premium+ $40/mo",
         "alloc": "$30",
@@ -99,7 +99,7 @@
         "week": "$6.92",
         "w5h": "not exposed",
         "wweek": "2 %",
-        "rpw": "≈ 50"
+        "rpw": "\u2248 50"
       },
       "thinking": "high",
       "prompt_version": "v1.0",
@@ -158,9 +158,9 @@
         "<td class=\"best\"><span class=\"pill p-good\">all gone</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td class=\"best\"><b>20</b></td>",
-        "<td><span class=\"pill p-bad\">lockfile-only ×18</span> <b>2</b></td>",
+        "<td><span class=\"pill p-bad\">lockfile-only \u00d718</span> <b>2</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">96</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 34×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 34\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">never hit it</span></td>",
         "<td><span class=\"pill p-bad\">refactor/test/chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -192,7 +192,7 @@
         "provider_label": "Claude plan"
       },
       "plan": {
-        "marginal": "≈ $0.56 est.",
+        "marginal": "\u2248 $0.56 est.",
         "marginal_tone": null,
         "plan": "Claude Max 5x $100/mo",
         "alloc": "$100",
@@ -200,7 +200,7 @@
         "week": "$23.08",
         "w5h": "not exposed",
         "wweek": "not exposed",
-        "rpw": "≈ 41"
+        "rpw": "\u2248 41"
       },
       "thinking": null,
       "prompt_version": "v1.0",
@@ -269,7 +269,7 @@
         "<td class=\"best\"><b>20</b></td>",
         "<td><span class=\"pill p-good\">verified by hand</span> <b>7</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">96</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 40×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 40\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">1 turn</span></td>",
         "<td><span class=\"pill p-bad\">all fix</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -294,14 +294,14 @@
         "paid_basis": "plan share",
         "paid_usd": "0.05",
         "vendor_usd": "0.84",
-        "rate_in": "0.20 → 0.40",
-        "rate_out": "1.20 → 1.80",
-        "rate_cr": "0.02 → 0.04",
+        "rate_in": "0.20 \u2192 0.40",
+        "rate_out": "1.20 \u2192 1.80",
+        "rate_cr": "0.02 \u2192 0.04",
         "rate_tone": "good",
         "provider_label": "ChatGPT plan"
       },
       "plan": {
-        "marginal": "≈ $0.05",
+        "marginal": "\u2248 $0.05",
         "marginal_tone": "good",
         "plan": "ChatGPT Plus $20/mo",
         "alloc": "$20",
@@ -309,7 +309,7 @@
         "week": "$4.62",
         "w5h": "8 %",
         "wweek": "1 %",
-        "rpw": "≈ 100"
+        "rpw": "\u2248 100"
       },
       "notes": [
         "Mid-run human help: a 9.4-minute stall was broken by the user typing \"continue\"."
@@ -379,13 +379,13 @@
         "<td class=\"best\"><span class=\"pill p-good\">pass</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">works</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
-        "<td><span class=\"pill p-mid\">rimraf ×2 left</span></td>",
+        "<td><span class=\"pill p-mid\">rimraf \u00d72 left</span></td>",
         "<td><span class=\"pill p-mid\">1 left</span></td>",
         "<td><span class=\"pill p-bad\">excluded it</span></td>",
         "<td><b>15</b></td>",
-        "<td><span class=\"pill p-good\">real install ×3</span> <b>7</b></td>",
+        "<td><span class=\"pill p-good\">real install \u00d73</span> <b>7</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">102 lines</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 15×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 15\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">1 turn</span></td>",
         "<td><span class=\"pill p-bad\">refactor/test/chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -396,7 +396,7 @@
         "<td><span class=\"pill p-good\">none</span> <b>7</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">19 runs</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">5 / 17</span> <b>10</b></td>",
-        "<td><span class=\"pill p-bad\">bulk rewrites ×2</span> <b>1.5</b></td>",
+        "<td><span class=\"pill p-bad\">bulk rewrites \u00d72</span> <b>1.5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">62 %</span> <b>3</b></td>",
         "<td><span class=\"pill p-mid\">duplicate require</span> <b>4</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">4.8 M</span></td>",
@@ -478,9 +478,9 @@
         "<td class=\"best\"><span class=\"pill p-good\">all gone</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td class=\"best\"><b>20</b></td>",
-        "<td><span class=\"pill p-mid\">install ×14, not pruned</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">install \u00d714, not pruned</span> <b>4</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">96</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 29×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 29\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">never hit it</span></td>",
         "<td><span class=\"pill p-bad\">fix/test/chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -512,7 +512,7 @@
         "provider_label": "Claude plan"
       },
       "plan": {
-        "marginal": "≈ $0.67 est.",
+        "marginal": "\u2248 $0.67 est.",
         "marginal_tone": null,
         "plan": "Claude Max 5x $100/mo",
         "alloc": "$100",
@@ -520,7 +520,7 @@
         "week": "$23.08",
         "w5h": "not exposed",
         "wweek": "not exposed",
-        "rpw": "≈ 34"
+        "rpw": "\u2248 34"
       },
       "thinking": null,
       "prompt_version": "v1.0",
@@ -587,7 +587,7 @@
       "cost_usd": 1.7,
       "cost_basis": "metered",
       "matrix_cells": [
-        "<td><span class=\"pill p-bad\">1 crit · 1 med · 1 min</span> <b>7</b></td>",
+        "<td><span class=\"pill p-bad\">1 crit \u00b7 1 med \u00b7 1 min</span> <b>7</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">pass</span></td>",
         "<td><span class=\"pill p-bad\">TypeError</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
@@ -595,9 +595,9 @@
         "<td class=\"best\"><span class=\"pill p-good\">all gone</span></td>",
         "<td><span class=\"pill p-mid\">told by owner</span></td>",
         "<td><b>18</b></td>",
-        "<td><span class=\"pill p-bad\">lockfile-only ×19</span> <b>2</b></td>",
+        "<td><span class=\"pill p-bad\">lockfile-only \u00d719</span> <b>2</b></td>",
         "<td><span class=\"pill p-mid\">194 <em style=\"display:inline\">+ unrelated churn</em></span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 42×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 42\u00d7</span> <b>5</b></td>",
         "<td><span class=\"pill p-mid\">2 turns</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -689,12 +689,12 @@
       "cost_usd": 1.24,
       "cost_basis": "plan",
       "matrix_cells": [
-        "<td><span class=\"pill p-bad\">1 crit · 1 med</span> <b>10</b></td>",
+        "<td><span class=\"pill p-bad\">1 crit \u00b7 1 med</span> <b>10</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">pass</span></td>",
         "<td><span class=\"pill p-bad\">TypeError</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
-        "<td><span class=\"pill p-mid\">rimraf ×2 left</span></td>",
-        "<td><span class=\"pill p-bad\">17 left — none removed</span></td>",
+        "<td><span class=\"pill p-mid\">rimraf \u00d72 left</span></td>",
+        "<td><span class=\"pill p-bad\">17 left \u2014 none removed</span></td>",
         "<td><span class=\"pill p-bad\">missed</span></td>",
         "<td><b>8</b></td>",
         "<td><span class=\"pill p-bad\">never ran pnpm</span> <b>0</b></td>",
@@ -731,7 +731,7 @@
         "provider_label": "Claude plan"
       },
       "plan": {
-        "marginal": "≈ $0.08 est.",
+        "marginal": "\u2248 $0.08 est.",
         "marginal_tone": null,
         "plan": "Claude Max 5x $100/mo",
         "alloc": "$100",
@@ -739,7 +739,7 @@
         "week": "$23.08",
         "w5h": "not exposed",
         "wweek": "not exposed",
-        "rpw": "≈ 280"
+        "rpw": "\u2248 280"
       },
       "thinking": null,
       "prompt_version": "v1.0",
@@ -802,15 +802,15 @@
       "cost_usd": 0,
       "cost_basis": "local",
       "matrix_cells": [
-        "<td><span class=\"pill p-bad\">1 crit · 1 med</span> <b>10</b></td>",
+        "<td><span class=\"pill p-bad\">1 crit \u00b7 1 med</span> <b>10</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">pass</span></td>",
         "<td><span class=\"pill p-bad\">TypeError</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
-        "<td><span class=\"pill p-mid\">rimraf ×2 left</span></td>",
+        "<td><span class=\"pill p-mid\">rimraf \u00d72 left</span></td>",
         "<td><span class=\"pill p-bad\">3 left</span></td>",
         "<td><span class=\"pill p-bad\">missed</span></td>",
         "<td><b>11</b></td>",
-        "<td><span class=\"pill p-mid\">install ×2, unverified</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">install \u00d72, unverified</span> <b>4</b></td>",
         "<td><span class=\"pill p-bad\">9</span></td>",
         "<td><span class=\"pill p-mid\">clean via hooks</span> <b>3</b></td>",
         "<td><span class=\"pill p-bad\">added it to package.json</span></td>",
@@ -844,12 +844,14 @@
         "provider_label": "local"
       },
       "notes": [
-        "Mid-run human help: three substantive user interventions — a \"please continue\" after a 34.9-minute stall, TASKS.md coaching, and a memory-pressure instruction."
+        "Mid-run human help: three substantive user interventions \u2014 a \"please continue\" after a 34.9-minute stall, TASKS.md coaching, and a memory-pressure instruction."
       ],
       "thinking": "xhigh",
       "prompt_version": "v1.0",
       "end_reason": "complete",
-      "libraries_done": 8
+      "libraries_done": 8,
+      "kv_type": "q8_0",
+      "kv_type_source": "assumed: q8_0 was the standard before the KV pick of 2026-09-04; no record names the type"
     },
     {
       "model": "gemma-4-26b-a4b",
@@ -907,7 +909,7 @@
       "cost_usd": 0,
       "cost_basis": "local",
       "matrix_cells": [
-        "<td><span class=\"pill p-bad\">1 crit · 1 min</span> <b>13</b></td>",
+        "<td><span class=\"pill p-bad\">1 crit \u00b7 1 min</span> <b>13</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">pass</span></td>",
         "<td><span class=\"pill p-bad\">TypeError</span></td>",
         "<td><span class=\"pill p-bad\">5 / 8</span></td>",
@@ -922,7 +924,7 @@
         "<td><span class=\"pill p-bad\">mixed fix/refactor</span></td>",
         "<td><span class=\"pill p-mid\">mostly</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">alongside</span></td>",
-        "<td><span class=\"pill p-bad\">2 fail · 2× --no-verify</span></td>",
+        "<td><span class=\"pill p-bad\">2 fail \u00b7 2\u00d7 --no-verify</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">clean</span></td>",
         "<td><b>4</b></td>",
         "<td><span class=\"pill p-bad\">unfinished</span> <b>3</b></td>",
@@ -955,7 +957,9 @@
       "thinking": "high",
       "prompt_version": "v1.0",
       "end_reason": "stuck",
-      "libraries_done": null
+      "libraries_done": null,
+      "kv_type": "q8_0",
+      "kv_type_source": "assumed: q8_0 was the standard before the KV pick of 2026-09-04; no record names the type"
     },
     {
       "model": "gpt-5.6-sol",
@@ -992,7 +996,7 @@
         },
         {
           "severity": "medium",
-          "summary": "mendel-config test/generator-config.js fails deterministically on the branch (3/3 standalone reruns) — introduced by the fixture-swap scope-creep commit"
+          "summary": "mendel-config test/generator-config.js fails deterministically on the branch (3/3 standalone reruns) \u2014 introduced by the fixture-swap scope-creep commit"
         }
       ],
       "telemetry": {
@@ -1017,7 +1021,7 @@
       "cost_usd": 13.94,
       "cost_basis": "plan",
       "matrix_cells": [
-        "<td><span class=\"pill p-bad\">2 med · 1 min</span> <b>10</b></td>",
+        "<td><span class=\"pill p-bad\">2 med \u00b7 1 min</span> <b>10</b></td>",
         "<td><span class=\"pill p-bad\">generator-config fails 3/3</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">works</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
@@ -1025,9 +1029,9 @@
         "<td class=\"best\"><span class=\"pill p-good\">all gone</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">found + fixed</span></td>",
         "<td class=\"best\"><b>20</b></td>",
-        "<td><span class=\"pill p-bad\">lockfile-only ×19</span> <b>2</b></td>",
-        "<td><span class=\"pill p-mid\">96 − 3 added back</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 43×</span> <b>5</b></td>",
+        "<td><span class=\"pill p-bad\">lockfile-only \u00d719</span> <b>2</b></td>",
+        "<td><span class=\"pill p-mid\">96 \u2212 3 added back</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 43\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">never hit it</span></td>",
         "<td><span class=\"pill p-bad\">fix/test/chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -1052,22 +1056,22 @@
         "paid_basis": "plan share",
         "paid_usd": "0.51",
         "vendor_usd": "13.94",
-        "rate_in": "5.00 → 10.00",
-        "rate_out": "30.00 → 45.00",
-        "rate_cr": "0.50 → 1.00",
+        "rate_in": "5.00 \u2192 10.00",
+        "rate_out": "30.00 \u2192 45.00",
+        "rate_cr": "0.50 \u2192 1.00",
         "rate_tone": "bad",
         "provider_label": "ChatGPT plan"
       },
       "plan": {
-        "marginal": "≈ $0.51",
+        "marginal": "\u2248 $0.51",
         "marginal_tone": null,
         "plan": "ChatGPT Plus $20/mo",
         "alloc": "$20",
         "alloc_note": "all of it",
         "week": "$4.62",
         "w5h": "74 %",
-        "wweek": "≈ 11 %",
-        "rpw": "≈ 9"
+        "wweek": "\u2248 11 %",
+        "rpw": "\u2248 9"
       },
       "thinking": "high",
       "prompt_version": "v1.0",
@@ -1182,7 +1186,9 @@
       "thinking": "high",
       "prompt_version": "v1.0",
       "end_reason": "harness_crash",
-      "libraries_done": 3
+      "libraries_done": 3,
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "mlx-community/Qwen3.8-27B-4bit",
@@ -1211,7 +1217,7 @@
       "defects": [
         {
           "severity": "medium",
-          "summary": "one run stalled and the pi client exited silently after mlx_lm.server logged \"Failed to parse tool call (ValueError: No function provided.) — tool text was likely truncated mid-generation\"; resumed in the same worktree with a fresh pi session, which correctly found and committed the pending diff"
+          "summary": "one run stalled and the pi client exited silently after mlx_lm.server logged \"Failed to parse tool call (ValueError: No function provided.) \u2014 tool text was likely truncated mid-generation\"; resumed in the same worktree with a fresh pi session, which correctly found and committed the pending diff"
         },
         {
           "severity": "minor",
@@ -1252,9 +1258,9 @@
         "<td><span class=\"pill p-bad\">4 left, rimraf partial</span></td>",
         "<td><span class=\"pill p-mid\">not reached</span></td>",
         "<td><b>8.5</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">real installs ×3</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real installs \u00d73</span> <b>8</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">29 lines removed</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 7×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 7\u00d7</span> <b>5</b></td>",
         "<td><span class=\"pill p-mid\">not reached</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">one per package</span></td>",
@@ -1288,7 +1294,9 @@
       "thinking": "medium",
       "prompt_version": "v1.0",
       "end_reason": "wall_clock",
-      "libraries_done": 3
+      "libraries_done": 3,
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "Qwen3.8-27B (mlx, low)",
@@ -1358,7 +1366,7 @@
         "<td><b>2.5</b></td>",
         "<td><span class=\"pill p-bad\">not pruned</span> <b>0</b></td>",
         "<td><span class=\"pill p-mid\">0 lines</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran itself</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran itself</span> <b>5</b></td>",
         "<td><span class=\"pill p-mid\">n/a</span></td>",
         "<td><span class=\"pill p-good\">chore</span></td>",
         "<td><span class=\"pill p-good\">1 package</span></td>",
@@ -1388,7 +1396,9 @@
         "rate_cr": null,
         "rate_tone": null,
         "provider_label": "local"
-      }
+      },
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "deepseek-v4-flash-0731",
@@ -1448,13 +1458,13 @@
         "<td class=\"best\"><span class=\"pill p-good\">260/260</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">SYNC OK</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
-        "<td><span class=\"pill p-mid\">rimraf ×2 left</span></td>",
+        "<td><span class=\"pill p-mid\">rimraf \u00d72 left</span></td>",
         "<td><span class=\"pill p-mid\">rimraf + tmp left</span></td>",
         "<td><span class=\"pill p-bad\">found, not fixed</span></td>",
         "<td><b>13</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real install</span> <b>8</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">93 lines</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 1×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 1\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">no violation</span></td>",
         "<td><span class=\"pill p-bad\">fix/test, not chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -1552,13 +1562,13 @@
         "<td class=\"best\"><span class=\"pill p-good\">230/236 (flake, 2/2 standalone)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">SYNC OK</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
-        "<td><span class=\"pill p-mid\">rimraf ×2 left</span></td>",
+        "<td><span class=\"pill p-mid\">rimraf \u00d72 left</span></td>",
         "<td><span class=\"pill p-mid\">rimraf left (mendel-requirify)</span></td>",
         "<td><span class=\"pill p-bad\">found, not fixed</span></td>",
         "<td><b>16</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real install</span> <b>8</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">102 lines</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 2×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 2\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">no violation</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -1655,7 +1665,7 @@
         "<td class=\"best\"><b>20</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real install</span> <b>8</b></td>",
         "<td><span class=\"pill p-mid\">104/-103 lines</span></td>",
-        "<td><span class=\"pill p-bad\">TASKS.md dirty · not self-run</span> <b>1</b></td>",
+        "<td><span class=\"pill p-bad\">TASKS.md dirty \u00b7 not self-run</span> <b>1</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">no violation</span></td>",
         "<td><span class=\"pill p-bad\">0/9 chore (refactor/test)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -1754,14 +1764,14 @@
         "<td class=\"best\"><span class=\"pill p-good\">674/674, 1 skip (no unit test covers trap A's file)</span></td>",
         "<td><span class=\"pill p-bad\">THREW: TypeError glob(...).then is not a function</span></td>",
         "<td><span class=\"pill p-bad\">6 / 8 (glob broken, mendel-requirify untouched)</span></td>",
-        "<td><span class=\"pill p-bad\">rimraf ×2 left in mendel-requirify tests</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf \u00d72 left in mendel-requirify tests</span></td>",
         "<td><span class=\"pill p-bad\">rimraf, tmp still in root package.json</span></td>",
         "<td><span class=\"pill p-bad\">not found, not fixed</span></td>",
         "<td><b>8</b></td>",
         "<td><span class=\"pill p-bad\">no pnpm install, lockfile unchanged</span> <b>0</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">88/-94 lines</span></td>",
-        "<td><span class=\"pill p-mid\">clean · hooks only, not self-run</span> <b>3</b></td>",
-        "<td><span class=\"pill p-bad\">10× git add -A</span></td>",
+        "<td><span class=\"pill p-mid\">clean \u00b7 hooks only, not self-run</span> <b>3</b></td>",
+        "<td><span class=\"pill p-bad\">10\u00d7 git add -A</span></td>",
         "<td><span class=\"pill p-bad\">0/8 chore (fix)</span></td>",
         "<td><span class=\"pill p-bad\">never created</span></td>",
         "<td><span class=\"pill p-bad\">rimraf, tmp still declared</span></td>",
@@ -1861,7 +1871,7 @@
         "<td><b>15</b></td>",
         "<td><span class=\"pill p-good\">real install</span> <b>8</b></td>",
         "<td><span class=\"pill p-good\">96 lines</span></td>",
-        "<td><span class=\"pill p-good\">clean · ran itself</span> <b>5</b></td>",
+        "<td><span class=\"pill p-good\">clean \u00b7 ran itself</span> <b>5</b></td>",
         "<td><span class=\"pill p-good\">no violation</span></td>",
         "<td><span class=\"pill p-bad\">refactor, not chore</span></td>",
         "<td><span class=\"pill p-good\">yes</span></td>",
@@ -1957,7 +1967,7 @@
         "<td class=\"best\"><b>20</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real install</span> <b>8</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">-211/+22 lines</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · ran 16×</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 ran 16\u00d7</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">no violation</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">all chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -1993,15 +2003,15 @@
       "end_reason": "complete",
       "libraries_done": 8,
       "plan": {
-        "marginal": "≈ $0.14",
+        "marginal": "\u2248 $0.14",
         "marginal_tone": "mid",
         "plan": "X Premium+ $40/mo",
         "alloc": "$30",
         "alloc_note": "SuperGrok rate",
         "week": "$6.92",
         "w5h": "not exposed",
-        "wweek": "≈ 2 %",
-        "rpw": "≈ 50"
+        "wweek": "\u2248 2 %",
+        "rpw": "\u2248 50"
       },
       "config_note": "Cost basis corrected 2026-09-02: run-worker.sh matched plan providers only on provider-prefixed model ids, so this bare-name run recorded plan_provider=none and the metered token price as paid. The run authenticated with the SuperGrok OAuth login (no xai API key or credits exist); plan share mirrors the v1.0 rpw-based estimate."
     },
@@ -2073,7 +2083,7 @@
         "<td class=\"best\"><b>20</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real install</span> <b>8</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">-234/+24 lines</span></td>",
-        "<td><span class=\"pill p-mid\">clean · hooks only, not self-run</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">clean \u00b7 hooks only, not self-run</span> <b>3</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">no violation</span></td>",
         "<td><span class=\"pill p-bad\">18/21 fix, not chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -2102,17 +2112,17 @@
         "provider_label": "OpenAI (Codex)"
       },
       "plan": {
-        "marginal": "≈ $0.03",
+        "marginal": "\u2248 $0.03",
         "marginal_tone": "good",
         "plan": "ChatGPT Plus $20/mo",
         "alloc": "$20",
         "alloc_note": "all of it",
         "week": "$4.62",
         "w5h": "not measured",
-        "wweek": "≈ 1 %",
-        "rpw": "≈ 100"
+        "wweek": "\u2248 1 %",
+        "rpw": "\u2248 100"
       },
-      "config_note": "Cost basis corrected 2026-09-02: the run used the ChatGPT-plan OAuth login, but run-worker.sh probed the plan as \"none\" (bare model name) and recorded the metered token price as paid. Plan share estimated from the same model’s v1.0 measured run, scaled by vendor token cost; token and wall-clock scalings agree within $0.02.",
+      "config_note": "Cost basis corrected 2026-09-02: the run used the ChatGPT-plan OAuth login, but run-worker.sh probed the plan as \"none\" (bare model name) and recorded the metered token price as paid. Plan share estimated from the same model\u2019s v1.0 measured run, scaled by vendor token cost; token and wall-clock scalings agree within $0.02.",
       "anomaly": "peak_context corrected 2026-09-04: the earlier 99425 was the value after the compaction."
     },
     {
@@ -2222,7 +2232,9 @@
         "<td><span class=\"pill p-mid\">13 %</span></td>",
         "<td><span class=\"pill p-mid\">135</span></td>"
       ],
-      "config_note": "run-worker.sh was invoked with --thinking low, but the session log’s only thinking_level_change event records \"high\" — the flag was not honored (same failure as the guided v3.0 run). Renamed from \"(mlx, low)\" and scored as the observed high level."
+      "config_note": "run-worker.sh was invoked with --thinking low, but the session log\u2019s only thinking_level_change event records \"high\" \u2014 the flag was not honored (same failure as the guided v3.0 run). Renamed from \"(mlx, low)\" and scored as the observed high level.",
+      "kv_type": "f16",
+      "kv_type_source": "backend: mlx_lm.server serves f16 KV and takes no KV option"
     },
     {
       "model": "gpt-5.6-sol",
@@ -2292,7 +2304,7 @@
         "<td class=\"best\"><b>20</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">real install</span> <b>8</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">-96/+0 lines</span></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean · self-run</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 self-run</span> <b>5</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">no violation</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">18/18 chore</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">yes</span></td>",
@@ -2321,17 +2333,17 @@
         "provider_label": "OpenAI (Codex)"
       },
       "plan": {
-        "marginal": "≈ $0.45",
+        "marginal": "\u2248 $0.45",
         "marginal_tone": null,
         "plan": "ChatGPT Plus $20/mo",
         "alloc": "$20",
         "alloc_note": "all of it",
         "week": "$4.62",
         "w5h": "not measured",
-        "wweek": "≈ 10 %",
-        "rpw": "≈ 9"
+        "wweek": "\u2248 10 %",
+        "rpw": "\u2248 9"
       },
-      "config_note": "Cost basis corrected 2026-09-02: the run used the ChatGPT-plan OAuth login, but run-worker.sh probed the plan as \"none\" (bare model name) and recorded the metered token price as paid. Plan share estimated from the same model’s v1.0 measured run, scaled by vendor token cost; token and wall-clock scalings agree within $0.02."
+      "config_note": "Cost basis corrected 2026-09-02: the run used the ChatGPT-plan OAuth login, but run-worker.sh probed the plan as \"none\" (bare model name) and recorded the metered token price as paid. Plan share estimated from the same model\u2019s v1.0 measured run, scaled by vendor token cost; token and wall-clock scalings agree within $0.02."
     },
     {
       "model": "Claude Sonnet 4.5",
@@ -2406,7 +2418,7 @@
         "<td><b>14</b></td>",
         "<td><span class=\"pill p-bad\">no install ran</span> <b>0</b></td>",
         "<td><span class=\"pill p-good\">175 lines</span></td>",
-        "<td><span class=\"pill p-mid\">clean · hooks only, not self-run</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">clean \u00b7 hooks only, not self-run</span> <b>3</b></td>",
         "<td><span class=\"pill p-bad\">15 git add -A</span></td>",
         "<td><span class=\"pill p-bad\">refactor, not chore</span></td>",
         "<td><span class=\"pill p-good\">yes</span></td>",
@@ -2451,7 +2463,7 @@
       "end_reason": "complete",
       "libraries_done": 8,
       "score_total": 63,
-      "config_note": "Re-scored on Fable 2026-09-02 (old total 61): commit craft 2 → 4 — the rubric's three buckets give 0 for types (all fix), 2 for split (10/13 single-package), 2 for hygiene (one git add -A; no --no-verify, no TASKS.md leak); the root tmp leftover stays under completion, not commit craft. Session log and meta file not present on the scoring machine; session-derived criteria (7, 9, 10, lint self-run, add -A count) kept from the original scorer's session evidence.",
+      "config_note": "Re-scored on Fable 2026-09-02 (old total 61): commit craft 2 \u2192 4 \u2014 the rubric's three buckets give 0 for types (all fix), 2 for split (10/13 single-package), 2 for hygiene (one git add -A; no --no-verify, no TASKS.md leak); the root tmp leftover stays under completion, not commit craft. Session log and meta file not present on the scoring machine; session-derived criteria (7, 9, 10, lint self-run, add -A count) kept from the original scorer's session evidence.",
       "scores": {
         "bugs": 16,
         "completion": 17,
@@ -2467,11 +2479,11 @@
       "defects": [
         {
           "severity": "critical",
-          "summary": "packages/mendel-development/apply-extra-options.js does `var { glob } = require('fs')` then calls `glob(i).then(...)` — fs.glob is callback-based, not promise-based, so this throws TypeError at runtime (trap A, worse than the usual naive fs.promises.glob().then() miss)"
+          "summary": "packages/mendel-development/apply-extra-options.js does `var { glob } = require('fs')` then calls `glob(i).then(...)` \u2014 fs.glob is callback-based, not promise-based, so this throws TypeError at runtime (trap A, worse than the usual naive fs.promises.glob().then() miss)"
         },
         {
           "severity": "minor",
-          "summary": "briefly reintroduced the trap-C exit-hook pattern (an fs.rmSync cleanup right after the manifest debug path is printed) in commit cc903dc, then self-caught and removed it two commits later in ac6d323 — recovered within the run, not left in the final tree"
+          "summary": "briefly reintroduced the trap-C exit-hook pattern (an fs.rmSync cleanup right after the manifest debug path is printed) in commit cc903dc, then self-caught and removed it two commits later in ac6d323 \u2014 recovered within the run, not left in the final tree"
         },
         {
           "severity": "minor",
@@ -2528,7 +2540,7 @@
         "<td><b>17</b></td>",
         "<td><span class=\"pill p-bad\">no install ran</span> <b>0</b></td>",
         "<td><span class=\"pill p-mid\">0 lines</span></td>",
-        "<td><span class=\"pill p-mid\">clean · hooks only, not self-run</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">clean \u00b7 hooks only, not self-run</span> <b>3</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">n/a</span></td>",
         "<td><span class=\"pill p-bad\">all fix, not chore</span></td>",
         "<td><span class=\"pill p-mid\">10 / 13 single-package</span></td>",
@@ -2546,7 +2558,9 @@
         "<td class=\"best\"><span class=\"pill p-good\">0</span></td>",
         "<td><span class=\"pill p-mid\">n/a</span></td>",
         "<td><span class=\"pill p-mid\">203</span></td>"
-      ]
+      ],
+      "kv_type": "q8_0",
+      "kv_type_source": "assumed: q8_0 was the standard before the KV pick of 2026-09-04; no record names the type"
     },
     {
       "model": "claude-opus-5",
@@ -2761,7 +2775,9 @@
       ],
       "notes": "Scored on Fable 2026-09-03. model_budget_exhausted pattern: 15 tool calls of orientation (issue fetch, TASKS.md write, grep/ls/cat) in the first 23 min, then one failed exact-match edit, then 4 consecutive turns (3 nudged, 1 unsent) that each hit the 16384-token output cap with stop_reason length. The capped output is not reasoning: it is ~16K tokens of newline characters plus a stray <|channel|> token in the thinking channel. The nudge text never changed the behaviour. Bugs remaining is a vacuous 25: the branch is identical to the base, so trap A, chalk, prettier, and eslint pass by absence of work. Lint and conventions score 0 for the same reason. Criterion 6: 8 base minus 2 per model nudge (3 nudges) = 2. TASKS.md was written upfront with the full library and package tree and never ticked; the file stayed out of git.",
       "invalid": true,
-      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits"
+      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits",
+      "kv_type": "f16",
+      "kv_type_source": "backend: the LM Studio MLX engine serves f16 KV and takes no KV option"
     },
     {
       "model": "bonsai-prism",
@@ -2874,7 +2890,9 @@
         "<td><span class=\"pill p-mid\">23 % free (50.2k / 64k)</span></td>",
         "<td><span class=\"pill p-mid\">76, 22 errors</span></td>"
       ],
-      "notes": "Scored on Fable 2026-09-03. partial=false: end_reason is complete with 0 nudges and no budget end, so the rubric's partial definition does not apply; the incompleteness is a model decision, recorded as the critical defect. The blind prompt does not name the libraries; it says to fetch issue 13. The model misspelled the repo (irai/mendel), every fetch returned 404 (lines 5-29), and it never found the issue. It then ran git log --grep=chalk, read prior chalk commits, and scoped the whole task to chalk. TASKS.md is git-excluded (info/exclude), has no history, and all 3 writes were chalk-only; the all-checked file satisfied the harness end condition, so no model nudge fired. The compaction at 07:04 preserved the already-narrowed scope. Bugs is 25 on the landed work only, as for the gemma 0/8 and Bonsai-2bit 3/8 rows: the styleText port follows the v1.1 contract (no forced level, no enableColor; probe: no ANSI piped, ANSI on a TTY), tap 15/15, prettier and eslint clean on re-run. Root rimraf/tmp and trap B are scored as missing work under completion (2.5 = 1 of 8 at the 3/8=7.5 scale), not as criterion-1 bugs, to stay consistent with the not-reached precedent. The 60.5 total sits above rows with real bugs and more libraries; that is the known vacuous-pass artefact, and the 1/8 count is the number that matters. Two 'Connection error.' retries at 06:44-06:45 cost no work. No human message after the prompt."
+      "notes": "Scored on Fable 2026-09-03. partial=false: end_reason is complete with 0 nudges and no budget end, so the rubric's partial definition does not apply; the incompleteness is a model decision, recorded as the critical defect. The blind prompt does not name the libraries; it says to fetch issue 13. The model misspelled the repo (irai/mendel), every fetch returned 404 (lines 5-29), and it never found the issue. It then ran git log --grep=chalk, read prior chalk commits, and scoped the whole task to chalk. TASKS.md is git-excluded (info/exclude), has no history, and all 3 writes were chalk-only; the all-checked file satisfied the harness end condition, so no model nudge fired. The compaction at 07:04 preserved the already-narrowed scope. Bugs is 25 on the landed work only, as for the gemma 0/8 and Bonsai-2bit 3/8 rows: the styleText port follows the v1.1 contract (no forced level, no enableColor; probe: no ANSI piped, ANSI on a TTY), tap 15/15, prettier and eslint clean on re-run. Root rimraf/tmp and trap B are scored as missing work under completion (2.5 = 1 of 8 at the 3/8=7.5 scale), not as criterion-1 bugs, to stay consistent with the not-reached precedent. The 60.5 total sits above rows with real bugs and more libraries; that is the known vacuous-pass artefact, and the 1/8 count is the number that matters. Two 'Connection error.' retries at 06:44-06:45 cost no work. No human message after the prompt.",
+      "kv_type": "q4_0",
+      "kv_type_source": "runbook: run 7 served the report page bonsai-prism config, q4_0 KV + bias"
     },
     {
       "model": "gemma-4-26b-a4b",
@@ -2951,21 +2969,21 @@
         "<td><span class=\"pill p-good\">clean (tap 71+41+27+42+4+3+15 pass, 1 skip)</span></td>",
         "<td><span class=\"pill p-bad\">THREW: TypeError</span></td>",
         "<td><span class=\"pill p-mid\">8 / 8, rimraf left in mendel-requirify, root tmp left</span></td>",
-        "<td><span class=\"pill p-bad\">rimraf ×2 left (mendel-requirify tests)</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf \u00d72 left (mendel-requirify tests)</span></td>",
         "<td><span class=\"pill p-bad\">rimraf (mendel-requirify) + tmp (root) left</span></td>",
         "<td><span class=\"pill p-bad\">seen in grep (line 139), skipped as \"not in the issue\"</span></td>",
         "<td><b>13</b></td>",
         "<td><span class=\"pill p-bad\">never ran pnpm install, lockfile unchanged</span> <b>0</b></td>",
         "<td><span class=\"pill p-mid\">0 lines</span></td>",
-        "<td><span class=\"pill p-mid\">clean on re-run · hooks only, never self-run</span> <b>3</b></td>",
-        "<td><span class=\"pill p-mid\">hit 3×, dropped the prefix each time</span></td>",
+        "<td><span class=\"pill p-mid\">clean on re-run \u00b7 hooks only, never self-run</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">hit 3\u00d7, dropped the prefix each time</span></td>",
         "<td><span class=\"pill p-bad\">17/21 refactor, 4 chore are TASKS.md-only</span></td>",
         "<td><span class=\"pill p-good\">17/17 single-package; mendel-core 3, mendel-development 3, mendel-deps 2 commits</span></td>",
         "<td><span class=\"pill p-mid\">rimraf removed, tmp left</span></td>",
         "<td><span class=\"pill p-bad\">3 hook rejects (node: prefix), 3 shell fails; no bypass</span></td>",
-        "<td><span class=\"pill p-bad\">committed 4× with git add -f past .gitignore</span></td>",
+        "<td><span class=\"pill p-bad\">committed 4\u00d7 with git add -f past .gitignore</span></td>",
         "<td><b>5</b></td>",
-        "<td><span class=\"pill p-bad\">2 forgotten-package.json repair commits, node: trap 3×, 2 model nudges (−4)</span> <b>1</b></td>",
+        "<td><span class=\"pill p-bad\">2 forgotten-package.json repair commits, node: trap 3\u00d7, 2 model nudges (\u22124)</span> <b>1</b></td>",
         "<td><span class=\"pill p-good\">pnpm --filter per package before commits</span></td>",
         "<td><span class=\"pill p-bad\">1 full suite / 21 commits (prompt: every 5)</span> <b>4</b></td>",
         "<td><span class=\"pill p-bad\">full tree upfront, bulk tick after compaction, boxes drifted</span> <b>1.5</b></td>",
@@ -2976,7 +2994,9 @@
         "<td><span class=\"pill p-bad\">2 %</span></td>",
         "<td><span class=\"pill p-mid\">246</span></td>"
       ],
-      "notes": "Scored on Fable 2026-09-06 from scratchpad/benchmark/runs/gemma-4-26b-a4b-high-issue-13-evidence.json. Bugs: one critical, trap A (25 − 9 = 16); mendel-development tap passes because nothing covers apply-extra-options.js. Trap B: the model saw legacy-packages/mendel-requirify in its own rimraf grep (session line 139) and skipped it in thinking at line 140 because the issue did not list it; scored as missing work under completion (13, same leftover set as the deepseek-flash-high row), not as a bug. Trap C: no exit hook added; tmp.dirSync → fs.mkdtempSync. Chalk follows the v1.1 contract: chalk.level line removed, plain util.styleText, no enableColor; probe: no ANSI when piped. Lint: prettier and eslint clean on re-run, lint_self_runs 0, no --no-verify, so hook-only 3. The node: prefix trap rejected 3 commits (lines 27, 175, 317); each time the model replaced node:x with x. Commit craft: 0 types (refactor) + 4 split (every code commit single-package) + 1 hygiene (no add -A, no --no-verify, but TASKS.md was committed 4 times with git add -f after git refused the ignored file at line 377). First time: 8 − 2 repair commits (c6e4eca, 891a4fe re-do package.json edits that failed at lines 89 and 361 and were then committed without) − 1 for hitting the node: trap three times − 4 for two model nudges = 1. Test discipline: narrow runs good; one pnpm test at line 144 (commit 6 of 21), failed only on mendel-full-example karma (needs the daemon, fails on master too). Task list: full tree written before any grep (line 8), uuid ticked live, xtend parent ticked before its children, then one bulk tick of six libraries after the compaction (line 280), later edits flipped boxes back and forth; 1.5. Nudge 1 (05:34) fired after the model declared chalk done with 11 uncommitted pipeline files (the chalk commit had been rejected by the hook); nudge 2 (05:47) after it declared done with tmp ×2 and shasum unchecked. Peak context 208972 of 212992 (98 %), one overflow compaction at 05:25. Human messages inside the scored region: only the two harness nudges. Per-package tap on the branch: core 71/72 (1 skip), config 41, deps 27, development 42, extract-bundles 4, uglify 3, cli-printer 15; outlet-manifest has no test dir; requirify 3/3 fail as on master."
+      "notes": "Scored on Fable 2026-09-06 from scratchpad/benchmark/runs/gemma-4-26b-a4b-high-issue-13-evidence.json. Bugs: one critical, trap A (25 \u2212 9 = 16); mendel-development tap passes because nothing covers apply-extra-options.js. Trap B: the model saw legacy-packages/mendel-requirify in its own rimraf grep (session line 139) and skipped it in thinking at line 140 because the issue did not list it; scored as missing work under completion (13, same leftover set as the deepseek-flash-high row), not as a bug. Trap C: no exit hook added; tmp.dirSync \u2192 fs.mkdtempSync. Chalk follows the v1.1 contract: chalk.level line removed, plain util.styleText, no enableColor; probe: no ANSI when piped. Lint: prettier and eslint clean on re-run, lint_self_runs 0, no --no-verify, so hook-only 3. The node: prefix trap rejected 3 commits (lines 27, 175, 317); each time the model replaced node:x with x. Commit craft: 0 types (refactor) + 4 split (every code commit single-package) + 1 hygiene (no add -A, no --no-verify, but TASKS.md was committed 4 times with git add -f after git refused the ignored file at line 377). First time: 8 \u2212 2 repair commits (c6e4eca, 891a4fe re-do package.json edits that failed at lines 89 and 361 and were then committed without) \u2212 1 for hitting the node: trap three times \u2212 4 for two model nudges = 1. Test discipline: narrow runs good; one pnpm test at line 144 (commit 6 of 21), failed only on mendel-full-example karma (needs the daemon, fails on master too). Task list: full tree written before any grep (line 8), uuid ticked live, xtend parent ticked before its children, then one bulk tick of six libraries after the compaction (line 280), later edits flipped boxes back and forth; 1.5. Nudge 1 (05:34) fired after the model declared chalk done with 11 uncommitted pipeline files (the chalk commit had been rejected by the hook); nudge 2 (05:47) after it declared done with tmp \u00d72 and shasum unchecked. Peak context 208972 of 212992 (98 %), one overflow compaction at 05:25. Human messages inside the scored region: only the two harness nudges. Per-package tap on the branch: core 71/72 (1 skip), config 41, deps 27, development 42, extract-bundles 4, uglify 3, cli-printer 15; outlet-manifest has no test dir; requirify 3/3 fail as on master.",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     },
     {
       "model": "qwen3.8-27b",
@@ -3050,21 +3070,21 @@
       },
       "matrix_cells": [
         "<td class=\"best\"><span class=\"pill p-good\">none found</span> <b>25</b></td>",
-        "<td class=\"best\"><span class=\"pill p-good\">clean (tap 71+41+27+42+4+3+15 pass, 1 skip; config 41/41 ×3)</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean (tap 71+41+27+42+4+3+15 pass, 1 skip; config 41/41 \u00d73)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">SYNC OK, pending 0 (fs.globSync, handshake kept)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">none (fixture left as-is)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">none, root rimraf + tmp removed</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">found by grep at line 25, fixed in e7c885e</span></td>",
         "<td><b>20</b></td>",
-        "<td><span class=\"pill p-bad\">pnpm install --lockfile-only ×14, node_modules never installed or checked</span> <b>2</b></td>",
+        "<td><span class=\"pill p-bad\">pnpm install --lockfile-only \u00d714, node_modules never installed or checked</span> <b>2</b></td>",
         "<td class=\"best\"><span class=\"pill p-good\">96 lines removed</span></td>",
-        "<td><span class=\"pill p-mid\">clean on re-run · hooks on 9 commits, self-run once (uuid file) before the one --no-verify</span> <b>3.5</b></td>",
+        "<td><span class=\"pill p-mid\">clean on re-run \u00b7 hooks on 9 commits, self-run once (uuid file) before the one --no-verify</span> <b>3.5</b></td>",
         "<td><span class=\"pill p-mid\">hit once (chalk commit, hook reject), matched repo style at once</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">10/10 chore</span></td>",
-        "<td><span class=\"pill p-mid\">6/10 single-package; rimraf, glob, tmp, shasum grouped by library (2–4 pkgs each)</span></td>",
+        "<td><span class=\"pill p-mid\">6/10 single-package; rimraf, glob, tmp, shasum grouped by library (2\u20134 pkgs each)</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">both removed in-line with their libraries</span></td>",
-        "<td><span class=\"pill p-bad\">2 hook rejects (node: prefix, same commit) · 1× --no-verify</span></td>",
+        "<td><span class=\"pill p-bad\">2 hook rejects (node: prefix, same commit) \u00b7 1\u00d7 --no-verify</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">kept out (staged once by mistake, unstaged before any commit)</span></td>",
         "<td><b>9</b></td>",
         "<td><span class=\"pill p-good\">no repair commits; node: trap once, fixed pre-commit; 0 model nudges</span> <b>7</b></td>",
@@ -3079,8 +3099,10 @@
         "<td><span class=\"pill p-good\">210</span></td>"
       ],
       "notes": [
-        "Scored on Fable 2026-09-06 from scratchpad/benchmark/runs/qwen3.8-27b-medium-issue-13-evidence.json. GGUF Q4_K_M on llama-server with MTP n=3, f16 KV, 49152-token window, maxTokens 8192, reasoning effort medium. Start: gh issue view got HTTP 401 (host token invalid); the model checked gh auth status and fell back to an unauthenticated curl of the public API in the same turn (session lines 5-10), no harness fault, no nudge. Bugs: none. Trap A passes with SYNC OK: apply-extra-options.js moved to fs.globSync and kept the _pending/_ready handshake; the .catch → emit('error') branch is gone because the sync call throws instead. Trap B: rimraf in legacy-packages/mendel-requirify (two test files, package.json) found by its own grep at line 25 and fixed in e7c885e. Trap C: tmp.dirSync → fs.mkdtempSync, no exit hook. Chalk follows the v1.1 contract: chalk.level line removed, plain util.styleText, no enableColor; styleText emits no ANSI when piped. Static grep clean, root rimraf and tmp removed, lockfile −96 lines. node_modules: only pnpm install --lockfile-only (14×), never a real install or a hand check → 2. Lint: prettier and eslint clean on re-run (score.mjs only flags the untracked, git-excluded TASKS.md); the model ran both tools itself once on the uuid file (line 54) and then let the husky hook run on the other 9 commits → 3.5. The node: prefix trap rejected the chalk commit twice (lines 296-299, the second run was to read the error); the model grepped the repo style and switched to bare require('util') before the commit landed. Commit craft: 4 types (10/10 chore) + 2 split (6/10 single-package: rimraf remainder 3 pkgs, glob 3, tmp 4, shasum 2, grouped by library) + 3 hygiene (one --no-verify on the first commit, no add -A, TASKS.md never committed; it was staged by mistake near the end and unstaged at line 389). First time: no repair commits, node: trap once (−1), 0 model nudges → 7. Test discipline: narrow pnpm --filter runs before every commit with tests (planout-example has no test script; node --check + prettier + eslint instead); full pnpm run unit after commit 5 (line 136, 260/260, only mendel-full-example karma fails for the daemon, as on master) and after commit 10 (line 380); unit-legacy 7/11 confirmed identical on a stashed clean tree. Task list: written at line 10 from the issue text (libraries with the packages the issue names), refined at line 35 after the grep with file-level sub-items and the discovered mendel-requirify, ticked per library after its commit; after the last compaction it rewrote the file once to the final state (line 403) → 3. Truncation 75 % of noisy commands piped, mostly grep -E \"total:|not ok\" filters → 2.5. One tooling nudge: the second pnpm run unit (line 138, a grep over the full suite) produced no events for 10 min and the harness aborted the turn; not scored. Compactions: 4 real (the 08:21 \"No prior history\" split-turn marker is not counted). Peak context 45705 of 49152 (93 %). Tool errors 17: 7 edit oldText misses, 4 API probes in node -e, 6 grep/exit-1 checks. Human messages inside the scored region: only the one harness nudge. Per-package tap on the branch: core 71/72 (1 skip), config 41 (×3), deps 27, development 42, extract-bundles 4, uglify 3, cli-printer 15; outlet-manifest has no test dir; requirify 3/3 fail as on master."
-      ]
+        "Scored on Fable 2026-09-06 from scratchpad/benchmark/runs/qwen3.8-27b-medium-issue-13-evidence.json. GGUF Q4_K_M on llama-server with MTP n=3, f16 KV, 49152-token window, maxTokens 8192, reasoning effort medium. Start: gh issue view got HTTP 401 (host token invalid); the model checked gh auth status and fell back to an unauthenticated curl of the public API in the same turn (session lines 5-10), no harness fault, no nudge. Bugs: none. Trap A passes with SYNC OK: apply-extra-options.js moved to fs.globSync and kept the _pending/_ready handshake; the .catch \u2192 emit('error') branch is gone because the sync call throws instead. Trap B: rimraf in legacy-packages/mendel-requirify (two test files, package.json) found by its own grep at line 25 and fixed in e7c885e. Trap C: tmp.dirSync \u2192 fs.mkdtempSync, no exit hook. Chalk follows the v1.1 contract: chalk.level line removed, plain util.styleText, no enableColor; styleText emits no ANSI when piped. Static grep clean, root rimraf and tmp removed, lockfile \u221296 lines. node_modules: only pnpm install --lockfile-only (14\u00d7), never a real install or a hand check \u2192 2. Lint: prettier and eslint clean on re-run (score.mjs only flags the untracked, git-excluded TASKS.md); the model ran both tools itself once on the uuid file (line 54) and then let the husky hook run on the other 9 commits \u2192 3.5. The node: prefix trap rejected the chalk commit twice (lines 296-299, the second run was to read the error); the model grepped the repo style and switched to bare require('util') before the commit landed. Commit craft: 4 types (10/10 chore) + 2 split (6/10 single-package: rimraf remainder 3 pkgs, glob 3, tmp 4, shasum 2, grouped by library) + 3 hygiene (one --no-verify on the first commit, no add -A, TASKS.md never committed; it was staged by mistake near the end and unstaged at line 389). First time: no repair commits, node: trap once (\u22121), 0 model nudges \u2192 7. Test discipline: narrow pnpm --filter runs before every commit with tests (planout-example has no test script; node --check + prettier + eslint instead); full pnpm run unit after commit 5 (line 136, 260/260, only mendel-full-example karma fails for the daemon, as on master) and after commit 10 (line 380); unit-legacy 7/11 confirmed identical on a stashed clean tree. Task list: written at line 10 from the issue text (libraries with the packages the issue names), refined at line 35 after the grep with file-level sub-items and the discovered mendel-requirify, ticked per library after its commit; after the last compaction it rewrote the file once to the final state (line 403) \u2192 3. Truncation 75 % of noisy commands piped, mostly grep -E \"total:|not ok\" filters \u2192 2.5. One tooling nudge: the second pnpm run unit (line 138, a grep over the full suite) produced no events for 10 min and the harness aborted the turn; not scored. Compactions: 4 real (the 08:21 \"No prior history\" split-turn marker is not counted). Peak context 45705 of 49152 (93 %). Tool errors 17: 7 edit oldText misses, 4 API probes in node -e, 6 grep/exit-1 checks. Human messages inside the scored region: only the one harness nudge. Per-package tap on the branch: core 71/72 (1 skip), config 41 (\u00d73), deps 27, development 42, extract-bundles 4, uglify 3, cli-printer 15; outlet-manifest has no test dir; requirify 3/3 fail as on master."
+      ],
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     },
     {
       "model": "gemma-4-26b-a4b",
@@ -3198,14 +3220,14 @@
         "<td><span class=\"pill p-bad\">never ran pnpm install, lockfile unchanged</span> <b>0</b></td>",
         "<td><span class=\"pill p-bad\">no change</span></td>",
         "<td><span class=\"pill p-bad\">prettier fails on cli-printer.js, eslint 5 errors; ran neither tool</span> <b>0</b></td>",
-        "<td><span class=\"pill p-bad\">hit 3×, node: prefixes still in the tree at the stop</span></td>",
+        "<td><span class=\"pill p-bad\">hit 3\u00d7, node: prefixes still in the tree at the stop</span></td>",
         "<td><span class=\"pill p-bad\">0 / 7 chore, all fix:</span></td>",
         "<td><span class=\"pill p-mid\">6 / 7 single-package; d7f3b03 covers 2</span></td>",
         "<td><span class=\"pill p-bad\">rimraf + tmp still declared at root</span></td>",
         "<td><span class=\"pill p-mid\">1 commitlint reject, no bypass</span></td>",
         "<td><span class=\"pill p-good\">kept out (gitignored)</span></td>",
         "<td><b>6</b></td>",
-        "<td><span class=\"pill p-bad\">node: trap 3×, 1 commitlint reject, 4 commits staged package.json files it never edited</span> <b>3</b></td>",
+        "<td><span class=\"pill p-bad\">node: trap 3\u00d7, 1 commitlint reject, 4 commits staged package.json files it never edited</span> <b>3</b></td>",
         "<td><span class=\"pill p-mid\">per-package tap before some commits; edits left uncommitted</span></td>",
         "<td><span class=\"pill p-bad\">0 full-suite runs across 7 commits</span> <b>5</b></td>",
         "<td><span class=\"pill p-mid\">list written, ticked ahead of the work; boxes flipped back and forth</span> <b>2</b></td>",
@@ -3214,11 +3236,13 @@
         "<td><span class=\"pill p-mid\">8.1 M</span></td>",
         "<td class=\"best\"><span class=\"pill p-good\">0</span></td>",
         "<td><span class=\"pill p-good\">36 %</span></td>",
-        "<td><span class=\"pill p-bad\">120, 21 errors, ended in a 5× identical edit loop</span></td>"
+        "<td><span class=\"pill p-bad\">120, 21 errors, ended in a 5\u00d7 identical edit loop</span></td>"
       ],
       "invalid": true,
       "invalid_reason": "live loop stop: repetition_loop on 5 identical edit tool calls, 18:42:46Z to 18:50:15Z; 1 of 8 libraries landed",
-      "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call) on packages/mendel-pipeline/src/helpers/analytics/cli-printer.js (same getBarText oldText), 5 identical calls, first at 18:42:46Z, final at 18:50:15Z (meta.json); a sixth near-identical attempt preceded them at 18:41:03Z; run cut at 120 tool calls with chalk/tmp/shasum untouched.; critical: trap A failed on the working tree, apply-extra-options.js:6 'var { glob } = require(\"node:fs/promises\")' with the .then() chain left in place; repro prints THREW TypeError glob(...).then is not a function; the mendel-development test run passed vacuously, no test covers the file.; medium: ef4c566 removes glob from mendel-development's package.json only; the apply-extra-options.js edit was never staged, so the branch tip still requires glob with the dependency undeclared.; medium: d7f3b03 removes rimraf from mendel-transform-less and mendel-pipeline package.json, but test/outlet-css.js:3 and test/helpers/index.js:3 still require('rimraf') at tip; the fs.rmSync rewrites stayed uncommitted.; medium: commits 33bee3b, 68fa338, fef93eb, bec1dbf git add package.json files never actually edited; xtend and urlsafe-base64 (mendel-core), xtend (mendel-config), glob (mendel-deps) remain declared.; medium: uncommitted chalk port ignores enableColor, calls styleText unconditionally with no validateStream:false; unused color helper at cli-printer.js:131; prettier fails on the file; chalk.blue.dim replaced with plain blue.; minor: mocha-runner/index.js:5 const { globSync } = require('node:fs') left unused after switching to fs.globSync, uncommitted.; minor: 33bee3b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a new object.; process: node: prefix trap hit 3 times (turn 41, 213, and again uncommitted); commitlint reject at turn 45; 0 full-suite runs across 7 commits; mendel-requirify never found; root rimraf/tmp still declared."
+      "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call) on packages/mendel-pipeline/src/helpers/analytics/cli-printer.js (same getBarText oldText), 5 identical calls, first at 18:42:46Z, final at 18:50:15Z (meta.json); a sixth near-identical attempt preceded them at 18:41:03Z; run cut at 120 tool calls with chalk/tmp/shasum untouched.; critical: trap A failed on the working tree, apply-extra-options.js:6 'var { glob } = require(\"node:fs/promises\")' with the .then() chain left in place; repro prints THREW TypeError glob(...).then is not a function; the mendel-development test run passed vacuously, no test covers the file.; medium: ef4c566 removes glob from mendel-development's package.json only; the apply-extra-options.js edit was never staged, so the branch tip still requires glob with the dependency undeclared.; medium: d7f3b03 removes rimraf from mendel-transform-less and mendel-pipeline package.json, but test/outlet-css.js:3 and test/helpers/index.js:3 still require('rimraf') at tip; the fs.rmSync rewrites stayed uncommitted.; medium: commits 33bee3b, 68fa338, fef93eb, bec1dbf git add package.json files never actually edited; xtend and urlsafe-base64 (mendel-core), xtend (mendel-config), glob (mendel-deps) remain declared.; medium: uncommitted chalk port ignores enableColor, calls styleText unconditionally with no validateStream:false; unused color helper at cli-printer.js:131; prettier fails on the file; chalk.blue.dim replaced with plain blue.; minor: mocha-runner/index.js:5 const { globSync } = require('node:fs') left unused after switching to fs.globSync, uncommitted.; minor: 33bee3b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a new object.; process: node: prefix trap hit 3 times (turn 41, 213, and again uncommitted); commitlint reject at turn 45; 0 full-suite runs across 7 commits; mendel-requirify never found; root rimraf/tmp still declared.",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     },
     {
       "model": "gemma-4-12b",
@@ -3368,7 +3392,9 @@
       ],
       "invalid": true,
       "invalid_reason": "zero commits: budget spent on a repeated edit-tool schema error (24 of 28 calls), model_budget_exhausted after 3 nudges",
-      "notes": "critical: zero commits, 92 tool calls, 37 bash, 0 git add/git commit, 0 test runs, 0 lint runs; ended on model_budget_exhausted after 3 nudges.; critical: tool-schema loop consumed the budget, 24 of 28 edit calls failed validation with the same shape error (edits: [{...}, 1, 25], line numbers sent as array elements, 'edits.1: must be object'); model never adapted, alternated between retrying the broken shape and full-file write/heredoc.; critical (uncommitted): uuid swap is broken, var { v4: uuidv4 } = () => crypto.randomUUID(); leaves uuidv4 undefined.; critical (uncommitted): heredoc overwrote packages/mendel-pipeline/test/helpers/index.js with the mendel-transform-less/test/outlet-css.js body (173-line diff), then declared rimraf done.; critical: root devDependencies rimraf/tmp never removed.; medium: six pnpm remove calls edited package.json and the lockfile in the worktree with no matching source edits for mendel-deps, mendel-mocha-runner, mendel-config.; medium: trap A untouched, both apply-extra-options.js edits failed; the evidence pack's SYNC OK is vacuous.; medium: outlet-css.js rewritten 3 times with identical content, grep -r rimraf run 5 times.; minor: stripped the copyright header from post-process-manifest.js.; minor: mixed node:crypto and bare crypto prefixes.; minor: TASKS.md written as a full per-file tree upfront, ticked by rewrite, stale after xtend (urlsafe-base64 and rimraf claimed done in chat, never ticked).; minor: 0 of 9 noisy commands truncated, grep -r swept node_modules; each segment ended in a prose 'Next steps' summary instead of a commit; 80 min wall, peak context 178629 of 262144 (not context-bound)."
+      "notes": "critical: zero commits, 92 tool calls, 37 bash, 0 git add/git commit, 0 test runs, 0 lint runs; ended on model_budget_exhausted after 3 nudges.; critical: tool-schema loop consumed the budget, 24 of 28 edit calls failed validation with the same shape error (edits: [{...}, 1, 25], line numbers sent as array elements, 'edits.1: must be object'); model never adapted, alternated between retrying the broken shape and full-file write/heredoc.; critical (uncommitted): uuid swap is broken, var { v4: uuidv4 } = () => crypto.randomUUID(); leaves uuidv4 undefined.; critical (uncommitted): heredoc overwrote packages/mendel-pipeline/test/helpers/index.js with the mendel-transform-less/test/outlet-css.js body (173-line diff), then declared rimraf done.; critical: root devDependencies rimraf/tmp never removed.; medium: six pnpm remove calls edited package.json and the lockfile in the worktree with no matching source edits for mendel-deps, mendel-mocha-runner, mendel-config.; medium: trap A untouched, both apply-extra-options.js edits failed; the evidence pack's SYNC OK is vacuous.; medium: outlet-css.js rewritten 3 times with identical content, grep -r rimraf run 5 times.; minor: stripped the copyright header from post-process-manifest.js.; minor: mixed node:crypto and bare crypto prefixes.; minor: TASKS.md written as a full per-file tree upfront, ticked by rewrite, stale after xtend (urlsafe-base64 and rimraf claimed done in chat, never ticked).; minor: 0 of 9 noisy commands truncated, grep -r swept node_modules; each segment ended in a prose 'Next steps' summary instead of a commit; 80 min wall, peak context 178629 of 262144 (not context-bound).",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     }
   ],
   "matrix_rows": [
@@ -3430,7 +3456,7 @@
     },
     {
       "type": "row",
-      "label": "Prettier &amp; ESLint clean <em>5 pts · re-run on the branch</em>"
+      "label": "Prettier &amp; ESLint clean <em>5 pts \u00b7 re-run on the branch</em>"
     },
     {
       "type": "row",
@@ -3442,7 +3468,7 @@
     },
     {
       "type": "row",
-      "label": "Right type — all <code>chore</code>"
+      "label": "Right type \u2014 all <code>chore</code>"
     },
     {
       "type": "row",
@@ -3470,7 +3496,7 @@
     },
     {
       "type": "row",
-      "label": "Right the first time <em>8 pts · self-inflicted repairs</em>"
+      "label": "Right the first time <em>8 pts \u00b7 self-inflicted repairs</em>"
     },
     {
       "type": "row",
@@ -3478,19 +3504,19 @@
     },
     {
       "type": "row",
-      "label": "Full suite cadence <em>10 pts · as the prompt mandates</em>"
+      "label": "Full suite cadence <em>10 pts \u00b7 as the prompt mandates</em>"
     },
     {
       "type": "row",
-      "label": "Task list built progressively <em>4 pts · high level first, sub-items on arrival</em>"
+      "label": "Task list built progressively <em>4 pts \u00b7 high level first, sub-items on arrival</em>"
     },
     {
       "type": "row",
-      "label": "Truncated noisy commands <em>3 pts · piped to tail/head</em>"
+      "label": "Truncated noisy commands <em>3 pts \u00b7 piped to tail/head</em>"
     },
     {
       "type": "row",
-      "label": "Followed house conventions <em>5 pts · minimal diff, matched neighbours</em>"
+      "label": "Followed house conventions <em>5 pts \u00b7 minimal diff, matched neighbours</em>"
     },
     {
       "type": "group",
