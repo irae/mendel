@@ -548,9 +548,19 @@ The mendel main worktree stays with the coordinator on `master`; benchmark
 coordination happens in the `../mendel-benchmark` worktree, and each run gets its
 own worker worktree. Worker worktrees must be siblings (`../mendel-<name>`) or live
 under `/tmp/`. Never nest them inside the repo — the filesystem watchers break.
-Remove every worker worktree when its run is scored; never reuse an old worktree —
-gitignored artifacts stay behind in it. Test runs can leave
-mendel processes behind; kill them before you remove the worktree:
+**No cleanup mid-run (2026-09-07).** A worker worktree, its branch, its session
+file and its pinned config dir are removed only when the run ended on its own (an
+`end_reason` written by the runner) and its row is scored and committed. A run that
+something else ended — a memory kill, a server death, an operator stop, a power
+loss — keeps everything in place until the coordinator closes the row: the work in
+the tree is evidence, the branch may hold commits worth scoring as a partial, and a
+newer kit may resume the session (`run-pi-rpc.mjs` takes `--session`; the worker's
+resume mode is `../choose-a-local-llm/backlog/mendel-resume-interrupted-run.md`).
+Never delete a branch before its row is scored (run 11 block 5 lost an 8/8 attempt
+that way). A fresh attempt of the same config gets a new worktree with a suffix;
+never reuse an old worktree for a new attempt — gitignored artifacts stay behind in
+it. Test runs can leave mendel processes behind; kill them before you remove a
+worktree whose row is closed:
 
 ```bash
 pkill -f "$(cd ../mendel-bench-<model> && pwd)"
