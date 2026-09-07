@@ -2,7 +2,11 @@ const debug = require('debug')('mendel:outlet:manifest');
 const babelCore = require('@babel/core');
 const manifestUglify = require('mendel-manifest-uglify');
 const fs = require('fs');
-const shasum = require('shasum');
+const crypto = require('crypto');
+
+function shasum(str) {
+    return crypto.createHash('sha1').update(str, 'utf8').digest('hex');
+}
 const inliner = require('babel-plugin-transform-inline-environment-variables');
 
 // Manifest
