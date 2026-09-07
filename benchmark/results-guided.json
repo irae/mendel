@@ -2442,6 +2442,131 @@
       ],
       "invalid": false,
       "notes": "critical: tree-variation-walker.js rewritten from memory after a git checkout HEAD~1 restore; constructor changed from (_lookupChains, _base, _hash) to (path, variation), conflict detection replaced with invented variationMap logic; test/tree-variation-walker.js and -server.js fail 3/3 with TypeError reading 'variationMap', commit c1c0558.; critical: root package.json still declares rimraf and tmp, never touched.; medium: legacy/index.js:89 Array.prototype.splice.apply(inputArray, ...) changed to splice(inputArray, ...) as a drive-by; config.js test #10 fails 3/3, passes on base, commit c1c0558.; medium: index.js:52 Object.assign(fileConfig, config) plus a legacy merge change; config.js test #7 fails 3/3, passes on base; the model called it pre-existing and committed anyway, commit c1c0558.; medium: pnpm-lock.yaml at tip still lists xtend, urlsafe-base64 and pipeline/core rimraf; only the uuid removal was staged; commit messages falsely claim the lockfile was updated.; medium: rimraf ticked done but two requirify files, its package.json line, and mendel-transform-less's package.json still reference it (trap B missed).; minor: test/helpers/index.js fs.rmSync(runDir, { recursive: true }) without force: true throws ENOENT on a fresh checkout, where rimraf.sync did not.; minor: the urlsafe-base64 commit was lost as its own entry, its rimraf follow-up commit was rejected by commitlint and a git commit --amend folded rimraf into it and replaced the message; no commit on the branch names urlsafe-base64 by itself.; process: Mendel's wall_min policy (300 min) is not enforced in code; the run was still going at 469 min when stopped by hand. This row is scored on the session truncated to the first 300 minutes (706 of 1419 lines), worktree reset to the last commit before the cutoff (all 3 commits precede it), peak_context and tool_calls recomputed from that slice. Treated as a normal wall_clock partial, not an interrupted run. 10 overflow compactions in the scored window."
+    },
+    {
+      "model": "qwen3.6-35b-a3b",
+      "model_id": "qwen3.6-35b-a3b",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "qwen3.6-35b-a3b-off-guided-v3-issue-13-w81920",
+      "base_commit": "86935f4",
+      "partial": false,
+      "prompt_version": "v3.0",
+      "config_note": "same model and build as the other qwen3.6-35b-a3b guided-off row, only the window differs: llama-server b10621, Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf (MTP drafter), q8_0 KV, -c 98304, wired 25000, thinking off; pi context window raised to 81920 from the daily-driver default 49152 after block 1 clean-depth finding, maxTokens 8192, reserveTokens 8192",
+      "score_total": 62.5,
+      "score_raw": 62.5,
+      "scores": {
+        "bugs": 7,
+        "completion": 17,
+        "node_modules": 8,
+        "lint": 0,
+        "commit_craft": 8,
+        "first_time": 6,
+        "test_discipline": 8,
+        "conventions": 2,
+        "task_list": 3.5,
+        "truncation": 3
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "trap A missed, packages/mendel-development/apply-extra-options.js:6 swaps require('glob') for require('node:fs/promises') but keeps glob(...).then(...); repro throws TypeError glob(...).then is not a function; no unit test covers the file, commit 3a0b24e."
+        },
+        {
+          "severity": "medium",
+          "summary": "stale dependency, legacy-packages/mendel-requirify/package.json:26 still declares rimraf; two pnpm remove attempts failed and the model declared it acceptable and stopped."
+        },
+        {
+          "severity": "minor",
+          "summary": "cli-printer.js:43 keeps chalk.level = options.enableColor !== false ? 3 : 0 and level: 3 on the plain shim object, dead code the prompt asked to drop; cli.js:56 still passes enableColor: true."
+        },
+        {
+          "severity": "minor",
+          "summary": "prettier fails on 9 files, all clean at base 86935f4, all failing at the branch tip (blank lines left where requires were deleted, over-long shim objects); no lint run in-session, all 16 commits --no-verify."
+        },
+        {
+          "severity": "minor",
+          "summary": "chalk replaced with 6 hand-rolled shim objects instead of calling util.styleText directly at each site."
+        },
+        {
+          "severity": "note",
+          "summary": "clearly better than the same model's earlier row at window 49152 (46.5): the larger 81920 window let it finish all 8 libraries with one compaction and zero nudges, where the tighter window stalled on a repetition loop before finishing. Trap A survives in both runs."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 89.4,
+        "tokens_total": 13044628,
+        "tokens_in": 124325,
+        "tokens_out": 34582,
+        "cache_read": 12885721,
+        "peak_context": 77894,
+        "window_pct": 95.1,
+        "compactions": 1,
+        "assistant_msgs": 267,
+        "tool_calls": 264,
+        "tool_errors": 24,
+        "commits": 16,
+        "failed_commits": 0,
+        "truncation_pct": 63,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.37,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "thinking": "off",
+      "end_reason": "complete",
+      "libraries_done": 8,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">trap A still throws: glob(...).then is not a function</span> <b>7</b></td>",
+        "<td><span class=\"pill p-good\">suites green, full suite re-run before every commit</span></td>",
+        "<td><span class=\"pill p-bad\">apply-extra-options.js:6 THREW TypeError</span></td>",
+        "<td><span class=\"pill p-good\">8 / 8 done</span></td>",
+        "<td><span class=\"pill p-good\">0 stale requires</span></td>",
+        "<td><span class=\"pill p-mid\">1 stale entry, rimraf in legacy mendel-requirify</span></td>",
+        "<td><span class=\"pill p-mid\">found, but two pnpm remove tries failed and the model gave up</span></td>",
+        "<td><b>17</b></td>",
+        "<td><span class=\"pill p-good\">real pnpm install, store pruned</span> <b>8</b></td>",
+        "<td><span class=\"pill p-good\">211 lines removed, 22 added</span></td>",
+        "<td><span class=\"pill p-bad\">prettier fails on 9 files clean at base; 0 self-runs, all 16 commits --no-verify so no hook caught it</span> <b>0</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base)</span></td>",
+        "<td><span class=\"pill p-good\">all 16 chore</span></td>",
+        "<td><span class=\"pill p-good\">16 of 16, one package each</span></td>",
+        "<td><span class=\"pill p-good\">rimraf and tmp removed from root</span></td>",
+        "<td><span class=\"pill p-bad\">0 failures, but every commit bypassed the hooks with --no-verify</span></td>",
+        "<td><span class=\"pill p-good\">kept out (gitignored)</span></td>",
+        "<td><b>8</b></td>",
+        "<td><span class=\"pill p-mid\">8 clean swaps; chalk done with 6 hand-rolled shims and dead chalk.level code left behind</span> <b>6</b></td>",
+        "<td><span class=\"pill p-good\">per-package tap runs on each library</span></td>",
+        "<td><span class=\"pill p-good\">39 full-suite runs, one before each of the 16 commits</span> <b>8</b></td>",
+        "<td><span class=\"pill p-mid\">high-level list built up front, sub-items thin on chalk and shasum</span> <b>3.5</b></td>",
+        "<td><span class=\"pill p-good\">57 of 90 noisy commands piped (63 %)</span> <b>3</b></td>",
+        "<td><span class=\"pill p-bad\">6 shim objects instead of util.styleText at the call site; blank lines left where requires were deleted, 9 files off prettier</span> <b>2</b></td>",
+        "<td><span class=\"pill p-bad\">13.0 M</span></td>",
+        "<td><span class=\"pill p-good\">1</span></td>",
+        "<td><span class=\"pill p-mid\">5 %, peak 77894 of the 81920 window (95.1 %)</span></td>",
+        "<td><span class=\"pill p-good\">264, 24 errors</span></td>"
+      ],
+      "invalid": false,
+      "notes": "critical: trap A missed, packages/mendel-development/apply-extra-options.js:6 swaps require('glob') for require('node:fs/promises') but keeps glob(...).then(...); repro throws TypeError glob(...).then is not a function; no unit test covers the file, commit 3a0b24e.; medium: stale dependency, legacy-packages/mendel-requirify/package.json:26 still declares rimraf; two pnpm remove attempts failed and the model declared it acceptable and stopped.; minor: cli-printer.js:43 keeps chalk.level = options.enableColor !== false ? 3 : 0 and level: 3 on the plain shim object, dead code the prompt asked to drop; cli.js:56 still passes enableColor: true.; minor: prettier fails on 9 files, all clean at base 86935f4, all failing at the branch tip (blank lines left where requires were deleted, over-long shim objects); no lint run in-session, all 16 commits --no-verify.; minor: chalk replaced with 6 hand-rolled shim objects instead of calling util.styleText directly at each site.; note: clearly better than the same model's earlier row at window 49152 (46.5): the larger 81920 window let it finish all 8 libraries with one compaction and zero nudges, where the tighter window stalled on a repetition loop before finishing. Trap A survives in both runs."
     }
   ],
   "matrix_rows": [
