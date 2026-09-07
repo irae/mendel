@@ -3,7 +3,11 @@
    See the accompanying LICENSE file for terms. */
 
 var nodePath = require('path');
-var shasum = require('shasum');
+var crypto = require('crypto');
+
+function shasum(str) {
+    return crypto.createHash('sha1').update(str, 'utf8').digest('hex');
+}
 var through = require('through2');
 var variationMatches = require('./variation-matches');
 var mendelifyRequireTransform = require('./mendelify-require-transform');
