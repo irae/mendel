@@ -102,6 +102,16 @@ table across versions.
     - Creates a sibling worktree at the bench's base commit.
     - Creates the bench's run branch for the model.
     - Runs a real `pnpm install` in the worktree.
+    - Builds the pinned pi config from the operator's, with the run's own
+      harness values: `MENDEL_CONTEXT_WINDOW` sets `contextWindow` for the
+      model under test, `MENDEL_RESERVE_TOKENS` sets
+      `compaction.reserveTokens` (default 8192), and
+      `MENDEL_KEEP_RECENT_TOKENS` sets `compaction.keepRecentTokens`. Left
+      empty, the keep budget derives from the window: 8192 when the window
+      is under 65536, pi's default above it, because pi cannot shrink a
+      context below its system prompt plus the summary plus that budget.
+      The operator's own file is never edited. Every row's config note
+      carries the window, the reserve and the keep budget it ran with.
     - Starts the harness with the bench's prompt and writes its transient
       outputs to `scratchpad/benchmark/runs/` (gitignored).
 3. **pi runs go through `run-pi-rpc.mjs`, never `pi -p`.** `pi -p` exits on the
@@ -210,9 +220,11 @@ repetition_loop`; three in a row are enough when the call already stalled
 
 ## How to score a run
 
-Scoring is LLM judgment. The scorer runs in a subagent on the Fable
-model (`claude-fable-5`), never on a smaller model. Mechanical steps
-(`score.mjs`, table regeneration) may run anywhere.
+Scoring is LLM judgment. The scorer runs in a subagent on the Opus
+model (`claude-opus-5`), never on a smaller model. Mechanical steps
+(`score.mjs`, table regeneration) may run anywhere. Rows scored before
+2026-09-07 were scored on `claude-fable-5`; the run records name the
+scorer of each.
 
 1. Run the full verification battery in `RUBRIC.md` against the branch. Never trust
    the model's own claims. `node benchmark/score.mjs <branch> --session <log>

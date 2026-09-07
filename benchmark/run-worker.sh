@@ -13,6 +13,17 @@
 # frozen agents-global.md as the only global context file, no operator
 # extensions/skills/plugins/hooks, and a check that no stray AGENTS.md or
 # CLAUDE.md sits in a parent directory of the worktree.
+# The harness values of a run are measurements, never the operator's defaults
+# (PLAN.md, and ../choose-a-local-llm/docs/methodology/mendel.md "Window and
+# budget"). Pass them per run; they land in the pinned config only:
+#   MENDEL_CONTEXT_WINDOW  contextWindow for this model, from the run's newest
+#                          creep. Empty keeps the operator's entry.
+#   MENDEL_RESERVE_TOKENS  compaction.reserveTokens, default 8192.
+#   MENDEL_KEEP_RECENT_TOKENS
+#                          compaction.keepRecentTokens. Empty derives it: 8192
+#                          when the effective window is under 65536, else pi's
+#                          default. A small window cannot hold pi's 20000-token
+#                          keep budget plus a summary and still do work.
 # pi runs go through run-pi-rpc.mjs (stateful RPC session with the fixed nudge
 # policy, see PLAN.md); never through `pi -p`.
 # Blocks until the worker finishes. Spawn several in parallel from separate
@@ -98,7 +109,53 @@ build_pi_agent_dir() {
     for f in models.json auth.json models-store.json; do
         [ -e "$HOME/.pi/agent/$f" ] && cp "$HOME/.pi/agent/$f" "$d/"
     done
-    printf '{"compaction":{"enabled":true,"reserveTokens":8192},"retry":{"enabled":true}}\n' > "$d/settings.json"
+    MODEL="$model" DIR="$d" \
+    WINDOW="${MENDEL_CONTEXT_WINDOW:-}" \
+    RESERVE="${MENDEL_RESERVE_TOKENS:-8192}" \
+    KEEP_RECENT="${MENDEL_KEEP_RECENT_TOKENS:-}" \
+    python3 - <<'PYEOF' >&2
+import json
+import os
+
+directory = os.environ['DIR']
+wanted = os.environ['MODEL']
+window = int(os.environ['WINDOW']) if os.environ['WINDOW'] else None
+models_path = os.path.join(directory, 'models.json')
+
+effective = window
+if os.path.exists(models_path):
+    config = json.load(open(models_path))
+    touched = []
+    for name, provider in config.get('providers', {}).items():
+        for model in provider.get('models', []):
+            if model.get('id') != wanted:
+                continue
+            if window:
+                model['contextWindow'] = window
+                touched.append(name)
+            elif effective is None:
+                effective = model.get('contextWindow')
+        override = provider.get('modelOverrides', {}).get(wanted)
+        if override is not None:
+            if window:
+                override['contextWindow'] = window
+                touched.append(name + ' (modelOverrides)')
+            elif effective is None:
+                effective = override.get('contextWindow')
+    if window:
+        json.dump(config, open(models_path, 'w'), indent=2)
+        print('worker: contextWindow %d pinned on provider %s'
+              % (window, ', '.join(touched) or 'none'))
+
+compaction = {'enabled': True, 'reserveTokens': int(os.environ['RESERVE'])}
+if os.environ['KEEP_RECENT']:
+    compaction['keepRecentTokens'] = int(os.environ['KEEP_RECENT'])
+elif effective and effective < 65536:
+    compaction['keepRecentTokens'] = 8192
+json.dump({'compaction': compaction, 'retry': {'enabled': True}},
+          open(os.path.join(directory, 'settings.json'), 'w'))
+print('worker: compaction %s' % json.dumps(compaction))
+PYEOF
     cp "$BENCH_DIR/agents-global.md" "$d/AGENTS.md"
     echo "$d"
 }
