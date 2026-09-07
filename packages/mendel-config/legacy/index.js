@@ -4,14 +4,13 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var xtend = require('xtend');
 var defaultConfig = require('./defaults');
 
 module.exports = function (config) {
     var defaults = defaultConfig();
 
     // merge by priority
-    config = xtend(defaults, config);
+    config = Object.assign({}, defaults, config);
     config.basedir = config.basedir || defaults.basedir;
 
     // merge environment based config
@@ -87,10 +86,7 @@ function flattenFilenameArrays(bundle) {
             while (i <= inputArray.length) {
                 var item = inputArray[i];
                 if (Array.isArray(item)) {
-                    Array.prototype.splice.apply(
-                        inputArray,
-                        [i, 1].concat(item)
-                    );
+                    Array.prototype.splice(inputArray, [i, 1].concat(item));
                 }
                 i++;
             }

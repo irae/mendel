@@ -5,7 +5,6 @@
 
 var debug = require('debug')('mendel:tree-hash-walker');
 var util = require('util');
-var xtend = require('xtend');
 
 var deserialize = require('./tree-deserialiser');
 var MendelWalker = require('./tree-walker');
@@ -64,7 +63,6 @@ MendelHashWalker.prototype.found = function () {
         this.error = error;
     }
 
-    return xtend(this._result, {
-        error: this.error,
-    });
+    this._result.error = this.error;
+    return this._result;
 };

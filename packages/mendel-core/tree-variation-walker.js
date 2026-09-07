@@ -5,61 +5,62 @@
 
 var debug = require('debug')('mendel:tree-variation-walker');
 var util = require('util');
-var xtend = require('xtend');
 
 var MendelWalker = require('./tree-walker');
 
 util.inherits(MendelVariationWalker, MendelWalker);
 module.exports = MendelVariationWalker;
 
-function MendelVariationWalker(_lookupChains, _base, _hash) {
+function MendelVariationWalker(path, variation) {
     debug('init MendelVariationWalker');
     if (!(this instanceof MendelVariationWalker)) {
-        return new MendelVariationWalker(_lookupChains, _base, _hash);
+        return new MendelVariationWalker(path, variation);
     }
     MendelWalker.call(this);
 
-    this._lookupChains = _lookupChains;
-    this._base = _base;
-    this.conflicts = 0;
-    this.conflictList = {};
+    this.path = path;
+    this.variation = variation;
+    this.variationMap = variation.variationMap;
+    this.variationMap[path] = variation;
+    this.variationMap[variation.id] = variation;
+    this.variationMap[variation.path] = variation;
+    this.conflicts = {};
+    this.conflictList = [];
 }
 
 MendelVariationWalker.prototype._resolveBranch = function (module) {
-    var fileId = module.id;
+    if (this.error) return {};
+
+    var nextPath;
     var resolved;
-    var foundIn = 0;
-    var pathIndex = 0;
-    for (var i = 0; i < this._lookupChains.length; i++) {
-        for (var j = 0; j < this._lookupChains[i].length; j++) {
-            var index = module.variations.indexOf(this._lookupChains[i][j]);
-            if (-1 !== index) {
-                if (!foundIn) {
-                    // keep first match, priority by .mendelrc entry order
-                    resolved = module.data[index];
-                    pathIndex = index;
-                }
-                if (!foundIn || this._lookupChains[i][j] !== this._base) {
-                    // config.base don't cont as conflict
-                    foundIn++;
-                }
-                break;
-            }
+    if (
+        this.pathCount >= this.variationMap[this.variation.path].branches.length
+    ) {
+        this._error('Tree has more paths than variation');
+    } else {
+        nextPath =
+            this.variationMap[this.variation.path].branches[this.pathCount];
+        resolved = module.data[nextPath];
+        if (!resolved) {
+            this._error('Variation branch not found in tree');
         }
     }
-    if (foundIn > 1) {
-        this.conflicts++;
-        this.conflictList[fileId] = true;
-    }
+    this.pathCount++;
     return {
-        index: pathIndex,
-        resolved: resolved,
+        index: nextPath,
+        resolved: resolved || {},
     };
 };
 
 MendelVariationWalker.prototype.found = function () {
-    return xtend(MendelWalker.prototype.found.call(this), {
-        conflicts: this.conflicts,
-        conflictList: this.conflictList,
-    });
+    var result = MendelWalker.prototype.found.call(this);
+    result.conflicts = this.conflicts;
+    result.conflictList = this.conflictList;
+    return result;
+};
+
+MendelVariationWalker.prototype._error = function (msg) {
+    this.error = this.error || new Error(msg);
+    this.error.code = 'TRVRSL';
+    debug(this.error);
 };
