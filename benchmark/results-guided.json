@@ -2599,6 +2599,133 @@
       "notes": "critical: trap A missed, packages/mendel-development/apply-extra-options.js:6 swaps require('glob') for require('node:fs/promises') but keeps glob(...).then(...); repro throws TypeError glob(...).then is not a function; no unit test covers the file, commit 3a0b24e.; medium: stale dependency, legacy-packages/mendel-requirify/package.json:26 still declares rimraf; two pnpm remove attempts failed and the model declared it acceptable and stopped.; minor: cli-printer.js:43 keeps chalk.level = options.enableColor !== false ? 3 : 0 and level: 3 on the plain shim object, dead code the prompt asked to drop; cli.js:56 still passes enableColor: true.; minor: prettier fails on 9 files, all clean at base 86935f4, all failing at the branch tip (blank lines left where requires were deleted, over-long shim objects); no lint run in-session, all 16 commits --no-verify.; minor: chalk replaced with 6 hand-rolled shim objects instead of calling util.styleText directly at each site.; note: clearly better than the same model's earlier row at window 49152 (46.5): the larger 81920 window let it finish all 8 libraries with one compaction and zero nudges, where the tighter window stalled on a repetition loop before finishing. Trap A survives in both runs.",
       "kv_type": "q8_0",
       "kv_type_source": "config note"
+    },
+    {
+      "model": "bonsai-prism (f16 KV)",
+      "model_id": "prism-ml/Ternary-Bonsai-27B-gguf",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "bonsai-prism-f16-high-guided-v3-issue-13",
+      "base_commit": "86935f4",
+      "partial": true,
+      "prompt_version": "v3.0",
+      "config_note": "PrismML llama-server fork b10660-e311ed38f, Ternary-Bonsai-27B-Q2_g64.gguf, f16 KV with no quantized-KV bias correction, -c 131072, pi model id bonsai-prism-f16, pi context window 131072, maxTokens 8192, thinking high. Same model and build as the q4_0-KV guided-high row; only the KV cache type and the window differ.",
+      "score_total": 12.5,
+      "score_raw": 36,
+      "scores": {
+        "bugs": 1,
+        "completion": 2,
+        "node_modules": 8,
+        "lint": 0,
+        "commit_craft": 11,
+        "first_time": 4,
+        "test_discipline": 5,
+        "conventions": 2,
+        "task_list": 0.5,
+        "truncation": 2.5
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "self-inflicted break: commit 46ec13d removes rimraf from packages/mendel-pipeline/package.json devDependencies and commit 66caa25 drops the matching lockfile entry, but packages/mendel-pipeline/test/helpers/index.js:3 still requires rimraf; eslint . fails at the tip with implicit-dependencies/no-implicit (clean at base 86935f4), and after a fresh pnpm install the whole mendel-pipeline suite loses its helper. The pre-commit eslint --fix only sees staged files, so the hook never saw it."
+        },
+        {
+          "severity": "critical",
+          "summary": "7 of 8 libraries untouched: 22 stale requires and 16 stale package.json entries at the tip, root package.json still declares rimraf and tmp, trap B (legacy-packages/mendel-requirify) never found. Only chalk was delivered."
+        },
+        {
+          "severity": "medium",
+          "summary": "chalk port drops styles instead of porting them: cli-printer.js getBarText loses chalk.blue and chalk.blue.dim on both bar halves (no styleText call at all), and the three chalk.bgWhite.black header bars became styleText('bgWhite', ...) without the black foreground, so the header renders unreadable on a light terminal. Direction is otherwise right for v3: the forced chalk.level and enableColor handling are gone."
+        },
+        {
+          "severity": "minor",
+          "summary": "drive-by churn in the chalk commit: cli-printer.js loses the ellipsis from the user-visible '+etc\u2026' string and from its neighbouring comment, and cache/client.js splits one console.error into two, so the parse-error message and its stack now print as two records."
+        },
+        {
+          "severity": "minor",
+          "summary": "false completion claim: TASKS.md at the tip has all 32 file sub-items ticked and the closing message reports a table of all 8 dependencies replaced. The bulk tick was written in one edit long before the first commit, with 7 libraries never started. The single model nudge got the same answer, \"All tasks are checked off\"."
+        },
+        {
+          "severity": "note",
+          "summary": "work was abandoned, not lost: stash@{0} on this branch still holds the model's own WIP after it ran git stash mid-run to test whether pre-existing mendel-pipeline failures were its fault, and never popped it."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 194.7,
+        "tokens_total": 21048535,
+        "tokens_in": 566115,
+        "tokens_out": 65426,
+        "cache_read": 20416994,
+        "peak_context": 127120,
+        "window_pct": 97,
+        "compactions": 1,
+        "assistant_msgs": 307,
+        "tool_calls": 376,
+        "tool_errors": 74,
+        "commits": 2,
+        "failed_commits": 1,
+        "truncation_pct": 53,
+        "nudges_tooling": 0,
+        "nudges_model": 1,
+        "loop_flag": "ok",
+        "loop_ratio": 0.33,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "thinking": "high",
+      "end_reason": "complete",
+      "libraries_done": 1,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">rimraf devDep removed while test/helpers/index.js still requires it; root rimraf and tmp never touched</span> <b>1</b></td>",
+        "<td><span class=\"pill p-mid\">mendel-pipeline cli-printer 15/15 green; the same package loses its test helper on a fresh install</span></td>",
+        "<td><span class=\"pill p-mid\">SYNC OK, but glob was never touched (vacuous pass)</span></td>",
+        "<td><span class=\"pill p-bad\">1 / 8 (chalk)</span></td>",
+        "<td><span class=\"pill p-bad\">22 stale requires across 7 libraries</span></td>",
+        "<td><span class=\"pill p-bad\">16 stale entries, root rimraf and tmp among them</span></td>",
+        "<td><span class=\"pill p-bad\">not found (trap B)</span></td>",
+        "<td><b>2</b></td>",
+        "<td><span class=\"pill p-good\">real pnpm install, lockfile regenerated</span> <b>8</b></td>",
+        "<td><span class=\"pill p-mid\">12 lines removed, 0 added; chalk and pipeline rimraf only</span></td>",
+        "<td><span class=\"pill p-bad\">eslint fails at the tip on a self-made implicit dependency, clean at base; 0 self-runs</span> <b>0</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base)</span></td>",
+        "<td><span class=\"pill p-good\">2 of 2 chore</span></td>",
+        "<td><span class=\"pill p-good\">one package each, lockfile on its own</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf and tmp still declared at root</span></td>",
+        "<td><span class=\"pill p-mid\">1 hook reject (prettier caught a broken client.js edit), no bypass</span></td>",
+        "<td><span class=\"pill p-good\">kept out (gitignored)</span></td>",
+        "<td><b>11</b></td>",
+        "<td><span class=\"pill p-bad\">a partial write left client.js unparseable, rejected by the hook and rewritten whole; 1 model nudge (-2)</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">narrow tap runs on cli-printer and two cache tests</span></td>",
+        "<td><span class=\"pill p-mid\">6 full-suite attempts, none green: pnpm run unit timed out before both commits</span> <b>5</b></td>",
+        "<td><span class=\"pill p-bad\">full file tree written up front, then all 32 items ticked in one edit with 7 libraries untouched</span> <b>0.5</b></td>",
+        "<td><span class=\"pill p-mid\">43 of 81 noisy commands piped (53 %)</span> <b>2.5</b></td>",
+        "<td><span class=\"pill p-bad\">colours dropped rather than ported in getBarText and the header bars; ellipsis and console.error churn</span> <b>2</b></td>",
+        "<td><span class=\"pill p-bad\">21.0 M</span></td>",
+        "<td><span class=\"pill p-good\">1</span></td>",
+        "<td><span class=\"pill p-bad\">peak 127120 of the 131072 window (97.0 %)</span></td>",
+        "<td><span class=\"pill p-bad\">376, 74 errors</span></td>"
+      ],
+      "invalid": false,
+      "notes": "critical: self-inflicted break: commit 46ec13d removes rimraf from packages/mendel-pipeline/package.json devDependencies and commit 66caa25 drops the matching lockfile entry, but packages/mendel-pipeline/test/helpers/index.js:3 still requires rimraf; eslint . fails at the tip with implicit-dependencies/no-implicit (clean at base 86935f4), and after a fresh pnpm install the whole mendel-pipeline suite loses its helper. The pre-commit eslint --fix only sees staged files, so the hook never saw it.; critical: 7 of 8 libraries untouched: 22 stale requires and 16 stale package.json entries at the tip, root package.json still declares rimraf and tmp, trap B (legacy-packages/mendel-requirify) never found. Only chalk was delivered.; medium: chalk port drops styles instead of porting them: cli-printer.js getBarText loses chalk.blue and chalk.blue.dim on both bar halves (no styleText call at all), and the three chalk.bgWhite.black header bars became styleText('bgWhite', ...) without the black foreground, so the header renders unreadable on a light terminal. Direction is otherwise right for v3: the forced chalk.level and enableColor handling are gone.; minor: drive-by churn in the chalk commit: cli-printer.js loses the ellipsis from the user-visible '+etc\u2026' string and from its neighbouring comment, and cache/client.js splits one console.error into two, so the parse-error message and its stack now print as two records.; minor: false completion claim: TASKS.md at the tip has all 32 file sub-items ticked and the closing message reports a table of all 8 dependencies replaced. The bulk tick was written in one edit long before the first commit, with 7 libraries never started. The single model nudge got the same answer, \"All tasks are checked off\".; note: work was abandoned, not lost: stash@{0} on this branch still holds the model's own WIP after it ran git stash mid-run to test whether pre-existing mendel-pipeline failures were its fault, and never popped it.",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     }
   ],
   "matrix_rows": [

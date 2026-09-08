@@ -877,6 +877,18 @@ a.mlink:hover { text-decoration: underline; }
             <td class="num">1</td>
             <td class="num"><span class="pill p-mid">1</span></td>
           </tr>
+          <tr class="dim" data-base="12.5" data-or="0" data-plan="0" data-crit="2" data-wall="195" data-local="1">
+            <td class="rank">13</td>
+            <th scope="row" class="model">bonsai-prism (f16 KV)<small>pi · llama · local · think high</small><small style="display:block;color:var(--ink-faint)">partial · 1 of 8</small></th>
+            <td><div class="scorewrap"><span class="scoreval">13</span><div class="bar"><span style="width:13%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">raw 36 · 1/8 done · stopped without finishing</small></td>
+            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
+            <td class="num">195 min</td>
+            <td class="num">21.0 M</td>
+            <td class="num">127 k</td>
+            <td class="num"><span class="pill p-bad">97 %</span></td>
+            <td class="num">2</td>
+            <td class="num"><span class="pill p-bad">10</span></td>
+          </tr>
           <tr class="invalid dim" data-base="25" data-or="0" data-plan="0" data-crit="2" data-wall="20" data-local="1">
             <td class="rank">—</td>
             <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/google/gemma-4-26B-A4B" target="_blank">Gemma 4 26B-A4B</a><small>pi · llama · local · think off</small><small style="display:block;color:var(--ink-faint)">partial · 2 of 8 · repetition loop, stopped by the runner</small></th>
@@ -1071,6 +1083,7 @@ a.mlink:hover { text-decoration: underline; }
             <th style="opacity:.45">Gemma-4-12B (llama.cpp, off) (partial)</th>
             <th style="opacity:.45">bonsai-prism (partial)</th>
             <th style="opacity:.45">bonsai (partial)</th>
+            <th style="opacity:.45">bonsai-prism (f16 KV) (partial)</th>
             <th style="opacity:.45">gemma (partial)</th>
             <th style="opacity:.45">qwen3.8 (partial)</th>
             <th style="opacity:.45">gemma-12b (partial)</th>
@@ -1080,7 +1093,7 @@ a.mlink:hover { text-decoration: underline; }
           </tr>
         </thead>
         <tbody>
-          <tr class="group"><th scope="row">Correctness</th><td colspan="18"></td></tr>
+          <tr class="group"><th scope="row">Correctness</th><td colspan="19"></td></tr>
           <tr>
             <th scope="row">Bugs remaining <em>weighted, 25 pts</em></th>
             <td class="best"><span class="pill p-good">clean</span> <b>25</b></td>
@@ -1095,6 +1108,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">none in the 3 landed replacements</span> <b>25</b></td>
             <td style="opacity:.45"><span class="pill p-bad">2 regressions from a memory rewrite: tree-variation-walker 3/3, config.js #10 and #7</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">no bugs in the 1 landed commit</span> <b>25</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">rimraf devDep removed while test/helpers/index.js still requires it; root rimraf and tmp never touched</span> <b>1</b></td>
             <td style="opacity:.45"><span class="pill p-bad">urlsafe-base64 swap left broken, tests guarded around it</span> <b>4</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">none</span> <b>25</b></td>
             <td style="opacity:.45"><span class="pill p-mid">none, no code landed</span> <b>25</b></td>
@@ -1116,6 +1130,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">core 71/71, config 41/41 (one documented flake)</span></td>
             <td style="opacity:.45"><span class="pill p-bad">mendel-core and mendel-config fail at HEAD, green on the base</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not run</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">mendel-pipeline cli-printer 15/15 green; the same package loses its test helper on a fresh install</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not re-run; worktree left mid-edit</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not run</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not run</span></td>
@@ -1137,6 +1152,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">vacuous pass, apply-extra-options.js untouched</span></td>
             <td style="opacity:.45"><span class="pill p-good">SYNC OK, glob never touched</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">SYNC OK, but glob was never touched (vacuous pass)</span></td>
             <td style="opacity:.45"><span class="pill p-mid">vacuous pass, apply-extra-options.js untouched</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
@@ -1144,7 +1160,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">not touched (pack: SYNC OK on base code)</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
           </tr>
-          <tr class="group"><th scope="row">Task completion</th><td colspan="18"></td></tr>
+          <tr class="group"><th scope="row">Task completion</th><td colspan="19"></td></tr>
           <tr>
             <th scope="row">All 8 libraries done <em>20 pts (shared)</em></th>
             <td class="best"><span class="pill p-good">8 / 8</span></td>
@@ -1159,6 +1175,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">3 / 8 done</span></td>
             <td style="opacity:.45"><span class="pill p-bad">3 / 8 (uuid, xtend, urlsafe-base64)</span></td>
             <td style="opacity:.45"><span class="pill p-bad">1 / 8 (uuid only)</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">1 / 8 (chalk)</span></td>
             <td style="opacity:.45"><span class="pill p-bad">2 / 8 done</span></td>
             <td style="opacity:.45"><span class="pill p-bad">0 / 8</span></td>
             <td style="opacity:.45"><span class="pill p-bad">0 / 8</span></td>
@@ -1180,6 +1197,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">5 libraries left, rimraf half done</span></td>
             <td style="opacity:.45"><span class="pill p-bad">rimraf ticked done, still required in 2 requirify tests</span></td>
             <td style="opacity:.45"><span class="pill p-bad">27 files left</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">22 stale requires across 7 libraries</span></td>
             <td style="opacity:.45"><span class="pill p-bad">23 stale requires in 12 packages</span></td>
             <td style="opacity:.45"><span class="pill p-bad">28 files left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">28 sites left</span></td>
@@ -1201,6 +1219,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">5 left, root rimraf + tmp still declared</span></td>
             <td style="opacity:.45"><span class="pill p-bad">13 stale entries, root rimraf and tmp among them</span></td>
             <td style="opacity:.45"><span class="pill p-bad">16 files left</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">16 stale entries, root rimraf and tmp among them</span></td>
             <td style="opacity:.45"><span class="pill p-bad">15 entries left, root rimraf + tmp still declared</span></td>
             <td style="opacity:.45"><span class="pill p-bad">18 files left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">18 left</span></td>
@@ -1222,6 +1241,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">grepped and edited it, never committed</span></td>
             <td style="opacity:.45"><span class="pill p-bad">not found (trap B)</span></td>
             <td style="opacity:.45"><span class="pill p-bad">not reached</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">not found (trap B)</span></td>
             <td style="opacity:.45"><span class="pill p-bad">never found</span></td>
             <td style="opacity:.45"><span class="pill p-bad">not reached</span></td>
             <td style="opacity:.45"><span class="pill p-mid">grepped it, never acted</span></td>
@@ -1243,6 +1263,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><b>7.5</b></td>
             <td style="opacity:.45"><b>6</b></td>
             <td style="opacity:.45"><b>2</b></td>
+            <td style="opacity:.45"><b>2</b></td>
             <td style="opacity:.45"><b>4</b></td>
             <td style="opacity:.45"><b>0</b></td>
             <td style="opacity:.45"><b>0</b></td>
@@ -1250,7 +1271,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><b>0</b></td>
             <td style="opacity:.45"><b>0</b></td>
           </tr>
-          <tr class="group"><th scope="row">Dependency hygiene</th><td colspan="18"></td></tr>
+          <tr class="group"><th scope="row">Dependency hygiene</th><td colspan="19"></td></tr>
           <tr>
             <th scope="row">node_modules actually pruned <em>8 pts</em></th>
             <td class="best"><span class="pill p-good">real install</span> <b>8</b></td>
@@ -1265,6 +1286,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">pnpm remove x4, store pruned</span> <b>8</b></td>
             <td style="opacity:.45"><span class="pill p-mid">pnpm used for uuid only, later edits by hand</span> <b>4</b></td>
             <td style="opacity:.45"><span class="pill p-bad">not pruned</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-good">real pnpm install, lockfile regenerated</span> <b>8</b></td>
             <td style="opacity:.45"><span class="pill p-good">real pnpm install, store pruned</span> <b>8</b></td>
             <td style="opacity:.45"><span class="pill p-bad">not pruned</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">never ran pnpm</span> <b>0</b></td>
@@ -1286,6 +1308,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">121 lines</span></td>
             <td style="opacity:.45"><span class="pill p-mid">107 lines removed, 1 added; xtend, urlsafe-base64 and rimraf still listed</span></td>
             <td style="opacity:.45"><span class="pill p-mid">0 lines</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">12 lines removed, 0 added; chalk and pipeline rimraf only</span></td>
             <td style="opacity:.45"><span class="pill p-mid">20 lines removed, 5 added</span></td>
             <td style="opacity:.45"><span class="pill p-mid">0 lines</span></td>
             <td style="opacity:.45"><span class="pill p-mid">0 lines</span></td>
@@ -1293,7 +1316,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">0 lines</span></td>
             <td style="opacity:.45"><span class="pill p-mid">0 lines</span></td>
           </tr>
-          <tr class="group"><th scope="row">Static checks</th><td colspan="18"></td></tr>
+          <tr class="group"><th scope="row">Static checks</th><td colspan="19"></td></tr>
           <tr>
             <th scope="row">Prettier &amp; ESLint clean <em>5 pts · re-run on the branch</em></th>
             <td class="best"><span class="pill p-good">clean, self-checked 2x</span> <b>5</b></td>
@@ -1308,6 +1331,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">clean on re-run, never ran itself</span> <b>3</b></td>
             <td style="opacity:.45"><span class="pill p-good">prettier and eslint clean on re-run, never self-run</span> <b>3</b></td>
             <td style="opacity:.45"><span class="pill p-bad">prettier warn (mendel-config/legacy)</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">eslint fails at the tip on a self-made implicit dependency, clean at base; 0 self-runs</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">clean on the branch, never ran either tool</span> <b>3</b></td>
             <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">no diff to check, never ran</span> <b>0</b></td>
@@ -1335,8 +1359,9 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">n/a (v3 base)</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a (v3 base)</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a (v3 base)</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">n/a (v3 base)</span></td>
           </tr>
-          <tr class="group"><th scope="row">Commit craft</th><td colspan="18"></td></tr>
+          <tr class="group"><th scope="row">Commit craft</th><td colspan="19"></td></tr>
           <tr>
             <th scope="row">Right type — all <code>chore</code></th>
             <td class="best"><span class="pill p-good">all chore</span></td>
@@ -1351,6 +1376,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">all chore</span></td>
             <td style="opacity:.45"><span class="pill p-good">3 of 3 chore</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">all chore</span></td>
+            <td style="opacity:.45"><span class="pill p-good">2 of 2 chore</span></td>
             <td style="opacity:.45"><span class="pill p-good">all 3 chore</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
@@ -1372,6 +1398,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">1 of 3; last commit spans 5 packages, 3 libraries</span></td>
             <td style="opacity:.45"><span class="pill p-mid">2 of 3 touch several packages</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">1 of 1, on its own package</span></td>
+            <td style="opacity:.45"><span class="pill p-good">one package each, lockfile on its own</span></td>
             <td style="opacity:.45"><span class="pill p-good">3 of 3, one package each</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
@@ -1393,6 +1420,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">rimraf + tmp still declared; removed in the worktree, uncommitted</span></td>
             <td style="opacity:.45"><span class="pill p-bad">rimraf and tmp still declared at root</span></td>
             <td style="opacity:.45"><span class="pill p-mid">rimraf, tmp still declared (untouched libs)</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">rimraf and tmp still declared at root</span></td>
             <td style="opacity:.45"><span class="pill p-bad">rimraf + tmp still declared at root</span></td>
             <td style="opacity:.45"><span class="pill p-mid">untouched</span></td>
             <td style="opacity:.45"><span class="pill p-mid">untouched</span></td>
@@ -1414,6 +1442,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">1 lint-staged reject, no bypass, one git add .</span></td>
             <td style="opacity:.45"><span class="pill p-mid">1 commitlint reject, no bypass; a git commit --amend folded urlsafe-base64 and rimraf into one entry, so no commit names urlsafe-base64</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">no --no-verify, no add -A</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">1 hook reject (prettier caught a broken client.js edit), no bypass</span></td>
             <td style="opacity:.45"><span class="pill p-good">no failures, no bypass</span></td>
             <td style="opacity:.45">n/a, no commits</td>
             <td style="opacity:.45">n/a, no commits</td>
@@ -1436,6 +1465,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">kept out of every commit</span></td>
             <td style="opacity:.45"><span class="pill p-bad">TASKS.md leaked into the commit</span></td>
             <td style="opacity:.45"><span class="pill p-good">kept out (gitignored)</span></td>
+            <td style="opacity:.45"><span class="pill p-good">kept out (gitignored)</span></td>
             <td style="opacity:.45"><span class="pill p-good">clean</span></td>
             <td style="opacity:.45"><span class="pill p-good">kept out, nothing committed</span></td>
             <td style="opacity:.45"><span class="pill p-good">kept out, nothing committed</span></td>
@@ -1456,6 +1486,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><b>7</b></td>
             <td style="opacity:.45"><b>9</b></td>
             <td style="opacity:.45"><b>8</b></td>
+            <td style="opacity:.45"><b>11</b></td>
             <td style="opacity:.45"><b>12</b></td>
             <td style="opacity:.45"><b>0</b></td>
             <td style="opacity:.45"><b>0</b></td>
@@ -1463,7 +1494,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><b>0</b></td>
             <td style="opacity:.45"><b>0</b></td>
           </tr>
-          <tr class="group"><th scope="row">Working method</th><td colspan="18"></td></tr>
+          <tr class="group"><th scope="row">Working method</th><td colspan="19"></td></tr>
           <tr>
             <th scope="row">Right the first time <em>8 pts · self-inflicted repairs</em></th>
             <td class="best"><span class="pill p-good">0 nudges</span> <b>8</b></td>
@@ -1478,6 +1509,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">0 repair commits, 3 nudges (-6)</span> <b>2</b></td>
             <td style="opacity:.45"><span class="pill p-bad">restored tree-variation-walker.js from memory after git checkout HEAD~1, then committed the broken rewrite</span> <b>1</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0 repairs</span> <b>8</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">a partial write left client.js unparseable, rejected by the hook and rewritten whole; 1 model nudge (-2)</span> <b>4</b></td>
             <td style="opacity:.45"><span class="pill p-bad">broken Buffer swap, 12 failed edit calls, then the loop stop</span> <b>3</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0 repairs</span> <b>8</b></td>
             <td style="opacity:.45"><span class="pill p-bad">0 repairs, 3 nudges (-6)</span> <b>2</b></td>
@@ -1499,6 +1531,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">none; only its own test-uuid.js, which failed</span></td>
             <td style="opacity:.45"><span class="pill p-mid">per-package tap runs, but red results read as pre-existing</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">per-package tap runs</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">narrow tap runs on cli-printer and two cache tests</span></td>
             <td style="opacity:.45"><span class="pill p-mid">tap on mendel-core only, plus its own test-uuid.js scratch</span></td>
             <td style="opacity:.45"><span class="pill p-mid">none run</span></td>
             <td style="opacity:.45"><span class="pill p-bad">none run</span></td>
@@ -1520,6 +1553,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">never run, 3 of 3 commits unchecked</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">10 full-suite runs, red results committed anyway</span> <b>5</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">3 full-suite runs before the 1 commit</span> <b>8</b></td>
+            <td style="opacity:.45"><span class="pill p-mid">6 full-suite attempts, none green: pnpm run unit timed out before both commits</span> <b>5</b></td>
             <td style="opacity:.45"><span class="pill p-bad">1 of 3 commits covered, and that run aborted on a 10-min stall</span> <b>3</b></td>
             <td style="opacity:.45"><span class="pill p-bad">0 commits, no suite run</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
@@ -1541,6 +1575,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">flat list, then per-file tree; 2 of 3 ticks before the commit</span> <b>2</b></td>
             <td style="opacity:.45"><span class="pill p-bad">rimraf ticked without the work done; sub-items thin</span> <b>1.5</b></td>
             <td style="opacity:.45"><span class="pill p-mid">only item 1 got sub-items, ticked</span> <b>2</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">full file tree written up front, then all 32 items ticked in one edit with 7 libraries untouched</span> <b>0.5</b></td>
             <td style="opacity:.45"><span class="pill p-mid">per-file sub-items, ticked late, 6 libraries never listed</span> <b>3</b></td>
             <td style="opacity:.45"><span class="pill p-bad">template only, no ticks</span> <b>1</b></td>
             <td style="opacity:.45"><span class="pill p-bad">flat list, failed sub-item edit, no ticks</span> <b>1</b></td>
@@ -1562,6 +1597,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">0 of 28 piped, later greps filtered</span> <b>0.5</b></td>
             <td style="opacity:.45"><span class="pill p-bad">38 of 109 noisy commands piped (35 %)</span> <b>1</b></td>
             <td style="opacity:.45"><span class="pill p-mid">61 %</span> <b>2</b></td>
+            <td style="opacity:.45"><span class="pill p-mid">43 of 81 noisy commands piped (53 %)</span> <b>2.5</b></td>
             <td style="opacity:.45"><span class="pill p-bad">1 of 23 noisy commands piped (4 %)</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">81 %</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">no noisy commands, greps filtered</span> <b>2</b></td>
@@ -1583,6 +1619,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">tidy swaps; stray test-uuid.js, node: prefix mismatch</span> <b>3</b></td>
             <td style="opacity:.45"><span class="pill p-bad">drive-by splice.apply and Object.assign rewrites, well past a minimal diff</span> <b>1</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">minimal diff on the one library touched</span> <b>4</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">colours dropped rather than ported in getBarText and the header bars; ellipsis and console.error churn</span> <b>2</b></td>
             <td style="opacity:.45"><span class="pill p-mid">tidy swaps; stray test-uuid.js, Object.assign mutates in place</span> <b>4</b></td>
             <td style="opacity:.45"><span class="pill p-bad">no diff to judge</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">no diff</span> <b>0</b></td>
@@ -1590,7 +1627,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">no diff to judge</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">no diff to judge</span> <b>0</b></td>
           </tr>
-          <tr class="group"><th scope="row">Context economy</th><td colspan="18"></td></tr>
+          <tr class="group"><th scope="row">Context economy</th><td colspan="19"></td></tr>
           <tr>
             <th scope="row">Tokens burned <em>all requests, compaction included</em></th>
             <td><span class="pill p-mid">6.9 M</span></td>
@@ -1605,6 +1642,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">6.45 M</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not recoverable from the truncated slice</span></td>
             <td style="opacity:.45"><span class="pill p-bad">3.6 M</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">21.0 M</span></td>
             <td style="opacity:.45"><span class="pill p-mid">2.6 M</span></td>
             <td style="opacity:.45"><span class="pill p-bad">1.25 M</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">306 K</span></td>
@@ -1626,6 +1664,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">0</span></td>
             <td style="opacity:.45"><span class="pill p-bad">10, all on overflow</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
+            <td style="opacity:.45"><span class="pill p-good">1</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
@@ -1647,6 +1686,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">52 %</span></td>
             <td style="opacity:.45"><span class="pill p-bad">peak 63100 of the 65536 window (96.3 %)</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">peak 127120 of the 131072 window (97.0 %)</span></td>
             <td style="opacity:.45"><span class="pill p-good">66 %</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">81 %</span></td>
@@ -1668,6 +1708,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">132, 42 errors, 3 capped turns</span></td>
             <td style="opacity:.45"><span class="pill p-bad">343, 96 errors; scored on the run hand-capped at 300 min (the harness never enforced wall_min, it ran to 469)</span></td>
             <td style="opacity:.45"><span class="pill p-bad">122, path-typo loop</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">376, 74 errors</span></td>
             <td style="opacity:.45"><span class="pill p-bad">91, 28 errors, ended in a 5x identical edit loop</span></td>
             <td style="opacity:.45"><span class="pill p-bad">48, 3 crashes</span></td>
             <td style="opacity:.45"><span class="pill p-bad">21, then output collapse</span></td>
@@ -1691,6 +1732,7 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45">58</td>
             <td style="opacity:.45">31.5</td>
             <td style="opacity:.45">59</td>
+            <td style="opacity:.45">36</td>
             <td style="opacity:.45">44</td>
             <td style="opacity:.45">34</td>
             <td style="opacity:.45">30</td>
