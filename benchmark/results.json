@@ -3507,6 +3507,127 @@
       "notes": "Scored on Opus 2026-09-09 from scratchpad/benchmark/runs/qwen3.8-27b-reserve8192-medium-issue-13-evidence.json. Same GGUF Q4_K_M build and llama-server stack as the published qwen3.8-27b row, re-run at compaction reserveTokens 8192 (the published row ran at pi's old 16384 default) with a 73728-token server context and pi contextWindow 65536. Bugs: one critical, trap A (25 - 9 = 16). apply-extra-options.js keeps the .then() chain on fs.promises.glob, which returns an AsyncIterator; the repro throws TypeError. The published control passed this trap with fs.globSync, so the re-run lost it. Trap B: rimraf in legacy-packages/mendel-requirify seen in the grep at line 13 and again in the final sweep at line 306, then dropped at line 307 as outside the workspace; scored under completion (16, the same leftover set as the kimi-k3-high row), not as a bug. Trap C: tmp.dirSync -> fs.mkdtempSync in validate-manifest.js and the three test files, no exit hook. Chalk follows the v1.1 contract: the chalk.level line is gone, plain util.styleText, no enableColor. The mendel-deps fixture js/es5/foo/browser.js was correctly left alone (thinking at line 307). node_modules: real pnpm install --no-frozen-lockfile before every commit, lockfile -96 lines -> 8. Lint: prettier and eslint clean on re-run; the model ran eslint --no-fix and prettier --check itself before the chalk commit (line 237) and pnpm run static over the whole repo after the last commit (line 315), which changed nothing; no --no-verify -> 5. The node: prefix trap rejected the chalk commit once (6 implicit-dependency errors at line 227); the model read the patched rule, switched to bare require('util') and the commit landed. Commit craft: 0 types (12/12 refactor) + 2 split (10/12 single-package) + 2 hygiene (one git add -A on the first commit, no --no-verify, TASKS.md never committed) = 4, the same reading as the qwen3.6-35b-a3b row. First time: no repair commits, the node: trap once and fixed before the commit landed, 0 model nudges -> 7. Test discipline: pnpm --filter per package before every commit with tests (planout-example has no test script; node --check instead); full pnpm run unit after commit 5 (line 240), after commit 10 (line 245) and after commit 12 (line 314, 260/260, 18/18 projects) -> 10. The full-example karma test needed a root node_modules/mendel-pipeline symlink the hoisted pnpm layout did not create; the model diagnosed it and added the symlink outside the repo tree (line 148), which is an environment fix, not a source change. Task list: one full tree with per-file sub-items written at line 18 after the first greps, per-library ticks after each commit (lines 70, 159, 193, 240, 279, 302), and a catch-up of the tmp and shasum sub-items at line 319 -> 3. Truncation 63 % of noisy commands piped -> 2. Two tooling nudges (05:52 and 06:10), both 'no events for 10 min, turn aborted', never scored; 0 model nudges. One compaction at threshold (05:46). Peak context 60261 of 65536 (92 %), no overflow. Tool errors 14: 2 aborted commands, 4 exit-1 probes, the rest read and node -e misses. Human messages inside the scored region: only the two harness nudges. Loop verdict ok, worst distinct-shape ratio 0.52 on tool call.",
       "kv_type": "f16",
       "kv_type_source": "config note"
+    },
+    {
+      "model": "qwen3.8-27b (ISTA IQ3_S-mtp)",
+      "model_id": "ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S-mtp",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "qwen3.8-27b-ista2-medium-issue-13",
+      "base_commit": "2652ed6",
+      "thinking": "medium",
+      "prompt_version": "v1.1",
+      "partial": false,
+      "end_reason": "complete",
+      "libraries_done": 8,
+      "config_note": "Candidate build under evaluation, NOT the row we serve today: the control stays bartowski/Qwen3.8-27B-GGUF:Q4_K_M. Build ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S-mtp, revision d562806dbafae37109975e970aae91b43e73b440 (Qwen3.8-27B-GSQ-RCO-IQ3_S-mtp.gguf, IQ3_S 3.4375 bpw), served by llama-server b10809-5266f24da with the build's own embedded MTP head, --spec-type draft-mtp --spec-draft-n-max 3, f16 KV, -c 131072, MENDEL_CONTEXT_WINDOW 114688, maxTokens 8192, wired 25000. Same shared harness alias family (qwen3.8-27b*) as the control but a distinct model file; the pi model id is the fresh alias qwen3.8-27b-ista2. The n-max 3 drafter depth and the wired limit are fixed settings carried from research run 3; this run did not sweep them. An earlier attempt under alias qwen3.8-27b-ista died in seconds to a runner live-monitoring bug with zero commits and is invalid, so it adds no reruns penalty.",
+      "score_total": 76.5,
+      "scores": {
+        "bugs": 16,
+        "completion": 16,
+        "node_modules": 8,
+        "lint": 5,
+        "commit_craft": 6,
+        "first_time": 6,
+        "test_discipline": 10,
+        "conventions": 5,
+        "task_list": 2,
+        "truncation": 2.5
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "Trap A failed. packages/mendel-development/apply-extra-options.js swaps only the require line to var { glob } = require('fs').promises and leaves the .then() chain at all three sites (ignore, exclude, external). fs.promises.glob returns an AsyncIterator, so every call throws at runtime. Repro on the branch: THREW TypeError glob(...).then is not a function. The mendel-development tap run (42/42) passes vacuously; no test covers the file."
+        },
+        {
+          "severity": "medium",
+          "summary": "Trap B left. legacy-packages/mendel-requirify still requires rimraf in test/requirify.js and test/mendel-requirify.js and declares it in package.json. The model's first grep excluded legacy-packages by flag, then a later grep printed all nine references (session line 115); it decided in thinking at line 116 to leave the legacy package alone, reading the issue's won't-do list as putting legacy-packages out of scope."
+        },
+        {
+          "severity": "minor",
+          "summary": "15 of 17 commits are typed refactor; only the two root devDependency drops are chore. The first commit attempt used git add -A and a non-conventional subject, which commitlint rejected; the retry landed the same staged tree as 7b72cbe. No --no-verify, no TASKS.md leak."
+        },
+        {
+          "severity": "minor",
+          "summary": "Self-inflicted repairs, all caught by the model's own guards: two package.json edits left broken JSON (its node -e JSON.parse check, session lines 86 and 340), one cli-printer.js edit left an unbalanced paren (its own tap run, line 250), and commit cc3e8ce staged a stray test-artifact symlink packages/mendel-pipeline/mendel-pipeline, removed with git rm --cached and git commit --amend."
+        },
+        {
+          "severity": "minor",
+          "summary": "TASKS.md sub-items were written upfront from the issue text, not discovered by grep, and the ticks were not per commit: one sed tick after commit 1 (which corrupted a line), one repair edit at commit 7, then a single bulk rewrite checking off commits 8-17 at the end."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 135.2,
+        "tokens_total": 7890360,
+        "tokens_in": 203112,
+        "tokens_out": 46260,
+        "cache_read": 7640988,
+        "peak_context": 89386,
+        "window_pct": 77.94,
+        "compactions": 0,
+        "assistant_msgs": 172,
+        "tool_calls": 195,
+        "tool_errors": 12,
+        "commits": 17,
+        "failed_commits": 1,
+        "truncation_pct": 81,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.52,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">TypeError: glob(...).then left on fs.promises.glob (trap A)</span> <b>16</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean (tap 71+41+27+42+4+3 pass, cli-printer 15/15; full suite 260/260 and karma 12 SUCCESS)</span></td>",
+        "<td><span class=\"pill p-bad\">THREW: TypeError glob(...).then is not a function</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
+        "<td><span class=\"pill p-mid\">rimraf \u00d72 left (mendel-requirify tests)</span></td>",
+        "<td><span class=\"pill p-mid\">rimraf left (mendel-requirify)</span></td>",
+        "<td><span class=\"pill p-bad\">printed in its own grep, judged out of scope</span></td>",
+        "<td><b>16</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real pnpm install --no-frozen-lockfile before nearly every commit</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">96 lines removed</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean \u00b7 self-run prettier --write and eslint on the first package, lint again through pnpm test</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">read the patched rule before the first edit; no node: prefix anywhere</span></td>",
+        "<td><span class=\"pill p-bad\">2 / 17 chore, 15 refactor</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">17 / 17 single-package</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">root rimraf + tmp dropped in their own chore commits</span></td>",
+        "<td><span class=\"pill p-mid\">1 commitlint reject (non-conventional subject) \u00b7 no bypass</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">never committed (gitignored)</span></td>",
+        "<td><b>6</b></td>",
+        "<td><span class=\"pill p-mid\">2 broken package.json edits, 1 unbalanced paren, 1 stray symlink amended out; all self-caught, 0 model nudges</span> <b>6</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">pnpm --filter per package before every commit that had tests</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">full pnpm test after commits 7, 10 and 16, all green</span> <b>10</b></td>",
+        "<td><span class=\"pill p-mid\">full tree upfront from the issue, ticks batched: 1 after commit 1, 1 at commit 7, then a bulk rewrite at the end</span> <b>2</b></td>",
+        "<td><span class=\"pill p-good\">81 %</span> <b>2.5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">minimal diff, var/const per file, bare core names, headers kept, no drive-by churn</span> <b>5</b></td>",
+        "<td><span class=\"pill p-mid\">7.9 M</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">0</span></td>",
+        "<td><span class=\"pill p-mid\">22 %</span></td>",
+        "<td><span class=\"pill p-mid\">195</span></td>"
+      ],
+      "notes": "Scored on Opus 2026-09-09 from scratchpad/benchmark/runs/qwen3.8-27b-ista2-medium-issue-13-evidence.json, the session log and the branch itself. This is NOT the row we serve today: the served control stays bartowski/Qwen3.8-27B-GGUF:Q4_K_M. This row is a candidate 3-bit build under evaluation, ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S-mtp, on the shared harness alias family qwen3.8-27b* but a distinct model file. An earlier attempt under the alias qwen3.8-27b-ista died within seconds to a bug in the runner's own live-monitoring script, zero commits, invalid, so it adds nothing to reruns. 17 commits, 8/8 libraries, end_reason complete, no completion cap. Bugs: one critical, trap A (25 - 9 = 16). apply-extra-options.js changes only line 6 to var { glob } = require('fs').promises and keeps the .then() chains; the repro throws. Verified independently: the branch tip, the repro, prettier, eslint and every package tap run. Trap B: the model's first rimraf grep passed --exclude-dir=legacy-packages; a later grep printed all nine mendel-requirify references (line 115) and it chose at line 116 to leave the legacy package, reading the issue's won't-do list as scope. Scored under completion (16), the same leftover set as the Q4_K_M reserve re-run. Trap C: passed. tmp.dirSync -> fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-')) in validate-manifest.js with no exit hook, and the model said in its close that the debug manifest directory must survive. The three tmp test files got t.teardown cleanup instead. Chalk follows the v1.1 contract: the chalk.level line is gone, plain util.styleText, no enableColor; the dead enableColor option was also dropped from cli.js and the test. The model found the two chalk sites the issue missed (src/cache/client.js, src/pipeline.js). The mendel-deps fixture js/es5/foo/browser.js was correctly left alone (thinking at line 203). node_modules: real pnpm install --no-frozen-lockfile before nearly every commit, lockfile -96 lines -> 8. Lint: prettier and eslint clean on re-run; the model ran prettier --write and eslint itself on the first package and reached lint again through pnpm test; no --no-verify -> 5. Commit craft: 0 types (2/17 chore) + 4 split (17/17 single-package, no multi-package commit) + 2 hygiene (git add -A on the first, rejected, attempt; no bypass; TASKS.md never committed) = 6. First time: 1 commitlint reject on the first commit subject, 2 package.json edits that broke JSON, 1 cli-printer.js edit that broke the parse, and 1 stray test-artifact symlink committed then amended out. Every one was caught by the model's own guard, 0 model nudges -> 6. Test discipline: pnpm --filter per package before every commit that had a test script; full pnpm test after commit 7, commit 10 and commit 16, all green (260/260 tap plus karma 12 SUCCESS) -> 10. The model tracked the every-5-commits cadence explicitly in its thinking. The full-example karma suite needed a root node_modules/mendel-pipeline link the hoisted pnpm layout does not create; the model diagnosed it and linked outside the repo tree, an environment fix, not a source change. Task list: sub-items written upfront from the issue rather than discovered by grep, ticks batched -> 2. Truncation 81 % of noisy commands piped -> 2.5. 0 tooling nudges, 0 model nudges, 0 compactions. Peak context 89386 of 114688 (78 %), no overflow. About 12 error-shaped tool results, most of them probes of the missing full-example symlink; only 3 were self-inflicted broken edits. Human messages inside the scored region: only the run prompt. Loop verdict ok, worst distinct-shape ratio 0.52 on tool call. Result: 76.5, level with the Q4_K_M reserve re-run (76) and below the published Q4_K_M control (87), which passed trap A with fs.globSync.",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     }
   ],
   "matrix_rows": [
