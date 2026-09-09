@@ -59,7 +59,9 @@ if [ "$harness" = "pi" ] && [ -z "$thinking" ]; then
     echo "abort: pi runs need an explicit thinking level (off|minimal|low|medium|high|xhigh|max)" >&2
     exit 1
 fi
-RUNS="$REPO/scratchpad/benchmark/runs"
+# Run evidence lives on the machine, never in a repo scratchpad: a
+# scratchpad leaves with its worktree and takes the record with it.
+RUNS="${MENDEL_RUNS_DIR:-$HOME/.local/share/mendel-benchmark/runs}"
 LOOP_CHECK="${LOOP_CHECK:-$REPO/../choose-a-local-llm/benchmarks/loop-check.py}"
 slug="$(echo "$model" | tr '/:' '--')"
 [ -n "$thinking" ] && slug="${slug}-${thinking}"
@@ -85,7 +87,10 @@ while [ "$dir" != "/" ]; do
     dir="$(dirname "$dir")"
 done
 
-rm -rf "$wt"
+if [ -e "$wt" ]; then
+    echo "abort: $wt already exists; it is a previous run's evidence. Move it or use a suffix." >&2
+    exit 1
+fi
 git -C "$REPO" worktree add -b "$branch" "$wt" "$BASE_COMMIT"
 (cd "$wt" && pnpm install > "$RUNS/$fslug-install.log" 2>&1)
 echo "$slug: worktree ready at $wt, starting $harness" >&2
@@ -101,11 +106,14 @@ if ! node "$BENCH_DIR/probe-plan.mjs" "$plan_provider" --out "$RUNS/$fslug-plan-
     exit 1
 fi
 
-# Pinned config dir, rebuilt per run under scratchpad/ (never versioned):
-# only credentials, model config, and the frozen global instructions get in.
+# Pinned config dir, one per run, on the machine and never versioned:
+# only credentials, model config, and the frozen global instructions get
+# in. It is the only record of the sampling the run actually used, so it
+# is kept, never deleted.
 build_pi_agent_dir() {
-    local d="$REPO/scratchpad/benchmark/.pi-agent-$fslug"
-    rm -rf "$d" && mkdir -p "$d"
+    local d="${MENDEL_PI_CONFIG_DIR:-$HOME/.local/share/mendel-benchmark/pi-agent}/$fslug"
+    [ -d "$d" ] && mv "$d" "$d-$(date -u +%Y%m%dT%H%M%SZ)"
+    mkdir -p "$d"
     for f in models.json auth.json models-store.json; do
         [ -e "$HOME/.pi/agent/$f" ] && cp "$HOME/.pi/agent/$f" "$d/"
     done
@@ -218,7 +226,6 @@ run_loop_check
 node "$BENCH_DIR/probe-plan.mjs" "$plan_provider" --out "$RUNS/$fslug-plan-after.json" > /dev/null \
     || echo "warning: plan probe after the run failed; record the plan share by hand" >&2
 pkill -f "$wt" 2>/dev/null || true
-rm -rf "$REPO/scratchpad/benchmark/.pi-agent-$fslug"
 printf '{"model":"%s","harness":"%s","bench":"%s","thinking":"%s","plan_provider":"%s","branch":"%s","base_commit":"%s","start":"%s","end":"%s","pinned_env":"agents-global v1.0","loop_flag":"%s","loop_ratio":"%s","loop_kind":"%s"}\n' \
     "$model" "$harness" "$bench" "$thinking" "$plan_provider" "$branch" "$(git -C "$REPO" rev-parse --short "$BASE_COMMIT")" "$start" "$end" "$loop_verdict" "$loop_ratio" "$loop_kind" > "$RUNS/$fslug-worker.json"
 echo "$slug: done" >&2

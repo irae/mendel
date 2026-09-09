@@ -120,7 +120,9 @@ table across versions.
       `q8_0`, the standard of that time, marked as assumed. A new run never
       assumes: the runner records the serving parameters it was given.
     - Starts the harness with the bench's prompt and writes its transient
-      outputs to `scratchpad/benchmark/runs/` (gitignored).
+      outputs to `~/.local/share/mendel-benchmark/runs/`, on the machine
+      and outside every repo, so a removed worktree never takes a run's
+      record with it.
 3. **pi runs go through `run-pi-rpc.mjs`, never `pi -p`.** `pi -p` exits on the
    first `length` or `error` stop — a harness limitation a TUI user would simply
    type "continue" past. The runner keeps one `pi --mode rpc` session alive (same
@@ -208,8 +210,12 @@ repetition_loop`; three in a row are enough when the call already stalled
     - Real `pnpm install` before the run starts.
     - No human input during a run. If a run is cut short, mark it as partial.
     - **Pinned environment.** No operator personalization reaches a run.
-      `run-worker.sh` builds a fresh config directory per run: for pi
-      (`benchmark/.pi-agent`, via `PI_CODING_AGENT_DIR`) it holds only the
+      `run-worker.sh` builds a fresh config directory per run, at
+      `~/.local/share/mendel-benchmark/pi-agent/<slug>/`, and **keeps
+      it**: it is the only record of the sampling a run was served with.
+      A rerun of the same slug moves the old one aside with a timestamp
+      rather than overwriting it. For pi
+      (via `PI_CODING_AGENT_DIR`) it holds only the
       model config, the auth files, a minimal settings.json, and
       `agents-global.md` as the global `AGENTS.md`; the runner also passes
       `--no-extensions --no-skills --no-prompt-templates`. For Claude Code
@@ -238,7 +244,7 @@ scorer of each.
 --meta <meta> [--worktree <dir>]` computes the mechanical parts (static
    completeness, lockfile, commit-craft facts, session habits, nudges; with a
    worktree also prettier/eslint/trap A) and writes
-   `scratchpad/benchmark/runs/<branch>-evidence.json`. The scorer reads the pack, judges only defect
+   `~/.local/share/mendel-benchmark/runs/<branch>-evidence.json`. The scorer reads the pack, judges only defect
    severity and criteria 1, 6, 8, 9, and cites the pack in the matrix cells.
 2. Apply the rubric unchanged. If you add a criterion, re-score every prior run.
 3. Collect telemetry from the harness session log:
@@ -247,7 +253,7 @@ scorer of each.
       The three blind transcripts are copied to `runs/<branch>-session-N.jsonl`
       and listed in `runs/SESSIONS.md`; `score.mjs` reads both the pi and the
       Claude Code transcript formats.
-    - pi: `scratchpad/benchmark/runs/<slug>-meta.json` and
+    - pi: `~/.local/share/mendel-benchmark/runs/<slug>-meta.json` and
       `…/<slug>-session.jsonl` written by
       `run-pi-rpc.mjs`. Copy the nudge counts into `telemetry.nudges_tooling` and
       `telemetry.nudges_model`, and the loop verdict from
@@ -256,9 +262,14 @@ scorer of each.
       After scoring, copy the log to `benchmark/runs/<branch>-session.jsonl`,
       redact it (see "Redaction"), and list it in `runs/SESSIONS.md`.
       `benchmark/runs/` holds ONLY committed artifacts (redacted session
-      logs, historical metas, `SESSIONS.md`); every transient run output
-      lives in `scratchpad/benchmark/runs/`, which is gitignored — `git
-      status` stays clean between runs.
+      logs, historical metas, `SESSIONS.md`); every other run output
+      lives in `~/.local/share/mendel-benchmark/runs/`, outside every
+      repo, so `git status` stays clean between runs and nothing is lost
+      when a worktree goes. **Nothing under that directory is ever
+      deleted by a script.** It is the only record of what a run was
+      actually served, sampling included; a sampling audit on
+      2026-09-09 could recover nothing because these files used to live
+      in a repo scratchpad that the worker wiped at the end of each run.
       To find the log of an older run, match a candidate session against the row:
       each pi assistant message carries its own `model` and `usage`, so count the
       assistant messages of the run's model, count the `toolCall` blocks, and
@@ -374,7 +385,7 @@ Runs on a flat subscription (Claude Max for Claude Code, ChatGPT Plus/Pro for pi
 share of the plan's rate-limit windows they consume, measured, not estimated:
 
 1. `run-worker.sh` calls `probe-plan.mjs <provider>` **before and after** the run
-   and keeps both readings (`scratchpad/benchmark/runs/<slug>-plan-before.json`, `-plan-after.json`).
+   and keeps both readings (`~/.local/share/mendel-benchmark/runs/<slug>-plan-before.json`, `-plan-after.json`).
    A failed probe before the run aborts it: without a baseline the run is not
    accountable.
 2. **Isolation rule.** While a plan run is in flight, nothing else may draw on
@@ -569,9 +580,14 @@ The mendel main worktree stays with the coordinator on `master`; benchmark
 coordination happens in the `../mendel-benchmark` worktree, and each run gets its
 own worker worktree. Worker worktrees must be siblings (`../mendel-<name>`) or live
 under `/tmp/`. Never nest them inside the repo — the filesystem watchers break.
-**No cleanup mid-run (2026-09-07).** A worker worktree, its branch, its session
-file and its pinned config dir are removed only when the run ended on its own (an
-`end_reason` written by the runner) and its row is scored and committed. A run that
+**No cleanup mid-run (2026-09-07). No script deletes run state at all
+(2026-09-09).** A worker worktree and its branch are removed only when the run
+ended on its own (an `end_reason` written by the runner) and its row is scored
+and committed, and only by a person. **A run's evidence under
+`~/.local/share/mendel-benchmark/` is never removed**: not by the worker, not at
+scoring, not at run close. It is small, it is the only place the serving and
+sampling of a run survive, and the worker used to wipe it, which cost us every
+sampling record we had. A run that
 something else ended — a memory kill, a server death, an operator stop, a power
 loss — keeps everything in place until the coordinator closes the row: the work in
 the tree is evidence, the branch may hold commits worth scoring as a partial, and a
