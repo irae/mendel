@@ -2034,8 +2034,7 @@
         "<td><span class=\"pill p-good\">66 %</span></td>",
         "<td><span class=\"pill p-bad\">91, 28 errors, ended in a 5x identical edit loop</span></td>"
       ],
-      "invalid": true,
-      "invalid_reason": "live loop stop: repetition_loop on 5 identical edit tool calls, 18:12:06Z to 18:12:47Z; 2 of 8 libraries landed",
+      "anomaly": "ended on the live loop stop, repetition_loop, 5 identical edit tool calls from 18:12:06Z to 18:12:47Z; 2 of 8 libraries landed. The loop is the model's own failure, so the row is a valid partial, not invalid (PLAN.md, invalid runs). Relabelled 2026-09-09.",
       "notes": "critical: run ended on the live loop stop, reason repetition_loop, unit \"edit\" (tool call), 5 identical calls, first at 18:12:06Z, final at 18:12:47Z (meta.json). run-worker.sh's own post-hoc loop check logged \"ok, worst ratio 0.22\" on the same session, computed before this live stop was read; treat the live stop as authoritative and this row as invalid.; critical: root package.json still declares rimraf and tmp, never touched; 6 of 8 libraries not started, 23 stale requires across 12 packages, 15 stale package.json entries; legacy-packages/mendel-requirify rimraf reference never found.; medium: uncommitted packages/mendel-core/tree-deserialiser.js:7 set to 'var URLSafeBase64 = Buffer;', so Buffer.decode is undefined and every hash returns 'Invalid hash: bad base64 input'; model then edited two test files to guard around it instead of fixing the source, then failed 12 edit calls before the loop stop.; minor: fb8880b tree-hash-walker.js:66 Object.assign(this._result, ...) mutates _result where xtend returned a copy.; minor: untracked examples/planout-example/test-uuid.js scratch file left behind.; minor: only one pnpm run unit (aborted after a 10-minute stall); commits fb8880b and 4020e36 had no full-suite run.",
       "kv_type": "f16",
       "kv_type_source": "runbook: run 11 server A, f16 KV, -c 212992"
