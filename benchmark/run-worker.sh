@@ -61,6 +61,9 @@ if [ "$harness" = "pi" ] && [ -z "$thinking" ]; then
 fi
 # Run evidence lives on the machine, never in a repo scratchpad: a
 # scratchpad leaves with its worktree and takes the record with it.
+# This path is provisional. The worker is being extracted as its own
+# tool; adopt that tool's defaults when it lands and migrate the old
+# locations. The override exists so the move is a setting.
 RUNS="${MENDEL_RUNS_DIR:-$HOME/.local/share/mendel-benchmark/runs}"
 LOOP_CHECK="${LOOP_CHECK:-$REPO/../choose-a-local-llm/benchmarks/loop-check.py}"
 slug="$(echo "$model" | tr '/:' '--')"

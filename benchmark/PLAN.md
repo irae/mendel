@@ -122,7 +122,12 @@ table across versions.
     - Starts the harness with the bench's prompt and writes its transient
       outputs to `~/.local/share/mendel-benchmark/runs/`, on the machine
       and outside every repo, so a removed worktree never takes a run's
-      record with it.
+      record with it. **That path is provisional and under review.** The
+      worker is being extracted as its own tool; when it lands, follow
+      the tool's own defaults instead and migrate what is already in the
+      old places. Both paths take an environment override
+      (`MENDEL_RUNS_DIR`, `MENDEL_PI_CONFIG_DIR`) so the move is a
+      setting, not a rewrite.
 3. **pi runs go through `run-pi-rpc.mjs`, never `pi -p`.** `pi -p` exits on the
    first `length` or `error` stop — a harness limitation a TUI user would simply
    type "continue" past. The runner keeps one `pi --mode rpc` session alive (same
