@@ -62,9 +62,6 @@ importers:
       temp:
         specifier: ^0.9.4
         version: 0.9.4
-      tmp:
-        specifier: ^0.2.7
-        version: 0.2.7
 
   examples/full-example:
     dependencies:
@@ -347,9 +344,6 @@ importers:
       through2:
         specifier: ^5.0.11
         version: 5.0.11
-      tmp:
-        specifier: ^0.2.7
-        version: 0.2.7
     devDependencies:
       tap:
         specifier: ^21.7.5
@@ -448,9 +442,6 @@ importers:
       tap:
         specifier: ^21.7.5
         version: 21.7.5(@types/node@26.1.1)(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
-      tmp:
-        specifier: ^0.2.1
-        version: 0.2.7
 
   packages/mendel-manifest-uglify:
     dependencies:
@@ -464,9 +455,6 @@ importers:
       tap:
         specifier: ^21.7.5
         version: 21.7.5(@types/node@26.1.1)(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
-      tmp:
-        specifier: ^0.2.1
-        version: 0.2.7
 
   packages/mendel-middleware:
     dependencies:
