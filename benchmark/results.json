@@ -3975,6 +3975,135 @@
       "notes": "Scored on Opus 2026-09-10 from scratchpad/benchmark/runs/qwen3.8-27b-ista-low-issue-13-evidence.json, the session log and the branch itself. 7/8 libraries, 15 commits. Note: meta.json records end_reason turn_timeout, not complete \u2014 the model itself was mid-way through its full-suite checkpoint after commit 15 when the run's 25-minute turn cap cut it off; it never entered a repetition loop or a stall, and every commit up to that point is clean and intentional, so this is scored as a natural stopping point on the shasum library rather than a collapse. Bugs: trap A failed the same way as the xhigh sibling (25 - 9 = 16 before the trap C penalty). Trap C also failed here: validate-manifest.js adds a module-level process.on('exit') handler and an array of temp dirs to fs.rmSync on exit (session line 344 shows the model reasoning through this as a deliberate design choice for production code, not an oversight), which deletes the debug manifest the code prints one line earlier \u2014 a regression, so bugs lands at 10. Trap B left the same way as xhigh: rimraf stays in legacy-packages/mendel-requirify's two test files and its package.json. Completion is 7/8: shasum was never started \u2014 the session shows the model still working through tmp at commit 15 when the turn cap hit, so shasum's two requires (mendel-development, mendel-outlet-manifest) and two package.json entries are untouched, giving 11. node_modules: pnpm-lock.yaml shrinks by 70 lines, root rimraf and tmp dropped in their own chore commits, no stale root declarations. The mendel-full-example karma failure is the same pre-existing broken node_modules/.bin/mendel symlink as every other row in this file; the branch touches neither node_modules nor examples/full-example. Lint: prettier and eslint clean on re-run, the only prettier flag is the untracked TASKS.md, which git excludes; self-run about 15 times through the session. Commit craft: 2/15 chore, 13/15 refactor, 15/15 single-package, root devDeps placed correctly, TASKS.md never committed; the one hygiene ding is git add -A used on 2 of 15 commit commands instead of explicit paths, though each commit still lands as single-package. Working method: one tooling nudge fired after a 10-minute stall mid-session, and the run's final full-suite check ran into the 25-minute turn cap before it could commit shasum, so first_time drops to 7 for the stall plus the incomplete close. Test discipline: pnpm --filter per package before every commit with tests, plus 3 full-suite checkpoints, all green. Task list: full tree written upfront, ticked incrementally rather than discovered by grep. Truncation 61% of noisy commands piped. One added explanatory comment block in validate-manifest.js is a minor convention miss, dropping conventions to 4. Peak context 130154 of 147456 (88.3%), 0 compactions. Human messages inside the scored region: only the run prompt. Loop verdict ok, worst distinct-shape ratio 0.30 on tool call. The run ended on a turn_timeout (25.2 min turn cap, mid the post-commit-15 full-suite verification), not a clean stop; marked partial. All 15 commits are intentional and TASKS.md is fully checked. One tooling nudge fired earlier (10-minute silence, turn aborted) with no model nudges and no respawns. Result: 66, against the xhigh sibling's 80.5: more thinking bought a cleaner migration (shasum done, no validate-manifest regression) in less wall time and less of the context window.",
       "kv_type": "f16",
       "kv_type_source": "config note"
+    },
+    {
+      "model": "qwen3.6-35b-a3b (unsloth UD-Q4_K_XL, off)",
+      "model_id": "unsloth/Qwen3.6-35B-A3B-MTP-GGUF:UD-Q4_K_XL",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "qwen3.6-35b-a3b-off-issue-13",
+      "base_commit": "2652ed6",
+      "thinking": "off",
+      "prompt_version": "v1.1",
+      "partial": false,
+      "end_reason": "complete",
+      "libraries_done": 8,
+      "config_note": "Build unsloth/Qwen3.6-35B-A3B-MTP-GGUF:UD-Q4_K_XL, revision 5bc3e23 (Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf, server reports ftype Q4_K - Medium), served by llama-server b10809-5266f24da with --no-mmproj, drafter --spec-type draft-mtp --spec-draft-n-max 3, one slot (--parallel 1), q8_0 KV, -c 98304, MENDEL_CONTEXT_WINDOW 81920, maxTokens 8192, wired 25000, temperature 1.0, top_p 0.95 (read from the run's own server_context.props.default_generation_settings.params in meta.json, thinking level off). This is the drafter/served-row configuration under test, not a serving pick: run 14's own results.md states that a table carries no pick, and hardware/m1-max-32gb/benchmarks/bench14/AGENT.md calls the benchy-qwen36-q8-drafter block 'the served row'. The pick belongs to that run's coordinator. Anomaly: peak_context 97823 sits above the configured 81920-token window (119 %). The server's own -c 98304 absorbed it and nothing crashed, but the harness window did not hold.",
+      "score_total": 50.5,
+      "scores": {
+        "bugs": 1,
+        "completion": 16,
+        "node_modules": 0,
+        "lint": 4,
+        "commit_craft": 6,
+        "first_time": 6,
+        "test_discipline": 9,
+        "conventions": 3,
+        "task_list": 3.5,
+        "truncation": 2
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "Trap A failed. packages/mendel-development/apply-extra-options.js swaps glob for require('fs/promises').glob but keeps .then() at all three call sites; fs.promises.glob returns an AsyncIterator. Repro on the branch: THREW TypeError glob(...).then is not a function. The mendel-development tap run passes vacuously; no test covers the file."
+        },
+        {
+          "severity": "critical",
+          "summary": "Root package.json still declares rimraf and tmp as devDependencies, and no install ever ran, so pnpm-lock.yaml shows zero change. The model's closing summary claims all eight libraries were removed everywhere, which the root manifest contradicts."
+        },
+        {
+          "severity": "medium",
+          "summary": "packages/mendel-pipeline/src/helpers/analytics/cli-printer.js keeps the enableColor option that prompt v1.1 says must go: the chalk.level line becomes this._colorEnabled plus a local applyStyle(style, text, enabled) helper."
+        },
+        {
+          "severity": "medium",
+          "summary": "Six of the eight applyStyle call sites in cli-printer.js omit the third argument, so enabled is undefined and styleText never runs: the dim half of the progress bar, all three header bars, and the closing 'Process finished' line and its bold time lose colour even on a TTY."
+        },
+        {
+          "severity": "medium",
+          "summary": "chalk.bgWhite.black is ported as styleText(['white', 'bgBlack'], ...) on the three header bars, which inverts the colours: white text on black instead of black text on white."
+        },
+        {
+          "severity": "minor",
+          "summary": "packages/mendel-deps/test/js.js and test/edge-case1.js swap the Resolver option basedir for cwd, an unrequested API change unrelated to the glob migration. The assertions match on a path suffix, so they still pass."
+        },
+        {
+          "severity": "minor",
+          "summary": "2 of 10 commits are typed chore, 8 are refactor, and 5 of 10 span more than one package."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 40,
+        "tokens_total": 6995653,
+        "tokens_in": 274218,
+        "tokens_out": 34743,
+        "cache_read": 6686692,
+        "peak_context": 97823,
+        "window_pct": 119.4,
+        "compactions": 2,
+        "assistant_msgs": 162,
+        "tool_calls": 190,
+        "tool_errors": 26,
+        "commits": 10,
+        "failed_commits": 1,
+        "truncation_pct": 34,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.22,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">TypeError: glob(...).then left on fs/promises glob (trap A); root rimraf + tmp never removed; 6 of 8 colour sites in cli-printer silently dead</span> <b>1</b></td>",
+        "<td><span class=\"pill p-good\">clean (full suite 260/260, 22 suites); mendel-full-example:test fails on the pre-existing broken bin symlink, same as every other row</span></td>",
+        "<td><span class=\"pill p-bad\">THREW: TypeError glob(...).then is not a function</span></td>",
+        "<td><span class=\"pill p-good\">8 / 8</span></td>",
+        "<td><span class=\"pill p-good\">no require left in any package</span></td>",
+        "<td><span class=\"pill p-bad\">root package.json still declares rimraf + tmp, though the closing summary claims all eight removed</span></td>",
+        "<td><span class=\"pill p-good\">found by its own grep and fixed: rimraf gone from both mendel-requirify tests and its package.json</span></td>",
+        "<td><b>16</b></td>",
+        "<td><span class=\"pill p-bad\">no install ever ran; lockfile unchanged</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">0 lines removed</span></td>",
+        "<td><span class=\"pill p-mid\">clean on re-run \u00b7 eslint self-run 11 times, prettier self-run once; the hook did the rest</span> <b>4</b></td>",
+        "<td><span class=\"pill p-good\">read eslint.config.js first, then kept bare core names \u2014 no node: prefix anywhere</span></td>",
+        "<td><span class=\"pill p-bad\">2 / 10 chore, 8 refactor</span></td>",
+        "<td><span class=\"pill p-bad\">5 / 10 single-package; the other 5 span 3 to 11 packages</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf + tmp still declared at root</span></td>",
+        "<td><span class=\"pill p-good\">no --no-verify, no bypass, no hook failure</span></td>",
+        "<td><span class=\"pill p-good\">never committed; one git add attempt refused by .gitignore</span></td>",
+        "<td><b>6</b></td>",
+        "<td><span class=\"pill p-mid\">0 nudges, but 7 edits failed on non-matching or duplicate oldText and were retried</span> <b>6</b></td>",
+        "<td><span class=\"pill p-mid\">8 pnpm --filter runs, though several commits landed with no narrow run</span></td>",
+        "<td><span class=\"pill p-good\">3 full-suite checkpoints across 10 commits, all green</span> <b>9</b></td>",
+        "<td><span class=\"pill p-mid\">full per-file tree upfront from its own grep, ticked after each commit, partly by rewrite</span> <b>3.5</b></td>",
+        "<td><span class=\"pill p-mid\">34 %</span> <b>2</b></td>",
+        "<td><span class=\"pill p-mid\">const in a var file; blank line after the requires dropped in 4 files; unrequested basedir to cwd swap in 2 mendel-deps tests; cli-printer re-flowed around a new applyStyle helper</span> <b>3</b></td>",
+        "<td><span class=\"pill p-good\">7.0 M</span></td>",
+        "<td><span class=\"pill p-mid\">2 (both overflow)</span></td>",
+        "<td><span class=\"pill p-bad\">none \u2014 peak 97 823 overshot the 81 920 window (119 %)</span></td>",
+        "<td><span class=\"pill p-mid\">190</span></td>"
+      ],
+      "notes": "Scored on Opus 2026-09-11 from scratchpad/benchmark/runs/qwen3.6-35b-a3b-off-issue-13-evidence.json, the session log, the run meta and the branch itself. 8/8 libraries, 10 commits, end_reason complete, 40 min wall clock. Bugs: two criticals. Trap A failed: apply-extra-options.js moves glob to require('fs/promises') and keeps .then() at all three call sites, so the migration throws TypeError glob(...).then is not a function, matching runtime_checks.trap_a in the evidence pack. Root package.json still declares rimraf and tmp, no install ever ran, and pnpm-lock.yaml shows zero change, while the closing summary claims every library was removed. This is the same pair as the Claude Sonnet 4.5 v1.1 row, which scores 1 on bugs, so bugs lands at 1 here too. On top of that, the chalk port to cli-printer.js carries three colour defects: the enableColor option that prompt v1.1 says must go stays as this._colorEnabled behind a local applyStyle(style, text, enabled) helper; six of the eight applyStyle call sites omit the third argument, so enabled is undefined and colour is dead on the dim bar half, all three header bars and the closing line; and chalk.bgWhite.black becomes styleText(['white', 'bgBlack'], ...), which inverts the header bars. Trap B fixed: rimraf is gone from both legacy-packages/mendel-requirify test files and its package.json, found by the model's own grep. Trap C passed: validate-manifest.js swaps tmp.dirSync().name for fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-')) with no exit hook and nothing else added. Completion 16: all eight libraries land in code and no require is left, docked for the stale root declarations. Unit tests: the full suite is 260/260 across 22 suites on re-run; mendel-full-example:test fails on the same pre-existing broken node_modules/.bin/mendel symlink as every other row, and the branch touches neither node_modules nor examples/full-example. The mendel-deps glob swap is correct: fs.globSync with the absolute pattern and cwd returns the same 8 JS and 4 CSS fixtures the old glob returned. node_modules 0: nothing was installed or pruned. Lint 4: prettier --check and eslint are both clean on re-run, and the model ran eslint itself 11 times, once per commit, but ran prettier only once, on the first commit, and relied on the husky hook after that. It also read eslint.config.js and the implicit-dependencies rule before choosing bare core names, so the node: trap was handled knowingly. Commit craft 6: 2/10 chore and 8/10 refactor, 5/10 single-package, root devDeps never dropped; against that, every commit lists explicit paths, there is no git add -A and no --no-verify, and TASKS.md never entered git. The one failed commit is the git add that tried to stage the gitignored TASKS.md; git refused it and the model retried without it. Working method 6: zero tooling and zero model nudges, but 26 tool errors, 7 of them edits that failed on non-matching or duplicate oldText and had to be retried. Test discipline 9: 3 full-suite checkpoints across 10 commits, all green, plus 8 narrow pnpm --filter runs, though several commits landed with no narrow run. Task list 3.5: a full per-file tree for all eight libraries written upfront from the model's own grep survey rather than from the issue text, ticked after each commit, part by edit and part by rewrite, and accurate at close. Truncation 34 %, the lowest of the recent local rows. Conventions 3: const in a var file (planout app.js), the blank line after the requires dropped in four mendel-core and mendel-config files, an unrequested Resolver basedir to cwd swap in two mendel-deps tests, and cli-printer re-flowed around the new helper. Context: 2 compactions, both on overflow, and peak_context 97823 against the configured 81920-token window. That is 119 %: the window did not hold. The server's own -c 98304 absorbed the overshoot and nothing crashed, but the row records the anomaly. Human messages inside the scored region: only the run prompt. Loop verdict ok, worst distinct-shape ratio 0.22 on tool call. Result: 50.5, against the 63 of the same model at thinking high on prompt v1.1: with thinking off the model finishes all eight libraries in 40 minutes, the fastest local pass on record, and pays for it with two criticals and a broken colour port.",
+      "kv_type": "q8_0",
+      "kv_type_source": "config note"
     }
   ],
   "matrix_rows": [
