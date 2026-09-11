@@ -1,18 +1,18 @@
 const BasePrinter = require('./printer');
 const util = require('util');
 const { default: prettyMs } = require('pretty-ms');
-const { default: figure } = require('figures');
+
+const square = '\u2588';
+const line = '\u2500';
 
 function getBarText(percent, maxBarSize) {
     maxBarSize = Math.max(0, maxBarSize);
     const barNumber = Math.max(Math.ceil((percent / 100) * maxBarSize), 1);
     return (
-        util.styleText(['blue'], new Array(barNumber + 1).join(figure.square)) +
+        util.styleText(['blue'], new Array(barNumber + 1).join(square)) +
         util.styleText(
             ['blue', 'dim'],
-            new Array(Math.max(0, maxBarSize - barNumber + 1)).join(
-                figure.square
-            )
+            new Array(Math.max(0, maxBarSize - barNumber + 1)).join(square)
         )
     );
 }
@@ -157,9 +157,7 @@ class CliPrinter extends BasePrinter {
         );
         this._print(data, [0]);
 
-        console.log(
-            new Array((process.stdout.columns || 80) + 1).join(figure.line)
-        );
+        console.log(new Array((process.stdout.columns || 80) + 1).join(line));
         console.log(
             util.styleText(
                 ['white'],
