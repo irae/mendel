@@ -19,7 +19,6 @@
     "less": "^4.8.0"
   },
   "devDependencies": {
-    "rimraf": "^5.0.1",
     "tap": "^21.7.5"
   },
   "homepage": "https://github.com/irae/mendel#readme",
