@@ -4334,6 +4334,121 @@
       "notes": "Scored on Opus 2026-09-11 from scratchpad/benchmark/runs/qwen3.6-35b-a3b-f16-on-issue-13-evidence.json, the session log, the run meta and the branch itself. 8/8 libraries, 13 commits, end_reason complete, 33 min wall clock at 1108 output tokens per min. The defect set is exactly the Claude Sonnet 4.5 v1.1 set — trap A, root devDependencies, trap B — so bugs lands at 1, as it does there. Trap A: apply-extra-options.js keeps .then() over fs.promises.glob at all three sites and throws; the model used fs.globSync correctly in four other files, so this is a return-type check it never made, not ignorance of the API. No test covers the file: the mendel-development coverage table never lists it, and the model read 42/42 three times and moved on. Trap C passed: validate-manifest.js takes fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-')) with no exit hook, so the debug manifest it prints one line later survives. The chalk port is textbook for prompt v1.1: chalk.level is gone, enableColor appears nowhere, bgWhite.black maps to styleText(['bgWhite', 'black']) without inverting, and every call site is a plain util.styleText — better than the thinking-off row of the same build, which broke colour three ways. Trap B is a hard miss, worse than the other rows that left it: those found the reference by their own grep and judged it out of scope, while this run never opened legacy-packages and never grepped rimraf repo-wide. Same blind spot as the root package.json, which it never read. node_modules 0: no pnpm install, remove or add ran at any point; every manifest was hand-edited and pnpm-lock.yaml is byte-identical to the base. Unit tests: 260/260 across 22 suites on re-run; mendel-full-example:test fails on the same pre-existing broken node_modules/.bin/mendel symlink as every other row. Lint 3.5: prettier --check and eslint are both clean on re-run, and the model never invoked either directly — but pnpm test is npm run static && npm run unit, and it ran twice after the last code change, so the static gate did cover the final tree, by the shape of the test script rather than by intent. That is more than hook-only, less than self-run. Commit craft 7: types 0 (0/13 chore, all refactor), split 3 (11/13 single-package), hygiene 4 (no --no-verify, no git add -A, TASKS.md gitignored and never staged). The two failed commits are both on the first package and both husky rejects: the pre-commit eslint refused require('node:crypto') under implicit-dependencies, and commitlint refused a subject-less message; the model fixed each and moved on. Right the first time 5.5: zero model nudges and zero tooling nudges, but 29 tool errors over 211 calls, 18 of them edits that could not find their anchor text, and one real escape — the shasum commit shipped a file that still required shasum, because the multi-edit applied its earlier edits and failed only on edits[2] and the model did not check the result. Its own repo-wide pnpm test caught it as an eslint implicit-dependencies error; it diagnosed across six calls and amended. Test discipline 10: 19 narrow runs and 5 full-suite checkpoints across 13 commits, well past the every-5 cadence the blind prompt sets, and it followed the prompt's own commit-then-test order. Task list 2.5: the full per-file tree for all eight libraries was written upfront at the fifth tool call from the issue body, with nothing added on discovery, but the ticks are honest — 11 tick edits, one per section right after its commit, never a bulk rewrite. The section numbering drifted when the model inserted an unplanned figures section mid-file, and the closing summary counts nine tasks. Truncation 71 % of 31 noisy commands, the highest share on the blind table. Conventions 4: the diff is minimal at 82 insertions and 97 deletions over 37 files and matches its neighbours, but the model also removed figures, a dependency the issue never lists, on its own initiative. Telemetry and harness: 2 compactions, both overflow. peak_context 61485, verified with count-tool-calls.mjs and re-derived by hand over the 188 assistant usage records; 94 % of the configured 65536-token window, no overshoot by the PLAN definition, and not the 45332-token closing contextUsage reading, which is a post-compaction value. One harness fault, unscored: at 14:11:03Z a turn produced 1 output token with three characters of thinking, no text and no tool call, and the runner logged it as a below-budget output-limit alarm; compaction fired about two minutes later. Neither compaction lost or repeated work — after the first the model re-read TASKS.md and re-applied one tick, about one wasted call; after the second it only wrote the closing summary. Loop verdict ok, worst distinct-shape ratio 0.23 on tool call. Human messages inside the scored region: only the run prompt. Open question for the owner, not resolved here: pi's own compaction record puts tokensBefore at 72457 for the second compaction, above the 65536-token window, while the highest assistant-message usage is 61485. PLAN defines peak_context as the assistant-message maximum, so 61485 is the row's number, but the two readings disagree about whether the window held, and the same gap will appear on every row that compacts. Result: 50, against the 50.5 of the same build with the MTP drafter at thinking off and the 63 of the earlier qwen3.6-35b-a3b row at thinking high. Thinking high without a drafter buys a clean chalk port and a much better test and commit cadence, and gives it back on the two blind spots it never looked into.",
       "kv_type": "f16",
       "kv_type_source": "config note"
+    },
+    {
+      "model": "Qwen3.6-35B-A3B (mlx 4-bit, on)",
+      "model_id": "mlx-community/Qwen3.6-35B-A3B-4bit",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "mlx",
+      "local": true,
+      "serving": "mlx_lm.server",
+      "branch": "mlx-community-Qwen3.6-35B-A3B-4bit-on-issue-13",
+      "base_commit": "2652ed6",
+      "thinking": "on",
+      "prompt_version": "v1.1",
+      "partial": true,
+      "end_reason": "complete",
+      "libraries_done": 2,
+      "config_note": "Files mlx-community/Qwen3.6-35B-A3B-4bit, served by mlx_lm.server with --prompt-cache-size 2, wired limit 25000. KV is f16: mlx_lm.server offers no choice. MLX ceiling 40982, measured 2026-09-06 at the same wired limit, from hardware/m1-max-32gb/benchmarks/bench16/AGENT.md in the sibling project; the generation thread died on a Metal OOM at the next step. Harness window MENDEL_CONTEXT_WINDOW 36864, the planning value used for this run and about 10 percent under that ceiling; the coordinator confirms no OOM and no server death moved it, so it is the measured value, not a step-down. maxTokens 8192, reserveTokens 8192, keepRecentTokens 8192, the keep budget for a window under 65536. Sampling: the run's pinned pi config (models.json under the run's agent dir) sets no temperature and no top_p on this model entry, and neither meta.json nor the session events record one, because mlx_lm.server exposes no /props to read back. The server defaults of mlx_lm.server therefore applied; the exact values are not recoverable from this run's records. Thinking on, mapped to reasoning_effort high through the qwen chat template. The runner could not verify the loaded server context (mlx_lm.server answers neither /props nor /api/v0/models), so the window is recorded as unverified. Interesting fact, no effect on the row: the run compacted zero times. The window of 36864 sits well under the roughly 46K this task has needed on other models, yet peak context reached only 22842, so the window held the whole task.",
+      "anomaly": "cross-run stash contamination ended the run early. At 22:40Z the model ran `git stash && pnpm --filter mendel-config test; git stash pop`. Its own stash saved nothing (\"No local changes to save\"), so the pop took stash@{0}, which belonged to an older run of another model on base 182b07f. That pop replaced the model's own TASKS.md with a foreign, fully ticked one and staged it. The runner's stop check then found no `- [ ]` item and no dirt it owned, and closed the run as complete at 2 of 8 libraries, with the model still mid-debug on mendel-config. git stash is a repository-wide stack shared by every bench worktree, so the foreign entry was ours, not the model's. The blind `git stash pop` is the model's error; the foreign stash on the stack is the benchmark's.",
+      "score_total": 25,
+      "score_raw": 58.5,
+      "scores": {
+        "bugs": 19,
+        "completion": 5,
+        "node_modules": 0,
+        "lint": 3,
+        "commit_craft": 10,
+        "first_time": 5,
+        "test_discipline": 6,
+        "conventions": 5,
+        "task_list": 2.5,
+        "truncation": 3
+      },
+      "defects": [
+        {
+          "severity": "medium",
+          "summary": "Destructive `git stash pop` with no check of its result. The model's own `git stash` reported \"No local changes to save\", so the following pop took stash@{0} from the repository-wide stack, which held an older run's stash on base 182b07f. It overwrote the model's TASKS.md with a foreign, fully ticked one, staged it, and fooled the runner's completion check into closing the run at 2 of 8 libraries. The model read only the tap output in the same result and never saw the \"Dropped refs/stash@{0}\" line."
+        },
+        {
+          "severity": "minor",
+          "summary": "Three husky rejects on the first two commits: one eslint implicit-dependencies error on require('node:crypto'), then two commitlint rejects while the model found the chore: subject format. It fixed each without a repair commit and no --no-verify."
+        },
+        {
+          "severity": "minor",
+          "summary": "The xtend commit spans two packages, mendel-core and mendel-config, against the prompt's one commit per package."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 12.3,
+        "tokens_total": 632982,
+        "tokens_in": 284495,
+        "tokens_out": 9020,
+        "cache_read": 339467,
+        "peak_context": 22842,
+        "window_pct": 62,
+        "compactions": 0,
+        "assistant_msgs": 48,
+        "tool_calls": 43,
+        "tool_errors": 6,
+        "commits": 2,
+        "failed_commits": 3,
+        "truncation_pct": 78,
+        "nudges_tooling": 1,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.62,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td><span class=\"pill p-mid\">no bug in the delivered code: uuid and xtend are both correct and their tests pass. One destructive command — a blind <code>git stash pop</code> that adopted another run's stash and left a foreign, fully ticked TASKS.md staged in the tree</span> <b>19</b></td>",
+        "<td><span class=\"pill p-good\">mendel-core 71/72 pass 1 skip, mendel-config 41/41 on re-run; the other suites are untouched by the branch</span></td>",
+        "<td><span class=\"pill p-mid\">SYNC OK, pending= 1 — vacuous: apply-extra-options.js is untouched and still requires glob, so trap A was never met</span></td>",
+        "<td><span class=\"pill p-bad\">2 / 8</span></td>",
+        "<td><span class=\"pill p-bad\">23 stale requires left across 6 libraries (urlsafe-base64, rimraf, glob, chalk, tmp, shasum)</span></td>",
+        "<td><span class=\"pill p-bad\">15 stale declarations left, root rimraf and tmp included</span></td>",
+        "<td><span class=\"pill p-bad\">never reached: the run ended at library 2 of 8</span></td>",
+        "<td><b>5</b></td>",
+        "<td><span class=\"pill p-bad\">no pnpm install, remove or add at any point; both manifests hand-edited</span> <b>0</b></td>",
+        "<td><span class=\"pill p-bad\">0 lines removed</span></td>",
+        "<td><span class=\"pill p-mid\">eslint . clean on re-run; prettier --check flags only the foreign untracked TASKS.md, so the committed branch is clean. The model ran eslint on one file, never prettier — the husky hook did the rest</span> <b>3</b></td>",
+        "<td><span class=\"pill p-good\">hit once: the first edit used require('node:crypto') and the pre-commit eslint rejected it; the model grepped its neighbours, switched to the bare name and stayed bare</span></td>",
+        "<td><span class=\"pill p-good\">2 / 2 chore</span></td>",
+        "<td><span class=\"pill p-mid\">1 / 2 single-package; the xtend commit spans mendel-core and mendel-config</span></td>",
+        "<td><span class=\"pill p-bad\">root rimraf and tmp still declared; never reached</span></td>",
+        "<td><span class=\"pill p-mid\">3 rejected commits, all husky: one eslint implicit-dependencies on <code>node:crypto</code>, two commitlint rejects on the subject format. No --no-verify, no git add -A</span></td>",
+        "<td><span class=\"pill p-mid\">never committed, but the foreign stash pop left TASKS.md staged at the tip; TASKS.md is not gitignored on this base</span></td>",
+        "<td><b>10</b></td>",
+        "<td><span class=\"pill p-mid\">0 model nudges and 6 tool errors over 43 calls, but 3 husky rejects on the first two commits, and a destructive <code>git stash pop</code> it never checked the output of</span> <b>5</b></td>",
+        "<td><span class=\"pill p-mid\">pnpm --filter mendel-core test and pnpm --filter mendel-config test after the xtend commit; the uuid commit got no test at all</span></td>",
+        "<td><span class=\"pill p-mid\">0 full suites, but only 2 commits landed — the every-5 cadence the blind prompt sets was not due yet</span> <b>6</b></td>",
+        "<td><span class=\"pill p-mid\">full per-package tree for all eight libraries written upfront at the second tool call, nothing added on discovery, ticked once right after the first commit</span> <b>2.5</b></td>",
+        "<td><span class=\"pill p-good\">78 %</span> <b>3</b></td>",
+        "<td><span class=\"pill p-good\">minimal diff, var style and bare require('crypto') matched to the neighbours, Object.assign({}, ...) written with a fresh target, no drive-by churn</span> <b>5</b></td>",
+        "<td><span class=\"pill p-good\">0.6 M</span></td>",
+        "<td><span class=\"pill p-good\">0</span></td>",
+        "<td><span class=\"pill p-good\">62 % — peak 22 842 of 36 864</span></td>",
+        "<td><span class=\"pill p-good\">43</span></td>"
+      ],
+      "notes": "Scored on Opus 2026-09-12 from scratchpad/benchmark/runs/mlx-community-Qwen3.6-35B-A3B-4bit-on-issue-13-evidence.json, the session log, the run meta and the branch itself. 2 of 8 libraries, 2 commits, 12.3 min wall clock at 733 output tokens per min, peak_context 22842 and tool_calls 43, both read from the log with count-tool-calls.mjs. The run did not stop because the model gave up. At tool call 84 it ran `git stash && pnpm --filter mendel-config test; git stash pop` to test whether a 40/39 tap reading was its own regression. Its work was already committed, so the stash saved nothing, and the pop took stash@{0} from the repository-wide stack — an older run's stash on base 182b07f. The pop wrote a foreign, fully ticked TASKS.md into the tree and staged it. The runner's completion check reads TASKS.md for `- [ ]` items and git status for dirt the run made; it found neither, and wrote end_reason complete while the model was still mid-debug. The last session entry is a tool result with no assistant reply after it. Treat the row as a valid partial with an anomaly, not as an invalid run: two commits landed and they are good work. The cause is a benchmark fault (a shared stash stack across bench worktrees) triggered by a model fault (a blind pop), so a re-run carries no reruns penalty under PLAN's benchmark-failed rule; that call belongs to the coordinator. What the model did deliver is clean. uuid becomes crypto.randomUUID() in examples/planout-example with the dependency dropped from its package.json. xtend becomes Object.assign({}, ...) at four call sites in mendel-core and mendel-config, always with a fresh target object, so the merge semantics match xtend exactly, and both manifests lose the declaration. mendel-core runs 71/72 with 1 skip and mendel-config 41/41 on re-run. The model also handled the node: ESLint trap well: the pre-commit hook rejected require('node:crypto'), it grepped how its neighbours require crypto, switched to the bare name and never went back. It then spent two more commits learning the commitlint format. Trap A, trap B and trap C were never reached, and the chalk contract is untouched, so the runtime repro's SYNC OK is a vacuous pass on an unmodified file: absence of work, not correctness. The lockfile is byte-identical to the base and no pnpm install, remove or add ever ran, so node_modules scores 0. Task list 2.5: the full per-package tree went in upfront at the second tool call, straight from the issue body, with no sub-item added on discovery, but the one tick it made was honest and immediate. Truncation 78 percent of 9 noisy commands, the highest share on the blind table. Right the first time 5: no model nudge, 6 tool errors over 43 calls, 3 husky rejects, and the unchecked stash pop. One tooling nudge at 22:38:45Z after three pi retries on 'Stream ended without finish_reason' — a server fault, never scored. Loop verdict ok, worst distinct-shape ratio 0.62 on tool call. Zero compactions: the 36864-token window held the whole run at a peak of 22842, which is the interesting part of this row, since the task has needed about 46K on other models — but the run only ever loaded 2 libraries of work, so it never tested the window. Human messages inside the scored region: the run prompt and the one tooling nudge. Raw 58.5, capped to 25 by the 2-of-8 completion cap.",
+      "kv_type": "f16",
+      "kv_type_source": "backend (mlx_lm.server serves f16)"
     }
   ],
   "matrix_rows": [
@@ -4479,6 +4594,8 @@
     }
   ],
   "bench": "blind",
-  "prompt_versions": ["v1.0"],
+  "prompt_versions": [
+    "v1.0"
+  ],
   "prompt": "prompt-blind.txt"
 }
