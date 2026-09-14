@@ -1464,8 +1464,8 @@
         "<td><span class=\"pill p-bad\">21, then output collapse</span></td>"
       ],
       "notes": "Scored on Fable 2026-09-03; independent of the blind sibling row. model_budget_exhausted pattern: 21 tool calls of orientation in the first 18 min (gh issue view, TASKS.md write with the 8 libraries and no sub-items, one grep pair per library with --exclude-dir=node_modules), then an edit call that failed validation (duplicate edit entry, second without oldText), then 4 consecutive turns (1 spontaneous, 3 nudged) that each hit the 16384-token cap with stop_reason length. Output of those turns is a newline flood in the thinking channel; the last turn holds about 2.4K chars of real uuid planning before the flood resumes. Nudge text never changed the outcome. Bugs remaining is a vacuous 25: branch is identical to the base, so trap A, prettier, and eslint pass by absence of work; lint and conventions score 0 for the same reason. Criterion 6: 8 minus 2 per model nudge (3) = 2. Task list: the flat upfront list is the right v3 form, the per-package sub-item edit (v3 asks per file) failed and was never retried; never ticked; file stayed out of git. Truncation: evidence shows 0 noisy commands, so the share is null; partial credit for filtering every grep. Tool errors: 2 bash quoting errors (same command re-sent), 2 bash calls with command: 3, 1 edit validation; plus 1 write with empty args that terminated the stream (harness retry). Peak context 29970 of 158464. Difference from the blind sibling: the blind run collapsed after a failed exact-match edit on a real code file at about 23 min; this guided run collapsed earlier, at about 18 min, on a TASKS.md edit, before any code work. The command: 3 calls are a separate, milder glitch the model noticed and recovered from at once, distinct from the terminal newline-flood collapse.",
-      "invalid": true,
-      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits",
+      "invalid": false,
+      "model_failed_reason": "zero commits on the retired LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2): a newline flood in the thinking channel (5461 characters in one message). Under the current rules the live loop stop ends this run (degenerate output).",
       "kv_type": "unquantized",
       "kv_type_source": "backend: the LM Studio MLX engine serves an unquantized 16-bit KV cache and takes no KV option"
     },
@@ -1577,8 +1577,8 @@
         "<td><span class=\"pill p-bad\">130, 100 of them one failing ls</span></td>"
       ],
       "notes": "Scored on Fable 2026-09-03; independent of the two sibling rows. Same terminal failure as the high siblings (newline flood at the 16384-token cap, 6 length-capped turns) but a different path to it. Orientation was faster and more complete: 4 min, gh issue view, TASKS.md with 8 libraries and per-package sub-items, 15 greps, and by 04:47 a fully correct per-file inventory in the reasoning channel that names trap B (legacy-packages/mendel-requirify rimraf) and the root rimraf/tmp. The failure point was the edit that should have written that inventory: empty arguments {} twice (04:47, 04:52), then the flood at 05:02. After nudges 1 and 2 the run alternated floods with a 12-min window (05:37-05:50) of 100 identical failing ls -F_r calls, inside which it read app.js and package.json for uuid but made no edit. Nudge 3 (05:50) followed a 36-token turn that emitted a raw tool-call token string as text; the two turns after it were floods, ending the run on the model budget at 06:13. Bugs remaining is a vacuous 25: branch identical to base, trap A, prettier, eslint pass by absence of work. Criterion 6: 8 minus 2 per model nudge (3) = 2; the ls loop is not a repair commit so it is not scored again there. Task list 1: upfront per-package sub-items where v3 asks per-file, never expanded, never ticked; the correct inventory existed only in reasoning. Truncation 1.5: evidence shows 3 noisy commands, none piped, but almost every grep was narrowed with grep -v; the 100 ls errors were tiny outputs. Tool errors 108 = 100 ls loop + 3 empty-argument calls + 5 concatenated-grep errors. Peak context 45159 of 158464 with 4 overflow compactions; 1.97M total tokens versus about 0.3M for the high siblings because the run lasted 99 min instead of 46-49.",
-      "invalid": true,
-      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits",
+      "invalid": false,
+      "model_failed_reason": "zero commits on the retired LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2): newline floods in the thinking channel and 72 identical failing ls calls in a row. Under the current rules the live loop stop ends this run.",
       "kv_type": "unquantized",
       "kv_type_source": "backend: the LM Studio MLX engine serves an unquantized 16-bit KV cache and takes no KV option"
     },
@@ -1906,8 +1906,8 @@
         "<td><span class=\"pill p-mid\">n/a</span></td>",
         "<td><span class=\"pill p-bad\">105, 85 of them one identical command</span></td>"
       ],
-      "invalid": true,
-      "invalid_reason": "operator stop: non-terminating identical-command loop (one bash ls/cat of a missing .taprc, 85 times in a row); zero commits",
+      "invalid": false,
+      "model_failed_reason": "zero commits: a non-terminating identical-command loop (one bash ls/cat of a missing .taprc, 85 times in a row), stopped by the operator after 187 min. Under the current rules the live loop stop ends this run within minutes; this run is the one that set the live loop stop and the timeout rules.",
       "notes": "Operator-stopped after 186.9 min: non-terminating identical-command loop. The model sent the bash command `ls -la ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null; cat ~/code/mendel-bench-guided-prism-ml-Ternary-Bonsai-27B-mlx-2bit-off/examples/planout-example/.taprc 2>/dev/null` 85 times in a row (tool calls 21 to 105, from 17.9 min into the run until the kill) against a file that does not exist, both halves silenced, every result `(no output)` exit 1, zero variation. Zero commits, zero libraries, zero tracked-file edits; only TASKS.md (git-ignored) and an untracked examples/planout-example/test/app-test.js were written before the loop. The harness had no stop for this shape (each turn ended in a fresh tool call inside the stall and turn caps), so the run had no natural end. Record: runs/\u2026-retry2-events.jsonl and runs/\u2026-retry2-summary.md. Distinct from the earlier gh-401 invalid attempt (commit 238ae57).",
       "kv_type": "unquantized",
       "kv_type_source": "backend: mlx_lm.server serves an unquantized 16-bit KV cache and takes no KV option"
@@ -2727,7 +2727,7 @@
       "kv_type_source": "config note"
     },
     {
-      "model": "gemma-4-12b-nvfp4",
+      "model": "gemma-4-12b-nvfp4 (FreedomAISVR NVFP4, off, rtx-5060ti-16gb)",
       "model_id": "gemma-4-12b-nvfp4",
       "harness": "pi",
       "harness_guessed": false,
@@ -2736,9 +2736,10 @@
       "serving": "llama-server",
       "branch": "gemma-4-12b-nvfp4-off-guided-v3-issue-13",
       "base_commit": "86935f4",
-      "partial": false,
+      "partial": true,
       "prompt_version": "v3.0",
       "thinking": "off",
+      "hardware": "rtx-5060ti-16gb",
       "config_note": "FreedomAISVR/Gemma-4-12B-it-NVFP4-GGUF gemma-4-12b-it-nvfp4.gguf at revision 207974a8455870a3a5d0b6854698f2a4f3c6347e, llama.cpp 0.4.0-dev (build 10809, sm120/cuda12.8) [server /props]. -c 262144, f16 KV [server /props default_generation_settings], drafter: none, --parallel 1, vram 16311 MiB [runbook]. MENDEL_CONTEXT_WINDOW 258048, reserveTokens 8192 (pi maxTokens pin) [pinned by run-worker.sh], keepRecentTokens 20000 (pi default for a window above 65536) [pi default, no override set]. Sampling: meta.json has no temperature/top_p field, so the server's own default applied (temperature 1, top_p 0.95, top_k 64, min_p 0.05) [llama.cpp /props default_generation_settings]. EvalPlus gate waived for this run (owner, 2026-09-13).",
       "end_reason": "repetition_loop",
       "libraries_done": 0,
@@ -2827,8 +2828,8 @@
         "<td class=\"best\"><span class=\"pill p-good\">peak 12524 of 258048 (4.9 %)</span></td>",
         "<td><span class=\"pill p-bad\">30, 6 errors, ended on a 5x repeated failing command</span></td>"
       ],
-      "invalid": true,
-      "invalid_reason": "repetition loop on the very first task (dropping uuid): the same bash pnpm remove --filter examples/planout-example uuid call fired 5 times in a row starting 10:30:39.385Z, ending the run 59 seconds after start with zero commits. The model's own failure, not a harness or serving collapse.",
+      "invalid": false,
+      "model_failed_reason": "zero commits: a repetition loop on the very first task (dropping uuid), the same bash pnpm remove --filter examples/planout-example uuid call 5 times in a row from 10:30:39.385Z, and the live loop stop ended the run 59 seconds after start.",
       "kv_type": "f16",
       "kv_type_source": "config note"
     }

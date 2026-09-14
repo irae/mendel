@@ -901,6 +901,54 @@ a.mlink:hover { text-decoration: underline; }
             <td class="num">2</td>
             <td class="num"><span class="pill p-bad">10</span></td>
           </tr>
+          <tr class="dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="46" data-local="1">
+            <td class="rank">15</td>
+            <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/google/gemma-4-12b" target="_blank">Gemma 4 12B</a><small>pi · lmstudio · local · think high</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · model-nudge budget spent</small></th>
+            <td><div class="scorewrap"><span class="scoreval">0</span><div class="bar"><span style="width:0%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">model-failed — zero commits on the retired LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2): a newline flood in the thinking channel (5461 characters in one message). Under the current rules the live loop stop ends this run (degenerate output).</small></td>
+            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
+            <td class="num">46 min</td>
+            <td class="num best">0.3 M</td>
+            <td class="num best">30 k</td>
+            <td class="num">19 %</td>
+            <td class="num">0</td>
+            <td class="num"><span class="pill p-mid">4</span></td>
+          </tr>
+          <tr class="dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="99" data-local="1">
+            <td class="rank">16</td>
+            <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/google/gemma-4-12b" target="_blank">Gemma 4 12B (low reasoning)</a><small>pi · lmstudio · local · think low</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · model-nudge budget spent</small></th>
+            <td><div class="scorewrap"><span class="scoreval">0</span><div class="bar"><span style="width:0%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">model-failed — zero commits on the retired LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2): newline floods in the thinking channel and 72 identical failing ls calls in a row. Under the current rules the live loop stop ends this run. · repetition loop 0.02 on tool call</small></td>
+            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
+            <td class="num">99 min</td>
+            <td class="num">2.0 M</td>
+            <td class="num">45 k</td>
+            <td class="num">28 %</td>
+            <td class="num">0</td>
+            <td class="num"><span class="pill p-bad">6</span></td>
+          </tr>
+          <tr class="dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="187" data-local="1">
+            <td class="rank">17</td>
+            <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/prism-ml/Ternary-Bonsai-27B-mlx-2bit" target="_blank">Ternary Bonsai 27B (MLX 2-bit)</a><small>pi · mlx · local · think off</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · stopped</small></th>
+            <td><div class="scorewrap"><span class="scoreval">0</span><div class="bar"><span style="width:0%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">model-failed — zero commits: a non-terminating identical-command loop (one bash ls/cat of a missing .taprc, 85 times in a row), stopped by the operator after 187 min. Under the current rules the live loop stop ends this run within minutes; this run is the one that set the live loop stop and the timeout rules. · repetition loop 0.02 on tool call</small></td>
+            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
+            <td class="num">187 min</td>
+            <td class="num">2.0 M</td>
+            <td class="num best">27 k</td>
+            <td class="num">47 %</td>
+            <td class="num">0</td>
+            <td class="num"><span class="pill p-mid">3</span></td>
+          </tr>
+          <tr class="dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="1" data-local="1">
+            <td class="rank">18</td>
+            <th scope="row" class="model">gemma-4-12b-nvfp4 (FreedomAISVR NVFP4, off, rtx-5060ti-16gb)<small>pi · llama · local · think off</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · repetition loop, stopped by the runner</small></th>
+            <td><div class="scorewrap"><span class="scoreval">0</span><div class="bar"><span style="width:0%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">model-failed — zero commits: a repetition loop on the very first task (dropping uuid), the same bash pnpm remove --filter examples/planout-example uuid call 5 times in a row from 10:30:39.385Z, and the live loop stop ended the run 59 seconds after start.</small></td>
+            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
+            <td class="num best">1 min</td>
+            <td class="num best">0.3 M</td>
+            <td class="num best">13 k</td>
+            <td class="num">4.9 %</td>
+            <td class="num">0</td>
+            <td class="num"><span class="pill p-mid">3</span></td>
+          </tr>
           <tr class="invalid dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="261" data-local="1">
             <td class="rank">—</td>
             <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/mlx-community/Qwen3.8-27B-4bit" target="_blank">Qwen3.8 27B (MLX 4-bit)</a><small>pi · mlx · local · think low</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · tooling-nudge budget spent</small></th>
@@ -913,30 +961,6 @@ a.mlink:hover { text-decoration: underline; }
             <td class="num">0</td>
             <td class="num"><span class="pill p-mid">3</span></td>
           </tr>
-          <tr class="invalid dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="46" data-local="1">
-            <td class="rank">—</td>
-            <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/google/gemma-4-12b" target="_blank">Gemma 4 12B</a><small>pi · lmstudio · local · think high</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · model-nudge budget spent</small></th>
-            <td><div class="scorewrap"><span class="scoreval">0</span><div class="bar"><span style="width:0%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">invalid — repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits</small></td>
-            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
-            <td class="num">46 min</td>
-            <td class="num best">0.3 M</td>
-            <td class="num best">30 k</td>
-            <td class="num">19 %</td>
-            <td class="num">0</td>
-            <td class="num"><span class="pill p-mid">4</span></td>
-          </tr>
-          <tr class="invalid dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="99" data-local="1">
-            <td class="rank">—</td>
-            <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/google/gemma-4-12b" target="_blank">Gemma 4 12B (low reasoning)</a><small>pi · lmstudio · local · think low</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · model-nudge budget spent</small></th>
-            <td><div class="scorewrap"><span class="scoreval">0</span><div class="bar"><span style="width:0%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">invalid — repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits · repetition loop 0.02 on tool call</small></td>
-            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
-            <td class="num">99 min</td>
-            <td class="num">2.0 M</td>
-            <td class="num">45 k</td>
-            <td class="num">28 %</td>
-            <td class="num">0</td>
-            <td class="num"><span class="pill p-bad">6</span></td>
-          </tr>
           <tr class="invalid dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="84" data-local="1">
             <td class="rank">—</td>
             <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/prism-ml/Ternary-Bonsai-27B-mlx-2bit" target="_blank">Ternary Bonsai 27B (MLX 2-bit)</a><small>pi · mlx · local · think off</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · tooling-nudge budget spent</small></th>
@@ -946,30 +970,6 @@ a.mlink:hover { text-decoration: underline; }
             <td class="num best">0.0 M</td>
             <td class="num best">5.3 k</td>
             <td class="num">9 %</td>
-            <td class="num">0</td>
-            <td class="num"><span class="pill p-mid">3</span></td>
-          </tr>
-          <tr class="invalid dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="187" data-local="1">
-            <td class="rank">—</td>
-            <th scope="row" class="model"><a class="mlink" href="https://huggingface.co/prism-ml/Ternary-Bonsai-27B-mlx-2bit" target="_blank">Ternary Bonsai 27B (MLX 2-bit)</a><small>pi · mlx · local · think off</small><small style="display:block;color:var(--ink-faint)">partial · 0 of 8 · stopped</small></th>
-            <td><div class="scorewrap"><span class="scoreval">0</span><div class="bar"><span style="width:0%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">invalid — operator stop: non-terminating identical-command loop (one bash ls/cat of a missing .taprc, 85 times in a row); zero commits · repetition loop 0.02 on tool call</small></td>
-            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
-            <td class="num">187 min</td>
-            <td class="num">2.0 M</td>
-            <td class="num best">27 k</td>
-            <td class="num">47 %</td>
-            <td class="num">0</td>
-            <td class="num"><span class="pill p-mid">3</span></td>
-          </tr>
-          <tr class="invalid dim" data-base="0" data-or="0" data-plan="0" data-crit="1" data-wall="1" data-local="1">
-            <td class="rank">—</td>
-            <th scope="row" class="model">gemma-4-12b-nvfp4<small>pi · llama · local · think off</small></th>
-            <td><div class="scorewrap"><span class="scoreval">0</span><div class="bar"><span style="width:0%"></span></div></div><small style="display:block;color:var(--ink-faint);font-size:11px;margin-top:3px">invalid — repetition loop on the very first task (dropping uuid): the same bash pnpm remove --filter examples/planout-example uuid call fired 5 times in a row starting 10:30:39.385Z, ending the run 59 seconds after start with zero commits. The model's own failure, not a harness or serving collapse.</small></td>
-            <td class="num"><span class="pill p-good">$0</span><small style="display:block;color:var(--ink-faint)">plan ≈$0.00</small></td>
-            <td class="num best">1 min</td>
-            <td class="num best">0.3 M</td>
-            <td class="num best">13 k</td>
-            <td class="num">4.9 %</td>
             <td class="num">0</td>
             <td class="num"><span class="pill p-mid">3</span></td>
           </tr>
@@ -1097,12 +1097,12 @@ a.mlink:hover { text-decoration: underline; }
             <th style="opacity:.45">gemma (partial)</th>
             <th style="opacity:.45">bonsai (partial)</th>
             <th style="opacity:.45">bonsai-prism (f16 KV) (partial)</th>
-            <th style="opacity:.45">qwen3.8 (partial)</th>
             <th style="opacity:.45">gemma-12b (partial)</th>
             <th style="opacity:.45">gemma-12b-low (partial)</th>
             <th style="opacity:.45">bonsai (partial)</th>
+            <th style="opacity:.45">gemma-4-12b-nvfp4 (FreedomAISVR NVFP4, off, rtx-5060ti-16gb) (partial)</th>
+            <th style="opacity:.45">qwen3.8 (partial)</th>
             <th style="opacity:.45">bonsai (partial)</th>
-            <th style="opacity:.45">gemma-4-12b-nvfp4</th>
           </tr>
         </thead>
         <tbody>
@@ -1123,12 +1123,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">urlsafe-base64 swap left broken, tests guarded around it</span> <b>4</b></td>
             <td style="opacity:.45"><span class="pill p-mid">no bugs in the 1 landed commit</span> <b>25</b></td>
             <td style="opacity:.45"><span class="pill p-bad">rimraf devDep removed while test/helpers/index.js still requires it; root rimraf and tmp never touched</span> <b>1</b></td>
-            <td style="opacity:.45" class="best"><span class="pill p-good">none</span> <b>25</b></td>
             <td style="opacity:.45"><span class="pill p-mid">none, no code landed</span> <b>25</b></td>
             <td style="opacity:.45"><span class="pill p-mid">none, no code landed</span> <b>25</b></td>
-            <td style="opacity:.45"><span class="pill p-mid">none, no code changed (vacuous)</span> <b>25</b></td>
             <td style="opacity:.45"><span class="pill p-mid">none, no code changed (vacuous)</span> <b>25</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">none, no commits landed</span> <b>25</b></td>
+            <td style="opacity:.45" class="best"><span class="pill p-good">none</span> <b>25</b></td>
+            <td style="opacity:.45"><span class="pill p-mid">none, no code changed (vacuous)</span> <b>25</b></td>
           </tr>
           <tr>
             <th scope="row">Unit tests still green <em>per package</em></th>
@@ -1172,9 +1172,9 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not touched (pack: SYNC OK on base code)</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">not touched</span></td>
           </tr>
           <tr class="group"><th scope="row">Task completion</th><td colspan="20"></td></tr>
           <tr>
@@ -1216,12 +1216,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">23 stale requires in 12 packages</span></td>
             <td style="opacity:.45"><span class="pill p-bad">27 files left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">22 stale requires across 7 libraries</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">28 files left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">28 sites left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">28 sites left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">28 files left</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">28 files left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">28 sites left</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">28 files left</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">28 files left</span></td>
           </tr>
           <tr>
             <th scope="row">Gone from every package.json</th>
@@ -1239,12 +1239,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">15 entries left, root rimraf + tmp still declared</span></td>
             <td style="opacity:.45"><span class="pill p-bad">16 files left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">16 stale entries, root rimraf and tmp among them</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">18 files left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">18 left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">18 left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">18 files left</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">18 files left</span></td>
             <td style="opacity:.45"><span class="pill p-bad">18 left</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">18 files left</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">18 files left</span></td>
           </tr>
           <tr>
             <th scope="row">Found the reference the issue missed <em>legacy-packages/mendel-requirify</em></th>
@@ -1262,12 +1262,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">never found</span></td>
             <td style="opacity:.45"><span class="pill p-bad">not reached</span></td>
             <td style="opacity:.45"><span class="pill p-bad">not found (trap B)</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">not reached</span></td>
             <td style="opacity:.45"><span class="pill p-mid">grepped it, never acted</span></td>
             <td style="opacity:.45"><span class="pill p-mid">found it in the plan, never acted</span></td>
             <td style="opacity:.45"><span class="pill p-bad">not reached</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">not reached</span></td>
             <td style="opacity:.45"><span class="pill p-mid">not reached</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">not reached</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">not reached</span></td>
           </tr>
           <tr>
             <th scope="row">Subtotal <em>20 pts</em></th>
@@ -1309,12 +1309,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">real pnpm install, store pruned</span> <b>8</b></td>
             <td style="opacity:.45"><span class="pill p-bad">not pruned</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-good">real pnpm install, lockfile regenerated</span> <b>8</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">not pruned</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">never ran pnpm</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">never ran pnpm</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">not pruned</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">not pruned</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">never completed a pnpm remove</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">not pruned</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">not pruned</span> <b>0</b></td>
           </tr>
           <tr>
             <th scope="row">Lockfile pruned <em>lines removed</em></th>
@@ -1356,12 +1356,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">clean on the branch, never ran either tool</span> <b>3</b></td>
             <td style="opacity:.45"><span class="pill p-bad">prettier warn (mendel-config/legacy)</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">eslint fails at the tip on a self-made implicit dependency, clean at base; 0 self-runs</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">no diff to check, never ran</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">no diff to check, never ran</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">no diff to check, never ran</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">no diff to check, never ran</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">never run (pack: 0 lint self-runs)</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
           </tr>
           <tr>
             <th scope="row">Handled the <code>node:</code> ESLint trap <em>v2.1 rows; retired on the v3 base</em></th>
@@ -1406,9 +1406,9 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a, no commits</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
           </tr>
           <tr>
             <th scope="row">One commit per package</th>
@@ -1495,12 +1495,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">kept out (gitignored)</span></td>
             <td style="opacity:.45"><span class="pill p-bad">TASKS.md leaked into the commit</span></td>
             <td style="opacity:.45"><span class="pill p-good">kept out (gitignored)</span></td>
-            <td style="opacity:.45"><span class="pill p-good">clean</span></td>
             <td style="opacity:.45"><span class="pill p-good">kept out, nothing committed</span></td>
             <td style="opacity:.45"><span class="pill p-good">kept out, nothing committed</span></td>
-            <td style="opacity:.45"><span class="pill p-good">clean (no TASKS.md at all)</span></td>
             <td style="opacity:.45"><span class="pill p-mid">TASKS.md written, never committed</span></td>
             <td style="opacity:.45"><span class="pill p-good">kept out, nothing committed</span></td>
+            <td style="opacity:.45"><span class="pill p-good">clean</span></td>
+            <td style="opacity:.45"><span class="pill p-good">clean (no TASKS.md at all)</span></td>
           </tr>
           <tr>
             <th scope="row">Subtotal <em>12 pts</em></th>
@@ -1542,12 +1542,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">broken Buffer swap, 12 failed edit calls, then the loop stop</span> <b>3</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0 repairs</span> <b>8</b></td>
             <td style="opacity:.45"><span class="pill p-bad">a partial write left client.js unparseable, rejected by the hook and rewritten whole; 1 model nudge (-2)</span> <b>4</b></td>
-            <td style="opacity:.45" class="best"><span class="pill p-good">0 repairs</span> <b>8</b></td>
             <td style="opacity:.45"><span class="pill p-bad">0 repairs, 3 nudges (-6)</span> <b>2</b></td>
             <td style="opacity:.45"><span class="pill p-bad">0 repairs, 3 nudges (-6), 100-call ls loop</span> <b>2</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">no repairs, but 8 identical gh auth login turns after one 401</span> <b>2</b></td>
             <td style="opacity:.45"><span class="pill p-bad">85 identical ls/cat calls on a missing .taprc</span> <b>0</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0 repair commits; ended in a 5x repeated failing command, not a repair</span> <b>8</b></td>
+            <td style="opacity:.45" class="best"><span class="pill p-good">0 repairs</span> <b>8</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">no repairs, but 8 identical gh auth login turns after one 401</span> <b>2</b></td>
           </tr>
           <tr>
             <th scope="row">Narrow tests per package <em>as instructed</em></th>
@@ -1565,11 +1565,11 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">tap on mendel-core only, plus its own test-uuid.js scratch</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">per-package tap runs</span></td>
             <td style="opacity:.45"><span class="pill p-mid">narrow tap runs on cli-printer and two cache tests</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">none run</span></td>
             <td style="opacity:.45"><span class="pill p-bad">none run</span></td>
             <td style="opacity:.45"><span class="pill p-bad">none run</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">none run</span></td>
             <td style="opacity:.45"><span class="pill p-mid">4 tap runs of its own new test, all failing</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">none run</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">none run</span></td>
             <td style="opacity:.45"><span class="pill p-mid">none run</span></td>
           </tr>
           <tr>
@@ -1588,9 +1588,9 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">1 of 3 commits covered, and that run aborted on a 10-min stall</span> <b>3</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">3 full-suite runs before the 1 commit</span> <b>8</b></td>
             <td style="opacity:.45"><span class="pill p-mid">6 full-suite attempts, none green: pnpm run unit timed out before both commits</span> <b>5</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">0 commits, no suite run</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">never run</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">0 commits, no suite run</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">0 commits, no suite run</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">0 commits, no suite run</span> <b>0</b></td>
@@ -1611,12 +1611,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">per-file sub-items, ticked late, 6 libraries never listed</span> <b>3</b></td>
             <td style="opacity:.45"><span class="pill p-mid">only item 1 got sub-items, ticked</span> <b>2</b></td>
             <td style="opacity:.45"><span class="pill p-bad">full file tree written up front, then all 32 items ticked in one edit with 7 libraries untouched</span> <b>0.5</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">template only, no ticks</span> <b>1</b></td>
             <td style="opacity:.45"><span class="pill p-bad">flat list, failed sub-item edit, no ticks</span> <b>1</b></td>
             <td style="opacity:.45"><span class="pill p-bad">per-package sub-items upfront, per-file inventory never written, no ticks</span> <b>1</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">no TASKS.md created</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">TASKS.md with sub-items, nothing ticked</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">full per-file tree from the prompt template, no ticks</span> <b>1</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">template only, no ticks</span> <b>1</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">no TASKS.md created</span> <b>0</b></td>
           </tr>
           <tr>
             <th scope="row">Truncated noisy commands <em>3 pts · piped to tail/head</em></th>
@@ -1634,12 +1634,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">1 of 23 noisy commands piped (4 %)</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">61 %</span> <b>2</b></td>
             <td style="opacity:.45"><span class="pill p-mid">43 of 81 noisy commands piped (53 %)</span> <b>2.5</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">81 %</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">no noisy commands, greps filtered</span> <b>2</b></td>
             <td style="opacity:.45"><span class="pill p-mid">3 noisy unpiped, most greps filtered</span> <b>1.5</b></td>
-            <td style="opacity:.45"><span class="pill p-mid">n/a, 0 noisy commands</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-mid">no noisy commands issued</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">81 %</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-mid">n/a, 0 noisy commands</span> <b>0</b></td>
           </tr>
           <tr>
             <th scope="row">Followed house conventions <em>5 pts · minimal diff, matched neighbours</em></th>
@@ -1657,9 +1657,9 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">tidy swaps; stray test-uuid.js, Object.assign mutates in place</span> <b>4</b></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">minimal diff on the one library touched</span> <b>4</b></td>
             <td style="opacity:.45"><span class="pill p-bad">colours dropped rather than ported in getBarText and the header bars; ellipsis and console.error churn</span> <b>2</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">no diff</span> <b>0</b></td>
+            <td style="opacity:.45"><span class="pill p-bad">no diff</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">no diff to judge</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">no diff</span> <b>0</b></td>
-            <td style="opacity:.45"><span class="pill p-bad">no diff</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">no diff to judge</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">no diff to judge</span> <b>0</b></td>
             <td style="opacity:.45"><span class="pill p-bad">no diff to judge</span> <b>0</b></td>
@@ -1681,12 +1681,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-mid">2.6 M</span></td>
             <td style="opacity:.45"><span class="pill p-bad">3.6 M</span></td>
             <td style="opacity:.45"><span class="pill p-bad">21.0 M</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">1.25 M</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">306 K</span></td>
             <td style="opacity:.45"><span class="pill p-bad">1.97 M</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">48 k</span></td>
             <td style="opacity:.45"><span class="pill p-mid">2.0 M</span></td>
             <td style="opacity:.45"><span class="pill p-good">0.3 M</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">1.25 M</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">48 k</span></td>
           </tr>
           <tr>
             <th scope="row">Compactions <em>context rebuilds mid-run</em></th>
@@ -1705,8 +1705,8 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
             <td style="opacity:.45"><span class="pill p-good">1</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
-            <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
             <td style="opacity:.45"><span class="pill p-mid">4</span></td>
+            <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">0</span></td>
@@ -1727,12 +1727,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-good">66 %</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45"><span class="pill p-bad">peak 127120 of the 131072 window (97.0 %)</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">81 %</span></td>
             <td style="opacity:.45"><span class="pill p-mid">83 %</span></td>
             <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
-            <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
             <td style="opacity:.45" class="best"><span class="pill p-good">peak 12524 of 258048 (4.9 %)</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
+            <td style="opacity:.45"><span class="pill p-mid">n/a</span></td>
           </tr>
           <tr>
             <th scope="row">Tool calls to finish</th>
@@ -1750,12 +1750,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45"><span class="pill p-bad">91, 28 errors, ended in a 5x identical edit loop</span></td>
             <td style="opacity:.45"><span class="pill p-bad">122, path-typo loop</span></td>
             <td style="opacity:.45"><span class="pill p-bad">376, 74 errors</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">48, 3 crashes</span></td>
             <td style="opacity:.45"><span class="pill p-bad">21, then output collapse</span></td>
             <td style="opacity:.45"><span class="pill p-bad">130, 100 of them one failing ls</span></td>
-            <td style="opacity:.45"><span class="pill p-bad">10, 8 of them gh auth login</span></td>
             <td style="opacity:.45"><span class="pill p-bad">105, 85 of them one identical command</span></td>
             <td style="opacity:.45"><span class="pill p-bad">30, 6 errors, ended on a 5x repeated failing command</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">48, 3 crashes</span></td>
+            <td style="opacity:.45"><span class="pill p-bad">10, 8 of them gh auth login</span></td>
           </tr>
         </tbody>
         <tfoot>
@@ -1775,12 +1775,12 @@ a.mlink:hover { text-decoration: underline; }
             <td style="opacity:.45">44</td>
             <td style="opacity:.45">59</td>
             <td style="opacity:.45">36</td>
-            <td style="opacity:.45">34</td>
             <td style="opacity:.45">30</td>
             <td style="opacity:.45">29.5</td>
-            <td style="opacity:.45">27</td>
             <td style="opacity:.45">25</td>
             <td style="opacity:.45">34</td>
+            <td style="opacity:.45">34</td>
+            <td style="opacity:.45">27</td>
           </tr>
         </tfoot>
       </table></div></div>

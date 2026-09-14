@@ -36,7 +36,7 @@ if (!outputs.length)
 const capped = (r) =>
     Math.min(r.score_total, (100 * (r.libraries_done ?? 8)) / 8);
 const rawScore = (r) => r.score_raw ?? r.score_total;
-// Invalid rows (serving failures, zero commits) stay visible but
+// Invalid rows (serving or harness failures) stay visible but
 // dimmed, ranked last, and never counted as best.
 const dimmed = (r) => r.invalid || (r.libraries_done ?? 8) < 8;
 const runs = [...data.runs].sort(
@@ -367,19 +367,21 @@ function scoreboardFor(rows) {
             const why = [
                 r.invalid
                     ? `invalid — ${r.invalid_reason}`
-                    : done < 8
-                      ? [
-                            cap < raw ? `raw ${raw}` : null,
-                            rerunWhy,
-                            `${done}/8 done`,
-                            endWhy,
-                        ]
-                            .filter(Boolean)
-                            .join(' · ')
-                      : r.best_of
-                        ? `best of ${r.best_of} runs`
-                        : rerunWhy ||
-                          [r.anomaly, negStats].filter(Boolean).join(' · '),
+                    : r.model_failed_reason
+                      ? `model-failed — ${r.model_failed_reason}`
+                      : done < 8
+                        ? [
+                              cap < raw ? `raw ${raw}` : null,
+                              rerunWhy,
+                              `${done}/8 done`,
+                              endWhy,
+                          ]
+                              .filter(Boolean)
+                              .join(' · ')
+                        : r.best_of
+                          ? `best of ${r.best_of} runs`
+                          : rerunWhy ||
+                            [r.anomaly, negStats].filter(Boolean).join(' · '),
                 loopWhy,
             ]
                 .filter(Boolean)

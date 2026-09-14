@@ -178,8 +178,8 @@ repetition_loop`; three in a row are enough when the call already stalled
       characters or more of one message are 90 percent one character or
       whitespace ends the run with `end_reason: degenerate_output`;
       `degenerate_output` holds the count, the character and the share. A
-      stop, not a rescue: the row is invalid and records that the model
-      looped. A healthy run that repeats a test command between edits never
+      stop, not a rescue: the row is a valid partial and records that the
+      model looped; with zero commits it is model-failed. A healthy run that repeats a test command between edits never
       trips the first rule, because the edit breaks the streak; a message
       that carries a tool call never trips the second.
     - **Repetition-loop verdict at run close.** `run-worker.sh` runs
@@ -315,13 +315,22 @@ Checked on the Mac on 2026-09-01 without a model server running:
   keeps the raw criterion scores and raw total; the cap applies in
   the report and on the site. Rows under 8/8 render dimmed on every
   table.
-- **Invalid runs**: a run is invalid when it has zero commits, or a
-  documented serving/harness collapse ended the model's real
-  participation (a wrong config that still ran is a relabel, not an
-  invalidation). Invalid rows keep their data (`invalid: true`,
-  `invalid_reason`), render dimmed with a dash rank on the reports,
-  are excluded from the site tables, and do not occupy the
-  one-row-per-version slot.
+- **Invalid runs**: a run is invalid when a documented serving or
+  harness collapse ended the model's real participation (a wrong
+  config that still ran is a relabel, not an invalidation). A run the
+  machine killed is retried at once. Invalid rows keep their data
+  (`invalid: true`, `invalid_reason`), render dimmed with a dash rank
+  on the reports, are excluded from the site tables, and do not occupy
+  the one-row-per-version slot.
+- **Model-failed runs** (owner, 2026-09-14): a run is model-failed
+  when it ends with zero commits and the model caused the end: a
+  repetition loop, a degenerate output, a spent model budget, or an
+  operator stop of a loop. It is a valid partial row (`invalid:
+  false`, `partial: true`) with a `model_failed_reason`. Its capped
+  score is 0, it renders dimmed with a rank, it shows on the site
+  tables, and it counts as an attempt. It is never retried on its own.
+  When a newer rule ends the same run today (the live loop stop, the
+  wall-clock cap), the reason says so.
 - **Retry of a valid partial row**: a valid but partial run can run
   again. The cause of the failure sets the score.
     - _The model failed_: the new row replaces the old one and loses 10
@@ -346,9 +355,9 @@ Checked on the Mac on 2026-09-01 without a model server running:
       raw, 12.5 capped, 1 of 8) stopped early because the harness entry
       gave it a 16384-token output budget inside a 26624-token window.
     - An invalid row is never an attempt, so it adds nothing to
-      `reruns`.
+      `reruns`. A model-failed row is an attempt.
 - **The line under each score** shows the first matching category:
-  invalid reason; completion (`n/8 done` + end reason, with the raw
+  invalid reason; model-failed reason; completion (`n/8 done` + end reason, with the raw
   score when capped, and the re-run count and penalty when the row has
   `reruns`); `best_of: <n>` ("best of N runs") — used when a
   config error (for example an unhonored thinking flag) produced two

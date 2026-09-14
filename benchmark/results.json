@@ -2774,8 +2774,8 @@
         "<td><span class=\"pill p-bad\">15, then output collapse</span></td>"
       ],
       "notes": "Scored on Fable 2026-09-03. model_budget_exhausted pattern: 15 tool calls of orientation (issue fetch, TASKS.md write, grep/ls/cat) in the first 23 min, then one failed exact-match edit, then 4 consecutive turns (3 nudged, 1 unsent) that each hit the 16384-token output cap with stop_reason length. The capped output is not reasoning: it is ~16K tokens of newline characters plus a stray <|channel|> token in the thinking channel. The nudge text never changed the behaviour. Bugs remaining is a vacuous 25: the branch is identical to the base, so trap A, chalk, prettier, and eslint pass by absence of work. Lint and conventions score 0 for the same reason. Criterion 6: 8 base minus 2 per model nudge (3 nudges) = 2. TASKS.md was written upfront with the full library and package tree and never ticked; the file stayed out of git.",
-      "invalid": true,
-      "invalid_reason": "repetition loop on the LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2); zero commits",
+      "invalid": false,
+      "model_failed_reason": "zero commits on the retired LM Studio MLX thinking-on entry google/gemma-4-12b, pre-fix chat template (research run 2): a newline flood in the thinking channel (5473 characters in one message). Under the current rules the live loop stop ends this run (degenerate output).",
       "kv_type": "unquantized",
       "kv_type_source": "backend: the LM Studio MLX engine serves an unquantized 16-bit KV cache and takes no KV option"
     },
@@ -3389,8 +3389,8 @@
         "<td><span class=\"pill p-good\">32 %</span></td>",
         "<td><span class=\"pill p-bad\">92, 30 errors, budget spent on the edit-schema loop</span></td>"
       ],
-      "invalid": true,
-      "invalid_reason": "zero commits: budget spent on a repeated edit-tool schema error (24 of 28 calls), model_budget_exhausted after 3 nudges",
+      "invalid": false,
+      "model_failed_reason": "zero commits: budget spent on a repeated edit-tool schema error (24 of 28 calls), model_budget_exhausted after 3 nudges",
       "notes": "critical: zero commits, 92 tool calls, 37 bash, 0 git add/git commit, 0 test runs, 0 lint runs; ended on model_budget_exhausted after 3 nudges.; critical: tool-schema loop consumed the budget, 24 of 28 edit calls failed validation with the same shape error (edits: [{...}, 1, 25], line numbers sent as array elements, 'edits.1: must be object'); model never adapted, alternated between retrying the broken shape and full-file write/heredoc.; critical (uncommitted): uuid swap is broken, var { v4: uuidv4 } = () => crypto.randomUUID(); leaves uuidv4 undefined.; critical (uncommitted): heredoc overwrote packages/mendel-pipeline/test/helpers/index.js with the mendel-transform-less/test/outlet-css.js body (173-line diff), then declared rimraf done.; critical: root devDependencies rimraf/tmp never removed.; medium: six pnpm remove calls edited package.json and the lockfile in the worktree with no matching source edits for mendel-deps, mendel-mocha-runner, mendel-config.; medium: trap A untouched, both apply-extra-options.js edits failed; the evidence pack's SYNC OK is vacuous.; medium: outlet-css.js rewritten 3 times with identical content, grep -r rimraf run 5 times.; minor: stripped the copyright header from post-process-manifest.js.; minor: mixed node:crypto and bare crypto prefixes.; minor: TASKS.md written as a full per-file tree upfront, ticked by rewrite, stale after xtend (urlsafe-base64 and rimraf claimed done in chat, never ticked).; minor: 0 of 9 noisy commands truncated, grep -r swept node_modules; each segment ended in a prose 'Next steps' summary instead of a commit; 80 min wall, peak context 178629 of 262144 (not context-bound).",
       "kv_type": "f16",
       "kv_type_source": "config note"
