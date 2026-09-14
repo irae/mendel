@@ -2832,6 +2832,132 @@
       "model_failed_reason": "zero commits: a repetition loop on the very first task (dropping uuid), the same bash pnpm remove --filter examples/planout-example uuid call 5 times in a row from 10:30:39.385Z, and the live loop stop ended the run 59 seconds after start.",
       "kv_type": "f16",
       "kv_type_source": "config note"
+    },
+    {
+      "model": "qwen3.8-27b-iq3s",
+      "model_id": "qwen3.8-27b-iq3s",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "qwen3.8-27b-iq3s-xhigh-guided-v3-issue-13",
+      "base_commit": "86935f4",
+      "partial": true,
+      "prompt_version": "v3.0",
+      "thinking": "xhigh",
+      "hardware": "rtx-5060ti-16gb",
+      "config_note": "unsloth/Qwen3.8-27B-GGUF Qwen3.8-27B-UD-IQ3_S.gguf at revision 4ca720788d1e01f1bff70c033e0d0028fd02e502, llama.cpp 0.4.0-dev (build 10809, sm120/cuda12.8) [server /props]. -c 65536, q8_0 KV [server config], drafter: none, --parallel 1, vram 16311 MiB [runbook]. MENDEL_CONTEXT_WINDOW 61440, reserveTokens 8192, keepRecentTokens 8192 (window under 65536) [pinned by run-worker.sh]. Sampling: no explicit temperature/top_p from the harness, the server's own default applied (temperature 1, top_p 0.95, top_k 20, min_p 0.05) [llama.cpp /props default_generation_settings]. EvalPlus gate waived for this run (owner, 2026-09-13). 35 compactions, all on the 8192 reserve/keep budget; the harness records no data loss from any of them. Two earlier attempts of this session are unscored, no penalty: attempt 1 (1 commit, worktree preserved at ../mendel-bench-guided-qwen3.8-27b-iq3s-xhigh-interrupted1, branch ...-interrupted1, pushed) and attempt 2 (0 commits, worktree preserved at ...-interrupted2, branch local only) were each killed by a false-positive host low-memory guard in this session's own background-task watcher (host `available` memory stayed ~25-26 GB at both kills); attempt 3 (this scored run) ran the rest of the way detached (nohup, disown) to avoid the same false kill. Mid-run recovery: at 2026-09-14T14:08:11Z the server hung on a genuine NVIDIA driver GPU watchdog event (Xid 8, \"GPU stopped processing\", RC watchdog 7s timeout; confirmed via coredumpctl and journalctl -k, not a memory-exhaustion signature and not a llama.cpp bug \u2014 llama.cpp's own ggml_cuda_error() to ggml_abort() fired cleanly on the failed CUDA call). The hung server was killed and restarted with the identical command; pi auto-retried through 3 `503 Loading model` responses during the reload and continued the SAME pi session, no commits lost. The GPU also drives the desktop: a sample near the crash showed desktop processes (Hyprland, quickshell, several kitty windows) holding ~873 MiB alongside the server's 13518 MiB (14391/16311 MiB total) \u2014 a possible shared-desktop VRAM squeeze, unconfirmed.",
+      "end_reason": "tooling_budget_exhausted",
+      "libraries_done": 7,
+      "score_total": 79,
+      "scores": {
+        "bugs": 13,
+        "completion": 16,
+        "node_modules": 8,
+        "lint": 5,
+        "commit_craft": 9.5,
+        "first_time": 7,
+        "test_discipline": 10,
+        "conventions": 5,
+        "task_list": 3.5,
+        "truncation": 2
+      },
+      "defects": [
+        {
+          "severity": "medium",
+          "summary": "chalk direction wrong for v3.0. packages/mendel-pipeline/src/helpers/analytics/cli-printer.js keeps enableColor gating (`enableColor = options.enableColor !== false`) and adds a new `enableColor: false renders plain text` test (commit c688f66); v3.0 wants Node defaults \u2014 plain util.styleText with no forced level, colour follows the stream. Forcing colour either way is a medium defect per RUBRIC."
+        },
+        {
+          "severity": "medium",
+          "summary": "trap B missed for rimraf. legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require rimraf; legacy-packages/mendel-requirify/package.json:26 still declares it. The rimraf commit (b111ead5) never touched this package."
+        },
+        {
+          "severity": "minor",
+          "summary": "commit craft: 4 of 7 commits touch more than one package (xtend, rimraf, glob, tmp), against the prompt's 'split per package' instruction. Each still carries a real, correct pnpm remove and its own lockfile update."
+        },
+        {
+          "severity": "minor",
+          "summary": "one failed commit attempt: the rimraf commit first tried `git add TASKS.md ...`, blocked by .gitignore (exit 1, no commit made); retried 17 seconds later without TASKS.md and succeeded as b111ead5. No work lost."
+        },
+        {
+          "severity": "minor",
+          "summary": "truncation 70% (92 of 131 noisy shell commands piped through tail/head); the remaining 30% ran unpiped."
+        },
+        {
+          "severity": "note",
+          "summary": "trap A avoided via `util.promisify(fs.glob)` instead of the canonical `Array.fromAsync(fs.promises.glob())` \u2014 a non-canonical but functionally correct dodge of the AsyncIterator trap; repro: SYNC OK, pending=1. Trap C avoided: no exit hook added to validate-manifest.js, fs.mkdtempSync used plainly, nothing deletes the debug manifest early. rimraf's `force` trap avoided: fs.rmSync always called with `{recursive: true, force: true}`. Full unit suite green at HEAD (285/285 asserts, 27/27 suites); legacy-packages/mendel-requirify fails 3/3, the documented baseline, not a regression. prettier and eslint clean on re-run, both run by the model itself before its last commit, no --no-verify anywhere. pnpm run unit chained before every one of the 7 commits, confirmed against session-log timestamps. Real `pnpm remove` used for every dependency touched, never a hand edit to package.json or the lockfile. TASKS.md correctly gitignored, never leaked into a commit. The 8th dependency (shasum) was never started: TASKS.md shows it unchecked, 2 stale requires and 2 stale package.json entries remain, exactly as expected for a 7/8 row."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 285.9,
+        "tokens_total": 11327341,
+        "tokens_in": 406483,
+        "tokens_out": 188154,
+        "cache_read": 10732704,
+        "peak_context": 57582,
+        "window_pct": 93.7,
+        "compactions": 35,
+        "assistant_msgs": 315,
+        "tool_calls": 332,
+        "tool_errors": 16,
+        "commits": 7,
+        "failed_commits": 1,
+        "truncation_pct": 70,
+        "nudges_tooling": 10,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.4,
+        "loop_kind": "thinking"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td><span class=\"pill p-mid\">chalk kept enableColor forced-level gating (v2.1 contract) instead of v3's plain util.styleText; rimraf trap B missed</span> <b>13</b></td>",
+        "<td><span class=\"pill p-good\">full suite green at HEAD (285/285 asserts, 27/27 suites); mendel-requirify fails 3/3, the documented baseline</span></td>",
+        "<td><span class=\"pill p-good\">SYNC OK, pending=1 \u2014 util.promisify(fs.glob) avoids the AsyncIterator trap (non-canonical form, but correct)</span></td>",
+        "<td><span class=\"pill p-mid\">7 / 8 done; shasum never started</span></td>",
+        "<td><span class=\"pill p-bad\">2 stale rimraf requires in legacy-packages/mendel-requirify tests; 2 stale shasum requires (untouched)</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf still declared in legacy-packages/mendel-requirify/package.json:26; shasum still declared in 2 package.json files</span></td>",
+        "<td><span class=\"pill p-bad\">missed \u2014 legacy-packages/mendel-requirify's rimraf references were not found or fixed</span></td>",
+        "<td><b>16</b></td>",
+        "<td><span class=\"pill p-good\">real pnpm remove per package for every completed dependency; real lockfile update each time</span> <b>8</b></td>",
+        "<td><span class=\"pill p-mid\">165 lines added / 109 removed net (pnpm's own lockfile churn); every removal went through pnpm remove</span></td>",
+        "<td><span class=\"pill p-good\">clean on re-run; model ran prettier --check and eslint . itself before its last commit, no --no-verify</span> <b>5</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base, trap retired)</span></td>",
+        "<td><span class=\"pill p-good\">7 of 7 commits chore</span></td>",
+        "<td><span class=\"pill p-bad\">4 of 7 commits touch more than one package (xtend, rimraf, glob, tmp)</span></td>",
+        "<td><span class=\"pill p-good\">rimraf and tmp removed from root package.json, riding with their package's commit</span></td>",
+        "<td><span class=\"pill p-mid\">1 failed commit attempt (git add TASKS.md blocked by .gitignore), retried clean 17 seconds later, no bypass</span></td>",
+        "<td><span class=\"pill p-good\">correctly gitignored, never staged successfully</span></td>",
+        "<td><b>9.5</b></td>",
+        "<td><span class=\"pill p-mid\">one failed commit attempt (staged the gitignored TASKS.md by mistake), corrected immediately, no lost work</span> <b>7</b></td>",
+        "<td><span class=\"pill p-good\">ran package-scoped tap/pnpm test after each file edit, per the workflow</span></td>",
+        "<td><span class=\"pill p-good\">pnpm run unit chained before all 7 commits, confirmed against session log timestamps</span> <b>10</b></td>",
+        "<td><span class=\"pill p-good\">sub-items per file grouped by package, new files noted on discovery; shasum left with no sub-items until started</span> <b>3.5</b></td>",
+        "<td><span class=\"pill p-mid\">92 of 131 noisy commands piped through tail/head (70%)</span> <b>2</b></td>",
+        "<td><span class=\"pill p-good\">minimal, scoped diffs; matched neighbour style; new tests follow the prompt's test-first instruction, not drive-by churn</span> <b>5</b></td>",
+        "<td><span class=\"pill p-mid\">11.3 M</span></td>",
+        "<td><span class=\"pill p-bad\">35, all on the 8192 reserve/keep budget; no data loss</span></td>",
+        "<td><span class=\"pill p-bad\">peak 57582 of 61440 (93.7 %)</span></td>",
+        "<td><span class=\"pill p-mid\">332 tool calls, 315 assistant messages, end_reason tooling_budget_exhausted</span></td>"
+      ],
+      "invalid": false,
+      "kv_type": "q8_0",
+      "kv_type_source": "config note"
     }
   ],
   "matrix_rows": [
