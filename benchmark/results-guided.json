@@ -2834,7 +2834,7 @@
       "kv_type_source": "config note"
     },
     {
-      "model": "qwen3.8-27b-iq3s",
+      "model": "qwen3.8-27b-iq3s (unsloth UD-IQ3_S, xhigh, rtx-5060ti-16gb)",
       "model_id": "qwen3.8-27b-iq3s",
       "harness": "pi",
       "harness_guessed": false,
