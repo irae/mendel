@@ -2763,7 +2763,7 @@
         }
       ],
       "telemetry": {
-        "wall_clock_min": 1.0,
+        "wall_clock_min": 1,
         "tokens_total": 296485,
         "tokens_in": 12322,
         "tokens_out": 1986,
@@ -2957,6 +2957,145 @@
       ],
       "invalid": false,
       "kv_type": "q8_0",
+      "kv_type_source": "config note"
+    },
+    {
+      "model": "gemma-4-26b-a4b-nvfp4 (catlilface NVFP4Q8, high, rtx-5060ti-16gb)",
+      "model_id": "gemma-4-26b-a4b-nvfp4",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "gemma-4-26b-a4b-nvfp4-high-guided-v3-issue-13",
+      "base_commit": "86935f4",
+      "partial": true,
+      "prompt_version": "v3.0",
+      "thinking": "high",
+      "hardware": "rtx-5060ti-16gb",
+      "config_note": "catlilface/Gemma-4-26B-A4B-NVFP4-GGUF Gemma4-26b-NVFP4Q8.gguf at revision dc98839f4c28f571ac43fb91ab99357471eaff5c, llama.cpp 0.4.0-dev (build 10809, sm120/cuda12.8) [server /props]. -c 98304, --n-cpu-moe 7, f16 KV [server /props default_generation_settings], drafter: none (this build carries no MTP layers), --parallel 1, vram 16311 MiB [runbook]. MENDEL_CONTEXT_WINDOW 94208, reserveTokens 8192 [pinned by run-worker.sh], keepRecentTokens 20000 (pi default for a window above 65536) [pi default, no override set]. Sampling: meta.json has no temperature/top_p field, so the server's own default applied (temperature 1, top_p 0.95, top_k 64, min_p 0.05) [llama.cpp /props default_generation_settings]. EvalPlus gate waived for this run (owner, 2026-09-13). This row started immediately after qwen38-iq3s-mendel-guided-xhigh closed on the same machine; no server or config issues carried over. end_reason repetition_loop: a genuine text-cycle loop, not a harness tooling-budget nudge \u2014 the model repeated the exact text \"I'll try to `git add` them and then `git status`.\" 475 times in a row, starting 2026-09-14T17:28:16.929Z; run-worker.sh's own post-hoc loop-check verdict on the same session: LOOP, worst ratio 0.02 on thinking. Clean stop: no crash, no host-memory kill, no GPU watchdog event.",
+      "end_reason": "repetition_loop",
+      "libraries_done": 3,
+      "score_raw": 65,
+      "score_total": 37.5,
+      "scores": {
+        "bugs": 19,
+        "completion": 7,
+        "node_modules": 7,
+        "lint": 3,
+        "commit_craft": 12,
+        "first_time": 7,
+        "test_discipline": 2,
+        "conventions": 4,
+        "task_list": 1.5,
+        "truncation": 2.5
+      },
+      "defects": [
+        {
+          "severity": "medium",
+          "summary": "trap B missed for rimraf: legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require rimraf, and legacy-packages/mendel-requirify/package.json:26 still declares it. Neither rimraf commit (8621c09b, f368fcdd) touched this package."
+        },
+        {
+          "severity": "medium",
+          "summary": "xtend not fully removed: packages/mendel-config/package.json:24 still declares \"xtend\": \"^4.0.1\" even though commit 624b5719 deleted the require() calls from mendel-config/index.js and legacy/index.js. No pnpm remove ran for mendel-config, so xtend is still physically present in node_modules (hoisted at the repo root), confirmed by listing node_modules/xtend after a real install."
+        },
+        {
+          "severity": "note",
+          "summary": "glob (uncommitted): the model's only glob edit, staged but never committed, swaps require('glob') for require('node:fs').promises in packages/mendel-development/apply-extra-options.js and keeps the old .then() call. This reproduces trap A exactly: RUBRIC's repro script prints THREW: TypeError glob(...).then is not a function, because fs.promises.glob() returns an AsyncIterator, not a Promise. Because it was never committed, it does not ship on the branch tip (which still has the original, working require('glob') form), so it is not scored as a shipped bug \u2014 but TASKS.md marks this file's sub-item done anyway, despite the edit being both broken and uncommitted."
+        },
+        {
+          "severity": "minor",
+          "summary": "test discipline: only 1 of 6 commits (uuid, 890e3b25) was preceded by a full `pnpm run unit`; the other 5 (xtend x2, urlsafe-base64, rimraf x2) relied only on narrow `pnpm --filter <pkg> test` runs, against the v3.0 prompt's explicit 'full suite before every commit' instruction."
+        },
+        {
+          "severity": "minor",
+          "summary": "TASKS.md accuracy at the tip: the rimraf sub-item for packages/mendel-transform-less/test/outlet-css.js stays unchecked even though it was fixed and committed in f368fcdd; the glob sub-item for apply-extra-options.js is checked even though that edit is uncommitted and broken (see the trap-A note above)."
+        },
+        {
+          "severity": "minor",
+          "summary": "one failed commit attempt: `git add TASKS.md && git commit -m \"chore: update TASKS.md\"` failed (exit 1, blocked by .gitignore, no -f used). No leak resulted and no hook was bypassed."
+        },
+        {
+          "severity": "minor",
+          "summary": "house convention: the uuid commit (890e3b25) adds examples/planout-example/test-uuid-logic.js, a plain node script using assert + console.log, where every other test in the repo runs under tap. Consistent with the prompt's test-first-for-uncovered-files direction, but not the repo's own test style."
+        },
+        {
+          "severity": "note",
+          "summary": "prettier and eslint are clean on the branch tip, but the model never ran either tool itself; cleanliness came only from husky's lint-staged pre-commit hook. Full unit suite green at HEAD: 260/260 asserts, 22/22 suites (`pnpm run unit`, re-run standalone); legacy-packages/mendel-requirify fails 3/3, the documented baseline, not a regression. 19 stale requires remain across rimraf (2), glob (5), tmp (4), shasum (2) and chalk (6); 12 stale package.json entries remain (rimraf 1, tmp 4, xtend 1, glob 3, shasum 2, chalk 1)."
+        },
+        {
+          "severity": "note",
+          "summary": "after the 6th and last commit (f368fcdd, 17:20:29Z), the model spent about 8 minutes (17:22-17:28) repeatedly re-checking git status/diff/checkout/cat-file on the two already-committed, already-clean rimraf files before collapsing into the scored text-repetition loop at 17:28:16.929Z \u2014 direct precursor evidence for the loop stop."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 22.5,
+        "tokens_total": 6686678,
+        "tokens_in": 141288,
+        "tokens_out": 45372,
+        "cache_read": 6500018,
+        "peak_context": 90147,
+        "window_pct": 95.7,
+        "compactions": 1,
+        "assistant_msgs": 139,
+        "tool_calls": 137,
+        "tool_errors": 13,
+        "commits": 6,
+        "failed_commits": 1,
+        "truncation_pct": 91,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "LOOP",
+        "loop_ratio": 0.02,
+        "loop_kind": "thinking"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td><span class=\"pill p-mid\">1 medium bug left: rimraf trap B missed at legacy-packages/mendel-requirify</span> <b>19</b></td>",
+        "<td><span class=\"pill p-good\">260/260 asserts, 22/22 suites green at HEAD; mendel-requirify fails 3/3, the documented baseline</span></td>",
+        "<td><span class=\"pill p-bad\">not shipped \u2014 apply-extra-options.js still requires glob on the branch; the uncommitted working-tree attempt hits trap A: THREW: TypeError glob(...).then is not a function</span></td>",
+        "<td><span class=\"pill p-bad\">3 / 8 done</span></td>",
+        "<td><span class=\"pill p-bad\">19 stale requires across rimraf, glob, tmp, shasum, chalk</span></td>",
+        "<td><span class=\"pill p-bad\">12 stale entries remain, including mendel-config's xtend (never pnpm removed, still in node_modules)</span></td>",
+        "<td><span class=\"pill p-bad\">missed \u2014 legacy-packages/mendel-requirify's rimraf references were never found or fixed</span></td>",
+        "<td><b>7</b></td>",
+        "<td><span class=\"pill p-mid\">real pnpm remove for every package addressed, but mendel-config's xtend was never removed and is still physically in node_modules</span> <b>7</b></td>",
+        "<td><span class=\"pill p-mid\">207 lines removed / 72 added across the 6 commits' lockfile churn</span></td>",
+        "<td><span class=\"pill p-mid\">clean on re-run, hook-only credit \u2014 the model never ran prettier --check or eslint . itself</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base, trap retired)</span></td>",
+        "<td><span class=\"pill p-good\">all 6 commits chore</span></td>",
+        "<td><span class=\"pill p-good\">6 commits, each single-package (xtend and rimraf each split across 2 package commits)</span></td>",
+        "<td><span class=\"pill p-good\">rimraf removed from root package.json, riding with the mendel-pipeline commit; tmp still declared at root, as expected for an unstarted library</span></td>",
+        "<td><span class=\"pill p-good\">no failures, no bypass; one blocked attempt to add gitignored TASKS.md, not a hook issue</span></td>",
+        "<td><span class=\"pill p-good\">correctly gitignored, one blocked add, never leaked</span></td>",
+        "<td><b>12</b></td>",
+        "<td><span class=\"pill p-mid\">no repair commits among the 6 shipped changes; docked for the uncommitted glob edit marked done in TASKS.md despite reproducing trap A</span> <b>7</b></td>",
+        "<td><span class=\"pill p-good\">ran pnpm --filter &lt;pkg&gt; test after each touched package's edits</span></td>",
+        "<td><span class=\"pill p-bad\">only 1 of 6 commits (uuid) preceded by a full pnpm run unit; the other 5 relied on narrow --filter runs only</span> <b>2</b></td>",
+        "<td><span class=\"pill p-mid\">per-file sub-items grouped by package, correct granularity, but stale at the tip: one done item left unchecked, one broken uncommitted item checked</span> <b>1.5</b></td>",
+        "<td><span class=\"pill p-good\">21 of 23 noisy pnpm commands piped through tail (91%)</span> <b>2.5</b></td>",
+        "<td><span class=\"pill p-good\">idiomatic swaps matching neighbour style; one miss \u2014 test-uuid-logic.js uses plain assert/console.log, not the repo's tap convention</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">6.7 M</span></td>",
+        "<td><span class=\"pill p-good\">1, no data loss recorded</span></td>",
+        "<td><span class=\"pill p-bad\">peak 90147 of 94208 (95.7 %)</span></td>",
+        "<td><span class=\"pill p-bad\">137 tool calls, 139 assistant messages, ended in a 475x repeated text loop</span></td>"
+      ],
+      "invalid": false,
+      "kv_type": "f16",
       "kv_type_source": "config note"
     }
   ],
