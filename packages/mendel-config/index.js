@@ -1,7 +1,6 @@
 var path = require('path');
 var yaml = require('js-yaml');
 var fs = require('fs');
-var xtend = require('xtend');
 
 function findConfig(where) {
     var parts = where.split(path.sep);
@@ -50,7 +49,7 @@ function load(config, resolvePlugins) {
         var fileConfig = findConfig(projectRoot);
         // in case we found a file config, assign by priority
         if (fileConfig.projectRoot) {
-            config = xtend(fileConfig, config);
+            config = Object.assign({}, fileConfig, config);
             // but force projectRoot to always be consistent
             config.projectRoot = fileConfig.projectRoot;
             // In case this config is passed to mendel-config again
