@@ -3368,7 +3368,7 @@
       "prompt_version": "v3.0",
       "thinking": "high",
       "hardware": "rtx-5060ti-16gb",
-      "config_note": "unsloth/gemma-4-12b-it-GGUF gemma-4-12b-it-UD-Q4_K_XL.gguf at revision fc034cfff751157913579611efad8462ac1be606, llama.cpp 0.4.0-dev (build 10809, commit 5266f24da) [server /props build_info]. -c 262144, f16 KV (K and V), drafter: none, vram 16311 MiB [runbook]. MENDEL_CONTEXT_WINDOW 258048 — this is the build's off-smoke window; the two Gemma-4-12B guided rows of this run intentionally run at thinking high, not the off of their smoke, per an owner rule that one smoke covers every thinking level of a build. maxTokens/reserveTokens 8192 (pi maxTokens pin) [pinned by run-worker.sh], keepRecentTokens 20000 (pi default for a window above 65536) [pi default, no override set]. Sampling: meta.json has no temperature/top_p field, so the server's own default applied (temperature 1, top_p 0.95, top_k 64, min_p 0.05) [llama.cpp /props default_generation_settings]. EvalPlus gate waived for this run (owner, 2026-09-13).",
+      "config_note": "unsloth/gemma-4-12b-it-GGUF gemma-4-12b-it-UD-Q4_K_XL.gguf at revision fc034cfff751157913579611efad8462ac1be606, llama.cpp 0.4.0-dev (build 10809, commit 5266f24da) [server /props build_info]. -c 262144, f16 KV (K and V), drafter: none, vram 16311 MiB [runbook]. MENDEL_CONTEXT_WINDOW 258048 \u2014 this is the build's off-smoke window; the two Gemma-4-12B guided rows of this run intentionally run at thinking high, not the off of their smoke, per an owner rule that one smoke covers every thinking level of a build. maxTokens/reserveTokens 8192 (pi maxTokens pin) [pinned by run-worker.sh], keepRecentTokens 20000 (pi default for a window above 65536) [pi default, no override set]. Sampling: meta.json has no temperature/top_p field, so the server's own default applied (temperature 1, top_p 0.95, top_k 64, min_p 0.05) [llama.cpp /props default_generation_settings]. EvalPlus gate waived for this run (owner, 2026-09-13).",
       "end_reason": "repetition_loop",
       "libraries_done": 0,
       "score_total": 34,
@@ -3457,7 +3457,7 @@
         "<td><span class=\"pill p-bad\">17, 2 errors, ended on a thinking-channel repetition loop</span></td>"
       ],
       "invalid": false,
-      "model_failed_reason": "zero commits: the model deliberated over running pnpm --filter examples/planout-example remove uuid for the first task and never issued the call — its thinking channel cycled \"Wait, I'll run the removal command.\" 818 times starting 07:20:52.898Z, hit the 8192-token output cap, and the live loop stop ended the run on repetition_loop (text cycle) about 5 minutes 19 seconds after start.",
+      "model_failed_reason": "zero commits: the model deliberated over running pnpm --filter examples/planout-example remove uuid for the first task and never issued the call \u2014 its thinking channel cycled \"Wait, I'll run the removal command.\" 818 times starting 07:20:52.898Z, hit the 8192-token output cap, and the live loop stop ended the run on repetition_loop (text cycle) about 5 minutes 19 seconds after start.",
       "kv_type": "f16",
       "kv_type_source": "config note"
     },
@@ -3475,7 +3475,7 @@
       "prompt_version": "v3.0",
       "thinking": "high",
       "hardware": "rtx-5060ti-16gb",
-      "config_note": "FreedomAISVR/Gemma-4-12B-it-NVFP4-GGUF gemma-4-12b-it-nvfp4.gguf at revision 207974a8455870a3a5d0b6854698f2a4f3c6347e, llama.cpp 0.4.0-dev (build 10809, commit 5266f24da) [server /props build_info]. -c 262144, f16 KV (both K and V), drafter: none, vram 16311 MiB [runbook]. MENDEL_CONTEXT_WINDOW 258048 — this is the build's off-smoke window; the two Gemma-4-12B guided rows of this run intentionally run at thinking high, not the off of their smoke, per an owner rule that one smoke covers every thinking level of a build. maxTokens/reserveTokens 8192 [pinned by run-worker.sh], keepRecentTokens 20000 (pi default for a window above 65536) [pi default, no override set]. Sampling: meta.json has no temperature/top_p field, so the server's own default applied (temperature 1, top_p 0.95, top_k 64, min_p 0.05) [llama.cpp /props default_generation_settings]. EvalPlus gate waived for this run (owner, 2026-09-13).",
+      "config_note": "FreedomAISVR/Gemma-4-12B-it-NVFP4-GGUF gemma-4-12b-it-nvfp4.gguf at revision 207974a8455870a3a5d0b6854698f2a4f3c6347e, llama.cpp 0.4.0-dev (build 10809, commit 5266f24da) [server /props build_info]. -c 262144, f16 KV (both K and V), drafter: none, vram 16311 MiB [runbook]. MENDEL_CONTEXT_WINDOW 258048 \u2014 this is the build's off-smoke window; the two Gemma-4-12B guided rows of this run intentionally run at thinking high, not the off of their smoke, per an owner rule that one smoke covers every thinking level of a build. maxTokens/reserveTokens 8192 [pinned by run-worker.sh], keepRecentTokens 20000 (pi default for a window above 65536) [pi default, no override set]. Sampling: meta.json has no temperature/top_p field, so the server's own default applied (temperature 1, top_p 0.95, top_k 64, min_p 0.05) [llama.cpp /props default_generation_settings]. EvalPlus gate waived for this run (owner, 2026-09-13).",
       "end_reason": "repetition_loop",
       "libraries_done": 0,
       "score_total": 34,
@@ -3494,7 +3494,7 @@
       "defects": [
         {
           "severity": "critical",
-          "summary": "the model got partway into the first two tasks, then froze on the second: it ran pnpm --filter examples/planout-example remove uuid and edited examples/planout-example/app.js to use node:crypto randomUUID, then started xtend — but its own edit to packages/mendel-core/tree-hash-walker.js replaced `var xtend = require('xtend');` with a broken line, `var Object = require('object-assign'); // wait, I shouldn't use object-assign, I should use Object.assign`, leaving the require unresolved while the file's `return xtend(this._result, { ... })` call site was never touched. Rereading the file it had just corrupted, the model's thinking channel cycled the line \"I'll replace `xtend(this._result, {` with `Object.assign({}, this._result, {`.\" 520 times in a row, starting 2026-09-15T07:44:00.813Z, filled the 8192-token output budget in 176 seconds, and the runner ended the run on repetition_loop (text cycle) at 07:46:57.062Z, about 5 minutes 29 seconds after the run started. Zero commits landed; the working tree holds only the uncommitted, unfinished uuid edit in examples/planout-example/app.js and the broken xtend edit in packages/mendel-core/tree-hash-walker.js. This is the model's own failure, not a harness or serving collapse: the server answered every call, and the run ended before the model could complete even the second of eight libraries."
+          "summary": "the model got partway into the first two tasks, then froze on the second: it ran pnpm --filter examples/planout-example remove uuid and edited examples/planout-example/app.js to use node:crypto randomUUID, then started xtend \u2014 but its own edit to packages/mendel-core/tree-hash-walker.js replaced `var xtend = require('xtend');` with a broken line, `var Object = require('object-assign'); // wait, I shouldn't use object-assign, I should use Object.assign`, leaving the require unresolved while the file's `return xtend(this._result, { ... })` call site was never touched. Rereading the file it had just corrupted, the model's thinking channel cycled the line \"I'll replace `xtend(this._result, {` with `Object.assign({}, this._result, {`.\" 520 times in a row, starting 2026-09-15T07:44:00.813Z, filled the 8192-token output budget in 176 seconds, and the runner ended the run on repetition_loop (text cycle) at 07:46:57.062Z, about 5 minutes 29 seconds after the run started. Zero commits landed; the working tree holds only the uncommitted, unfinished uuid edit in examples/planout-example/app.js and the broken xtend edit in packages/mendel-core/tree-hash-walker.js. This is the model's own failure, not a harness or serving collapse: the server answered every call, and the run ended before the model could complete even the second of eight libraries."
         }
       ],
       "telemetry": {
@@ -3565,6 +3565,133 @@
       ],
       "invalid": false,
       "model_failed_reason": "zero commits: the model corrupted its own edit to packages/mendel-core/tree-hash-walker.js while working xtend (replacing `var xtend = require('xtend');` with a malformed line referencing object-assign instead of finishing the swap), then reread the file it had just broken. Its thinking channel cycled \"I'll replace `xtend(this._result, {` with `Object.assign({}, this._result, {`.\" 520 times starting 2026-09-15T07:44:00.813Z, hit the 8192-token output cap, and the live loop stop ended the run on repetition_loop (text cycle) about 5 minutes 29 seconds after start.",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
+    },
+    {
+      "model": "qwen3.8-27b-iq3s (unsloth UD-IQ3_S, xhigh, m1-max-32gb)",
+      "model_id": "qwen3.8-27b-iq3s",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "qwen3.8-27b-iq3s-m1-xhigh-guided-v3-issue-13",
+      "base_commit": "86935f4",
+      "partial": true,
+      "prompt_version": "v3.0",
+      "thinking": "xhigh",
+      "hardware": "m1-max-32gb",
+      "config_note": "Build unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S, revision 4ca720788d1e01f1bff70c033e0d0028fd02e502 (Qwen3.8-27B-UD-IQ3_S.gguf, model_ftype IQ3_S - 3.4375 bpw), served by llama-server, f16 KV (both k and v), no drafter (the nmax0 arm), -c 188416, MENDEL_CONTEXT_WINDOW 147456, MENDEL_RESERVE_TOKENS 8192, pi's default keep budget (window >= 65536, no override), maxTokens 8192, wired 25000, temperature 1, top_p 0.95, min_p 0.05 (read from the run's own server_context.props.default_generation_settings.params in meta.json; same server config as the blind row of this model). Wall-clock partial: the runner stopped the run at its 300-minute cap (end_reason wall_clock, hard_kill false) 13 seconds after the fifth commit landed, with the next TASKS.md edit in flight. peak_context reached the window: 143399 of 147456 (97.2 %), with one overflow compaction at 06:22:22 UTC. EvalPlus runs after the agent rows in this run (owner, 2026-09-14).",
+      "end_reason": "wall_clock",
+      "libraries_done": 5,
+      "score_raw": 76,
+      "score_total": 62.5,
+      "scores": {
+        "bugs": 16,
+        "completion": 11,
+        "node_modules": 8,
+        "lint": 4,
+        "commit_craft": 9.5,
+        "first_time": 7,
+        "test_discipline": 10,
+        "conventions": 5,
+        "task_list": 3,
+        "truncation": 2.5
+      },
+      "defects": [
+        {
+          "severity": "medium",
+          "summary": "trap B missed for rimraf: legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require rimraf, and legacy-packages/mendel-requirify/package.json:26 still declares it. The rimraf commit (8302dc4) never touched that package: the model's own sweep at 08:00:50Z ran `grep -rn rimraf` with the test directories excluded, so the two references never appeared."
+        },
+        {
+          "severity": "minor",
+          "summary": "root package.json still declares rimraf (^6.1.3) and tmp (^0.2.7). tmp was never started, so its entry is expected of a 5/8 row; rimraf was otherwise delivered (both packages converted, pnpm remove run for each) and only the unused root devDependency was left. No runtime or lint effect: eslint and prettier are clean at the tip. The run ended 13 seconds after the rimraf commit, with the TASKS.md tick for rimraf still in flight."
+        },
+        {
+          "severity": "note",
+          "summary": "the three libraries left (glob, chalk, tmp) were never started: 17 stale requires and 8 stale package.json entries at the tip belong to them plus the two trap-B rimraf lines. Trap A is a vacuous pass: the repro prints SYNC OK because packages/mendel-development/apply-extra-options.js is untouched, still on require('glob'). Trap C is untouched for the same reason."
+        },
+        {
+          "severity": "note",
+          "summary": "verification at the tip, in a clean sibling worktree with node_modules symlinked from the main checkout: mendel-core 71 pass / 1 skip, mendel-config 41/41 (standalone, 3 of 3 runs; the batch 4/1 is the documented flake), mendel-deps 27/27, mendel-development 42/42, mendel-manifest-extract-bundles 4/4, mendel-manifest-uglify 3/3, mendel-treenherit 15/15, mendel-resolver 75/75, mendel-pipeline 260/260, mendel-transform-less 16/16, mendel-pipeline/test/cli-printer.js 15/15, and the model's own new examples/planout-example/test/app.js 3/3. `lerna run test` over all 19 projects fails on mendel-full-example only, the documented MENDEL_IPC daemon baseline. prettier --check and eslint . are silent on re-run. The conversions are correct: Object.assign({}, a, b) keeps xtend's copy semantics, Buffer.from(h,'base64url') and .toString('base64url') match urlsafe-base64, crypto.createHash('sha1')...digest('hex') matches shasum's default, and every fs.rmSync call carries { recursive: true, force: true }, so the rimraf force trap is avoided."
+        },
+        {
+          "severity": "note",
+          "summary": "about 2.5 hours of the 5-hour run (04:50-07:28 UTC) went into a tap build breakage inside the run's own worktree (EEXIST on the @tapjs/test/test-built plugin symlink, then ERR_MODULE_NOT_FOUND on test-built/dist/esm/index.js), which appeared right after the model added tap to the example package and made `pnpm run unit` a 19-project run. The model read tap's own build code, triaged the failure as infrastructure rather than its own regression, and was right: the same branch is green in a clean symlinked worktree, and the breakage still reproduces in the run's worktree today (npx tap build fails there). Without that loss the run had a clear path to more libraries: the last four commits took 42 minutes together, against 3 hours for the first two."
+        },
+        {
+          "severity": "note",
+          "summary": "workflow followed as the v3.0 prompt asks: grep before each library, a test written first for the uncovered examples/planout-example/app.js (03:33Z, before the app.js edit at 03:59Z), real `pnpm remove` for every dependency touched, a full `pnpm run unit` before each of the 5 commits, and no --no-verify and no `git add -A` anywhere. TASKS.md stayed gitignored and never entered a commit. Scratch files (.tapexp/) were cleaned up; the tree is clean at the tip."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 300,
+        "tokens_total": 16902411,
+        "tokens_in": 206883,
+        "tokens_out": 134208,
+        "cache_read": 16561320,
+        "peak_context": 143399,
+        "window_pct": 97.2,
+        "compactions": 1,
+        "assistant_msgs": 237,
+        "tool_calls": 243,
+        "tool_errors": 15,
+        "commits": 5,
+        "failed_commits": 1,
+        "truncation_pct": 79,
+        "nudges_tooling": 3,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.47,
+        "loop_kind": "thinking"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td><span class=\"pill p-mid\">trap B missed (2 rimraf requires and 1 declaration in legacy-packages/mendel-requirify); root rimraf devDep left, no runtime or lint effect</span> <b>16</b></td>",
+        "<td><span class=\"pill p-good\">green at the tip: mendel-pipeline 260/260, mendel-core 71 pass 1 skip, mendel-config 41/41 standalone, mendel-development 42/42, transform-less 16/16, the new planout-example test 3/3; only mendel-full-example fails, the documented MENDEL_IPC baseline</span></td>",
+        "<td><span class=\"pill p-mid\">SYNC OK, but glob was never started (vacuous pass)</span></td>",
+        "<td><span class=\"pill p-mid\">5 / 8 (uuid, xtend, urlsafe-base64, shasum, rimraf); glob, chalk and tmp never started</span></td>",
+        "<td><span class=\"pill p-bad\">17 stale requires, all in the 3 untouched libraries plus the 2 trap-B rimraf lines</span></td>",
+        "<td><span class=\"pill p-bad\">8 stale entries: glob, chalk and tmp, plus rimraf at the root and in legacy-packages/mendel-requirify</span></td>",
+        "<td><span class=\"pill p-bad\">missed \u2014 the rimraf sweep excluded test directories, so the two requirify references never surfaced</span></td>",
+        "<td><b>11</b></td>",
+        "<td><span class=\"pill p-good\">real pnpm install at start, real `pnpm remove` per package for every one of the 5 libraries, lockfile regenerated each time</span> <b>8</b></td>",
+        "<td><span class=\"pill p-mid\">121 added / 91 removed net (pnpm's own dedupe churn); every removal went through pnpm remove</span></td>",
+        "<td><span class=\"pill p-mid\">clean on re-run; the model ran prettier and eslint itself, but file-scoped, never `prettier --check .` or `eslint .` over the repo; hooks ran on every commit, no --no-verify</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base, trap retired)</span></td>",
+        "<td><span class=\"pill p-good\">5 of 5 commits chore</span></td>",
+        "<td><span class=\"pill p-bad\">3 of 5 commits touch two packages (xtend, shasum, rimraf), one commit per library rather than per package</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf and tmp still declared at the root</span></td>",
+        "<td><span class=\"pill p-mid\">1 hook reject (eslint implicit-dependencies: the new test used tap without declaring it), fixed with `pnpm add -D tap` like its neighbours; no bypass</span></td>",
+        "<td><span class=\"pill p-good\">kept out (gitignored), never staged</span></td>",
+        "<td><b>9.5</b></td>",
+        "<td><span class=\"pill p-mid\">one pre-commit hook reject, caused by its own new test file and repaired before the commit landed; no repair commits, 0 model nudges</span> <b>7</b></td>",
+        "<td><span class=\"pill p-good\">package-scoped tap runs after every edit, plus a test written first for the uncovered examples/planout-example/app.js</span></td>",
+        "<td><span class=\"pill p-good\">a full `pnpm run unit` before all 5 commits; the red suites it committed through were a tap build breakage, correctly triaged as infrastructure (the branch is green in a clean worktree)</span> <b>10</b></td>",
+        "<td><span class=\"pill p-good\">libraries listed upfront, file sub-items added on discovery and ticked right after each commit; urlsafe-base64 and shasum got no sub-items, and the rimraf tick was cut off by the cap</span> <b>3</b></td>",
+        "<td><span class=\"pill p-good\">95 of 121 noisy commands piped through tail/head (79 %)</span> <b>2.5</b></td>",
+        "<td><span class=\"pill p-good\">minimal, scoped diffs in neighbour style; conversions keep the original semantics; the new test follows the repo's tap convention; no drive-by churn</span> <b>5</b></td>",
+        "<td><span class=\"pill p-mid\">16.9 M</span></td>",
+        "<td><span class=\"pill p-good\">1 overflow compaction</span></td>",
+        "<td><span class=\"pill p-bad\">peak 143399 of 147456 (97.2 %)</span></td>",
+        "<td><span class=\"pill p-mid\">243 tool calls, 237 assistant messages; the 300-minute cap stopped the run 13 seconds after the last commit</span></td>"
+      ],
+      "invalid": false,
       "kv_type": "f16",
       "kv_type_source": "config note"
     }
