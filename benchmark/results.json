@@ -4450,6 +4450,116 @@
       "kv_type": "f16",
       "kv_type_source": "backend (mlx_lm.server serves f16)",
       "best_of": 2
+    },
+    {
+      "model": "qwen3.8-27b-iq3s (unsloth UD-IQ3_S, xhigh, m1-max-32gb)",
+      "model_id": "unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "qwen3.8-27b-iq3s-m1-xhigh-issue-13",
+      "base_commit": "2652ed6",
+      "thinking": "xhigh",
+      "prompt_version": "v1.1",
+      "partial": false,
+      "end_reason": "complete",
+      "libraries_done": 8,
+      "config_note": "Build unsloth/Qwen3.8-27B-GGUF:UD-IQ3_S, revision 4ca720788d1e01f1bff70c033e0d0028fd02e502 (Qwen3.8-27B-UD-IQ3_S.gguf, model_ftype IQ3_S - 3.4375 bpw), served by llama-server b10809-5266f24da, f16 KV (both k and v), no drafter (the nmax0 arm), -c 188416, MENDEL_CONTEXT_WINDOW 147456, MENDEL_RESERVE_TOKENS 8192, pi's default keep budget (window >= 65536, no override), maxTokens 8192, wired 25000, temperature 1, top_p 0.95, min_p 0.05 (read from the run's own server_context.props.default_generation_settings.params in meta.json). peak_context reached the window: 143401 of 147456 (97.2 %), with one overflow compaction at 02:36:38 UTC. EvalPlus runs after the agent rows in this run (owner, 2026-09-14).",
+      "anomaly": "the model inspected master, found the six infrastructure commits above the blind base, and merged them into its branch (855f252). That gave it the node: lint patch, the mendel-deps glob fixture change, the root mendel-pipeline declaration and the AGENTS.md legacy-packages rule that the blind base deliberately hides. No human help: the model reasoned its way there alone, and it had already solved the node: lint trap on its own before the merge. Trap-relevant all the same, so the row is not strictly base-comparable with the other blind rows.",
+      "score_total": 90.5,
+      "scores": {
+        "bugs": 25,
+        "completion": 20,
+        "node_modules": 8,
+        "lint": 5,
+        "commit_craft": 6,
+        "first_time": 8,
+        "test_discipline": 10,
+        "conventions": 4,
+        "task_list": 2,
+        "truncation": 2.5
+      },
+      "defects": [
+        {
+          "severity": "minor",
+          "summary": "16 of 19 commits are typed refactor; only the three chore commits (the master merge and the two root devDependency drops) use the type the prompt's house style asks for."
+        },
+        {
+          "severity": "minor",
+          "summary": "git add -A on 13 of 19 commits, against the rubric's staging rule. No harm landed: TASKS.md is gitignored and never reached a commit."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 185.4,
+        "tokens_total": 15060307,
+        "tokens_in": 198336,
+        "tokens_out": 81834,
+        "cache_read": 14780137,
+        "peak_context": 143401,
+        "window_pct": 97,
+        "compactions": 1,
+        "assistant_msgs": 196,
+        "tool_calls": 240,
+        "tool_errors": 4,
+        "commits": 19,
+        "failed_commits": 1,
+        "truncation_pct": 66,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.37,
+        "loop_kind": "thinking"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td class=\"best\"><span class=\"pill p-good\">none. trap A passed for real, trap B found and fixed, trap C passed, chalk follows the v1.1 contract</span> <b>25</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean: 692 pass / 1 skip / 0 fail over 67 package test files on re-run</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">SYNC OK, pending= 1</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">8 / 8</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">none left</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">none left</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">found by its own grep and fixed: both mendel-requirify test files and its package.json</span></td>",
+        "<td class=\"best\"><b>20</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">real pnpm install --no-frozen-lockfile before most package test runs; no stale root declarations</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">96 lines removed</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">clean on re-run; the model ran pnpm test (prettier + eslint) itself, no bypass</span> <b>5</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">hit it on node:crypto, read the plugin patch and the repo convention, reverted to bare crypto before the commit</span></td>",
+        "<td><span class=\"pill p-bad\">3 / 19 chore, 16 refactor</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">18 / 18 single-package (the 19th is the master merge)</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">root rimraf + tmp dropped in their own chore commits</span></td>",
+        "<td><span class=\"pill p-mid\">no --no-verify; 1 commitlint reject on the merge message, fixed at once; git add -A on 13 of 19 commits</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">never committed (gitignored)</span></td>",
+        "<td><b>6</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">0 repair commits, 0 model nudges, 0 tooling nudges</span> <b>8</b></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">a narrow per-package run before every commit that had tests</span></td>",
+        "<td class=\"best\"><span class=\"pill p-good\">4 full-suite checkpoints across 19 commits; the model tracked the every-5 cadence by hand</span> <b>10</b></td>",
+        "<td><span class=\"pill p-mid\">full tree upfront after a grep sweep; ticked in per-library batches, not per commit; urlsafe-base64 ticked only at the end</span> <b>2</b></td>",
+        "<td><span class=\"pill p-good\">66 %</span> <b>2.5</b></td>",
+        "<td><span class=\"pill p-mid\">minimal diff, var/const per file, bare core names, headers kept; a hand-rolled async glob shim instead of Array.fromAsync, and an edit to the es6 parser fixture</span> <b>4</b></td>",
+        "<td><span class=\"pill p-bad\">15.1 M</span></td>",
+        "<td><span class=\"pill p-mid\">1</span></td>",
+        "<td><span class=\"pill p-bad\">3 %</span></td>",
+        "<td><span class=\"pill p-mid\">240</span></td>"
+      ],
+      "notes": "Scored on Opus 2026-09-15 from scratchpad/benchmark/runs/qwen3.8-27b-iq3s-m1-xhigh-issue-13-evidence.json, the run meta, the session log and the branch itself. 8/8 libraries, 19 model commits, end_reason complete. Bugs: none, a full 25. Trap A passed: apply-extra-options.js keeps its three .then() call sites and the browserify _pending handshake, and feeds them from a local glob(pattern) shim that drains fs.promises.glob with for await and resolves an array; the repro prints SYNC OK, pending= 1. Trap B found and fixed: the model's own grep turned up legacy-packages/mendel-requirify, and commit f2ff2d6 removes rimraf from both test files and from that package's package.json, so completion is a full 20 - the first blind row to close trap B. Trap C passed: validate-manifest.js swaps tmp.dirSync().name for fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-')) and adds no exit hook, so the debug manifest it prints one line later survives. Chalk follows the v1.1 contract: chalk.level is gone, enableColor appears nowhere, every call site is a plain util.styleText(styles, text). Static completeness is empty on both greps. Re-run of the package suites: 692 pass, 1 skip, 0 fail. node_modules: pnpm-lock.yaml shrinks 96 lines after real pnpm install --no-frozen-lockfile runs, root rimraf and tmp dropped in their own chore commits. Lint: prettier --check and eslint clean on re-run; the model ran pnpm test, which is npm run static (prettier + eslint) then unit, and never used --no-verify. node: lint trap: the model wrote require('node:crypto'), saw eslint-plugin-implicit-dependencies reject it, read the patch and the repo convention, and reverted to bare crypto in the same edit round, before the commit. Commit craft 6 of 12: 3/19 chore against 16 refactor (0 of 4), 18/18 single-package for every non-merge commit (4 of 4), and 2 of 4 on hygiene - no --no-verify and no TASKS.md leak, but git add -A on 13 of 19 commits and one commitlint reject on the merge message, repaired at once. Right the first time: 0 self-inflicted repair commits, 0 model nudges, 0 tooling nudges; the only tool failures are one edit whose oldText no longer matched and two pre-existing full-example bin failures. Test discipline 10: a narrow per-package run before every commit that had tests, and 4 full-suite checkpoints across 19 commits, with the model counting the every-5 cadence in its own thinking. Task list 2: the full tree was written upfront after a grep sweep, with per-package sub-items as the prompt asks, but the ticks came in per-library batches rather than after each commit, and urlsafe-base64 stayed unticked until the final pass; the mendel-requirify sub-item was added on discovery. Conventions 4: minimal diff, var/const kept per file, bare core module names, licence headers intact, no drive-by churn - less 0.5 for the hand-rolled async drain where Array.fromAsync would do, and 0.5 for editing packages/mendel-deps/test/fixtures/js/es6/foo/browser.js, parser fixture data, to swap glob for debug and drop its eslint-disable line. Truncation 66 % of 82 noisy commands. Telemetry: one overflow compaction, peak context 143401 of 147456 (97.2 %, confirmed against count-tool-calls.mjs), 240 tool calls, 196 assistant messages, 185.4 min wall clock at 430 output tokens per min. Loop verdict ok, worst distinct-shape ratio 0.37 on thinking. Human messages inside the scored region: only the run prompt. Anomaly: the model merged master's six infrastructure commits into its branch by its own decision - see the anomaly field. Result: 90.5, the best Qwen3.8-27B IQ3_S row on record and the only blind row so far that closes all three traps and trap B together.",
+      "kv_type": "f16",
+      "kv_type_source": "config note"
     }
   ],
   "matrix_rows": [
@@ -4595,8 +4705,6 @@
     }
   ],
   "bench": "blind",
-  "prompt_versions": [
-    "v1.0"
-  ],
+  "prompt_versions": ["v1.0"],
   "prompt": "prompt-blind.txt"
 }
