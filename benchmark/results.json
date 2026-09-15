@@ -4560,6 +4560,124 @@
       "notes": "Scored on Opus 2026-09-15 from scratchpad/benchmark/runs/qwen3.8-27b-iq3s-m1-xhigh-issue-13-evidence.json, the run meta, the session log and the branch itself. 8/8 libraries, 19 model commits, end_reason complete. Bugs: none, a full 25. Trap A passed: apply-extra-options.js keeps its three .then() call sites and the browserify _pending handshake, and feeds them from a local glob(pattern) shim that drains fs.promises.glob with for await and resolves an array; the repro prints SYNC OK, pending= 1. Trap B found and fixed: the model's own grep turned up legacy-packages/mendel-requirify, and commit f2ff2d6 removes rimraf from both test files and from that package's package.json, so completion is a full 20 - the first blind row to close trap B. Trap C passed: validate-manifest.js swaps tmp.dirSync().name for fs.mkdtempSync(path.join(os.tmpdir(), 'mendel-')) and adds no exit hook, so the debug manifest it prints one line later survives. Chalk follows the v1.1 contract: chalk.level is gone, enableColor appears nowhere, every call site is a plain util.styleText(styles, text). Static completeness is empty on both greps. Re-run of the package suites: 692 pass, 1 skip, 0 fail. node_modules: pnpm-lock.yaml shrinks 96 lines after real pnpm install --no-frozen-lockfile runs, root rimraf and tmp dropped in their own chore commits. Lint: prettier --check and eslint clean on re-run; the model ran pnpm test, which is npm run static (prettier + eslint) then unit, and never used --no-verify. node: lint trap: the model wrote require('node:crypto'), saw eslint-plugin-implicit-dependencies reject it, read the patch and the repo convention, and reverted to bare crypto in the same edit round, before the commit. Commit craft 6 of 12: 3/19 chore against 16 refactor (0 of 4), 18/18 single-package for every non-merge commit (4 of 4), and 2 of 4 on hygiene - no --no-verify and no TASKS.md leak, but git add -A on 13 of 19 commits and one commitlint reject on the merge message, repaired at once. Right the first time: 0 self-inflicted repair commits, 0 model nudges, 0 tooling nudges; the only tool failures are one edit whose oldText no longer matched and two pre-existing full-example bin failures. Test discipline 10: a narrow per-package run before every commit that had tests, and 4 full-suite checkpoints across 19 commits, with the model counting the every-5 cadence in its own thinking. Task list 2: the full tree was written upfront after a grep sweep, with per-package sub-items as the prompt asks, but the ticks came in per-library batches rather than after each commit, and urlsafe-base64 stayed unticked until the final pass; the mendel-requirify sub-item was added on discovery. Conventions 4: minimal diff, var/const kept per file, bare core module names, licence headers intact, no drive-by churn - less 0.5 for the hand-rolled async drain where Array.fromAsync would do, and 0.5 for editing packages/mendel-deps/test/fixtures/js/es6/foo/browser.js, parser fixture data, to swap glob for debug and drop its eslint-disable line. Truncation 66 % of 82 noisy commands. Telemetry: one overflow compaction, peak context 143401 of 147456 (97.2 %, confirmed against count-tool-calls.mjs), 240 tool calls, 196 assistant messages, 185.4 min wall clock at 430 output tokens per min. Loop verdict ok, worst distinct-shape ratio 0.37 on thinking. Human messages inside the scored region: only the run prompt. Anomaly: the model merged master's six infrastructure commits into its branch by its own decision - see the anomaly field. Result: 90.5, the best Qwen3.8-27B IQ3_S row on record and the only blind row so far that closes all three traps and trap B together.",
       "kv_type": "f16",
       "kv_type_source": "config note"
+    },
+    {
+      "model": "qwen3.8-27b-ista (ISTA-DASLab IQ3_S-mtp, xhigh, rtx-5060ti-16gb)",
+      "model_id": "ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S-mtp",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "kv_type": "q8_0",
+      "kv_type_source": "config note",
+      "branch": "qwen3.8-27b-ista-xhigh-issue-13",
+      "base_commit": "2652ed6",
+      "thinking": "xhigh",
+      "prompt_version": "v1.1",
+      "partial": false,
+      "end_reason": "complete",
+      "libraries_done": 8,
+      "config_note": "Build ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF:IQ3_S-mtp, revision d562806dbafae37109975e970aae91b43e73b440 (Qwen3.8-27B-GSQ-RCO-IQ3_S-mtp.gguf), served by llama-server 0.4.0-dev (build 10809, commit 5266f24da). q8_0 KV (both K and V), no drafter, -c 65536. MENDEL_CONTEXT_WINDOW 61440, MENDEL_RESERVE_TOKENS 8192, MENDEL_KEEP_RECENT_TOKENS 8192 (window under 65536), maxTokens 8192. This GGUF file sets its own min_p 0.0 sampling default. vram 16311 MiB. EvalPlus gate waived for this run (owner, 2026-09-13). This build's served arm changed to no-drafter after three earlier harness crashes on its original n-max2 MTP-drafter served arm during the guided row (unrelated to this blind row, which ran clean start to finish on the no-drafter arm with no crashes). No smoke needed: this build already passed its smoke and its guided row on the exact same served config; this blind row reused the same server.",
+      "score_total": 91,
+      "scores": {
+        "bugs": 25,
+        "completion": 13,
+        "node_modules": 8,
+        "lint": 5,
+        "commit_craft": 12,
+        "first_time": 8,
+        "test_discipline": 10,
+        "conventions": 4,
+        "task_list": 3,
+        "truncation": 3
+      },
+      "defects": [
+        {
+          "severity": "medium",
+          "summary": "Trap B never discovered. legacy-packages/mendel-requirify/test/mendel-requirify.js:9 and test/requirify.js:5 still require('rimraf'); legacy-packages/mendel-requirify/package.json:26 still declares it. Worse than this model's guided row (found by its own grep, then dismissed as out of scope): here the model's own grep at ~08:06 UTC did print the three legacy-packages/mendel-requirify hits in raw tool output, but the model's reasoning never engages with them at all — it drifts into investigating the root package.json's already-correct-to-ignore rimraf/tmp leftovers, writes TASKS.md, and never returns to the legacy package. No later mention of \"mendel-requirify\" appears anywhere in the rest of the session."
+        },
+        {
+          "severity": "minor",
+          "summary": "Hand-rolled async glob shim in packages/mendel-development/apply-extra-options.js: require('fs').glob (Node's callback-style API) wrapped in a hand-written Promise, instead of the idiomatic Array.fromAsync(fs.promises.glob(pattern)). Functionally correct and passes the trap-A runtime repro (SYNC OK, pending= 1), but not the modern idiomatic form."
+        },
+        {
+          "severity": "minor",
+          "summary": "One failed-then-retried commit: the mendel-development glob commit at 08:53:18 UTC produced no commit (nothing staged yet, only prettier output came back); retried 43 seconds later at 08:54:01 UTC and succeeded cleanly through husky. No work lost, no hook bypassed."
+        },
+        {
+          "severity": "note",
+          "summary": "Everything else is clean, and this row does not repeat either issue flagged from this model's guided row: trap A is fully avoided (SYNC OK verified by repro), and the node: prefix ESLint trap was self-corrected before any commit (caught via the model's own eslint run, fixed with sed, verified clean, no repair commit needed). Full unit suite 693 total: 692 pass, 1 skip, 0 fail; legacy-packages/mendel-requirify fails 3/3, the documented baseline. prettier and eslint clean on re-run, and the model ran both itself throughout (16 self-runs). Chalk fully and correctly swapped across all 6 files it appears in (cli-printer.js, cache/client.js, cache/network/unix-socket.js, cli.js, main.js, pipeline.js) with plain util.styleText and no forced enableColor, matching the blind v1.1 Node-defaults direction. Trap C avoided: fs.mkdtempSync(os.tmpdir()) with no exit hook and no setGracefulCleanup call. Real pnpm install verified repeatedly through the session (lockfile -96/+0 lines). TASKS.md never leaked into git."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 75.1,
+        "tokens_total": 6881789,
+        "tokens_in": 255009,
+        "tokens_out": 92535,
+        "cache_read": 6534245,
+        "peak_context": 64596,
+        "window_pct": 105.1,
+        "compactions": 3,
+        "assistant_msgs": 239,
+        "tool_calls": 257,
+        "tool_errors": 25,
+        "commits": 17,
+        "failed_commits": 1,
+        "truncation_pct": 73,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.42,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td><span class=\"pill p-good\">none on re-run — trap A avoided (SYNC OK), trap C avoided, chalk follows the v1.1 contract</span> <b>25</b></td>",
+        "<td><span class=\"pill p-good\">clean: 692 pass / 1 skip / 0 fail on re-run</span></td>",
+        "<td><span class=\"pill p-good\">SYNC OK, pending= 1</span></td>",
+        "<td><span class=\"pill p-good\">8 / 8</span></td>",
+        "<td><span class=\"pill p-bad\">2 stale requires remain in legacy-packages/mendel-requirify</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf still declared in legacy-packages/mendel-requirify/package.json:26</span></td>",
+        "<td><span class=\"pill p-bad\">not found — the model's own grep listed it in raw output but the reasoning never engaged with it</span></td>",
+        "<td><b>13</b></td>",
+        "<td><span class=\"pill p-good\">real pnpm install run and re-verified repeatedly through the session</span> <b>8</b></td>",
+        "<td><span class=\"pill p-good\">96 lines removed, 0 added</span></td>",
+        "<td><span class=\"pill p-good\">clean on re-run; the model ran prettier and eslint itself throughout (16 self-runs)</span> <b>5</b></td>",
+        "<td><span class=\"pill p-good\">caught it itself on require('node:fs') before any commit, sed-fixed to bare fs/path, no repair commit needed</span></td>",
+        "<td><span class=\"pill p-good\">17 / 17 chore</span></td>",
+        "<td><span class=\"pill p-good\">17 / 17 single-package</span></td>",
+        "<td><span class=\"pill p-good\">rimraf and tmp dropped in their own dedicated chore commits</span></td>",
+        "<td><span class=\"pill p-good\">no --no-verify; one failed-then-retried commit, husky ran clean on retry, no bypass</span></td>",
+        "<td><span class=\"pill p-good\">never committed (gitignored)</span></td>",
+        "<td><b>12</b></td>",
+        "<td><span class=\"pill p-good\">0 repair commits, 0 model nudges, 0 tooling nudges; one failed-then-retried commit with no work lost</span> <b>8</b></td>",
+        "<td><span class=\"pill p-good\">pnpm --filter / tap run standalone for mendel-core, mendel-config, mendel-pipeline, mendel-development, mendel-deps, mendel-mocha-runner</span></td>",
+        "<td><span class=\"pill p-good\">5 full-suite runs across 17 commits, tracking the every-5 cadence the blind prompt asks for</span> <b>10</b></td>",
+        "<td><span class=\"pill p-mid\">full tree written upfront after an initial grep sweep, sub-items already populated per package; ticked in 8 batched edits across 17 commits, not per commit</span> <b>3</b></td>",
+        "<td><span class=\"pill p-good\">73% of noisy commands piped to tail/head or redirected to a log file and grepped</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">minimal diffs, matched neighbour var/const style, kept the old glob module's implicit sort with an explicit .sort(); a hand-rolled async glob shim instead of Array.fromAsync</span> <b>4</b></td>",
+        "<td><span class=\"pill p-good\">6.9 M</span></td>",
+        "<td><span class=\"pill p-mid\">3, no data loss reported</span></td>",
+        "<td><span class=\"pill p-bad\">peak 64596 of 61440 (105 %), one overflow compaction</span></td>",
+        "<td><span class=\"pill p-mid\">257</span></td>"
+      ],
+      "invalid": false,
+      "notes": "Scored from ~/.local/share/mendel-benchmark/runs/qwen3.8-27b-ista-xhigh-blind-{meta,session}.jsonl, score.mjs's evidence pack (scratchpad/benchmark/runs/qwen3.8-27b-ista-xhigh-issue-13-evidence.json), and the worktree at ../mendel-bench-qwen3.8-27b-ista-xhigh (read-only). 8/8 libraries, 17 commits, end_reason complete. Bugs: none, a full 25 - trap A passed for real (SYNC OK, pending= 1, verified by the repro script) via a hand-rolled require('fs').glob callback wrapped in a Promise, not Array.fromAsync(fs.promises.glob(...)); trap C passed (fs.mkdtempSync, no exit hook); chalk follows the v1.1 Node-defaults contract across all six files that used it. Completion 13/20: trap B (legacy-packages/mendel-requirify) was never discovered - the model's own grep at ~08:06 UTC printed the three hits in raw output, but the reasoning never engages with them and TASKS.md is written without a mendel-requirify sub-item. This is worse than the model's own guided row, which found the same trap via its own grep and then dismissed it as out of scope. node_modules 8: real pnpm install run and re-verified repeatedly. Lint 5: prettier and eslint clean on re-run, the model ran both itself 16 times, and self-corrected the node: prefix ESLint trap before any commit (no repair commit needed). Commit craft 12/12: 17/17 chore, one package per commit, root rimraf/tmp dropped in their own commits, no --no-verify, no git add -A, TASKS.md never committed. Right the first time 8/8: 0 repair commits, 0 nudges; one commit attempt at 08:53:18 UTC produced no commit and was retried 43 s later with no work lost. Test discipline 10/10: 5 full-suite runs across 17 commits tracking the every-5 cadence the blind prompt asks for, plus narrow per-package runs for most touched packages. Task list 3/4: full tree written upfront after an initial grep sweep rather than discovered progressively, ticked in 8 batched edits across 17 commits. Truncation 3/3: 73% of noisy commands piped to tail/head or redirected to a log and grepped. Conventions 4/5: minimal diff, matched neighbour var/const style, an explicit .sort() to preserve the old glob module's behaviour, docked half a point for the hand-rolled async glob shim in place of Array.fromAsync. Telemetry: 3 compactions (one overflow), peak context 64596 of a 61440 window (105.1%, confirmed against count-tool-calls.mjs), 257 tool calls, 239 assistant messages, 75.1 min wall clock. Loop verdict ok, worst distinct-shape ratio 0.42 on tool call. Human messages inside the scored region: only the run prompt. Result: 91, this model's best row on this bench and higher than its own guided row (85) despite missing trap B outright, because it fully avoided the guided row's critical trap-A defect."
     }
   ],
   "matrix_rows": [
@@ -4705,6 +4823,8 @@
     }
   ],
   "bench": "blind",
-  "prompt_versions": ["v1.0"],
+  "prompt_versions": [
+    "v1.0"
+  ],
   "prompt": "prompt-blind.txt"
 }

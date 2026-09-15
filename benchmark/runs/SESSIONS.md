@@ -38,6 +38,7 @@ below matches its row on `assistant_msgs` and `tool_calls` exactly.
 | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-low-issue-13-session.jsonl` | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-low-issue-13` | `01a060e2-b8f4-794b-bb1e-a57dceb8251b` | 2026-09-02 06:51 | partial, wall_clock (300 min); 3/8 libraries, self-inflicted JSON syntax break mid-run |
 | `prism-ml-Ternary-Bonsai-27B-mlx-2bit-high-abandoned-issue-13-session.jsonl` | none | `01a0644b-30b0-7eae-a116-48d85845dc05` | 2026-09-02 22:44 | abandoned attempt at thinking high, 52 tool calls; no branch, no result row |
 | `bonsai-prism-high-issue-13-session.jsonl`                        | `bonsai-prism-high-issue-13`                        | `01a065f2-55dd-7217-a256-c5ad63afae40` | 2026-09-03 06:26 | complete, 0 nudges; model typoed the repo, never found issue 13, self-scoped to chalk only (1/8), scored 60.5/100 |
+| `qwen3.8-27b-ista-xhigh-issue-13-session.jsonl`                   | `qwen3.8-27b-ista-xhigh-issue-13`                   | `01a0a419-3bee-73cf-bcbb-f90f3af7c9e9` | 2026-09-15 08:05 | run 17, rtx-5060ti-16gb; prompt v1.1; llama-server, ISTA-DASLab IQ3_S-mtp, q8_0 KV, no drafter, thinking xhigh; complete, 8/8 done, trap A avoided (SYNC OK), trap C avoided, trap B never discovered (own grep surfaced legacy-packages/mendel-requirify but reasoning never engaged with it, worse than the guided row's found-then-dismissed), scored 91/100 |
 
 ## Guided runs
 
