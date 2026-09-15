@@ -3,9 +3,19 @@
    See the accompanying LICENSE file for terms. */
 
 var path = require('path');
-var { glob } = require('glob');
+var { glob } = require('fs');
 
 module.exports = applyExtraOptions;
+
+function globAsync(pattern) {
+    return new Promise(function (resolve, reject) {
+        glob(pattern, function (err, files) {
+            if (err) return reject(err);
+            files.sort();
+            resolve(files);
+        });
+    });
+}
 
 // Browserify's bundle() waits on `_ready` while `_pending` async work finishes.
 // Honor that handshake for ignore/exclude/external globs so multi-bundle and
@@ -16,7 +26,7 @@ function applyExtraOptions(b, options) {
         .filter(Boolean)
         .forEach(function (i) {
             b._pending++;
-            glob(i)
+            globAsync(i)
                 .then(function (files) {
                     if (files.length === 0) {
                         b.ignore(i);
@@ -39,7 +49,7 @@ function applyExtraOptions(b, options) {
             b.exclude(u);
 
             b._pending++;
-            glob(u)
+            globAsync(u)
                 .then(function (files) {
                     files.forEach(function (file) {
                         b.exclude(file);
@@ -61,7 +71,7 @@ function applyExtraOptions(b, options) {
             } else if (/\*/.test(x)) {
                 b.external(x);
                 b._pending++;
-                glob(x)
+                globAsync(x)
                     .then(function (files) {
                         files.forEach(function (file) {
                             add(file, {});
