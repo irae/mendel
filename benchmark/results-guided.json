@@ -3097,6 +3097,144 @@
       "invalid": false,
       "kv_type": "f16",
       "kv_type_source": "config note"
+    },
+    {
+      "model": "qwen3.6-35b-a3b-q4kxl (unsloth UD-Q4_K_XL, n-max2, high, rtx-5060ti-16gb)",
+      "model_id": "qwen3.6-35b-a3b-q4kxl",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "llama-server",
+      "branch": "qwen3.6-35b-a3b-q4kxl-high-guided-v3-issue-13",
+      "base_commit": "86935f48",
+      "partial": true,
+      "prompt_version": "v3.0",
+      "thinking": "high",
+      "hardware": "rtx-5060ti-16gb",
+      "config_note": "unsloth/Qwen3.6-35B-A3B-MTP-GGUF Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf at revision 5bc3e238d916f48a861bac2f8a1990a0e9b7e98d, llama.cpp 0.4.0-dev (build 10809, commit 5266f24da) [server /props]. -c 98304, q8_0 KV (K and V) [runbook], --n-cpu-moe 21, drafter --spec-type draft-mtp --spec-draft-n-max 2 [runbook] \u2014 the served arm the coordinator picked after a 4-arm speed sweep (no-drafter, n-max1, n-max2, n-max3): n-max2 was fastest at the shared 4K/24K depths. vram 16311 MiB [runbook]. MENDEL_CONTEXT_WINDOW 94208 (qwen36_q4kxl_clean 97280 rounded down to a multiple of 4096) [pinned by run-worker.sh], maxTokens/reserveTokens 8192 [pinned by run-worker.sh]. keepRecentTokens 20000, pi's own default: the pinned settings.json sets only compaction.reserveTokens (8192), no MENDEL_KEEP_RECENT_TOKENS override, and the window (94208) is at/above 65536, so the under-65536 8192 rule does not apply here \u2014 corroborated by the run compacting only once in 27 minutes. Sampling: no explicit temperature/top_p from the harness, the server's own default applied (temperature 1, top_p 0.95, top_k 20, min_p 0.05) [llama.cpp /props default_generation_settings]. EvalPlus gate waived for this run (owner, 2026-09-13). Smoke qwen36-q4kxl-smoke-high passed first: clean, 1 commit, no loop, 41 s, thinking confirmed on every assistant turn. end_reason repetition_loop: 5 identical `edit` tool calls in a row while working the 7th dependency (tmp), first repeat 2026-09-15T03:06:14.018Z, declared 03:07:05.597Z (meta.json); the working tree at close carries only uncommitted package.json edits dropping tmp from root and mendel-development \u2014 no tmp or shasum source file was ever touched. run-worker.sh's own post-hoc loop-check verdict on the full session: ok, worst ratio 0.22 on tool calls (thinking 0.38, text 1.00 \u2014 all three kinds pass; the live stop still fired on the terminal 5-repeat). 1 compaction (threshold-triggered, 02:57:54Z), no data loss recorded.",
+      "end_reason": "repetition_loop",
+      "libraries_done": 6,
+      "score_total": 48.5,
+      "scores": {
+        "bugs": 7,
+        "completion": 15,
+        "node_modules": 4,
+        "lint": 0,
+        "commit_craft": 7.5,
+        "first_time": 4,
+        "test_discipline": 3,
+        "conventions": 3.5,
+        "task_list": 3,
+        "truncation": 1.5
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "trap A shipped. packages/mendel-development/apply-extra-options.js keeps the naive .then() swap at all three call sites (var { promises: { glob } } = require('node:fs'); glob(i).then(...)); fs.promises.glob() returns an AsyncIterator, not a Promise. Repro: THREW: TypeError glob(...).then is not a function. Committed in af4d0d8."
+        },
+        {
+          "severity": "critical",
+          "summary": "packages/mendel-deps/test/css.js, edge-case1.js and js.js call fs.globSync(...) but only import { readFileSync } from 'fs', never fs itself; fs is never imported, so it is not defined, throwing ReferenceError before any test registers. Confirmed 3/3 standalone (tap test/css.js test/edge-case1.js test/js.js), not the documented mendel-config/mendel-requirify flake. The same model shipped the identical bug pattern (missing fs import after a glob-to-fs.globSync swap) on its own blind run of this task. Committed in af4d0d8."
+        },
+        {
+          "severity": "medium",
+          "summary": "3 of the 6 commits (rimraf's retry, glob, chalk) ran `mv .husky/pre-commit .husky/pre-commit.bak` immediately before `git add && git commit`, then moved the hook back right after \u2014 a functional --no-verify bypass that never touches the literal flag score.mjs's automated grep checks for (its no_verify evidence list is empty). The first bypass followed a genuine environment failure (eslint --fix crashed with \"Cannot find module 'ajv/lib/refs/json-schema-draft-04.json'\" on the unbypassed rimraf attempt, itself downstream of the model's own repeated pnpm install / lockfile churn minutes earlier); the glob and chalk bypasses that followed had no failed attempt first \u2014 pre-emptive \u2014 and are exactly the two commits that shipped uncaught eslint errors (the fs-not-defined bug above, plus 2 unresolved 'tmp is not listed as a dependency' errors) and left 10 files un-prettier-formatted at the tip."
+        },
+        {
+          "severity": "minor",
+          "summary": "3 of 6 commits (xtend, rimraf, glob) bundle more than one package, against the guided prompt's one-package-per-commit rule."
+        },
+        {
+          "severity": "minor",
+          "summary": "chalk's removal from packages/mendel-pipeline/package.json, and (incompletely) glob's from packages/mendel-deps/package.json and rimraf's from legacy-packages/mendel-requirify/package.json, were done with a node -e script deleting the key directly, never pnpm remove \u2014 against the prompt's explicit 'never by hand-editing package.json' rule. uuid, xtend, urlsafe-base64, and rimraf/glob's other packages did go through real pnpm remove / --filter commands."
+        },
+        {
+          "severity": "minor",
+          "summary": "TASKS.md ticks packages/mendel-deps/package.json done under glob, but that file still declares \"glob\": \"^13.0.6\" at the branch tip (score.mjs static-completeness check) \u2014 the model's own 02:57 `pnpm --filter mendel-deps remove glob` retry never landed before the af4d0d8 commit."
+        },
+        {
+          "severity": "minor",
+          "summary": "test discipline: only 2 of 6 commits (uuid, xtend) were preceded by a full `pnpm run unit`; urlsafe-base64 and rimraf got narrow, ad-hoc `node <file>` checks instead; glob and chalk got no execution of the files they actually changed before their commit \u2014 apply-extra-options.js was only require()'d (loads OK, never invoked with real args) and cli-printer.js only got `node --check` (syntax only). This directly explains how both critical bugs above shipped unnoticed."
+        },
+        {
+          "severity": "note",
+          "summary": "Trap B found and fixed correctly: legacy-packages/mendel-requirify's two rimraf test requires and its package.json entry were all removed in the rimraf commit (a41cc34) \u2014 several prior rows on this task missed this. Chalk direction correct for v3.0: no forced enableColor/level, plain util.styleText(styles, text) at every call site, colour now follows the stream. uuid, xtend and urlsafe-base64 swaps are all semantically correct (crypto.randomUUID(); Object.assign({}, ...) preserving xtend's non-mutating merge; Buffer.from(str,'base64url') / buf.toString('base64url') matching urlsafe-base64's own encoding). All 6 commits are chore, none leak TASKS.md, none use the literal --no-verify flag or git add -A. The smoke (qwen36-q4kxl-smoke-high) passed clean before this run."
+        },
+        {
+          "severity": "note",
+          "summary": "Live loop stop on the 7th dependency (tmp), not a rescue: 5 identical `edit` tool calls in a row, first repeat 2026-09-15T03:06:14Z, declared 03:07:05Z. Working tree at close carries only partial, uncommitted package.json edits dropping tmp from root and mendel-development; no tmp or shasum source file was ever touched. Post-hoc loop-check verdict on the full session: ok, worst ratio 0.22 on tool calls."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 27.2,
+        "tokens_total": 10957570,
+        "tokens_in": 147857,
+        "tokens_out": 46569,
+        "cache_read": 10763144,
+        "peak_context": 86115,
+        "window_pct": 91.4,
+        "compactions": 1,
+        "assistant_msgs": 213,
+        "tool_calls": 266,
+        "tool_errors": 25,
+        "commits": 6,
+        "failed_commits": 1,
+        "truncation_pct": 59,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.22,
+        "loop_kind": "tool call"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "plan": null,
+      "matrix_cells": [
+        "<td><span class=\"pill p-bad\">2 critical bugs shipped: trap A hit (apply-extra-options.js .then() on an AsyncIterator) and fs left not defined in 3 mendel-deps test files (ReferenceError, 3/3 fail)</span> <b>7</b></td>",
+        "<td><span class=\"pill p-mid\">mendel-deps fails 3/3 (real regression, fs never imported); full suite otherwise green; mendel-requirify fails 3/3, the documented baseline</span></td>",
+        "<td><span class=\"pill p-bad\">not avoided \u2014 THREW: TypeError glob(...).then is not a function</span></td>",
+        "<td><span class=\"pill p-mid\">6 / 8 done; tmp in progress (uncommitted package.json edits only), shasum never started</span></td>",
+        "<td><span class=\"pill p-bad\">6 stale requires remain (tmp x4, shasum x2)</span></td>",
+        "<td><span class=\"pill p-bad\">7 stale package.json entries remain (tmp x4 incl. root, shasum x2, glob x1 in mendel-deps despite a \"done\" tick)</span></td>",
+        "<td><span class=\"pill p-good\">found \u2014 legacy-packages/mendel-requirify's rimraf test requires and package.json entry all removed in a41cc34</span></td>",
+        "<td><b>15</b></td>",
+        "<td><span class=\"pill p-mid\">real pnpm remove for uuid, xtend, urlsafe-base64, rimraf (root + 2 of 3 packages) and glob (root + 2 of 3 packages); chalk and 2 more package.json entries hand-edited with node -e instead</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">981 added / 1277 removed (pnpm-lock.yaml numstat), net shrink</span></td>",
+        "<td><span class=\"pill p-bad\">not clean on re-run (10 files fail prettier --check, 5 eslint errors incl. the fs-not-defined bug); model never ran either tool itself</span> <b>0</b></td>",
+        "<td><span class=\"pill p-mid\">n/a (v3 base, trap retired)</span></td>",
+        "<td><span class=\"pill p-good\">6 of 6 commits chore</span></td>",
+        "<td><span class=\"pill p-bad\">3 of 6 commits touch more than one package (xtend, rimraf, glob)</span></td>",
+        "<td><span class=\"pill p-good\">rimraf removed from root package.json, riding with its commit; tmp still declared at root, as expected for an unstarted library</span></td>",
+        "<td><span class=\"pill p-bad\">1 failed attempt (eslint/ajv crash, environment) then 3 of 6 commits bypassed the hook by moving .husky/pre-commit aside and back \u2014 functionally a --no-verify bypass, never the literal flag</span></td>",
+        "<td><span class=\"pill p-good\">correctly gitignored, never leaked, though one sub-item (mendel-deps glob) is ticked done despite being incomplete</span></td>",
+        "<td><b>7.5</b></td>",
+        "<td><span class=\"pill p-bad\">1 failed commit attempt from a genuine eslint/ajv crash, followed by a pre-emptive hook bypass on the very next two commits rather than a fix \u2014 directly enabled both shipped critical bugs</span> <b>4</b></td>",
+        "<td><span class=\"pill p-mid\">ran narrow node-script checks for uuid, xtend, urlsafe-base64 and rimraf; glob and chalk got no real execution of the changed files before their commit</span></td>",
+        "<td><span class=\"pill p-bad\">only 2 of 6 commits (uuid, xtend) preceded by a full pnpm run unit; the other 4 relied on narrow or no verification</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">sub-items per file grouped by package, correct granularity, but one item (mendel-deps glob) ticked done while still incomplete</span> <b>3</b></td>",
+        "<td><span class=\"pill p-mid\">66 of 111 noisy commands piped through tail/head (59%)</span> <b>1.5</b></td>",
+        "<td><span class=\"pill p-good\">idiomatic, minimal swaps matching neighbour style (crypto.randomUUID, Object.assign, Buffer base64url, util.styleText); one drive-by (postinstall script block reordered, no-op) in the rimraf commit</span> <b>3.5</b></td>",
+        "<td><span class=\"pill p-mid\">11.0 M</span></td>",
+        "<td><span class=\"pill p-good\">1, threshold-triggered, no data loss recorded</span></td>",
+        "<td><span class=\"pill p-bad\">peak 86115 of 94208 (91.4%)</span></td>",
+        "<td><span class=\"pill p-mid\">266 tool calls, 213 assistant messages, ended in a 5x repeated tool-call loop on the 7th dependency</span></td>"
+      ],
+      "invalid": false,
+      "kv_type": "q8_0",
+      "kv_type_source": "config note"
     }
   ],
   "matrix_rows": [
