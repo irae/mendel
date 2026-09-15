@@ -2,7 +2,7 @@ const BaseNetwork = require('./base-network');
 const net = require('net');
 const fs = require('fs');
 const { resolve } = require('path');
-const { default: chalk } = require('chalk');
+const { styleText } = require('util');
 const verbose = require('debug')('verbose:mendel:net:unix-socket');
 
 function patchSocket(socket) {
@@ -68,14 +68,13 @@ class UnixSocketNetwork extends BaseNetwork {
                 .catch((error) => {
                     if (error.message === 'FOREIGN_SERVER') {
                         console.error(
-                            chalk.red(
+                            styleText(
+                                'red',
                                 [
                                     '==================================================',
                                     '[Mendel][Error] Another builder is already running.',
                                     'If no server process is active, ',
-                                    `please remove or kill "${chalk.bold(
-                                        path
-                                    )}" manually.`,
+                                    `please remove or kill "${styleText('bold', path)}" manually.`,
                                     '==================================================',
                                 ].join('\n')
                             )
