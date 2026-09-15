@@ -1,13 +1,15 @@
 const path = require('path');
 const { test } = require('tap');
-const rimraf = require('rimraf');
 const fs = require('fs');
 const Pipeline = require('../../mendel-pipeline');
 const appPath = path.join(__dirname, './css-samples');
 const buildPath = path.join(appPath, 'build');
 
-rimraf.sync(buildPath);
-rimraf.sync(path.join(appPath, '.mendelipc'));
+fs.rmSync(buildPath, { recursive: true, force: true });
+fs.rmSync(path.join(appPath, '.mendelipc'), {
+    recursive: true,
+    force: true,
+});
 
 test('mendel-outlet-css sanity test', function (t) {
     t.plan(4);
