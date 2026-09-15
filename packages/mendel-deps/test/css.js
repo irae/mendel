@@ -1,11 +1,10 @@
 const test = require('tap').test;
 const deps = require('../');
 const { readFileSync } = require('fs');
-const { globSync } = require('glob');
 const path = require('path');
 const Resolver = require('../../mendel-resolver');
 
-const cssFixtures = globSync(__dirname + '/fixtures/css/**/*.css');
+const cssFixtures = fs.globSync(__dirname + '/fixtures/css/**/*.css');
 
 const cssResolver = new Resolver({
     cwd: __dirname,

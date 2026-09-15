@@ -1,11 +1,10 @@
 const test = require('tap').test;
 const deps = require('../');
 const { readFileSync } = require('fs');
-const { globSync } = require('glob');
 const path = require('path');
 const Resolver = require('../../mendel-resolver');
 
-const jsFixtures = globSync(__dirname + '/fixtures/js/**/*.js');
+const jsFixtures = fs.globSync(__dirname + '/fixtures/js/**/*.js');
 
 const jsResolver = new Resolver({
     basedir: __dirname,
