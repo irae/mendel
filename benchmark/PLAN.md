@@ -208,8 +208,10 @@ repetition_loop`; three in a row are enough when the call already stalled
       parallel without collisions): `<slug>-meta.json` (nudges with causes, compactions,
       retries, warnings, output-limit hits, session stats), `<slug>-loop.txt` (the
       run-close loop verdict), `<slug>-session.jsonl` (raw pi session,
-      home path redacted), `<slug>-session.html` (export), `<slug>-events.jsonl`
-      and `<slug>-runner.log` (not versioned).
+      home path redacted), `<slug>-session.html` (export), `<slug>-events.jsonl`,
+      `<slug>-runner.log` (not versioned) and `<slug>-uncommitted.patch` (the
+      model's uncommitted changes at run end, new files included; absent when
+      the tree was clean).
 4. Rules that apply to every run:
     - Same base commit for all models of the same bench.
     - Real `pnpm install` before the run starts.

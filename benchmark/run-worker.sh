@@ -229,6 +229,10 @@ run_loop_check
 node "$BENCH_DIR/probe-plan.mjs" "$plan_provider" --out "$RUNS/$fslug-plan-after.json" > /dev/null \
     || echo "warning: plan probe after the run failed; record the plan share by hand" >&2
 pkill -f "$wt" 2>/dev/null || true
+# The model's uncommitted work is evidence too: the worktree is removed later.
+git -C "$wt" add --all --intent-to-add
+git -C "$wt" diff HEAD --binary > "$RUNS/$fslug-uncommitted.patch"
+[ -s "$RUNS/$fslug-uncommitted.patch" ] || rm -f "$RUNS/$fslug-uncommitted.patch"
 printf '{"model":"%s","harness":"%s","bench":"%s","thinking":"%s","plan_provider":"%s","branch":"%s","base_commit":"%s","start":"%s","end":"%s","pinned_env":"agents-global v1.0","loop_flag":"%s","loop_ratio":"%s","loop_kind":"%s"}\n' \
     "$model" "$harness" "$bench" "$thinking" "$plan_provider" "$branch" "$(git -C "$REPO" rev-parse --short "$BASE_COMMIT")" "$start" "$end" "$loop_verdict" "$loop_ratio" "$loop_kind" > "$RUNS/$fslug-worker.json"
 echo "$slug: done" >&2
