@@ -5046,6 +5046,122 @@
         "<td><span class=\"pill p-good\">peak 225161 of 241664 (93.2 %), no compaction</span></td>",
         "<td><span class=\"pill p-good\">254</span></td>"
       ]
+    },
+    {
+      "model": "bonsai2-27b-ptq1-f16 (prism-ml PTQ1_0, xhigh, rtx-5060ti-16gb)",
+      "model_id": "prism-ml/Ternary-Bonsai-2-27B-gguf:PTQ1_0",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "prism-llama",
+      "kv_type": "f16",
+      "kv_type_source": "config note",
+      "branch": "bonsai2-27b-ptq1-f16-xhigh-issue-13",
+      "base_commit": "2652ed6",
+      "thinking": "xhigh",
+      "prompt_version": "v1.1",
+      "partial": false,
+      "end_reason": "complete",
+      "libraries_done": 8,
+      "config_note": "Build prism-ml/Ternary-Bonsai-2-27B-gguf:PTQ1_0, revision 6ed5e12bf84b7a63069882c91dd9e9218647d17b, served by the PrismML llama.cpp fork, release prism-b10685-7dffb15, commit 7dffb158d, CUDA 12.8. The stock llama.cpp binary does not serve this file. f16 KV (both K and V), no drafter, -c 139264. MENDEL_CONTEXT_WINDOW 135168, MENDEL_RESERVE_TOKENS 8192, keep-recent pi's default, maxTokens 8192. The server applies min_p 0.05 where the model card publishes 0.0, and this row samples. vram 16311 MiB. Effort xhigh. No smoke, and the row ran before any EvalPlus score of this file, so the 0.800 gate did not apply to it (owner, 2026-09-18). The best of the four blind rows of this model.",
+      "score_total": 82,
+      "scores": {
+        "bugs": 13,
+        "completion": 16,
+        "node_modules": 8,
+        "lint": 5,
+        "commit_craft": 12,
+        "first_time": 8,
+        "test_discipline": 9,
+        "conventions": 5,
+        "task_list": 4,
+        "truncation": 2
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "Trap A. Commit 8918fcc does a naive .then() swap on fs.promises.glob() in packages/mendel-development/apply-extra-options.js. The rubric's runtime repro confirms it throws: \"THREW: TypeError fs.promises.glob(...).then is not a function\". This is a different defect class from the three sibling rows, which carried the trap-C exit-hook or the chalk regression."
+        },
+        {
+          "severity": "minor",
+          "summary": "A self-acknowledged glob dotfile-matching regression in mendel-mocha."
+        },
+        {
+          "severity": "minor",
+          "summary": "The model found the mendel-requirify rimraf reference and left it unfixed on purpose, calling it out of scope."
+        },
+        {
+          "severity": "note",
+          "summary": "All 17 commits are chore-typed, where the three sibling rows used fix(...). No multi-package commit, no --no-verify, no git add -A, no TASKS.md leak, and 17 planned commits became 17 actual ones. A real pnpm install ran after nearly every commit and the lockfile shrank 96 lines. Peak context 127141 of a 135168 window, 93.9 percent, with one compaction."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 88.4,
+        "tokens_total": 15676152,
+        "tokens_in": 210110,
+        "tokens_out": 119691,
+        "cache_read": 15346351,
+        "peak_context": 127141,
+        "window_pct": 93.9,
+        "compactions": 1,
+        "assistant_msgs": 235,
+        "tool_calls": 258,
+        "tool_errors": 0,
+        "commits": 17,
+        "failed_commits": 0,
+        "truncation_pct": 74,
+        "nudges_tooling": 0,
+        "nudges_model": 0,
+        "loop_flag": "ok",
+        "loop_ratio": 0.3,
+        "loop_kind": "thinking"
+      },
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "invalid": false,
+      "matrix_cells": [
+        "<td><b>13</b> <span class=\"pill p-bad\">critical trap A: a naive .then() on fs.promises.glob() throws</span></td>",
+        "<td><span class=\"pill p-good\">692 pass / 1 skip / 0 fail on re-run</span></td>",
+        "<td><span class=\"pill p-bad\">THREW: TypeError fs.promises.glob(...).then is not a function</span></td>",
+        "<td><span class=\"pill p-good\">8 / 8 libraries done</span></td>",
+        "<td><span class=\"pill p-mid\">the mendel-requirify rimraf reference found and left unfixed on purpose</span></td>",
+        "<td><span class=\"pill p-good\">root devDeps removed</span></td>",
+        "<td><span class=\"pill p-mid\">found, declared out of scope</span></td>",
+        "<td><b>16</b> <span class=\"pill p-good\">all 8 libraries done</span></td>",
+        "<td><b>8</b> <span class=\"pill p-good\">real pnpm install after nearly every commit, lockfile shrank 96 lines</span></td>",
+        "<td><span class=\"pill p-good\">96 lines removed, 0 added</span></td>",
+        "<td><b>5</b> <span class=\"pill p-good\">eslint clean; prettier flags only the uncommitted TASKS.md</span></td>",
+        "<td><span class=\"pill p-good\">no node: ESLint trap hit</span></td>",
+        "<td><span class=\"pill p-mid\">17 / 17 chore, where the sibling rows used fix(...)</span></td>",
+        "<td><span class=\"pill p-good\">17 / 17 single-package</span></td>",
+        "<td><span class=\"pill p-good\">root devDeps removed</span></td>",
+        "<td><span class=\"pill p-good\">no --no-verify, no git add -A</span></td>",
+        "<td><span class=\"pill p-good\">never committed</span></td>",
+        "<td><b>12</b> <span class=\"pill p-good\">clean commit craft throughout</span></td>",
+        "<td><b>8</b> <span class=\"pill p-good\">no repair commits; 17 planned became 17 actual</span></td>",
+        "<td><span class=\"pill p-good\">per-package test runs throughout</span></td>",
+        "<td><b>9</b> <span class=\"pill p-good\">full suite after commits 5, 10, 15 and at the end</span></td>",
+        "<td><b>4</b> <span class=\"pill p-good\">libraries upfront, sub-items per package, checked off per commit</span></td>",
+        "<td><b>2</b> <span class=\"pill p-mid\">74 % of noisy commands piped to tail/head</span></td>",
+        "<td><b>5</b> <span class=\"pill p-good\">minimal diffs, existing style kept, no drive-by churn</span></td>",
+        "<td><span class=\"pill p-good\">15.7 M</span></td>",
+        "<td><span class=\"pill p-good\">1</span></td>",
+        "<td><span class=\"pill p-good\">peak 127141 of 135168 (93.9 %), one compaction</span></td>",
+        "<td><span class=\"pill p-good\">258</span></td>"
+      ]
     }
   ],
   "matrix_rows": [
