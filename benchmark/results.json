@@ -4922,6 +4922,130 @@
         "<td><span class=\"pill p-good\">peak 110354 of 118784 (92.9 %), one compaction</span></td>",
         "<td><span class=\"pill p-good\">230</span></td>"
       ]
+    },
+    {
+      "model": "bonsai2-27b-ptq1 (prism-ml PTQ1_0, xhigh, rtx-5060ti-16gb)",
+      "model_id": "prism-ml/Ternary-Bonsai-2-27B-gguf:PTQ1_0",
+      "harness": "pi",
+      "harness_guessed": false,
+      "provider": "llama",
+      "local": true,
+      "serving": "prism-llama",
+      "kv_type": "q8_0",
+      "kv_type_source": "config note",
+      "branch": "bonsai2-27b-ptq1-xhigh-issue-13",
+      "base_commit": "2652ed6",
+      "thinking": "xhigh",
+      "prompt_version": "v1.1",
+      "partial": false,
+      "end_reason": "complete",
+      "libraries_done": 8,
+      "config_note": "Build prism-ml/Ternary-Bonsai-2-27B-gguf:PTQ1_0, revision 6ed5e12bf84b7a63069882c91dd9e9218647d17b, served by the PrismML llama.cpp fork, release prism-b10685-7dffb15, commit 7dffb158d, CUDA 12.8. The stock llama.cpp binary does not serve this file. q8_0 KV (both K and V), no drafter, -c 245760. MENDEL_CONTEXT_WINDOW 241664, MENDEL_RESERVE_TOKENS 8192, keep-recent pi's default, maxTokens 8192. The server applies min_p 0.05 where the model card publishes 0.0, and this row samples. vram 16311 MiB. Effort xhigh. No smoke, and the row ran before any EvalPlus score of this file, so the 0.800 gate did not apply to it (owner, 2026-09-18). The deepest context any row of this project has used.",
+      "score_total": 57.5,
+      "scores": {
+        "bugs": 10,
+        "completion": 12,
+        "node_modules": 8,
+        "lint": 0,
+        "commit_craft": 4,
+        "first_time": 6,
+        "test_discipline": 9,
+        "conventions": 4,
+        "task_list": 2.5,
+        "truncation": 2
+      },
+      "defects": [
+        {
+          "severity": "critical",
+          "summary": "Trap C regression. packages/mendel-development/validate-manifest.js adds process.on('exit', () => fs.rmSync(tempDir, {recursive:true, force:true})) one line after the code writes and logs the debug manifest's path, so the file the user is told to inspect is deleted before they can open it. The sibling PQ2_0 q8_0 row of the same model reproduces the same defect independently."
+        },
+        {
+          "severity": "medium",
+          "summary": "A chalk regression beside the exit hook, weighted with it under criterion 1."
+        },
+        {
+          "severity": "medium",
+          "summary": "Trap B missed: legacy-packages/mendel-requirify still requires rimraf in two test files and declares it, and the root package.json still declares tmp."
+        },
+        {
+          "severity": "minor",
+          "summary": "prettier left failing on TASKS.md at the tip; the row scored zero on that criterion."
+        },
+        {
+          "severity": "minor",
+          "summary": "15 of 17 commits are fix(...), no multi-package commits, but git add -A was used 18 times."
+        },
+        {
+          "severity": "note",
+          "summary": "The row ended complete with one model nudge and no repetition loop. pnpm install ran to completion and the lockfile shrank 93 lines. Peak context 225161 of a 241664 window, 93.2 percent, with no compaction: the deepest context any row of this project has used."
+        }
+      ],
+      "telemetry": {
+        "wall_clock_min": 123.1,
+        "tokens_total": 25992264,
+        "tokens_in": 109971,
+        "tokens_out": 125153,
+        "cache_read": 25757140,
+        "peak_context": 225161,
+        "window_pct": 93.2,
+        "compactions": 0,
+        "assistant_msgs": 256,
+        "tool_calls": 254,
+        "tool_errors": 0,
+        "commits": 17,
+        "failed_commits": 0,
+        "truncation_pct": 50,
+        "nudges_tooling": 0,
+        "nudges_model": 1,
+        "loop_flag": "ok",
+        "loop_ratio": 0.3,
+        "loop_kind": "thinking"
+      },
+      "cost": {
+        "or_route": null,
+        "or_usd": "0",
+        "paid_basis": "local",
+        "paid_usd": "0.00",
+        "vendor_usd": "0",
+        "rate_in": null,
+        "rate_out": null,
+        "rate_cr": null,
+        "rate_tone": null,
+        "provider_label": "local"
+      },
+      "cost_usd": 0,
+      "cost_basis": "local",
+      "invalid": false,
+      "matrix_cells": [
+        "<td><b>10</b> <span class=\"pill p-bad\">critical exit-hook regression plus a medium chalk regression</span></td>",
+        "<td><span class=\"pill p-good\">692 pass / 1 skip / 0 fail on re-run</span></td>",
+        "<td><span class=\"pill p-good\">SYNC OK — trap A avoided</span></td>",
+        "<td><span class=\"pill p-mid\">8 / 8 libraries touched</span></td>",
+        "<td><span class=\"pill p-bad\">2 stale require('rimraf') remain in legacy-packages/mendel-requirify</span></td>",
+        "<td><span class=\"pill p-bad\">rimraf still declared there; tmp still declared at the root</span></td>",
+        "<td><span class=\"pill p-bad\">not found — trap B missed</span></td>",
+        "<td><b>12</b> <span class=\"pill p-mid\">all 8 touched, the legacy package left behind</span></td>",
+        "<td><b>8</b> <span class=\"pill p-good\">pnpm install run to completion, lockfile shrank 93 lines</span></td>",
+        "<td><span class=\"pill p-good\">93 lines removed, 0 added</span></td>",
+        "<td><b>0</b> <span class=\"pill p-bad\">prettier fails on TASKS.md at the tip</span></td>",
+        "<td><span class=\"pill p-good\">no node: ESLint trap hit</span></td>",
+        "<td><span class=\"pill p-good\">15 / 17 fix(...)</span></td>",
+        "<td><span class=\"pill p-good\">17 / 17 single-package</span></td>",
+        "<td><span class=\"pill p-bad\">tmp never dropped from the root devDeps</span></td>",
+        "<td><span class=\"pill p-bad\">no --no-verify; git add -A used 18 times</span></td>",
+        "<td><span class=\"pill p-good\">never committed</span></td>",
+        "<td><b>4</b> <span class=\"pill p-bad\">git add -A throughout forfeits the hygiene component</span></td>",
+        "<td><b>6</b> <span class=\"pill p-mid\">one model nudge, no repair commits</span></td>",
+        "<td><span class=\"pill p-good\">per-package test runs throughout</span></td>",
+        "<td><b>9</b> <span class=\"pill p-good\">full suite at commits 5, 10 and 15, the every-5 cadence</span></td>",
+        "<td><b>2.5</b> <span class=\"pill p-good\">all 8 libraries upfront with sub-items, ticked faithfully</span></td>",
+        "<td><b>2</b> <span class=\"pill p-mid\">50 % of noisy commands piped to tail/head</span></td>",
+        "<td><b>4</b> <span class=\"pill p-good\">tight diff, 39 files, +114/-191, style-matched</span></td>",
+        "<td><span class=\"pill p-good\">26.0 M</span></td>",
+        "<td><span class=\"pill p-good\">0</span></td>",
+        "<td><span class=\"pill p-good\">peak 225161 of 241664 (93.2 %), no compaction</span></td>",
+        "<td><span class=\"pill p-good\">254</span></td>"
+      ]
     }
   ],
   "matrix_rows": [
