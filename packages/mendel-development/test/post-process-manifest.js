@@ -5,11 +5,15 @@
 var test = require('tap').test;
 var fs = require('fs');
 var path = require('path');
-var tmp = require('tmp');
 
 // Since this file re-writes stuff, lets work on a copy
 var realSamples = path.join(__dirname, './manifest-samples/');
-var copySamples = tmp.dirSync().name;
+var copySamples = fs.mkdtempSync(
+    path.join(process.env.TMPDIR || '/tmp', 'mendel-')
+);
+process.on('exit', function () {
+    fs.rmSync(copySamples, { recursive: true, force: true });
+});
 
 var postProcessManifests = require('../post-process-manifest');
 
