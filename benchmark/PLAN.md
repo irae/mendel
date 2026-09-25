@@ -102,16 +102,20 @@ table across versions.
     - Creates a sibling worktree at the bench's base commit.
     - Creates the bench's run branch for the model.
     - Runs a real `pnpm install` in the worktree.
-    - Builds the pinned pi config from the operator's, with the run's own
-      harness values: `MENDEL_CONTEXT_WINDOW` sets `contextWindow` for the
-      model under test, `MENDEL_RESERVE_TOKENS` sets
-      `compaction.reserveTokens` (default 8192), and
-      `MENDEL_KEEP_RECENT_TOKENS` sets `compaction.keepRecentTokens`. Left
-      empty, the keep budget derives from the window: 8192 when the window
-      is under 65536, pi's default above it, because pi cannot shrink a
-      context below its system prompt plus the summary plus that budget.
-      The operator's own file is never edited. Every row's config note
-      carries the window, the reserve and the keep budget it ran with.
+    - Builds the pinned pi config fresh, with
+      `../choose-a-local-llm/tools/gen-pi-models.mjs --run-dir`, for the
+      one model under test only: never a copy of the operator's config.
+      `MENDEL_SITE_ID` names the site's pi id to read the row from, when
+      it differs from the model argument; `MENDEL_CONTEXT_WINDOW` sets
+      `contextWindow` for the model under test, and
+      `MENDEL_KEEP_RECENT_TOKENS` forces `compaction.keepRecentTokens`.
+      Left empty, the keep budget derives from the window curve
+      (../choose-a-local-llm/docs/methodology/mendel.md, "Window and
+      budget"): 8192 under 65536, 16384 under 131072, else pi's own
+      default. No run config ever sets `maxTokens` or `reserveTokens`
+      (owner, 2026-09-25). The operator's own file is never read or
+      edited. Every row's config note carries the window, the keep
+      budget and the pi version it ran with.
     - **Every row records its KV cache type** in `kv_type`, with
       `kv_type_source` saying where it came from: the run's config note, the
       runbook that served it, the backend when the server offers no choice
@@ -223,7 +227,9 @@ repetition_loop`; three in a row are enough when the call already stalled
       A rerun of the same slug moves the old one aside with a timestamp
       rather than overwriting it. For pi
       (via `PI_CODING_AGENT_DIR`) it holds only the
-      model config, the auth files, a minimal settings.json, and
+      model config (built fresh by
+      `../choose-a-local-llm/tools/gen-pi-models.mjs --run-dir`, never a
+      copy of the operator's), the auth files, a minimal settings.json, and
       `agents-global.md` as the global `AGENTS.md`; the runner also passes
       `--no-extensions --no-skills --no-prompt-templates`. For Claude Code
       (`benchmark/.claude-config`, via `CLAUDE_CONFIG_DIR`, with `--bare`) it

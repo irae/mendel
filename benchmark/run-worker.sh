@@ -13,17 +13,28 @@
 # frozen agents-global.md as the only global context file, no operator
 # extensions/skills/plugins/hooks, and a check that no stray AGENTS.md or
 # CLAUDE.md sits in a parent directory of the worktree.
-# The harness values of a run are measurements, never the operator's defaults
-# (PLAN.md, and ../choose-a-local-llm/docs/methodology/mendel.md "Window and
-# budget"). Pass them per run; they land in the pinned config only:
-#   MENDEL_CONTEXT_WINDOW  contextWindow for this model, from the run's newest
-#                          creep. Empty keeps the operator's entry.
-#   MENDEL_RESERVE_TOKENS  compaction.reserveTokens, default 8192.
+# The pinned config is never a copy of the operator's: it is built fresh by
+# ../choose-a-local-llm/tools/gen-pi-models.mjs --run-dir, for the one model
+# under test only. The harness values of a run are measurements, never the
+# operator's defaults (PLAN.md, and
+# ../choose-a-local-llm/docs/methodology/mendel.md "Window and budget"). Pass
+# them per run; they land in the pinned config only:
+#   MENDEL_SITE_ID         the site's pi id to read the row from
+#                          (docs/setups/<setup>/models.json), when it differs
+#                          from the model argument (for example a run at a
+#                          throwaway id like qwen3.8-27b-ista-q8-tb8192).
+#                          Default the model argument.
+#   MENDEL_CONTEXT_WINDOW  passed as --window to the generator: contextWindow
+#                          for this model, from the run's newest creep. Empty
+#                          keeps the site row's value.
 #   MENDEL_KEEP_RECENT_TOKENS
-#                          compaction.keepRecentTokens. Empty derives it: 8192
-#                          when the effective window is under 65536, else pi's
-#                          default. A small window cannot hold pi's 20000-token
-#                          keep budget plus a summary and still do work.
+#                          passed as --keep to the generator: forces
+#                          compaction.keepRecentTokens. Empty derives it from
+#                          the window curve (docs/methodology/mendel.md,
+#                          "Window and budget"): 8192 under 65536, 16384 under
+#                          131072, else pi's own default. A small window
+#                          cannot hold pi's default keep budget plus a
+#                          summary and still do work.
 # pi runs go through run-pi-rpc.mjs (stateful RPC session with the fixed nudge
 # policy, see PLAN.md); never through `pi -p`.
 # Blocks until the worker finishes. Spawn several in parallel from separate
@@ -65,13 +76,22 @@ fi
 # tool; adopt that tool's defaults when it lands and migrate the old
 # locations. The override exists so the move is a setting.
 RUNS="${MENDEL_RUNS_DIR:-$HOME/.local/share/mendel-benchmark/runs}"
-LOOP_CHECK="${LOOP_CHECK:-$REPO/../choose-a-local-llm/benchmarks/loop-check.py}"
+CHOOSE_REPO="${CHOOSE_REPO:-$REPO/../choose-a-local-llm}"
+LOOP_CHECK="${LOOP_CHECK:-$CHOOSE_REPO/benchmarks/loop-check.py}"
+GEN_PI_MODELS="$CHOOSE_REPO/tools/gen-pi-models.mjs"
+if [ ! -e "$GEN_PI_MODELS" ]; then
+    echo "abort: no generator at $GEN_PI_MODELS; set CHOOSE_REPO" >&2
+    exit 1
+fi
+PI_VERSION="$(pi --version 2>/dev/null)"
+[ -n "$PI_VERSION" ] || PI_VERSION=unknown
 slug="$(echo "$model" | tr '/:' '--')"
 [ -n "$thinking" ] && slug="${slug}-${thinking}"
 branch="${slug}${suffix}"
 fslug="${slug}-${bench}"
 wt="$REPO/../${wtprefix}${slug}"
 mkdir -p "$RUNS"
+echo "$slug: pi $PI_VERSION" >&2
 
 if git -C "$REPO" show-ref --quiet "refs/heads/$branch"; then
     echo "abort: branch $branch exists" >&2
@@ -117,56 +137,20 @@ build_pi_agent_dir() {
     local d="${MENDEL_PI_CONFIG_DIR:-$HOME/.local/share/mendel-benchmark/pi-agent}/$fslug"
     [ -d "$d" ] && mv "$d" "$d-$(date -u +%Y%m%dT%H%M%SZ)"
     mkdir -p "$d"
-    for f in models.json auth.json models-store.json; do
+    local site_id="${MENDEL_SITE_ID:-$model}"
+    local gen_args=(--run-dir "$d" --id "$site_id" --as "$model")
+    [ -n "${MENDEL_CONTEXT_WINDOW:-}" ] && gen_args+=(--window "$MENDEL_CONTEXT_WINDOW")
+    [ -n "${MENDEL_KEEP_RECENT_TOKENS:-}" ] && gen_args+=(--keep "$MENDEL_KEEP_RECENT_TOKENS")
+    if ! ( cd "$CHOOSE_REPO" && node tools/gen-pi-models.mjs "${gen_args[@]}" >&2 ); then
+        echo "abort: gen-pi-models.mjs failed for $site_id" >&2
+        exit 1
+    fi
+    # auth.json and models-store.json still come from the operator's config:
+    # they hold provider credentials and pi's own model-store bookkeeping,
+    # neither of which the site data carries.
+    for f in auth.json models-store.json; do
         [ -e "$HOME/.pi/agent/$f" ] && cp "$HOME/.pi/agent/$f" "$d/"
     done
-    MODEL="$model" DIR="$d" \
-    WINDOW="${MENDEL_CONTEXT_WINDOW:-}" \
-    RESERVE="${MENDEL_RESERVE_TOKENS:-8192}" \
-    KEEP_RECENT="${MENDEL_KEEP_RECENT_TOKENS:-}" \
-    python3 - <<'PYEOF' >&2
-import json
-import os
-
-directory = os.environ['DIR']
-wanted = os.environ['MODEL']
-window = int(os.environ['WINDOW']) if os.environ['WINDOW'] else None
-models_path = os.path.join(directory, 'models.json')
-
-effective = window
-if os.path.exists(models_path):
-    config = json.load(open(models_path))
-    touched = []
-    for name, provider in config.get('providers', {}).items():
-        for model in provider.get('models', []):
-            if model.get('id') != wanted:
-                continue
-            if window:
-                model['contextWindow'] = window
-                touched.append(name)
-            elif effective is None:
-                effective = model.get('contextWindow')
-        override = provider.get('modelOverrides', {}).get(wanted)
-        if override is not None:
-            if window:
-                override['contextWindow'] = window
-                touched.append(name + ' (modelOverrides)')
-            elif effective is None:
-                effective = override.get('contextWindow')
-    if window:
-        json.dump(config, open(models_path, 'w'), indent=2)
-        print('worker: contextWindow %d pinned on provider %s'
-              % (window, ', '.join(touched) or 'none'))
-
-compaction = {'enabled': True, 'reserveTokens': int(os.environ['RESERVE'])}
-if os.environ['KEEP_RECENT']:
-    compaction['keepRecentTokens'] = int(os.environ['KEEP_RECENT'])
-elif effective and effective < 65536:
-    compaction['keepRecentTokens'] = 8192
-json.dump({'compaction': compaction, 'retry': {'enabled': True}},
-          open(os.path.join(directory, 'settings.json'), 'w'))
-print('worker: compaction %s' % json.dumps(compaction))
-PYEOF
     cp "$BENCH_DIR/agents-global.md" "$d/AGENTS.md"
     echo "$d"
 }
@@ -225,6 +209,18 @@ case "$harness" in
         ;;
 esac
 end=$(date -u +%FT%TZ)
+if [ -e "$RUNS/$fslug-meta.json" ]; then
+    PI_VERSION="$PI_VERSION" python3 - "$RUNS/$fslug-meta.json" <<'PYEOF'
+import json
+import os
+import sys
+
+path = sys.argv[1]
+meta = json.load(open(path))
+meta['pi_version'] = os.environ['PI_VERSION']
+json.dump(meta, open(path, 'w'), indent=2)
+PYEOF
+fi
 run_loop_check
 node "$BENCH_DIR/probe-plan.mjs" "$plan_provider" --out "$RUNS/$fslug-plan-after.json" > /dev/null \
     || echo "warning: plan probe after the run failed; record the plan share by hand" >&2
