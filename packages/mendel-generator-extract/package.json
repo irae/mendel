@@ -1,6 +1,6 @@
 {
   "name": "mendel-generator-extract",
-  "version": "4.2.0",
+  "version": "4.3.1",
   "description": "Generator that creates a sub-bundle from a bundle following extractify (or code-split) algorithm.",
   "main": "generator-extract.js",
   "keywords": [

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.1](https://github.com/irae/mendel/compare/v4.3.0...v4.3.1) (2026-11-13)
+
+### Bug Fixes
+
+- **mendel-transform-inline-env:** leave inherited process.env members as runtime reads ([4edd168](https://github.com/irae/mendel/commit/4edd168c197b2a0eb10cfaf83cbcee40c3709176))
+
 # [4.2.0](https://github.com/irae/mendel/compare/v4.1.1...v4.2.0) (2026-08-16)
 
 ### Bug Fixes

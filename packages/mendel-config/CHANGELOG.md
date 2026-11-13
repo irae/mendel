@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.1](https://github.com/irae/mendel/compare/v4.3.0...v4.3.1) (2026-11-13)
+
+**Note:** Version bump only for package mendel-config
+
 # [4.3.0](https://github.com/irae/mendel/compare/v4.2.0...v4.3.0) (2026-08-19)
 
 ### Bug Fixes
