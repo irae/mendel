@@ -40,5 +40,6 @@
   "scripts": {
     "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage",
     "prepack": "node ../../scripts/prepack.js"
-  }
+  },
+  "gitHead": "122c41767de8b378de581589b76bee5a1452abaa"
 }

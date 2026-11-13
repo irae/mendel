@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "debug": "^4.4.0",
-    "mendel-config": "workspace:^",
-    "mendel-development": "workspace:^",
-    "mendel-exec": "workspace:^",
-    "mendel-pipeline": "workspace:^",
+    "mendel-config": "^4.3.1",
+    "mendel-development": "^4.3.1",
+    "mendel-exec": "^4.3.1",
+    "mendel-pipeline": "^4.3.1",
     "path-to-regexp": "^6.3.0"
   },
   "devDependencies": {
@@ -40,5 +40,6 @@
     "test": "../../node_modules/.bin/tap test/*.js --coverage-map=../../.tap.coverage.map.js --allow-incomplete-coverage",
     "lint": "eslint .",
     "prepack": "node ../../scripts/prepack.js"
-  }
+  },
+  "gitHead": "122c41767de8b378de581589b76bee5a1452abaa"
 }

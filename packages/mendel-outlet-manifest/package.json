@@ -13,7 +13,7 @@
     "@babel/core": "^7.29.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "debug": "^4.4.0",
-    "mendel-manifest-uglify": "workspace:^",
+    "mendel-manifest-uglify": "^4.3.1",
     "shasum": "^1.0.2"
   },
   "devDependencies": {
@@ -37,5 +37,6 @@
   ],
   "scripts": {
     "prepack": "node ../../scripts/prepack.js"
-  }
+  },
+  "gitHead": "122c41767de8b378de581589b76bee5a1452abaa"
 }

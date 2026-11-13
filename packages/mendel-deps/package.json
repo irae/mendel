@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "glob": "^13.0.6",
-    "mendel-resolver": "workspace:^",
+    "mendel-resolver": "^4.3.1",
     "tap": "^21.7.5"
   },
   "files": [
@@ -39,5 +39,6 @@
   "homepage": "https://github.com/irae/mendel#readme",
   "bugs": {
     "url": "https://github.com/irae/mendel/issues"
-  }
+  },
+  "gitHead": "122c41767de8b378de581589b76bee5a1452abaa"
 }
