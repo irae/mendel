@@ -25,6 +25,32 @@ const stripEnvDelete = {
     },
 };
 
+// The inliner replaces `process.env.<name>` with `process.env[name]` as a
+// literal, which only works for strings and undefined:
+//
+//   regular: process.env.NODE_ENV === "production"
+//         -> "production" === "production"
+//   complex: process.env.hasOwnProperty("FOO") && process.env.FOO === "yes"
+//         -> process.env.hasOwnProperty("FOO") && undefined === "yes"
+//
+// In the complex case `hasOwnProperty` is not an env var but a function
+// inherited from Object.prototype, which Babel cannot turn into a node. List
+// every such inherited name for the inliner's `exclude`, so those reads stay
+// at runtime, unless an env var of that name actually exists.
+function inheritedEnvKeys() {
+    const keys = new Set();
+    for (
+        let proto = Object.getPrototypeOf(process.env);
+        proto;
+        proto = Object.getPrototypeOf(proto)
+    ) {
+        Object.getOwnPropertyNames(proto).forEach((key) => keys.add(key));
+    }
+    return Array.from(keys).filter(
+        (key) => !Object.prototype.hasOwnProperty.call(process.env, key)
+    );
+}
+
 module.exports = function ({ source, filename, map: inputSourceMap }) {
     if (source.indexOf('process.env') === -1) {
         return { source, map: inputSourceMap };
@@ -38,7 +64,7 @@ module.exports = function ({ source, filename, map: inputSourceMap }) {
         inputSourceMap: inputSourceMap || undefined,
         filename,
         sourceFileName: filename, // sourcemap contains filename this way
-        plugins: [stripEnvDelete, inliner],
+        plugins: [stripEnvDelete, [inliner, { exclude: inheritedEnvKeys() }]],
     });
 
     return { source: code, map };
