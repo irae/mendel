@@ -4,6 +4,16 @@ Curated summaries of what each release means for users, newest first and
 capped to the last few versions. The commit-by-commit ledger lives in
 [CHANGELOG.md](CHANGELOG.md) and in each package's own `CHANGELOG.md`.
 
+## 4.3.1 (2026-11-13)
+
+Production builds that inline environment variables
+(`mendel-transform-inline-env`) no longer crash on code that calls methods on
+`process.env` itself, such as react-router 7's
+`process.env.hasOwnProperty("IS_RR_BUILD_REQUEST")`. Those calls used to fail
+the whole build with Babel's "don't know how to turn this value into a node";
+they now stay runtime calls. Every real `process.env.X` read still inlines to
+its build-time value, or to `undefined` when unset.
+
 ## 4.3.0 (2026-08-19)
 
 Production no longer needs transform, generator, or outlet packages on disk.
